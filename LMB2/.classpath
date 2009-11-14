@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="jars"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Stolen_Flame_57/Bureau/Workspaces/Workspace Java/LMB2/jars/htmllexer.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Stolen_Flame_57/Bureau/Workspaces/Workspace Java/LMB2/jars/htmlparser.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Stolen_Flame_57/Mes documents/Téléchargements/htmlparser1_6/lib/htmlparser.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Stolen_Flame_57/Mes documents/Téléchargements/htmlparser1_6/lib/htmllexer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
