@@ -1,5 +1,11 @@
 package Aspirateur;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -39,7 +45,7 @@ public class TestAspirateur{
 	private ArrayList<String> urlCopied;
 	
 	/** Liste des erreurs */
-	private ArrayList<String> urlErrors;
+	private ArrayList<ParserException> urlErrors;
 	
 	
 	public TestAspirateur(String url){
@@ -48,8 +54,8 @@ public class TestAspirateur{
 		pages = new ArrayList<String>();
 		css = new ArrayList<String>();
 		urlCopied = new ArrayList<String>();
-		urlErrors = new ArrayList<String>();
-		urlLocal = "C:";
+		urlErrors = new ArrayList<ParserException>();
+		urlLocal = "C:/LMB2/Test";
 		System.out.println("URL LOCAL : "+ urlLocal);
 		setSource(url);
 		System.out.println("URL SOURCE : " + urlSource);
@@ -193,6 +199,7 @@ public class TestAspirateur{
 				parser.setURL(urlSource+ "/"+ pages.get(0));
 				list = new NodeList();
 				parser.reset();
+				parser.setEncoding("utf-8");
 		        
 				for(NodeIterator it = parser.elements(); it.hasMoreNodes();){
 					list.add(it.nextNode());
@@ -203,13 +210,13 @@ public class TestAspirateur{
     			afficherPages();
     			afficherCSS();*/
 
-    			copy(pages.remove(0));
+    			copyPage(pages.remove(0));
 				/*System.out.println(list.toHtml());*/
 				
 			} catch (ParserException e) {
+				urlErrors.add(e);
 				e.printStackTrace();
-				urlErrors.add(parser.getURL());
-				System.out.println("\nException in : " + parser.getURL() + "\n");
+				System.out.println("\nError in : " + parser.getURL() + "\n");
 				pages.remove(0);
 			}
     	}
@@ -219,14 +226,15 @@ public class TestAspirateur{
     
     
     /**
-     * Procédure qui copie la page HTML d'URL 'relativeURL'  et l'enregistre sous le
-     * lien local correspondant
-     * Elle lance également la copie de toutes les images contenues dans cette page
+     * Procédure qui lance la copie de la page HTML d'URL 'relativeURL'
+     * Elle lance également la copie de toutes les images et fichiers CSS contenus
+     * dans cette page
      * @param relativeURL
      */
-    public void copy(String relativeURL){
+    public void copyPage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
     			urlLocal + "/" + relativeURL +"\"");
+    	//copy(relativeURL);
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
     	}
@@ -237,13 +245,13 @@ public class TestAspirateur{
     }
     
     /**
-     * Procédure qui copie le fichier CSS d'URL 'relativeURL' et l'enregistre sous le lien 
-     * local correspondant
+     * Procédure qui lance la copie du fichier CSS d'URL 'relativeURL'
      * @param relativeURL
      */
     public void copyCSS(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
     			urlLocal + "/" + relativeURL +"\"");
+    	//copy(relativeURL);
     	urlCopied.add(urlSource+ "/"+  relativeURL);
     }
     
@@ -255,67 +263,148 @@ public class TestAspirateur{
     public void copyImage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
     			urlLocal + "/" + relativeURL +"\"");
+    	//copy(relativeURL);
     	urlCopied.add(urlSource+ "/"+  relativeURL);
     }
+    
+    /**
+     * Procédure qui copie le contenu d'un fichier et l'enregistre sous le lien 
+     * local correspondant
+     * @param URL
+     */
+    public void copy(String URL){
+    	File file;
+		if(URL.equals("")){
+			file = new File(urlLocal + "/index.html");
+		}else{
+			file = new File(urlLocal + "/" + URL);
+		}
+    	File dir = file.getParentFile ();
+    	if(!dir.exists()){
+    		dir.mkdirs();
+    	}
+    	try
+        {
+    		int read;
+    		InputStream in;
+    		FileOutputStream out;
+    		URL source = new URL(urlSource+ "/"+  URL);
+    		byte[] data = new byte [1024];
+            try
+            {
+                in = source.openStream ();
+                try
+                {
+                    out = new FileOutputStream (file);
+                    try
+                    {
+                        while (-1 != (read = in.read (data, 0, data.length)))
+                            out.write (data, 0, read);
+                    }
+                    finally
+                    {
+                        out.close ();
+                    }
+                }
+                catch (FileNotFoundException fnfe)
+                {
+                    fnfe.printStackTrace ();
+                }
+                finally
+                {
+                    in.close ();
+                }
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                System.err.println ("broken link " + fnfe.getMessage () + " ignored");
+            }
+        }
+        catch (MalformedURLException murle)
+        {
+            murle.printStackTrace ();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace ();
+        }
+    }
+    
     
     /**
      * Affichage des fichiers déjà copiés
      */
     public void afficherCopied(){
-    	System.out.println("\n\tURL déjà copiées!");
-    	Iterator<String> it = urlCopied.iterator();
-    	while(it.hasNext()){
-    		System.out.println("\t" + it.next());
+    	if(urlCopied.size()!=0){
+    		System.out.println("\n\tURL déjà copiées!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = urlCopied.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
     	}
-    	System.out.println("\t------------------------");
     }
     
     /**
      * Affichage des fichiers Images à copier
      */
     public void afficherImages(){
-    	System.out.println("\n\tImages à copier!");
-    	Iterator<String> it = images.iterator();
-    	while(it.hasNext()){
-    		System.out.println("\t" + urlSource+ "/" + it.next());
+    	if(images.size()!=0){
+	    	System.out.println("\n\tImages à copier!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = images.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + urlSource+ "/" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
     	}
-    	System.out.println("\t------------------------");
     }
     
     /**
      * Affichage des pages HTML à copier
      */
     public void afficherPages(){
-    	System.out.println("\n\tPages à copier!");
-    	Iterator<String> it = pages.iterator();
-    	while(it.hasNext()){
-    		System.out.println("\t" + urlSource+ "/" + it.next());
+    	if(pages.size()!=0){
+	    	System.out.println("\n\tPages à copier!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = pages.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + urlSource+ "/" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
     	}
-    	System.out.println("\t------------------------");
     }
     
     /**
      * Affichage des fichiers CSS à copier
      */
     public void afficherCSS(){
-    	System.out.println("\n\tCSS à copier!");
-    	Iterator<String> it = css.iterator();
-    	while(it.hasNext()){
-    		System.out.println("\t" + urlSource+ "/" + it.next());
+    	if(css.size()!=0){
+	    	System.out.println("\n\tCSS à copier!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = css.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + urlSource+ "/" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
     	}
-    	System.out.println("\t------------------------");
     }
     
     /** 
      * Affichage des erreurs 
      */
     public void afficherErrors(){
-    	System.out.println("\n\tURL Errors!");
-    	Iterator<String> it = urlErrors.iterator();
-    	while(it.hasNext()){
-    		System.out.println("\t"+ it.next());
+    	if(urlErrors.size()!=0){
+	    	System.out.println("\n\tURL Errors!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<ParserException> it = urlErrors.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\n\t");
+	    		System.out.println("\t"+ it.next().getLocalizedMessage());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
     	}
-    	System.out.println("\t------------------------");
     }
     
 	/**
@@ -426,7 +515,10 @@ public class TestAspirateur{
 			TagNode tagLink = null;
 			for(int i=0; i<getChildCount(); i++){
 				/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
-				if(getChild(i)!=null & getChild(i).toString().contains("rel=\"stylesheet\"")){
+				if(getChild(i)!=null 
+						& getChild(i).toString().contains("rel=\"stylesheet\"") 
+						& getChild(i).toString().contains(".css")){
+					//System.out.println("OK CSS");
 					tagLink = ((TagNode)getChild(i));
 					int j=0;
 					/* On cherche à présent l'attribut contenant l'URL : 'href' */
@@ -445,11 +537,13 @@ public class TestAspirateur{
 					}
 					/* On ajoute le préfixe */
 					cssLink = getSource(source) + "/" + cssLink;
-					if(!css.contains(toRelativeLink(cssLink)) && !urlCopied.contains(cssLink)){
-						//System.out.println("\n\t----------new CSS-----------");
-						//System.out.println("\tCSS URL : " + cssLink);
-						css.add(toRelativeLink(cssLink));
-						//System.out.println("\t----------------------------\n");
+					if(isToBeCaptured(cssLink)){
+						if(!css.contains(toRelativeLink(cssLink)) && !urlCopied.contains(cssLink)){
+							//System.out.println("\n\t----------new CSS-----------");
+							//System.out.println("\tCSS URL : " + cssLink);
+							css.add(toRelativeLink(cssLink));
+							//System.out.println("\t----------------------------\n");
+						}
 					}
 				}
 			}
