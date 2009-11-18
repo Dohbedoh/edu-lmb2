@@ -10,12 +10,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.FrameTag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.tags.LinkTag;
+import org.htmlparser.tags.MetaTag;
+import org.htmlparser.util.EncodingChangeException;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
@@ -207,8 +210,17 @@ public class TestAspirateur{
 				list = new NodeList();
 				parser.reset();
 		        
-				for(NodeIterator it = parser.elements(); it.hasMoreNodes();){
-					list.add(it.nextNode());
+				try{
+					for(NodeIterator it = parser.elements(); it.hasMoreNodes();){
+						list.add(it.nextNode());
+					}
+				}catch(EncodingChangeException e){
+					//String encode = e.getMessage().substring(e.getMessage().indexOf("to ")+3, e.getMessage().indexOf(" at "));
+					parser.reset();
+					list = new NodeList ();
+	                for (NodeIterator it = parser.elements (); it.hasMoreNodes (); ){
+	                    list.add (it.nextNode ());
+	                }
 				}
 
 				/*afficherCopied();
@@ -238,8 +250,7 @@ public class TestAspirateur{
      * @param relativeURL
      */
     public void copyPage(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
-    			urlLocal + "/" + relativeURL +"\"");
+    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
@@ -255,8 +266,7 @@ public class TestAspirateur{
      * @param relativeURL
      */
     public void copyCSS(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
-    			urlLocal + "/" + relativeURL +"\"");
+    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
     	urlCopied.add(urlSource+ "/"+  relativeURL);
     }
@@ -267,8 +277,7 @@ public class TestAspirateur{
      * @param relativeURL
      */
     public void copyImage(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL + "\"  dans  \"" +
-    			urlLocal + "/" + relativeURL +"\"");
+    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
     	urlCopied.add(urlSource+ "/"+  relativeURL);
     }
