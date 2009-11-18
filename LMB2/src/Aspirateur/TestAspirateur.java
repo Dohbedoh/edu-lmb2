@@ -8,16 +8,16 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.FrameTag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.tags.LinkTag;
-import org.htmlparser.tags.MetaTag;
 import org.htmlparser.util.EncodingChangeException;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
@@ -28,6 +28,7 @@ import org.htmlparser.util.ParserException;
 public class TestAspirateur{
 
 	NodeList list;
+	
 	Parser parser;
 	/** Préfixe de l'URL WEB donnée (généralement le dossier parent de "index.html" par exemple*/
 	private String urlSource;
@@ -45,18 +46,27 @@ public class TestAspirateur{
 	private ArrayList<String> pages;
 	
 	/** Liste des ressources déjà copiées */
-	private ArrayList<String> urlCopied;
+	private ArrayList<String> urlImagesCopied;
+
+	/** Liste des ressources déjà copiées */
+	private ArrayList<String> urlPagesCopied;
+	
+	/** Liste des ressources déjà copiées */
+	private ArrayList<String> urlCSSCopied;
 	
 	/** Liste des erreurs */
 	private ArrayList<ParserException> urlErrors;
 	
+	/** Nom du projet */
+	private String name;
 	
 	public TestAspirateur(){
-
 		images = new ArrayList<String>();
 		pages = new ArrayList<String>();
 		css = new ArrayList<String>();
-		urlCopied = new ArrayList<String>();
+		urlPagesCopied = new ArrayList<String>();
+		urlImagesCopied = new ArrayList<String>();
+		urlCSSCopied = new ArrayList<String>();
 		urlErrors = new ArrayList<ParserException>();
 		parser = new Parser();
 		PrototypicalNodeFactory factory;
@@ -69,16 +79,44 @@ public class TestAspirateur{
 		parser.setNodeFactory (factory);
 	}
 	
-	
+	/**
+	 * Modifier le lien local où sera enregistré le projet
+	 * @param URL
+	 */
 	public void setLocal(String URL){
-		urlLocal = URL;
+		assert(name!=null) : "setName(str) doit être effectué avant setLocal(str)";
+		Date date = new Date();
+		if(URL.endsWith("/")){
+			URL = URL.substring(0,URL.length()-1);
+		}
+		urlLocal = URL + "/" + name+"/"+ date.getDate() + "-" + (date.getMonth()+1) + "-" + (date.getYear()+1900);
 		System.out.println("URL LOCAL : "+ urlLocal);
 	}
 	
-	
+	/**
+	 * Obtenir le lien local où sera enregistré le projet
+	 * @return
+	 */
 	public String getLocal(){
 		return urlLocal;
 	}
+	
+	/**
+	 * Modifier le nom du projet
+	 * @param str
+	 */
+	public void setName(String str){
+		name = str;
+	}
+	
+	/**
+	 * Obtenir le nom du projet
+	 * @param str
+	 */
+	public String getName(){
+		return name;
+	}
+	
 	
 	/**
 	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent
@@ -88,9 +126,7 @@ public class TestAspirateur{
 		if(url.endsWith("/")){
 			url = url.substring(0,url.length()-1);
 		}else{
-			if(url.endsWith(".html")){
-				url = url.substring(0,url.lastIndexOf("/"));
-			}
+			url = url.substring(0,url.lastIndexOf("/"));
 		}
 		return url;
 	}
@@ -130,7 +166,21 @@ public class TestAspirateur{
 	    return (ret);
 	}
 	
-	
+	/**
+	 * Fonction qui retourne si la ressource sera capturée
+	 * @param link : chemin absolue de la ressource
+	 * @return
+	 */
+    private String deleteSpecialChar(String str){
+    	String res = str;
+    	while(res.contains("?")){
+    		res = res.replace("?", "");
+    	}
+    	return res;
+    	
+    }
+    
+    
 	/**
 	 * Fonction qui retourne si la ressource sera capturée
 	 * @param link : chemin absolue de la ressource
@@ -138,7 +188,7 @@ public class TestAspirateur{
 	 */
     private boolean isToBeCaptured(String link)
     {
-        return ( link.toLowerCase ().startsWith (urlSource.toLowerCase ()));
+        return ( link.toLowerCase ().startsWith (urlSource.toLowerCase()));
     }
 	
     /**
@@ -200,6 +250,7 @@ public class TestAspirateur{
      */
     public void launchProcess(String url){
 		setSource(url);
+		System.out.println(urlSource);
     	while(pages.size()>0){
     		try {
 
@@ -247,13 +298,26 @@ public class TestAspirateur{
      * dans cette page
      * @param relativeURL
      */
-    public void launchCopy(String URL){
-    	setLocal(URL);
-    	while(pages.size()!=0){
-    		copyPage(pages.remove(0));
+    public void launchCopy(){
+		assert(urlLocal!=null) : "setLocal() doit être effectué avant launchCopy()";
+    	while(urlPagesCopied.size()!=0){
+        	String fileRelativeUrl = urlPagesCopied.get(0);
+    		if(toRelativeLink(fileRelativeUrl).length()==0){
+    			fileRelativeUrl = "index";
+    		}
+        	if(!fileRelativeUrl.endsWith(".html")){
+        		fileRelativeUrl += ".html";
+        	}
+    		copy(deleteSpecialChar(toRelativeLink(fileRelativeUrl)));
+    		urlPagesCopied.remove(0);
+    	}
+    	while(urlImagesCopied.size()!=0){
+    		copy(toRelativeLink(urlImagesCopied.remove(0)));
+    	}
+    	while(urlCSSCopied.size()!=0){
+    		copy(toRelativeLink(urlCSSCopied.remove(0)));
     	}
     }
-    
     
     /**
      * Procédure qui lance l'enregistrement local de la page HTML d'URL 'relativeURL'
@@ -263,14 +327,18 @@ public class TestAspirateur{
      */
     public void copyPage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
-    	//copy(relativeURL);
+    	String fileRelativeUrl = relativeURL;
+    	if(!relativeURL.endsWith(".html")){
+    		fileRelativeUrl += ".html";
+    	}
+    	//copy(deleteSpecialChar(relativeURL));
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
     	}
     	while(images.size() != 0){
     		copyImage(images.remove(0));
     	}
-    	urlCopied.add(urlSource+ "/"+  relativeURL);
+    	urlPagesCopied.add(urlSource+ "/"+  relativeURL);
     }
     
     /**
@@ -280,7 +348,7 @@ public class TestAspirateur{
     public void copyCSS(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
-    	urlCopied.add(urlSource+ "/"+  relativeURL);
+    	urlCSSCopied.add(urlSource+ "/"+  relativeURL);
     }
     
     /**
@@ -291,7 +359,7 @@ public class TestAspirateur{
     public void copyImage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
-    	urlCopied.add(urlSource+ "/"+  relativeURL);
+    	urlImagesCopied.add(urlSource+ "/"+  relativeURL);
     }
     
     /**
@@ -362,10 +430,28 @@ public class TestAspirateur{
      * Affichage des fichiers déjà copiés
      */
     public void afficherCopied(){
-    	if(urlCopied.size()!=0){
-    		System.out.println("\n\tURL déjà copiées!");
+    	if(urlPagesCopied.size()!=0){
+    		System.out.println("\n\tPages déjà copiées!");
 	    	System.out.println("\t------------------------------------------------");
-	    	Iterator<String> it = urlCopied.iterator();
+	    	Iterator<String> it = urlPagesCopied.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
+    	}
+    	if(urlImagesCopied.size()!=0){
+    		System.out.println("\n\tImages déjà copiées!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = urlImagesCopied.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
+    	}
+    	if(urlCSSCopied.size()!=0){
+    		System.out.println("\n\tCSS déjà copiées!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = urlCSSCopied.iterator();
 	    	while(it.hasNext()){
 	    		System.out.println("\t" + it.next());
 	    	}
@@ -450,11 +536,11 @@ public class TestAspirateur{
 		public void doSemanticAction() throws ParserException {
 			String image = getImageURL();
 			if(isToBeCaptured(image)){
-				if(!images.contains(toRelativeLink(image)) && !urlCopied.contains(image)){
+				if(!images.contains(toRelativeLink(image)) && !urlImagesCopied.contains(image)){
 					//System.out.println("\n\t----------new Image----------");
 					//System.out.println("\tImage URL : " + image);
 					images.add(toRelativeLink(image));
-					image = makeLocalLink (image, parser.getLexer ().getPage ().getUrl ());
+					image = deleteSpecialChar(makeLocalLink (image, parser.getLexer ().getPage ().getUrl ()));
 					setImageURL(image);
 					//System.out.println("\t----------------------------\n");
 				}
@@ -478,11 +564,11 @@ public class TestAspirateur{
 		public void doSemanticAction() throws ParserException {
 			String link = getLink();
 			if(isToBeCaptured(link)){
-				if(!pages.contains(toRelativeLink(link)) && !urlCopied.contains(link)){
+				if(!pages.contains(toRelativeLink(link)) && !urlPagesCopied.contains(link)){
 					//System.out.println("\n\t----------new Page----------");
 					//System.out.println("\tLink URL : " + link);
 					pages.add(toRelativeLink(link));
-					link = makeLocalLink (link, parser.getLexer ().getPage ().getUrl ());
+					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
 					setLink(link);
 					//System.out.println("\t----------------------------\n");
 				}
@@ -505,22 +591,22 @@ public class TestAspirateur{
 
 		@Override
 		public void doSemanticAction() throws ParserException {
-			String link = getFrameLocation();
+			String link = deleteSpecialChar(getFrameLocation());
 			if(isToBeCaptured(link)){
 				if(isHtml(link)){
-					if(!pages.contains(toRelativeLink(link)) && !urlCopied.contains(link)){
+					if(!pages.contains(toRelativeLink(link)) && !urlPagesCopied.contains(link)){
 						//System.out.println("\n\t----------new Page----------");
 						//System.out.println("\tLink URL : " + link);
 						pages.add(toRelativeLink(link));
 					}
 				}else{
-					if(!images.contains(toRelativeLink(link)) && !urlCopied.contains(link)){
+					if(!images.contains(toRelativeLink(link)) && !urlImagesCopied.contains(link)){
 						//System.out.println("\n\t----------new Image----------");
 						//System.out.println("\tImage URL : " + link);
 						images.add(toRelativeLink(link));
 					}
 				}
-				link = makeLocalLink (link, parser.getLexer ().getPage ().getUrl ());
+				link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
 				setFrameLocation(link);
 				//System.out.println("\t----------------------------\n");
 			}
@@ -565,7 +651,7 @@ public class TestAspirateur{
 					/* On ajoute le préfixe */
 					cssLink = getSource(source) + "/" + cssLink;
 					if(isToBeCaptured(cssLink)){
-						if(!css.contains(toRelativeLink(cssLink)) && !urlCopied.contains(cssLink)){
+						if(!css.contains(toRelativeLink(cssLink)) && !urlCSSCopied.contains(cssLink)){
 							//System.out.println("\n\t----------new CSS-----------");
 							//System.out.println("\tCSS URL : " + cssLink);
 							css.add(toRelativeLink(cssLink));
@@ -580,7 +666,10 @@ public class TestAspirateur{
 	
 	public static void main (String[] args){
 		TestAspirateur test = new TestAspirateur();
+		//test.launchProcess("http://www.ffjudo.org/Extranet/rechercheclub/result.asp?a=l&departement=co0736");
+		test.setName("Greg");
 		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
-		//test.launchCopy("C:/LMB2/Test/");
+    	test.setLocal("C:/LMB2/Test/");
+		test.launchCopy();
 	}
 }
