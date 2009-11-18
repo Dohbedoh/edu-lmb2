@@ -55,8 +55,6 @@ public class TestAspirateur{
 		css = new ArrayList<String>();
 		urlCopied = new ArrayList<String>();
 		urlErrors = new ArrayList<ParserException>();
-		urlLocal = "C:/LMB2/Test";
-		System.out.println("URL LOCAL : "+ urlLocal);
 		setSource(url);
 		System.out.println("URL SOURCE : " + urlSource);
 		parser = new Parser();
@@ -69,6 +67,17 @@ public class TestAspirateur{
 		factory.registerTag (new CSSTag());
 		parser.setNodeFactory (factory);
 		launchProcess();
+	}
+	
+	
+	public void setLocal(String URL){
+		urlLocal = URL;
+		System.out.println("URL LOCAL : "+ urlLocal);
+	}
+	
+	
+	public String getLocal(){
+		return urlLocal;
 	}
 	
 	/**
@@ -129,9 +138,7 @@ public class TestAspirateur{
 	 */
     private boolean isToBeCaptured(String link)
     {
-        return ( link.toLowerCase ().startsWith (urlSource.toLowerCase ())
-            && (-1 == link.indexOf ('?'))
-            && (-1 == link.indexOf ('#')));
+        return ( link.toLowerCase ().startsWith (urlSource.toLowerCase ()));
     }
 	
     /**
@@ -194,12 +201,11 @@ public class TestAspirateur{
     public void launchProcess(){
     	while(pages.size()>0){
     		try {
-    			
+
     			System.out.println("\nCurrent Page : " + urlSource+"/"+pages.get(0));
 				parser.setURL(urlSource+ "/"+ pages.get(0));
 				list = new NodeList();
 				parser.reset();
-				parser.setEncoding("utf-8");
 		        
 				for(NodeIterator it = parser.elements(); it.hasMoreNodes();){
 					list.add(it.nextNode());
@@ -552,6 +558,6 @@ public class TestAspirateur{
 	
 	
 	public static void main (String[] args){
-		TestAspirateur test = new TestAspirateur("http://htmlparser.sourceforge.net/");
+		TestAspirateur test = new TestAspirateur("http://www.renaudmathieu.fr/lmb2/");
 	}
 }
