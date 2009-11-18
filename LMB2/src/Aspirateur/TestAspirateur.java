@@ -51,15 +51,13 @@ public class TestAspirateur{
 	private ArrayList<ParserException> urlErrors;
 	
 	
-	public TestAspirateur(String url){
+	public TestAspirateur(){
 
 		images = new ArrayList<String>();
 		pages = new ArrayList<String>();
 		css = new ArrayList<String>();
 		urlCopied = new ArrayList<String>();
 		urlErrors = new ArrayList<ParserException>();
-		setSource(url);
-		System.out.println("URL SOURCE : " + urlSource);
 		parser = new Parser();
 		PrototypicalNodeFactory factory;
 		factory = new PrototypicalNodeFactory ();
@@ -69,7 +67,6 @@ public class TestAspirateur{
 		factory.registerTag (new LocalFrameTag());
 		factory.registerTag (new CSSTag());
 		parser.setNodeFactory (factory);
-		launchProcess();
 	}
 	
 	
@@ -201,7 +198,8 @@ public class TestAspirateur{
      * On lance ensuite la fonction 'copy' qui va effectuer les copies des ressources
      * incluses dans la pages (images, css, etc...)
      */
-    public void launchProcess(){
+    public void launchProcess(String url){
+		setSource(url);
     	while(pages.size()>0){
     		try {
 
@@ -249,6 +247,20 @@ public class TestAspirateur{
      * dans cette page
      * @param relativeURL
      */
+    public void launchCopy(String URL){
+    	setLocal(URL);
+    	while(pages.size()!=0){
+    		copyPage(pages.remove(0));
+    	}
+    }
+    
+    
+    /**
+     * Procédure qui lance l'enregistrement local de la page HTML d'URL 'relativeURL'
+     * Elle lance également l'enregistrement de toutes les images et fichiers CSS contenus
+     * dans cette page
+     * @param relativeURL
+     */
     public void copyPage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	//copy(relativeURL);
@@ -262,7 +274,7 @@ public class TestAspirateur{
     }
     
     /**
-     * Procédure qui lance la copie du fichier CSS d'URL 'relativeURL'
+     * Procédure qui lance l'enregistrement copie du fichier CSS d'URL 'relativeURL'
      * @param relativeURL
      */
     public void copyCSS(String relativeURL){
@@ -272,7 +284,7 @@ public class TestAspirateur{
     }
     
     /**
-     * Procédure qui copie l'image d'URL 'relativeURL' et l'enregistre sous le lien 
+     * Procédure qui enregistre l'image d'URL 'relativeURL' et l'enregistre sous le lien 
      * local correspondant
      * @param relativeURL
      */
@@ -283,7 +295,7 @@ public class TestAspirateur{
     }
     
     /**
-     * Procédure qui copie le contenu d'un fichier et l'enregistre sous le lien 
+     * Procédure qui enregistre le contenu d'un fichier et l'enregistre sous le lien 
      * local correspondant
      * @param URL
      */
@@ -567,6 +579,8 @@ public class TestAspirateur{
 	
 	
 	public static void main (String[] args){
-		TestAspirateur test = new TestAspirateur("http://www.renaudmathieu.fr/lmb2/");
+		TestAspirateur test = new TestAspirateur();
+		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
+		//test.launchCopy("C:/LMB2/Test/");
 	}
 }
