@@ -25,7 +25,7 @@ import org.htmlparser.util.ParserException;
 
 
 
-public class TestAspirateur{
+public class Aspirateur{
 
 	NodeList list;
 	
@@ -60,7 +60,7 @@ public class TestAspirateur{
 	/** Nom du projet */
 	private String name;
 	
-	public TestAspirateur(){
+	public Aspirateur(){
 		images = new ArrayList<String>();
 		pages = new ArrayList<String>();
 		css = new ArrayList<String>();
@@ -665,11 +665,12 @@ public class TestAspirateur{
 	
 	
 	public static void main (String[] args){
-		TestAspirateur test = new TestAspirateur();
+		Aspirateur test = new Aspirateur();
 		//test.launchProcess("http://www.ffjudo.org/Extranet/rechercheclub/result.asp?a=l&departement=co0736");
 		test.setName("Greg");
 		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
-    	test.setLocal("C:/LMB2/Test/");
+    	//test.setLocal("C:/LMB2/Test/");
+		test.setLocal("/users/renaudmathieu/Desktop/");
 		test.launchCopy();
 	}
 }
