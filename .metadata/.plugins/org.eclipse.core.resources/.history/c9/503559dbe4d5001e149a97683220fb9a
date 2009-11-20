@@ -1,0 +1,33 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import Aspirateur.*;
+
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class VueStatistiques {
+
+	//------------------
+	// Attributs
+	//------------------
+	public TestAspirateur laspirateur;
+	
+	public JLabel afficheURL;
+	
+	//------------------
+	// Constructeurs
+	//------------------
+	public VueStatistiques(TestAspirateur laAspirateur){
+		this.laspirateur = laspirateur;
+	}
+	
+	//------------------
+	// Methodes
+	//------------------
+}

@@ -1,0 +1,543 @@
+!SESSION 2009-11-20 14:48:38.873 -----------------------------------------------
+eclipse.buildId=M20090211-1700
+java.version=1.6.0_13
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Framework arguments:  256M 256M
+Command-line arguments:  -os win32 -ws win32 -arch x86 256M -data C:\Documents and Settings\mathi1431\Bureau\Nouveau dossier 256M
+
+!ENTRY org.eclipse.emf.ecore 2 0 2009-11-20 14:48:41.294
+!MESSAGE Both 'com.omondo.uml.core' and 'org.eclipse.uml2.uml' register an extension parser for 'uml'
+!SESSION 2009-11-20 14:49:16.528 -----------------------------------------------
+eclipse.buildId=M20090211-1700
+java.version=1.6.0_13
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Framework arguments:  256M 256M 256M 256M
+Command-line arguments:  -os win32 -ws win32 -arch x86 256M 256M 256M -data C:\Documents and Settings\mathi1431\Bureau\Nouveau dossier 256M
+
+!ENTRY org.eclipse.emf.ecore 2 0 2009-11-20 14:49:18.809
+!MESSAGE Both 'com.omondo.uml.core' and 'org.eclipse.uml2.uml' register an extension parser for 'uml'
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 14:50:45.136
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 14:51:56.666
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 14:52:04.181
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.eclipse.ui.workbench.texteditor 4 0 2009-11-20 14:52:07.306
+!MESSAGE The 'org.eclipse.wst.jsdt.web.ui.internal.hyperlink.script.JSPJavaHyperlinkDetector' extension from plug-in 'org.eclipse.wst.jsdt.web.ui' to the 'org.eclipse.ui.workbench.texteditor.hyperlinkDetectors' extension point will be ignored because it contains invalid attributes.
+
+!ENTRY org.eclipse.ui.workbench.texteditor 4 0 2009-11-20 14:52:07.306
+!MESSAGE The 'org.eclipse.wst.jsdt.web.ui.internal.hyperlink.script.event.JSPJavaHyperlinkDetector' extension from plug-in 'org.eclipse.wst.jsdt.web.ui' to the 'org.eclipse.ui.workbench.texteditor.hyperlinkDetectors' extension point will be ignored because it contains invalid attributes.
+!SESSION 2009-11-20 14:54:28.053 -----------------------------------------------
+eclipse.buildId=M20090211-1700
+java.version=1.6.0_13
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Framework arguments:  256M
+Command-line arguments:  -os win32 -ws win32 -arch x86 256M
+
+!ENTRY org.eclipse.emf.ecore 2 0 2009-11-20 14:54:29.928
+!MESSAGE Both 'com.omondo.uml.core' and 'org.eclipse.uml2.uml' register an extension parser for 'uml'
+
+!ENTRY org.eclipse.ui.workbench.texteditor 4 0 2009-11-20 14:54:35.491
+!MESSAGE The 'org.eclipse.wst.jsdt.web.ui.internal.hyperlink.script.JSPJavaHyperlinkDetector' extension from plug-in 'org.eclipse.wst.jsdt.web.ui' to the 'org.eclipse.ui.workbench.texteditor.hyperlinkDetectors' extension point will be ignored because it contains invalid attributes.
+
+!ENTRY org.eclipse.ui.workbench.texteditor 4 0 2009-11-20 14:54:35.491
+!MESSAGE The 'org.eclipse.wst.jsdt.web.ui.internal.hyperlink.script.event.JSPJavaHyperlinkDetector' extension from plug-in 'org.eclipse.wst.jsdt.web.ui' to the 'org.eclipse.ui.workbench.texteditor.hyperlinkDetectors' extension point will be ignored because it contains invalid attributes.
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 14:55:31.552
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 14:56:37.223
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:00:14.437
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:00:53.671
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:01:15.639
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:02:05.420
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:02:10.279
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:02:46.263
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:19:02.291
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:19:39.165
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:20:14.992
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:20:39.898
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:20:49.289
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:21:49.209
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:21:56.303
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:22:03.756
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:22:21.412
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:22:58.411
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:23:09.942
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:23:42.051
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:24:14.941
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:26:29.032
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:28:26.233
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:28:31.967
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:28:47.858
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:31:39.057
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:32:43.712
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:33:00.103
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:04.039
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:11.711
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:17.961
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:27.742
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:30.054
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:34:42.898
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:35:13.897
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:35:36.475
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:37:25.441
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:38:22.409
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:38:49.362
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:39:28.845
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:40:23.266
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:40:55.562
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:41:27.577
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:41:37.374
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:41:39.327
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:41:48.468
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:42:04.608
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:42:08.561
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:43:12.325
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:44:03.059
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:44:14.652
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:44:33.152
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:45:19.073
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:45:32.494
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:45:39.494
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:45:44.666
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:45:53.838
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:46:06.947
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:48:08.929
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:48:17.491
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:48:44.569
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:49:08.615
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:49:21.553
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:49:39.443
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:50:40.426
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:50:56.098
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:51:00.582
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:51:32.831
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:52:16.534
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:53:29.267
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:53:39.798
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:53:48.704
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:55:22.749
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:55:31.436
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:02.170
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:07.670
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:14.607
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:17.841
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:24.841
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:28.576
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:56:49.747
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:57:11.606
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:57:26.309
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:57:27.965
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:57:50.449
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 15:59:23.385
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:17:08.911
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:17:44.832
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:17:55.567
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:18:06.754
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:18:23.629
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:19:07.487
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:19:08.518
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:19:35.643
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:19:57.705
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:20:02.533
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:20:52.657
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:21:06.563
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:21:14.063
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:21:41.468
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:22:17.624
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:22:32.155
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:22:41.389
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:22:52.451
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:24:00.716
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:24:22.622
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:24:43.090
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:24:50.730
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:25:30.042
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:25:38.401
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:40:28.728
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:02.583
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:08.818
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:16.677
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:24.786
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:39.333
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:44:49.223
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:45:03.660
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:45:10.441
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:46:21.487
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:46:56.580
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:47:07.299
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:47:37.845
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:49:17.999
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:49:20.234
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:50:06.451
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:50:42.685
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:51:03.997
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:51:09.747
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:51:21.544
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:52:58.292
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:53:35.822
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:54:08.337
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:54:25.118
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:54:44.337
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.tigris.subversion.subclipse.core 4 -6 2009-11-20 16:55:04.039
+!MESSAGE Unable to load default SVN Client
+
+!ENTRY org.eclipse.ui.console 4 2 2009-11-20 16:58:19.504
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.ui.console".
+!STACK 0
+org.eclipse.swt.SWTException: Device is disposed
+	at org.eclipse.swt.SWT.error(SWT.java:3777)
+	at org.eclipse.swt.SWT.error(SWT.java:3695)
+	at org.eclipse.swt.SWT.error(SWT.java:3666)
+	at org.eclipse.swt.widgets.Display.error(Display.java:1180)
+	at org.eclipse.swt.widgets.Display.asyncExec(Display.java:648)
+	at org.eclipse.ui.internal.console.ConsoleDropDownAction.consolesRemoved(ConsoleDropDownAction.java:150)
+	at org.eclipse.ui.internal.console.ConsoleManager$ConsoleNotifier.run(ConsoleManager.java:154)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.ui.internal.console.ConsoleManager$ConsoleNotifier.notify(ConsoleManager.java:174)
+	at org.eclipse.ui.internal.console.ConsoleManager.fireUpdate(ConsoleManager.java:262)
+	at org.eclipse.ui.internal.console.ConsoleManager.removeConsoles(ConsoleManager.java:244)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.removeProcess(ProcessConsoleManager.java:98)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.removeLaunch(ProcessConsoleManager.java:81)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.shutdown(ProcessConsoleManager.java:198)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.stop(DebugUIPlugin.java:388)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$3.run(BundleContextImpl.java:1050)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:1046)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.stopWorker(BundleHost.java:457)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.suspend(AbstractBundle.java:531)
+	at org.eclipse.osgi.framework.internal.core.Framework.suspendBundle(Framework.java:1104)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.decFWSL(StartLevelManager.java:655)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:312)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.shutdown(StartLevelManager.java:257)
+	at org.eclipse.osgi.framework.internal.core.SystemBundle.suspend(SystemBundle.java:236)
+	at org.eclipse.osgi.framework.internal.core.Framework.shutdown(Framework.java:678)
+	at org.eclipse.osgi.framework.internal.core.Framework.close(Framework.java:576)
+	at org.eclipse.osgi.framework.internal.core.OSGi.close(OSGi.java:41)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.shutdown(EclipseStarter.java:424)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:200)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:549)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:504)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1236)
+
+!ENTRY org.eclipse.ui.console 4 120 2009-11-20 16:58:19.504
+!MESSAGE An exception occurred during console notification
+!STACK 0
+org.eclipse.swt.SWTException: Device is disposed
+	at org.eclipse.swt.SWT.error(SWT.java:3777)
+	at org.eclipse.swt.SWT.error(SWT.java:3695)
+	at org.eclipse.swt.SWT.error(SWT.java:3666)
+	at org.eclipse.swt.widgets.Display.error(Display.java:1180)
+	at org.eclipse.swt.widgets.Display.asyncExec(Display.java:648)
+	at org.eclipse.ui.internal.console.ConsoleDropDownAction.consolesRemoved(ConsoleDropDownAction.java:150)
+	at org.eclipse.ui.internal.console.ConsoleManager$ConsoleNotifier.run(ConsoleManager.java:154)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:37)
+	at org.eclipse.ui.internal.console.ConsoleManager$ConsoleNotifier.notify(ConsoleManager.java:174)
+	at org.eclipse.ui.internal.console.ConsoleManager.fireUpdate(ConsoleManager.java:262)
+	at org.eclipse.ui.internal.console.ConsoleManager.removeConsoles(ConsoleManager.java:244)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.removeProcess(ProcessConsoleManager.java:98)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.removeLaunch(ProcessConsoleManager.java:81)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsoleManager.shutdown(ProcessConsoleManager.java:198)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.stop(DebugUIPlugin.java:388)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$3.run(BundleContextImpl.java:1050)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:1046)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.stopWorker(BundleHost.java:457)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.suspend(AbstractBundle.java:531)
+	at org.eclipse.osgi.framework.internal.core.Framework.suspendBundle(Framework.java:1104)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.decFWSL(StartLevelManager.java:655)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:312)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.shutdown(StartLevelManager.java:257)
+	at org.eclipse.osgi.framework.internal.core.SystemBundle.suspend(SystemBundle.java:236)
+	at org.eclipse.osgi.framework.internal.core.Framework.shutdown(Framework.java:678)
+	at org.eclipse.osgi.framework.internal.core.Framework.close(Framework.java:576)
+	at org.eclipse.osgi.framework.internal.core.OSGi.close(OSGi.java:41)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.shutdown(EclipseStarter.java:424)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:200)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:549)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:504)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1236)

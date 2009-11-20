@@ -1,0 +1,33 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import Aspirateur.*;
+
+import javax.swing.*;
+import java.awt.*;
+
+
+public class VueMenu extends JMenuBar {
+
+	//------------------
+	// Attributs
+	//------------------
+	TestAspirateur laspirateur;
+	
+	JMenu fichier;
+	//------------------
+	// Constructeurs
+	//------------------
+	public VueMenu(TestAspirateur laspirateur){
+		super();
+		this.laspirateur = laspirateur;
+	}
+	
+	//------------------
+	// Methodes
+	//------------------
+	
+}

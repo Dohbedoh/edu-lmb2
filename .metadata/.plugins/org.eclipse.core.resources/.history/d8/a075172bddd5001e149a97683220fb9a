@@ -1,0 +1,9 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+public class IGAspirateur {
+
+}

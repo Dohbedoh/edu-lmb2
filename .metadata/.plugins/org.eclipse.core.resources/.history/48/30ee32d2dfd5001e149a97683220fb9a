@@ -1,0 +1,28 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class IGAspirateur extends JFrame{
+
+	//------------------
+	// Attributs
+	//------------------
+	
+	//------------------
+	// Constructeurs
+	//------------------
+	public IGAspirateur(){
+		super("Aspirateur LMB2");
+	}//cons-1
+	//------------------
+	// Methodes
+	//------------------
+	
+	
+	
+}

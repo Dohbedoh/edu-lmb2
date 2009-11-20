@@ -1,0 +1,10 @@
+!SESSION 2009-11-20 14:49:01.638 -----------------------------------------------
+eclipse.buildId=M20090211-1700
+java.version=1.6.0_13
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Framework arguments:  256M 256M 256M
+Command-line arguments:  -os win32 -ws win32 -arch x86 256M 256M -data C:\Documents and Settings\mathi1431\Bureau\Nouveau dossier\LMB2 256M
+
+!ENTRY org.eclipse.emf.ecore 2 0 2009-11-20 14:49:04.013
+!MESSAGE Both 'com.omondo.uml.core' and 'org.eclipse.uml2.uml' register an extension parser for 'uml'

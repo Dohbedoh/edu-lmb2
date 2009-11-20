@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench progressCount="53" version="2.0">
+<workbenchAdvisor/>
+<window height="768" maximized="true" width="1024" x="110" y="145">
+<fastViewData fastViewLocation="1024"/>
+<perspectiveBar>
+<itemSize x="160"/>
+</perspectiveBar>
+<coolbarLayout locked="0">
+<coolItem id="group.file" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="98" y="22"/>
+<coolItem id="additions" itemType="typeGroupMarker"/>
+<coolItem id="com.omondo.uml.UMLElementCreationActionSet" itemType="typeToolBarContribution" x="98" y="22"/>
+<coolItem id="com.omondo.uml.docgen.actionSet" itemType="typeToolBarContribution" x="39" y="22"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="124" y="22"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="75" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="85" y="22"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="group.nav" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="183" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="group.help" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
+</coolbarLayout>
+<page aggregateWorkingSetId="Aggregate for window 1258724921716" focus="true" label="Workspace - Resource">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="4"/>
+<part id="3"/>
+<part id="5"/>
+</presentation>
+</folder>
+</info>
+</editorArea>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestAspirateur.java" partName="TestAspirateur.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/Aspirateur/TestAspirateur.java" title="TestAspirateur.java" tooltip="Interface/src/Aspirateur/TestAspirateur.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/Aspirateur/TestAspirateur.java"/>
+<editorState selectionLength="0" selectionOffset="20466"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IGAspirateur.java" partName="IGAspirateur.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/graphique/IGAspirateur.java" title="IGAspirateur.java" tooltip="Interface/src/graphique/IGAspirateur.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/graphique/IGAspirateur.java"/>
+<editorState selectionLength="0" selectionOffset="667"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueMenu.java" partName="VueMenu.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/graphique/VueMenu.java" title="VueMenu.java" tooltip="Interface/src/graphique/VueMenu.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/graphique/VueMenu.java"/>
+<editorState selectionLength="122" selectionOffset="819"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueCaptureSite.java" partName="VueCaptureSite.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/graphique/VueCaptureSite.java" title="VueCaptureSite.java" tooltip="Interface/src/graphique/VueCaptureSite.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/graphique/VueCaptureSite.java"/>
+<editorState selectionLength="0" selectionOffset="1155"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueOnglets.java" partName="VueOnglets.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/graphique/VueOnglets.java" title="VueOnglets.java" tooltip="Interface/src/graphique/VueOnglets.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/graphique/VueOnglets.java"/>
+<editorState selectionLength="0" selectionOffset="914"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueStatistiques.java" partName="VueStatistiques.java" path="C:/Documents and Settings/mathi1431/Bureau/Nouveau dossier/Interface/src/graphique/VueStatistiques.java" title="VueStatistiques.java" tooltip="Interface/src/graphique/VueStatistiques.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Interface/src/graphique/VueStatistiques.java"/>
+<editorState selectionLength="0" selectionOffset="253"/>
+</editor>
+</editors>
+<views>
+<view id="org.eclipse.ui.navigator.ProjectExplorer" partName="Project Explorer">
+<viewState CommonNavigator.LINKING_ENABLED="0" CommonNavigator.LINKING_ENABLED.delayed="0" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
+</view>
+<view id="org.eclipse.mylyn.tasks.ui.views.tasks" partName="Task List">
+<viewState linkWithEditor="true" presentation="org.eclipse.mylyn.tasks.ui.categorized">
+<sorter groupBy="CATEGORY_QUERY">
+<sorter>
+<sort0 sortDirection="1" sortKey="PRIORITY"/>
+<sort1 sortDirection="1" sortKey="DATE_CREATED"/>
+<sort2 sortDirection="1" sortKey="NONE"/>
+<sort3 sortDirection="1" sortKey="NONE"/>
+</sorter>
+</sorter>
+</viewState>
+</view>
+<view id="org.eclipse.cdt.ui.tests.DOMAST.DOMAST" partName="DOM AST">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.TaskList" partName="Tasks">
+<viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.completionField" categoryGroup="none" markerContentGenerator="org.eclipse.ui.ide.tasksGenerator" partName="Tasks">
+<columnWidths org.eclipse.ui.ide.completionField="40" org.eclipse.ui.ide.descriptionField="254" org.eclipse.ui.ide.locationField="54" org.eclipse.ui.ide.markerType="79" org.eclipse.ui.ide.pathField="104" org.eclipse.ui.ide.priorityField="20" org.eclipse.ui.ide.resourceField="79"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.completionField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.priorityField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.descriptionField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
+</viewState>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
+<viewState/>
+</view>
+</views>
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.ui.resourcePerspective">
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.ui.externaltools.ExternalToolsSet"/>
+<alwaysOnActionSet id="com.omondo.uml.UMLElementCreationActionSet"/>
+<alwaysOnActionSet id="com.omondo.uml.docgen.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<alwaysOnActionSet id="org.eclipse.jst.servlet.ui.internal.actions.ConvertToWebModuleTypeActionSet"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.doc.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.tasks.ui.navigation"/>
+<alwaysOnActionSet id="org.eclipse.rse.core.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.NavigateActionSet"/>
+<show_view_action id="org.eclipse.ui.views.ResourceNavigator"/>
+<show_view_action id="org.eclipse.ui.views.BookmarkView"/>
+<show_view_action id="org.eclipse.ui.views.ContentOutline"/>
+<show_view_action id="org.eclipse.ui.views.PropertySheet"/>
+<show_view_action id="org.eclipse.ui.views.ProblemView"/>
+<show_view_action id="org.eclipse.ui.views.ProgressView"/>
+<show_view_action id="org.eclipse.ui.views.TaskList"/>
+<show_view_action id="org.eclipse.ant.ui.views.AntView"/>
+<show_view_action id="org.eclipse.mylyn.tasks.ui.views.tasks"/>
+<show_view_action id="org.eclipse.pde.runtime.LogView"/>
+<new_wizard_action id="org.eclipse.ui.wizards.new.folder"/>
+<new_wizard_action id="org.eclipse.ui.wizards.new.file"/>
+<new_wizard_action id="org.eclipse.mylyn.tasks.ui.wizards.new.repository.task"/>
+<new_wizard_action id="org.eclipse.ui.editors.wizards.UntitledTextFileWizard"/>
+<perspective_action id="org.eclipse.cdt.ui.CPerspective"/>
+<perspective_action id="org.eclipse.jdt.ui.JavaPerspective"/>
+<perspective_action id="org.eclipse.jdt.ui.JavaBrowsingPerspective"/>
+<perspective_action id="org.eclipse.jst.j2ee.J2EEPerspective"/>
+<perspective_action id="org.eclipse.team.cvs.ui.cvsPerspective"/>
+<perspective_action id="org.eclipse.team.ui.TeamSynchronizingPerspective"/>
+<perspective_action id="org.eclipse.wst.jsdt.ui.JavaPerspective"/>
+<perspective_action id="org.tigris.subversion.subclipse.ui.svnPerspective"/>
+<view id="org.eclipse.ui.navigator.ProjectExplorer"/>
+<view id="org.eclipse.cdt.ui.tests.DOMAST.DOMAST"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.eclipse.mylyn.tasks.ui.views.tasks"/>
+<fastViewBars>
+<fastViewBar fastViewLocation="1024" id="bottomRight" orientation="256" selectedTabId="org.eclipse.ui.views.TaskList" style="0">
+<fastViews>
+<view id="org.eclipse.ui.views.TaskList" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
+<layout>
+<mainWindow>
+<info folder="true" part="topLeft">
+<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">
+<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
+<page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
+<page content="org.eclipse.team.ccvs.ui.RepositoriesView" label="LabelNotFound"/>
+<page content="org.tigris.subversion.subclipse.ui.repository.RepositoriesView" label="LabelNotFound"/>
+<page content="org.tigris.subversion.subclipse.ui.annotations.AnnotateView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@6f9f88" ratio="0.75" ratioLeft="756" ratioRight="252" relationship="2" relative="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info part="org.eclipse.gef.ui.palette_view" ratio="0.20646179" ratioLeft="262" ratioRight="1007" relationship="2" relative="topLeft"/>
+<info folder="true" part="bottomRight" ratio="0.65898615" ratioLeft="429" ratioRight="222" relationship="4" relative="org.eclipse.gef.ui.palette_view">
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.ui.views.TaskList" label="LabelNotFound"/>
+<page content="org.eclipse.team.ui.GenericHistoryView" label="LabelNotFound"/>
+<page content="org.tigris.subversion.subclipse.ui.history.HistoryView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@267b76" ratio="0.5" ratioLeft="373" ratioRight="373" relationship="2" relative="bottomRight">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.eclipse.cdt.ui.tests.DOMAST.DOMAST" label="DOM AST"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.15951742" ratioLeft="119" ratioRight="627" relationship="2" relative="org.eclipse.gef.ui.palette_view"/>
+<info folder="true" part="bottomLeft" ratio="0.49923196" ratioLeft="325" ratioRight="326" relationship="4" relative="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@ebbf02" ratio="0.49943247" ratioLeft="440" ratioRight="441" relationship="4" relative="topLeft">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<page content="org.eclipse.mylyn.tasks.ui.views.tasks" label="Task List"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets/>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/Aspirateur/TestAspirateur.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/graphique/IGAspirateur.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/graphique/VueMenu.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/graphique/VueCaptureSite.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/graphique/VueOnglets.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Interface/src/graphique/VueStatistiques.java"/>
+</editors>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="985" y="0"/>
+</item>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="902" y="0"/>
+</item>
+<item historyLabel="VueStatistiques.java" index="5">
+<position info="not_deleted" x="253" y="0"/>
+</item>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="914" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="135" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20693" y="3"/>
+</item>
+<item historyLabel="IGAspirateur.java" index="1">
+<position info="not_deleted" x="667" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="135" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1023" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="950" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1177" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="522" y="0"/>
+</item>
+<item historyLabel="IGAspirateur.java" index="1">
+<position info="not_deleted" x="667" y="0"/>
+</item>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="914" y="0"/>
+</item>
+<item historyLabel="VueMenu.java" index="2">
+<position info="not_deleted" x="389" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="522" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="725" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="221" y="14"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="719" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1023" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="978" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1177" y="0"/>
+</item>
+<item historyLabel="VueMenu.java" index="2">
+<position info="not_deleted" x="1065" y="130"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1341" y="0"/>
+</item>
+<item historyLabel="VueMenu.java" index="2">
+<position info="not_deleted" x="819" y="122"/>
+</item>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="914" y="0"/>
+</item>
+<item historyLabel="VueStatistiques.java" index="5">
+<position info="not_deleted" x="253" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="590" y="54"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20693" y="3"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1675" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20693" y="3"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1675" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20724" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1675" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20724" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1675" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20724" y="0"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1643" y="0"/>
+</item>
+<item historyLabel="VueOnglets.java" index="4">
+<position info="not_deleted" x="914" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20779" y="15"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1643" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20684" y="8"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1565" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20684" y="8"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1675" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20684" y="8"/>
+</item>
+<item historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1304" y="0"/>
+</item>
+<item historyLabel="TestAspirateur.java" index="0">
+<position info="not_deleted" x="20466" y="0"/>
+</item>
+<item historyLabel="VueStatistiques.java" index="5">
+<position info="not_deleted" x="253" y="0"/>
+</item>
+<item active="true" historyLabel="VueCaptureSite.java" index="3">
+<position info="not_deleted" x="1304" y="0"/>
+</item>
+</navigationHistory>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout>
+<trimArea IMemento.internal.id="128">
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
+</trimArea>
+<trimArea IMemento.internal.id="1024">
+<trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
+<trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="bottomRight"/>
+</trimArea>
+</trimLayout>
+</window>
+<mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueStatistiques.java" tooltip="Interface/src/graphique/VueStatistiques.java">
+<persistable path="/Interface/src/graphique/VueStatistiques.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueOnglets.java" tooltip="Interface/src/graphique/VueOnglets.java">
+<persistable path="/Interface/src/graphique/VueOnglets.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueCaptureSite.java" tooltip="Interface/src/graphique/VueCaptureSite.java">
+<persistable path="/Interface/src/graphique/VueCaptureSite.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VueMenu.java" tooltip="Interface/src/graphique/VueMenu.java">
+<persistable path="/Interface/src/graphique/VueMenu.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IGAspirateur.java" tooltip="Interface/src/graphique/IGAspirateur.java">
+<persistable path="/Interface/src/graphique/IGAspirateur.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestAspirateur.java" tooltip="Interface/src/TestAspirateur.java">
+<persistable path="/Interface/src/TestAspirateur.java"/>
+</file>
+</mruList>
+</workbench>

@@ -1,0 +1,39 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import Aspirateur.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class VueCaptureSite extends JPanel{
+
+	//------------------
+	// Attributs
+	//------------------
+	public TestAspirateur laspirateur;
+	
+	public JLabel afficheURL;
+	//------------------
+	// Constructeurs
+	//------------------
+	public VueCaptureSite(TestAspirateur laAspirateur){
+		this.laspirateur = laAspirateur;
+		
+		// Creation des elements du panneau
+		afficheURL = new JLabel("URL azupeioazu peioazupeiouazpeiouazpioazupeio");
+		
+		// Ajout des elements du panneau
+		add(afficheURL);
+		
+	}//cons-1
+	
+	//------------------
+	// Methodes
+	//------------------
+	
+}

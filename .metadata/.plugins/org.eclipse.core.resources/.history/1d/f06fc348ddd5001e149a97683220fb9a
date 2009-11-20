@@ -1,0 +1,12 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class IGAspirateur extends JFrame{
+
+}

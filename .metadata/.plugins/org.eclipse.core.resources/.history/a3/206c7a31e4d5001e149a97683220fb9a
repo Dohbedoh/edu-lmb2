@@ -1,0 +1,35 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
+package graphique;
+
+import Aspirateur.*;
+
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class VueOnglets extends JPanel {
+
+	//------------------
+	// Attributs
+	//------------------
+	public TestAspirateur laspirateur;
+	public JTabbedPane onglets;
+	
+	public VueCaptureSite vueCaptureSite;
+	//------------------
+	// Constructeurs
+	//------------------
+	public VueOnglets(TestAspirateur laAspirateur){
+		this.laspirateur = laAspirateur;
+		onglets = new JTabbedPane();
+		
+		// Creation des onglets
+		vueCaptureSite = new VueCaptureSite(laAspirateur);
+		
+		onglets.add("Capturer site",vueCaptureSite);
+	}
+}
