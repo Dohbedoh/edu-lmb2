@@ -39,4 +39,16 @@ public class VueOnglets extends JPanel {
 		// Ajout onglets
 		this.add(onglets);
 	}
+	
+	//------------------
+	// Methodes
+	//------------------
+	public VueCaptureSite getVueCaptureSite(){
+		return this.vueCaptureSite;
+	}
+	
+	public VueStatistiques getVueStatistiques(){
+		return this.vueStatistiques;
+	}
+	
 }

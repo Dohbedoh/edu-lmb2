@@ -738,8 +738,8 @@ public class Aspirateur extends Observable{
 		//test.launchProcess("http://www.ffjudo.org/Extranet/rechercheclub/result.asp?a=l&departement=co0736");
 		test.setName("Greg");
 		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
-    	//test.setLocal("C:/LMB2/Test/");
-		test.setPath("/users/renaudmathieu/Desktop/");
+    	test.setPath("C:/LMB2/Test/");
+		//test.setPath("/users/renaudmathieu/Desktop/");
 		test.makeURLLocal();
 		test.launchCopy();
 	}

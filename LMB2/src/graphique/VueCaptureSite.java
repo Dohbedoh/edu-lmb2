@@ -9,8 +9,7 @@ import Aspirateur.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class VueCaptureSite extends JPanel implements Observer{
 
