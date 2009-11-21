@@ -19,9 +19,11 @@ public class VueMenu extends JMenuBar {
 	Aspirateur laspirateur;
 	
 	JMenu fichier;
+	JMenu capture;
 	
 	JMenuItem quitter;
-	
+	JMenuItem path;
+
 	//------------------
 	// Constructeurs
 	//------------------
@@ -31,15 +33,19 @@ public class VueMenu extends JMenuBar {
 		
 		// Creation des JMenu
 		fichier = new JMenu("Fichier");
+		capture = new JMenu("Capturer Site");
 	
 		// Creation des JMenuItem
 		quitter = new JMenuItem("Quitter");
+		path = new JMenuItem("Changer path de sauvegarde");
 		
 		// Ajout des JMenuItem
 		fichier.add(quitter);
+		capture.add(path);
 		
 		// Ajout des JMenu
 		add(fichier);
+		add(capture);
 		
 		// Ajout des Actions
 		quitter.addActionListener(new ActionListener(){
@@ -47,6 +53,8 @@ public class VueMenu extends JMenuBar {
 				System.exit(0);
 			}
 		});
+		
+		path.addActionListener(new ActionChangerPath());
 	}
 	
 	//------------------
@@ -56,11 +64,14 @@ public class VueMenu extends JMenuBar {
 	//--------------
 	// Actions
 	//--------------
-	/*private class ActionLineCount implements ActionListener {
+	private class ActionChangerPath implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
-			
+		    String result = JOptionPane.showInputDialog(null, "Entrer le chemin de votre repertoire de sauvegarde");
+
+		    System.out.println(result);
+			laspirateur.setLocal(result);
 		}
-	}*/
+	}
 	
 }

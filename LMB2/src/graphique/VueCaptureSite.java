@@ -9,8 +9,10 @@ import Aspirateur.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class VueCaptureSite extends JPanel{
+public class VueCaptureSite extends JPanel implements Observer{
 
 	//------------------
 	// Attributs
@@ -43,9 +45,9 @@ public class VueCaptureSite extends JPanel{
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueCaptureSite(Aspirateur laAspirateur){
-		this.laspirateur = laAspirateur;
-		
+	public VueCaptureSite(Aspirateur laspirateur){
+		this.laspirateur = laspirateur;
+		laspirateur.addObserver(this);
 		this.setLayout(new BorderLayout());
 		
 		// Creation des elements du panneau
@@ -53,10 +55,16 @@ public class VueCaptureSite extends JPanel{
 		afficheNom = new JLabel("Nom : ", SwingConstants.RIGHT);
 		affichePath = new JLabel("Chemin : ", SwingConstants.RIGHT);
 		
+		/*
 		url = new JTextField("http://www.renaudmathieu.fr/lmb2/",20);
 		nom = new JTextField("Test",20);
 		path = new JTextField("/users/renaudmathieu/Desktop/",20);
-				
+		*/
+		
+		url = new JTextField(20);
+		nom = new JTextField(20);
+		path = new JTextField(20);
+		
 		capturer = new JButton("Capturer");
 		
 		// Ajout des elements du panneau
@@ -139,6 +147,16 @@ public class VueCaptureSite extends JPanel{
 	//------------------
 	// Methodes
 	//------------------
+	public void update(Observable o, Object arg) {
+		/*nom.setText("Greg");
+		laspirateur.setName("Greg");
+		path.setText(laspirateur.getLocal());
+		*/
+	}
+	
+	//------------------
+	// Actions
+	//------------------
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
@@ -151,4 +169,6 @@ public class VueCaptureSite extends JPanel{
 			/* Methode pour faire les filtres ? */
 		}
 	}
+
+	
 }

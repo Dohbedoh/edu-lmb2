@@ -12,6 +12,8 @@ import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Observable;
+
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
@@ -25,7 +27,7 @@ import org.htmlparser.util.ParserException;
 
 
 
-public class Aspirateur{
+public class Aspirateur extends Observable{
 
 	NodeList list;
 	
@@ -91,6 +93,10 @@ public class Aspirateur{
 		}
 		urlLocal = URL + "/" + name+"/"+ date.getDate() + "-" + (date.getMonth()+1) + "-" + (date.getYear()+1900);
 		System.out.println("URL LOCAL : "+ urlLocal);
+		
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -107,6 +113,10 @@ public class Aspirateur{
 	 */
 	public void setName(String str){
 		name = str;
+		
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -139,6 +149,10 @@ public class Aspirateur{
 	public void setSource(String url){
 		urlSource = getSource(url);
 		pages.add(toRelativeLink(url));
+		
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
 	}
 	
 	
@@ -289,6 +303,10 @@ public class Aspirateur{
     	}
     	afficherCopied();
     	afficherErrors();
+    	
+    	// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
     }
     
     
@@ -317,6 +335,10 @@ public class Aspirateur{
     	while(urlCSSCopied.size()!=0){
     		copy(toRelativeLink(urlCSSCopied.remove(0)));
     	}
+    	
+    	// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
     }
     
     /**
