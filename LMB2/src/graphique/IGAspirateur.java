@@ -46,6 +46,7 @@ public class IGAspirateur extends JFrame{
 		setVisible(true) ;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		System.out.println("Coucou");
 	}//cons-1
 	
 	//------------------
