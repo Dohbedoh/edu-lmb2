@@ -29,6 +29,9 @@ import org.htmlparser.util.ParserException;
 
 public class Aspirateur extends Observable{
 
+	//------------------
+	// Attributs
+	//------------------
 	NodeList list;
 	
 	Parser parser;
@@ -37,6 +40,9 @@ public class Aspirateur extends Observable{
 	
 	/** Préfixe de l'URL LOCAL donnée (le dossier où l'on sauvegarde*/
 	private String urlLocal;
+	
+	/** Chemin absolu de sauvegarde */
+	private String path;
 	
 	/** Liste des images à copier */
 	private ArrayList<String> images;
@@ -62,6 +68,10 @@ public class Aspirateur extends Observable{
 	/** Nom du projet */
 	private String name;
 	
+	
+	//------------------
+	// Constructeur
+	//------------------
 	public Aspirateur(){
 		images = new ArrayList<String>();
 		pages = new ArrayList<String>();
@@ -73,7 +83,7 @@ public class Aspirateur extends Observable{
 		parser = new Parser();
 		PrototypicalNodeFactory factory;
 		factory = new PrototypicalNodeFactory ();
-		/*On définit les Tag qui nous intéresse*/
+		/*On definit les Tag qui nous interesse*/
 		factory.registerTag (new LocalLinkTag());
 		factory.registerTag (new LocalImageTag());
 		factory.registerTag (new LocalFrameTag());
@@ -81,18 +91,24 @@ public class Aspirateur extends Observable{
 		parser.setNodeFactory (factory);
 	}
 	
+	
+	//------------------
+	// Methodes
+	//------------------
+	
 	/**
-	 * Modifier le lien local où sera enregistré le projet
-	 * @param URL
+	 * Obtenir le chemin du workspace
 	 */
-	public void setLocal(String URL){
-		assert(name!=null) : "setName(str) doit être effectué avant setLocal(str)";
-		Date date = new Date();
-		if(URL.endsWith("/")){
-			URL = URL.substring(0,URL.length()-1);
-		}
-		urlLocal = URL + "/" + name+"/"+ date.getDate() + "-" + (date.getMonth()+1) + "-" + (date.getYear()+1900);
-		System.out.println("URL LOCAL : "+ urlLocal);
+	public String getPath(){
+		return this.path;
+	}
+	
+	/**
+	 * Modifier le chemin du workspace
+	 * @param unPath
+	 */
+	public void setPath(String unPath){
+		this.path = unPath;
 		
 		// Avertir les vues que le modele change
 		setChanged();
@@ -100,15 +116,7 @@ public class Aspirateur extends Observable{
 	}
 	
 	/**
-	 * Obtenir le lien local où sera enregistré le projet
-	 * @return
-	 */
-	public String getLocal(){
-		return urlLocal;
-	}
-	
-	/**
-	 * Modifier le nom du projet
+	 * Modifier le nom du repertoire contenant le site
 	 * @param str
 	 */
 	public void setName(String str){
@@ -120,13 +128,52 @@ public class Aspirateur extends Observable{
 	}
 	
 	/**
-	 * Obtenir le nom du projet
+	 * Obtenir le nom du repertoire contenant le site
 	 * @param str
 	 */
 	public String getName(){
 		return name;
 	}
 	
+	
+	/**
+	 * Modifier le lien local ou sera enregistre le projet
+	 * @param URL
+	 */
+	public void setLocal(String URL){
+		this.urlLocal = URL;
+		
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Obtenir le lien local ou sera enregistre le projet
+	 * @return
+	 */
+	public String getLocal(){
+		return urlLocal;
+	}
+	
+	/**
+	 * Cette methode permet de generer le chemin absolu ou sera sauvegarde le site
+	 */
+	public void makeURLLocal(){
+		assert(name != null || path != null) : "Il faut specifie un nom et un chemin";
+		Date date = new Date();
+		
+		String URL = getPath();
+		if(URL.endsWith("/")){
+			URL = URL.substring(0,URL.length()-1);
+		}
+		urlLocal = URL + "/" + name+"/"+ date.getDate() + "-" + (date.getMonth()+1) + "-" + (date.getYear()+1900);
+		System.out.println("URL LOCAL : "+ urlLocal);
+		
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
 	
 	/**
 	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent
@@ -141,10 +188,9 @@ public class Aspirateur extends Observable{
 		return url;
 	}
 	
-	
 	/**
-	 * Procédure qui modifie le Préfixe qui sera utilisé
-	 * @param url : l'URL donnée par l'utilisateur
+	 * Procedure qui modifie le Prefixe qui sera utilise
+	 * @param url : l'URL donnee par l'utilisateur
 	 */
 	public void setSource(String url){
 		urlSource = getSource(url);
@@ -692,7 +738,8 @@ public class Aspirateur extends Observable{
 		test.setName("Greg");
 		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
     	//test.setLocal("C:/LMB2/Test/");
-		test.setLocal("/users/renaudmathieu/Desktop/");
+		test.setPath("/users/renaudmathieu/Desktop/");
+		test.makeURLLocal();
 		test.launchCopy();
 	}
 }

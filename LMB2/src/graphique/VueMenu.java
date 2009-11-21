@@ -67,10 +67,10 @@ public class VueMenu extends JMenuBar {
 	private class ActionChangerPath implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
+						
 		    String result = JOptionPane.showInputDialog(null, "Entrer le chemin de votre repertoire de sauvegarde");
-
-		    System.out.println(result);
-			laspirateur.setLocal(result);
+		    if(result != null)
+		    	laspirateur.setLocal(result);
 		}
 	}
 	

@@ -28,6 +28,10 @@ public class IGAspirateur extends JFrame{
 		// Creation du modele
 		laspirateur = new Aspirateur();
 		
+		// Valeurs par defaut du modele
+		laspirateur.setName("TestLMB2");
+		laspirateur.setPath("/users/renaudmathieu/Desktop/");
+		
 		// Creation des vues
 		vueMenu = new VueMenu(laspirateur);
 		vueOnglets = new VueOnglets(laspirateur);
