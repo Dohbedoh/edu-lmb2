@@ -9,12 +9,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Observable;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
@@ -317,12 +315,10 @@ public class Aspirateur extends Observable{
 		System.out.println(urlSource);
     	while(pages.size()>0){
     		try {
-
     			System.out.println("\nCurrent Page : " + urlSource+"/"+pages.get(0));
 				parser.setURL(urlSource+ "/"+ pages.get(0));
 				list = new NodeList();
 				parser.reset();
-		        
 				try{
 					for(NodeIterator it = parser.elements(); it.hasMoreNodes();){
 						list.add(it.nextNode());

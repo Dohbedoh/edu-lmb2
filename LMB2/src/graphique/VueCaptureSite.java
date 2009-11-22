@@ -173,6 +173,50 @@ public class VueCaptureSite extends JPanel implements Observer{
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
+
+			capturer.setEnabled(false);
+			laspirateur.setName(nom.getText());
+			laspirateur.setPath(path.getText());
+			laspirateur.makeURLLocal();
+			
+			/* Nouveau processus pour lancer le process */
+			t = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					laspirateur.launchProcess(url.getText());
+
+					/* Nouveau processus pour lancer la copie */
+					Thread tcopy = new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							laspirateur.launchCopy();
+							capturer.setEnabled(true);
+						}
+						
+					});
+					if(!SwingUtilities.isEventDispatchThread()){
+						tcopy.start();
+					}else{
+						/* On lance la copy une fois que le process est terminé (processus précédent) */
+						SwingUtilities.invokeLater(tcopy);
+					}
+				}
+				
+			});
+			/* Methode pour faire les filtres ?*/
+			
+			/* On lance le premier processus qui lancera le deuxième */
+			t.start();
+		}
+	}
+
+	
+
+	/*private class ActionCapturerSite implements ActionListener {
+	
+		public void actionPerformed(ActionEvent e) {
 		
 			laspirateur.setName(nom.getText());
 			laspirateur.setPath(path.getText());
@@ -181,27 +225,21 @@ public class VueCaptureSite extends JPanel implements Observer{
 			laspirateur.launchProcess(url.getText());
 			laspirateur.launchCopy();
 			
-			/* Methode pour faire les filtres ? */
-			
 			t = new Thread(new Traitement());
 			t.start();
 		}
-	}
-
+	}*/
 	
-	public class Traitement implements Runnable{
+	/*public class Traitement implements Runnable{
 		
 		public void run(){
-			capturer.setEnabled(false);
-			
 			for(int val = 0; val <= 500; val++){
 				vueProgressBar.getProgressBar().setValue(val);
 				try {
-					t.sleep(10);
+					t.sleep(1);
 				} catch (InterruptedException e) { e.printStackTrace();}
 			}
-			capturer.setEnabled(true);
 		}	
-	}
+	}*/
 	
 }
