@@ -202,6 +202,9 @@ public class Aspirateur extends Observable{
 		notifyObservers();
 	}
 	
+	public int getNbPagesCopiees(){
+		return this.urlPagesCopied.size();
+	}
 	
     private boolean isHtml (String link) throws ParserException{
 	    URL url;
@@ -347,13 +350,14 @@ public class Aspirateur extends Observable{
 				System.out.println("\nError in : " + parser.getURL() + "\n");
 				pages.remove(0);
 			}
+			
+			// Avertir les vues que le modele change
+			setChanged();
+			notifyObservers();
     	}
     	afficherCopied();
     	afficherErrors();
     	
-    	// Avertir les vues que le modele change
-		setChanged();
-		notifyObservers();
     }
     
     

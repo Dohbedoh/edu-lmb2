@@ -31,13 +31,13 @@ public class IGAspirateur extends JFrame{
 		
 		// Valeurs par defaut du modele
 		laspirateur.setName("TestLMB2");
-		//laspirateur.setPath("/users/renaudmathieu/Desktop/");
-		laspirateur.setPath("C:/LMB2/");
+		laspirateur.setPath("/users/renaudmathieu/Desktop/");
+		//laspirateur.setPath("C:/LMB2/");
 		
 		// Creation des vues
 		vueMenu = new VueMenu(laspirateur);
-		vueOnglets = new VueOnglets(laspirateur);
-		vueProgressBar = new VueProgressBar(laspirateur,vueOnglets.getVueCaptureSite());
+		vueProgressBar = new VueProgressBar(laspirateur);
+		vueOnglets = new VueOnglets(laspirateur,vueProgressBar);
 		
 		// Ajout des vues
 		add(vueOnglets,BorderLayout.CENTER);

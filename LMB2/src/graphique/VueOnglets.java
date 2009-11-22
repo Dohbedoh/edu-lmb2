@@ -17,6 +17,7 @@ public class VueOnglets extends JPanel {
 	// Attributs
 	//------------------
 	public Aspirateur laspirateur;
+	public VueProgressBar vueProgressBar;
 	public JTabbedPane onglets;
 	
 	public VueCaptureSite vueCaptureSite;
@@ -24,12 +25,14 @@ public class VueOnglets extends JPanel {
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueOnglets(Aspirateur laspirateur){
+	public VueOnglets(Aspirateur laspirateur, VueProgressBar vueProgressBar){
 		this.laspirateur = laspirateur;
+		this.vueProgressBar = vueProgressBar;
+		
 		onglets = new JTabbedPane();
 		
 		// Creation des onglets
-		vueCaptureSite = new VueCaptureSite(laspirateur);
+		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar);
 		vueStatistiques = new VueStatistiques(laspirateur);
 		
 		// Ajout des elements qui constituents les onglets

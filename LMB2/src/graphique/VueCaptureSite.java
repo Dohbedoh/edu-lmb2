@@ -17,6 +17,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 	// Attributs
 	//------------------
 	public Aspirateur laspirateur;
+	public VueProgressBar vueProgressBar;
+	private Thread t;
 	
 	// CAPTURE
 	public JLabel afficheURL;
@@ -44,8 +46,10 @@ public class VueCaptureSite extends JPanel implements Observer{
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueCaptureSite(Aspirateur laspirateur){
+	public VueCaptureSite(Aspirateur laspirateur, VueProgressBar vueProgressBar){
 		this.laspirateur = laspirateur;
+		this.vueProgressBar = vueProgressBar;
+		
 		laspirateur.addObserver(this);
 		this.setLayout(new BorderLayout());
 		
@@ -144,6 +148,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
 		
+		System.out.println(laspirateur.getNbPagesCopiees());
 	}
 	
 	//------------------
@@ -177,8 +182,26 @@ public class VueCaptureSite extends JPanel implements Observer{
 			laspirateur.launchCopy();
 			
 			/* Methode pour faire les filtres ? */
+			
+			t = new Thread(new Traitement());
+			t.start();
 		}
 	}
 
+	
+	public class Traitement implements Runnable{
+		
+		public void run(){
+			capturer.setEnabled(false);
+			
+			for(int val = 0; val <= 500; val++){
+				vueProgressBar.getProgressBar().setValue(val);
+				try {
+					t.sleep(10);
+				} catch (InterruptedException e) { e.printStackTrace();}
+			}
+			capturer.setEnabled(true);
+		}	
+	}
 	
 }
