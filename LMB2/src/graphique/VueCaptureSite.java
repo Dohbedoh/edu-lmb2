@@ -185,23 +185,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 				@Override
 				public void run() {
 					laspirateur.launchProcess(url.getText());
-
-					/* Nouveau processus pour lancer la copie */
-					Thread tcopy = new Thread(new Runnable(){
-
-						@Override
-						public void run() {
-							laspirateur.launchCopy();
-							capturer.setEnabled(true);
-						}
-						
-					});
-					if(!SwingUtilities.isEventDispatchThread()){
-						tcopy.start();
-					}else{
-						/* On lance la copy une fois que le process est terminé (processus précédent) */
-						SwingUtilities.invokeLater(tcopy);
-					}
 				}
 				
 			});

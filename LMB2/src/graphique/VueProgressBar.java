@@ -7,6 +7,7 @@ package graphique;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Observer;
 
 import Aspirateur.*;
 
@@ -16,7 +17,6 @@ public class VueProgressBar extends JPanel{
 	// Attributs
 	//------------------
 	Aspirateur laspirateur;
-	
 	JProgressBar bar;
 	
 	//--------------
@@ -31,7 +31,7 @@ public class VueProgressBar extends JPanel{
 		// Options des elements graphiques
 		bar.setStringPainted(true);
 		
-		bar.setMaximum(500);
+		bar.setMaximum(100);
 		bar.setMinimum(0);
 		
 		

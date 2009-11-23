@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -286,6 +288,7 @@ public class Aspirateur extends Observable{
         String ret;
 
         ret = toRelativeLink(link);
+        System.out.println("Le Gros Lien : " + link);
         
         
         if ((null != current) && link.startsWith (urlSource)&& (current.length () > urlSource.length ()))
@@ -313,7 +316,7 @@ public class Aspirateur extends Observable{
     public void launchProcess(String url){
 		setSource(url);
 		System.out.println(urlSource);
-    	while(pages.size()>0){
+    	while(pages.size()!=0){
     		try {
     			System.out.println("\nCurrent Page : " + urlSource+"/"+pages.get(0));
 				parser.setURL(urlSource+ "/"+ pages.get(0));
@@ -324,7 +327,9 @@ public class Aspirateur extends Observable{
 						list.add(it.nextNode());
 					}
 				}catch(EncodingChangeException e){
-					//String encode = e.getMessage().substring(e.getMessage().indexOf("to ")+3, e.getMessage().indexOf(" at "));
+					/* Si l'encodage n'est pas le bon, il faut faire un reset et il est changé
+					 * automatiquement
+					 */
 					parser.reset();
 					list = new NodeList ();
 	                for (NodeIterator it = parser.elements (); it.hasMoreNodes (); ){
@@ -363,7 +368,7 @@ public class Aspirateur extends Observable{
      * dans cette page
      * @param relativeURL
      */
-    public void launchCopy(){
+    /*public void launchCopy(){
 		assert(urlLocal!=null) : "setLocal() doit être effectué avant launchCopy()";
     	while(urlPagesCopied.size()!=0){
         	String fileRelativeUrl = urlPagesCopied.get(0);
@@ -386,7 +391,7 @@ public class Aspirateur extends Observable{
     	// Avertir les vues que le modele change
 		setChanged();
 		notifyObservers();
-    }
+    }*/
     
     /**
      * Procédure qui lance l'enregistrement local de la page HTML d'URL 'relativeURL'
@@ -396,11 +401,7 @@ public class Aspirateur extends Observable{
      */
     public void copyPage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
-    	String fileRelativeUrl = relativeURL;
-    	if(!relativeURL.endsWith(".html")){
-    		fileRelativeUrl += ".html";
-    	}
-    	//copy(deleteSpecialChar(relativeURL));
+    	copyHTML(relativeURL);
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
     	}
@@ -416,7 +417,7 @@ public class Aspirateur extends Observable{
      */
     public void copyCSS(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
-    	//copy(relativeURL);
+    	copyRessources(relativeURL);
     	urlCSSCopied.add(urlSource+ "/"+  relativeURL);
     }
     
@@ -427,7 +428,7 @@ public class Aspirateur extends Observable{
      */
     public void copyImage(String relativeURL){
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
-    	//copy(relativeURL);
+    	copyRessources(relativeURL);
     	urlImagesCopied.add(urlSource+ "/"+  relativeURL);
     }
     
@@ -436,13 +437,8 @@ public class Aspirateur extends Observable{
      * local correspondant
      * @param URL
      */
-    public void copy(String URL){
-    	File file;
-		if(URL.equals("")){
-			file = new File(urlLocal + "/index.html");
-		}else{
-			file = new File(urlLocal + "/" + URL);
-		}
+    public void copyRessources(String URL){
+    	File file = new File(urlLocal + "/" + deleteSpecialChar(URL));
     	File dir = file.getParentFile ();
     	if(!dir.exists()){
     		dir.mkdirs();
@@ -494,6 +490,69 @@ public class Aspirateur extends Observable{
         }
     }
     
+    
+    public void copyHTML(String URL){
+    	File file;
+		if(URL.equals("")){
+			file = new File(urlLocal + "/index.html");
+		}else{
+			file = new File(urlLocal + "/" + deleteSpecialChar(URL));
+		}
+    	File dir = file.getParentFile ();
+    	if(!dir.exists()){
+    		dir.mkdirs();
+    	}
+    	try
+        {
+    		InputStream in;
+    		OutputStreamWriter out;
+    		URL source = new URL(urlSource+ "/"+  URL);
+        	System.out.println("\tcopy : \"" + urlLocal+ "/"+  URL + "\n");
+            try
+            {
+                in = source.openStream ();
+                try
+                {
+                    out = new OutputStreamWriter(new FileOutputStream(file),parser.getEncoding());
+                    try
+                    {
+                    	PrintWriter pw = new PrintWriter(out);
+						for(int i=0;i<list.size();i++){
+							pw.write(list.elementAt(i).toHtml());
+						}
+						
+    					
+						pw.close();
+						
+                    }
+                    finally
+                    {
+                        out.close ();
+                    }
+                }
+                catch (FileNotFoundException fnfe)
+                {
+                    fnfe.printStackTrace ();
+                }
+                finally
+                {
+                    in.close ();
+                }
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                System.err.println ("broken link " + fnfe.getMessage () + " ignored");
+            }
+        }
+        catch (MalformedURLException murle)
+        {
+            murle.printStackTrace ();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace ();
+        }
+    }
     
     /**
      * Affichage des fichiers déjà copiés
@@ -638,6 +697,7 @@ public class Aspirateur extends Observable{
 					//System.out.println("\tLink URL : " + link);
 					pages.add(toRelativeLink(link));
 					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
+					System.out.println("nouveau lien ! " + link);
 					setLink(link);
 					//System.out.println("\t----------------------------\n");
 				}
@@ -730,17 +790,5 @@ public class Aspirateur extends Observable{
 				}
 			}
 		}
-	}
-	
-	
-	public static void main (String[] args){
-		Aspirateur test = new Aspirateur();
-		//test.launchProcess("http://www.ffjudo.org/Extranet/rechercheclub/result.asp?a=l&departement=co0736");
-		test.setName("Greg");
-		test.launchProcess("http://www.renaudmathieu.fr/lmb2/");
-    	test.setPath("C:/LMB2/Test/");
-		//test.setPath("/users/renaudmathieu/Desktop/");
-		test.makeURLLocal();
-		test.launchCopy();
 	}
 }
