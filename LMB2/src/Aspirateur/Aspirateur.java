@@ -202,6 +202,26 @@ public class Aspirateur extends Observable{
 		notifyObservers();
 	}
 	
+	public int getNbImagesCopiees(){
+		return this.urlImagesCopied.size();
+	}
+	
+	public int getNbCSSCopiees(){
+		return this.urlCSSCopied.size();
+	}
+
+	public int getNbImagesACopiees(){
+		return this.images.size();
+	}
+
+	public int getNbPagesACopiees(){
+		return this.pages.size();
+	}
+
+	public int getNbCSSACopiees(){
+		return this.css.size();
+	}
+	
 	public int getNbPagesCopiees(){
 		return this.urlPagesCopied.size();
 	}
@@ -288,7 +308,6 @@ public class Aspirateur extends Observable{
         String ret;
 
         ret = toRelativeLink(link);
-        System.out.println("Le Gros Lien : " + link);
         
         
         if ((null != current) && link.startsWith (urlSource)&& (current.length () > urlSource.length ()))
@@ -341,7 +360,8 @@ public class Aspirateur extends Observable{
     			afficherImages();
     			afficherPages();
     			afficherCSS();*/
-
+				setChanged();
+				notifyObservers();
     			copyPage(pages.remove(0));
 				/*System.out.println(list.toHtml());*/
 				
@@ -353,9 +373,9 @@ public class Aspirateur extends Observable{
 			}
 			
 			// Avertir les vues que le modele change
-			setChanged();
-			notifyObservers();
     	}
+    	setChanged();
+    	notifyObservers();
     	afficherCopied();
     	afficherErrors();
     	
@@ -490,7 +510,11 @@ public class Aspirateur extends Observable{
         }
     }
     
-    
+    /**
+     * Procédure qui enregistre le contenu de la page HTML "parsée" et l'enregistre 
+     * sous le lien local correspondant
+     * @param URL
+     */
     public void copyHTML(String URL){
     	File file;
 		if(URL.equals("")){
@@ -697,9 +721,11 @@ public class Aspirateur extends Observable{
 					//System.out.println("\tLink URL : " + link);
 					pages.add(toRelativeLink(link));
 					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
-					System.out.println("nouveau lien ! " + link);
 					setLink(link);
 					//System.out.println("\t----------------------------\n");
+				}else{
+					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
+					setLink(link);
 				}
 			}
 		}

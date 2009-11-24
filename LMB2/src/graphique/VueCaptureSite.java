@@ -147,7 +147,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
-		
+		vueProgressBar.getProgressBar().setValue(5);
+		double totalCopies = laspirateur.getNbPagesCopiees()+ laspirateur.getNbImagesCopiees() + laspirateur.getNbPagesCopiees();
+		double total = totalCopies + laspirateur.getNbCSSACopiees() + laspirateur.getNbPagesACopiees() + laspirateur.getNbPagesACopiees();
+		if(totalCopies!=0 || total!=0){
+			double value = totalCopies/total*100;
+			System.out.println("value:" + value);
+			vueProgressBar.getProgressBar().setValue((int)value);
+		}
 		System.out.println(laspirateur.getNbPagesCopiees());
 	}
 	
@@ -182,7 +189,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 			/* Nouveau processus pour lancer le process */
 			t = new Thread(new Runnable(){
 
-				@Override
 				public void run() {
 					laspirateur.launchProcess(url.getText());
 				}
