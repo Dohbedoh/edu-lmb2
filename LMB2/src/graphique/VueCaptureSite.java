@@ -155,7 +155,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 			System.out.println("value:" + value);
 			vueProgressBar.getProgressBar().setValue((int)value);
 		}
-		System.out.println(laspirateur.getNbPagesCopiees());
 	}
 	
 	//------------------
@@ -191,6 +190,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 
 				public void run() {
 					laspirateur.launchProcess(url.getText());
+					capturer.setEnabled(true);
 				}
 				
 			});

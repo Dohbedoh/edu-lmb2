@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -51,17 +52,23 @@ public class Aspirateur extends Observable{
 	/** Liste des css à copier */
 	private ArrayList<String> css;
 	
+	/** Liste des js à copier */
+	private ArrayList<String> js;
+	
 	/** Liste des pages à copier */
 	private ArrayList<String> pages;
 	
 	/** Liste des ressources déjà copiées */
 	private ArrayList<String> urlImagesCopied;
 
-	/** Liste des ressources déjà copiées */
+	/** Liste des pages déjà copiées */
 	private ArrayList<String> urlPagesCopied;
 	
-	/** Liste des ressources déjà copiées */
+	/** Liste des CSS déjà copiées */
 	private ArrayList<String> urlCSSCopied;
+
+	/** Liste des CSS déjà copiées */
+	private ArrayList<String> urlJSCopied;
 	
 	/** Liste des erreurs */
 	private ArrayList<ParserException> urlErrors;
@@ -77,9 +84,11 @@ public class Aspirateur extends Observable{
 		images = new ArrayList<String>();
 		pages = new ArrayList<String>();
 		css = new ArrayList<String>();
+		js = new ArrayList<String>();
 		urlPagesCopied = new ArrayList<String>();
 		urlImagesCopied = new ArrayList<String>();
 		urlCSSCopied = new ArrayList<String>();
+		urlJSCopied = new ArrayList<String>();
 		urlErrors = new ArrayList<ParserException>();
 		parser = new Parser();
 		PrototypicalNodeFactory factory;
@@ -89,6 +98,7 @@ public class Aspirateur extends Observable{
 		factory.registerTag (new LocalImageTag());
 		factory.registerTag (new LocalFrameTag());
 		factory.registerTag (new CSSTag());
+		factory.registerTag (new JSTag());
 		parser.setNodeFactory (factory);
 	}
 	
@@ -259,6 +269,8 @@ public class Aspirateur extends Observable{
     	String res = str;
     	while(res.contains("?")){
     		res = res.replace("?", "");
+    		res = res.replace("*", "");
+    		res = res.replace(":", "");
     	}
     	return res;
     	
@@ -381,38 +393,6 @@ public class Aspirateur extends Observable{
     	
     }
     
-    
-    /**
-     * Procédure qui lance la copie de la page HTML d'URL 'relativeURL'
-     * Elle lance également la copie de toutes les images et fichiers CSS contenus
-     * dans cette page
-     * @param relativeURL
-     */
-    /*public void launchCopy(){
-		assert(urlLocal!=null) : "setLocal() doit être effectué avant launchCopy()";
-    	while(urlPagesCopied.size()!=0){
-        	String fileRelativeUrl = urlPagesCopied.get(0);
-    		if(toRelativeLink(fileRelativeUrl).length()==0){
-    			fileRelativeUrl = "index";
-    		}
-        	if(!fileRelativeUrl.endsWith(".html")){
-        		fileRelativeUrl += ".html";
-        	}
-    		copy(deleteSpecialChar(toRelativeLink(fileRelativeUrl)));
-    		urlPagesCopied.remove(0);
-    	}
-    	while(urlImagesCopied.size()!=0){
-    		copy(toRelativeLink(urlImagesCopied.remove(0)));
-    	}
-    	while(urlCSSCopied.size()!=0){
-    		copy(toRelativeLink(urlCSSCopied.remove(0)));
-    	}
-    	
-    	// Avertir les vues que le modele change
-		setChanged();
-		notifyObservers();
-    }*/
-    
     /**
      * Procédure qui lance l'enregistrement local de la page HTML d'URL 'relativeURL'
      * Elle lance également l'enregistrement de toutes les images et fichiers CSS contenus
@@ -427,6 +407,9 @@ public class Aspirateur extends Observable{
     	}
     	while(images.size() != 0){
     		copyImage(images.remove(0));
+    	}
+    	while(js.size() != 0){
+    		copyHTML(js.remove(0));
     	}
     	urlPagesCopied.add(urlSource+ "/"+  relativeURL);
     }
@@ -450,6 +433,17 @@ public class Aspirateur extends Observable{
     	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
     	copyRessources(relativeURL);
     	urlImagesCopied.add(urlSource+ "/"+  relativeURL);
+    }
+    
+
+    /**
+     * Procédure qui lance l'enregistrement copie du fichier CSS d'URL 'relativeURL'
+     * @param relativeURL
+     */
+    public void copyJS(String URL){
+    	System.out.println("\tcapture : \"" + URL);
+    	copyHTML(URL);
+    	urlCSSCopied.add(urlSource+ "/"+  URL);
     }
     
     /**
@@ -530,7 +524,13 @@ public class Aspirateur extends Observable{
         {
     		InputStream in;
     		OutputStreamWriter out;
-    		URL source = new URL(urlSource+ "/"+  URL);
+    		URL source;
+    		if(URL.contains(".js")){
+    			source = new URL(URL);
+    			file = new File(urlLocal + deleteSpecialChar(URL.substring(URL.lastIndexOf("/"))));
+    		}else{
+    			source = new URL(urlSource+ "/"+  URL);
+    		}
         	System.out.println("\tcopy : \"" + urlLocal+ "/"+  URL + "\n");
             try
             {
@@ -609,6 +609,15 @@ public class Aspirateur extends Observable{
 	    	}
 	    	System.out.println("\t------------------------------------------------");
     	}
+    	if(urlJSCopied.size()!=0){
+    		System.out.println("\n\tJS déjà copiées!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = urlJSCopied.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
+    	}
     }
     
     /**
@@ -649,6 +658,23 @@ public class Aspirateur extends Observable{
 	    	System.out.println("\n\tCSS à copier!");
 	    	System.out.println("\t------------------------------------------------");
 	    	Iterator<String> it = css.iterator();
+	    	while(it.hasNext()){
+	    		System.out.println("\t" + urlSource+ "/" + it.next());
+	    	}
+	    	System.out.println("\t------------------------------------------------");
+    	}
+    }
+    
+
+    
+    /**
+     * Affichage des fichiers JS à copier
+     */
+    public void afficherJS(){
+    	if(js.size()!=0){
+	    	System.out.println("\n\tJS à copier!");
+	    	System.out.println("\t------------------------------------------------");
+	    	Iterator<String> it = js.iterator();
 	    	while(it.hasNext()){
 	    		System.out.println("\t" + urlSource+ "/" + it.next());
 	    	}
@@ -775,7 +801,6 @@ public class Aspirateur extends Observable{
 		 */
 		private static final long serialVersionUID = -2558739946355789992L;
 		
-		@Override
 		public void doSemanticAction() throws ParserException {
 			/* le lien css que l'on recherche */
 			String cssLink = "";
@@ -817,4 +842,35 @@ public class Aspirateur extends Observable{
 			}
 		}
 	}
-}
+	
+	class JSTag extends org.htmlparser.tags.ScriptTag{
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2558739946355789992L;
+			
+			public void doSemanticAction() throws ParserException {
+				/* le lien css que l'on recherche */
+				String jsLink = "";
+				String [] text = new String [3];
+				text[2]="";
+				if(getText().toLowerCase().contains(".js")){
+					jsLink = getText().split("src=")[1];
+					text[0] = getText().split("src=")[0] + "src=";
+					if(jsLink.split(" type").length>1){
+						text[1]= " type"+jsLink.split(" type")[1];
+					}
+					jsLink = jsLink.split(" type")[0];
+					jsLink = jsLink.replace("\"", "");
+					jsLink = jsLink.replace("\'", "");
+					if(!js.contains(jsLink) && !urlJSCopied.contains(jsLink)){
+						js.add(jsLink);
+					}
+					jsLink = jsLink.substring(jsLink.lastIndexOf("/"));
+					text[1] = "\"" + jsLink + "\"";
+					setText("<script" + text[0]+text[1]+text[2] + "></script>");
+				}
+			}
+		}
+	}
