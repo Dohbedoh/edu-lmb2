@@ -148,11 +148,10 @@ public class VueCaptureSite extends JPanel implements Observer{
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
 		vueProgressBar.getProgressBar().setValue(5);
-		double totalCopies = laspirateur.getNbPagesCopiees()+ laspirateur.getNbImagesCopiees() + laspirateur.getNbPagesCopiees();
-		double total = totalCopies + laspirateur.getNbCSSACopiees() + laspirateur.getNbPagesACopiees() + laspirateur.getNbPagesACopiees();
+		double totalCopies = laspirateur.getNbFichiersCopies();
+		double total = totalCopies + laspirateur.getNbFichiersACopies();
 		if(totalCopies!=0 || total!=0){
 			double value = totalCopies/total*100;
-			System.out.println("value:" + value);
 			vueProgressBar.getProgressBar().setValue((int)value);
 		}
 	}

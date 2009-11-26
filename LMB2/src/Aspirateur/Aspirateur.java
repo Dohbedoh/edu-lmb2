@@ -187,7 +187,7 @@ public class Aspirateur extends Observable{
 	}
 	
 	/**
-	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent
+	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
 	 * @param url : l'URL
 	 */
 	public String getSource(String url){
@@ -205,11 +205,16 @@ public class Aspirateur extends Observable{
 	 */
 	public void setSource(String url){
 		urlSource = getSource(url);
-		pages.add(toRelativeLink(url));
+		pages.add(url);
 		
 		// Avertir les vues que le modele change
 		setChanged();
 		notifyObservers();
+	}
+	
+
+	public int getNbPagesCopiees(){
+		return this.urlPagesCopied.size();
 	}
 	
 	public int getNbImagesCopiees(){
@@ -220,10 +225,14 @@ public class Aspirateur extends Observable{
 		return this.urlCSSCopied.size();
 	}
 
+	public int getNbJSCopiees(){
+		return this.urlJSCopied.size();
+	}
+
 	public int getNbImagesACopiees(){
 		return this.images.size();
 	}
-
+	
 	public int getNbPagesACopiees(){
 		return this.pages.size();
 	}
@@ -232,8 +241,17 @@ public class Aspirateur extends Observable{
 		return this.css.size();
 	}
 	
-	public int getNbPagesCopiees(){
-		return this.urlPagesCopied.size();
+	public int getNbJSACopiees(){
+		return this.js.size();
+	}
+	
+	public int getNbFichiersCopies(){
+		return getNbCSSCopiees() + getNbImagesCopiees() + getNbPagesCopiees() + getNbJSCopiees();
+	}
+	
+
+	public int getNbFichiersACopies(){
+		return getNbCSSACopiees() + getNbImagesACopiees() + getNbPagesACopiees() + getNbJSACopiees();
 	}
 	
     private boolean isHtml (String link) throws ParserException{
@@ -276,7 +294,19 @@ public class Aspirateur extends Observable{
     	
     }
     
-    
+	
+	/**
+	 * Retourne le lien utilisé en local pour les liens du type "<urlSource>/http://unlien.com/deuxiemeLien/fichier.qqc"
+	 * Ce lien sera par exemple enregistré dans le répertoire "/unlien.com/deuxiemeLien/"
+	 * @param url
+	 * @return
+	 */
+	public String toLocalLink(String url){
+		url = url.replace("http:/","");
+		return url;
+	}
+	
+	
 	/**
 	 * Fonction qui retourne si la ressource sera capturée
 	 * @param link : chemin absolue de la ressource
@@ -344,13 +374,13 @@ public class Aspirateur extends Observable{
      * On lance ensuite la fonction 'copy' qui va effectuer les copies des ressources
      * incluses dans la pages (images, css, etc...)
      */
-    public void launchProcess(String url){
+    public void launchProcess(String url) {
 		setSource(url);
 		System.out.println(urlSource);
     	while(pages.size()!=0){
     		try {
-    			System.out.println("\nCurrent Page : " + urlSource+"/"+pages.get(0));
-				parser.setURL(urlSource+ "/"+ pages.get(0));
+    			System.out.println("\nCurrent Page : " + pages.get(0));
+				parser.setURL(pages.get(0));
 				list = new NodeList();
 				parser.reset();
 				try{
@@ -371,7 +401,8 @@ public class Aspirateur extends Observable{
 				/*afficherCopied();
     			afficherImages();
     			afficherPages();
-    			afficherCSS();*/
+    			afficherCSS();
+				afficherJS();*/
 				setChanged();
 				notifyObservers();
     			copyPage(pages.remove(0));
@@ -400,7 +431,7 @@ public class Aspirateur extends Observable{
      * @param relativeURL
      */
     public void copyPage(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
+    	System.out.println("\tcapture Page : \"" + relativeURL);
     	copyHTML(relativeURL);
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
@@ -409,9 +440,9 @@ public class Aspirateur extends Observable{
     		copyImage(images.remove(0));
     	}
     	while(js.size() != 0){
-    		copyHTML(js.remove(0));
+    		copyJS(js.remove(0));
     	}
-    	urlPagesCopied.add(urlSource+ "/"+  relativeURL);
+    	urlPagesCopied.add(relativeURL);
     }
     
     /**
@@ -419,9 +450,9 @@ public class Aspirateur extends Observable{
      * @param relativeURL
      */
     public void copyCSS(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
+    	System.out.println("\tcapture CSS : \"" + relativeURL);
     	copyRessources(relativeURL);
-    	urlCSSCopied.add(urlSource+ "/"+  relativeURL);
+    	urlCSSCopied.add(relativeURL);
     }
     
     /**
@@ -430,9 +461,9 @@ public class Aspirateur extends Observable{
      * @param relativeURL
      */
     public void copyImage(String relativeURL){
-    	System.out.println("\tcapture : \"" + urlSource+ "/"+  relativeURL);
+    	System.out.println("\tcapture Image : \"" + relativeURL);
     	copyRessources(relativeURL);
-    	urlImagesCopied.add(urlSource+ "/"+  relativeURL);
+    	urlImagesCopied.add(relativeURL);
     }
     
 
@@ -441,9 +472,9 @@ public class Aspirateur extends Observable{
      * @param relativeURL
      */
     public void copyJS(String URL){
-    	System.out.println("\tcapture : \"" + URL);
-    	copyHTML(URL);
-    	urlCSSCopied.add(urlSource+ "/"+  URL);
+    	System.out.println("\tcapture JS : \"" + URL);
+    	copyRessources(URL);
+    	urlJSCopied.add(URL);
     }
     
     /**
@@ -452,7 +483,8 @@ public class Aspirateur extends Observable{
      * @param URL
      */
     public void copyRessources(String URL){
-    	File file = new File(urlLocal + "/" + deleteSpecialChar(URL));
+    	File file;
+    	file = new File(urlLocal + "/" + deleteSpecialChar(toLocalLink(toRelativeLink(URL))));
     	File dir = file.getParentFile ();
     	if(!dir.exists()){
     		dir.mkdirs();
@@ -462,13 +494,14 @@ public class Aspirateur extends Observable{
     		int read;
     		InputStream in;
     		FileOutputStream out;
-    		URL source = new URL(urlSource+ "/"+  URL);
+    		URL source = new URL(URL);
     		byte[] data = new byte [1024];
             try
             {
                 in = source.openStream ();
                 try
                 {
+                	System.out.println("\tcopy RESSOURCES : \"" +  file.getAbsolutePath() + "\n");
                     out = new FileOutputStream (file);
                     try
                     {
@@ -511,10 +544,10 @@ public class Aspirateur extends Observable{
      */
     public void copyHTML(String URL){
     	File file;
-		if(URL.equals("")){
+		if(URL.equals(urlSource+"/")){
 			file = new File(urlLocal + "/index.html");
 		}else{
-			file = new File(urlLocal + "/" + deleteSpecialChar(URL));
+			file = new File(urlLocal + "/" + deleteSpecialChar(toRelativeLink(URL)));
 		}
     	File dir = file.getParentFile ();
     	if(!dir.exists()){
@@ -522,46 +555,29 @@ public class Aspirateur extends Observable{
     	}
     	try
         {
-    		InputStream in;
     		OutputStreamWriter out;
-    		URL source;
-    		if(URL.contains(".js")){
+    		/*if(URL.contains(".js")){
     			source = new URL(URL);
     			file = new File(urlLocal + deleteSpecialChar(URL.substring(URL.lastIndexOf("/"))));
     		}else{
     			source = new URL(urlSource+ "/"+  URL);
-    		}
-        	System.out.println("\tcopy : \"" + urlLocal+ "/"+  URL + "\n");
+    		}*/
+        	System.out.println("\tcopy HTML : \"" + file.getAbsolutePath() + "\n");
             try
             {
-                in = source.openStream ();
+            	out = new OutputStreamWriter(new FileOutputStream(file),parser.getEncoding());
                 try
-                {
-                    out = new OutputStreamWriter(new FileOutputStream(file),parser.getEncoding());
-                    try
-                    {
-                    	PrintWriter pw = new PrintWriter(out);
-						for(int i=0;i<list.size();i++){
-							pw.write(list.elementAt(i).toHtml());
-						}
-						
-    					
-						pw.close();
-						
-                    }
-                    finally
-                    {
-                        out.close ();
-                    }
-                }
-                catch (FileNotFoundException fnfe)
-                {
-                    fnfe.printStackTrace ();
-                }
-                finally
-                {
-                    in.close ();
-                }
+				{
+                	PrintWriter pw = new PrintWriter(out);
+                	for(int i=0;i<list.size();i++){
+                		pw.write(list.elementAt(i).toHtml());
+                	}
+                	pw.close();
+				}
+				finally
+				{
+					out.close ();
+				}
             }
             catch (FileNotFoundException fnfe)
             {
@@ -714,11 +730,11 @@ public class Aspirateur extends Observable{
 		public void doSemanticAction() throws ParserException {
 			String image = getImageURL();
 			if(isToBeCaptured(image)){
-				if(!images.contains(toRelativeLink(image)) && !urlImagesCopied.contains(image)){
+				if(!images.contains(image) && !urlImagesCopied.contains(image)){
 					//System.out.println("\n\t----------new Image----------");
 					//System.out.println("\tImage URL : " + image);
-					images.add(toRelativeLink(image));
-					image = deleteSpecialChar(makeLocalLink (image, parser.getLexer ().getPage ().getUrl ()));
+					images.add(image);
+					image = deleteSpecialChar(toRelativeLink(makeLocalLink (image, parser.getLexer ().getPage ().getUrl ())));
 					setImageURL(image);
 					//System.out.println("\t----------------------------\n");
 				}
@@ -742,17 +758,14 @@ public class Aspirateur extends Observable{
 		public void doSemanticAction() throws ParserException {
 			String link = getLink();
 			if(isToBeCaptured(link)){
-				if(!pages.contains(toRelativeLink(link)) && !urlPagesCopied.contains(link)){
+				if(!pages.contains(link) && !urlPagesCopied.contains(link)){
 					//System.out.println("\n\t----------new Page----------");
 					//System.out.println("\tLink URL : " + link);
-					pages.add(toRelativeLink(link));
-					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
-					setLink(link);
+					pages.add(link);
 					//System.out.println("\t----------------------------\n");
-				}else{
-					link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
-					setLink(link);
 				}
+				link = deleteSpecialChar(toRelativeLink(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ())));
+				setLink(link);
 			}
 		}
 	}
@@ -772,22 +785,22 @@ public class Aspirateur extends Observable{
 
 		@Override
 		public void doSemanticAction() throws ParserException {
-			String link = deleteSpecialChar(getFrameLocation());
+			String link = getFrameLocation();
 			if(isToBeCaptured(link)){
 				if(isHtml(link)){
-					if(!pages.contains(toRelativeLink(link)) && !urlPagesCopied.contains(link)){
+					if(!pages.contains(link) && !urlPagesCopied.contains(link)){
 						//System.out.println("\n\t----------new Page----------");
 						//System.out.println("\tLink URL : " + link);
-						pages.add(toRelativeLink(link));
+						pages.add(link);
 					}
 				}else{
-					if(!images.contains(toRelativeLink(link)) && !urlImagesCopied.contains(link)){
+					if(!images.contains(link) && !urlImagesCopied.contains(link)){
 						//System.out.println("\n\t----------new Image----------");
 						//System.out.println("\tImage URL : " + link);
-						images.add(toRelativeLink(link));
+						images.add(link);
 					}
 				}
-				link = deleteSpecialChar(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ()));
+				link = deleteSpecialChar(toRelativeLink(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ())));
 				setFrameLocation(link);
 				//System.out.println("\t----------------------------\n");
 			}
@@ -831,10 +844,10 @@ public class Aspirateur extends Observable{
 					/* On ajoute le préfixe */
 					cssLink = getSource(source) + "/" + cssLink;
 					if(isToBeCaptured(cssLink)){
-						if(!css.contains(toRelativeLink(cssLink)) && !urlCSSCopied.contains(cssLink)){
+						if(!css.contains(cssLink) && !urlCSSCopied.contains(cssLink)){
 							//System.out.println("\n\t----------new CSS-----------");
 							//System.out.println("\tCSS URL : " + cssLink);
-							css.add(toRelativeLink(cssLink));
+							css.add(cssLink);
 							//System.out.println("\t----------------------------\n");
 						}
 					}
@@ -867,7 +880,7 @@ public class Aspirateur extends Observable{
 					if(!js.contains(jsLink) && !urlJSCopied.contains(jsLink)){
 						js.add(jsLink);
 					}
-					jsLink = jsLink.substring(jsLink.lastIndexOf("/"));
+					jsLink = deleteSpecialChar(toLocalLink(jsLink));
 					text[1] = "\"" + jsLink + "\"";
 					setText("<script" + text[0]+text[1]+text[2] + "></script>");
 				}
