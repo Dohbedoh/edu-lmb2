@@ -403,8 +403,6 @@ public class Aspirateur extends Observable{
     			afficherPages();
     			afficherCSS();
 				afficherJS();*/
-				setChanged();
-				notifyObservers();
     			copyPage(pages.remove(0));
 				/*System.out.println(list.toHtml());*/
 				
@@ -433,14 +431,22 @@ public class Aspirateur extends Observable{
     public void copyPage(String relativeURL){
     	System.out.println("\tcapture Page : \"" + relativeURL);
     	copyHTML(relativeURL);
+		setChanged();
+		notifyObservers();
     	while(css.size() != 0){
     		copyCSS(css.remove(0));
+			setChanged();
+			notifyObservers();
     	}
     	while(images.size() != 0){
     		copyImage(images.remove(0));
+			setChanged();
+			notifyObservers();
     	}
     	while(js.size() != 0){
     		copyJS(js.remove(0));
+			setChanged();
+			notifyObservers();
     	}
     	urlPagesCopied.add(relativeURL);
     }
@@ -556,12 +562,6 @@ public class Aspirateur extends Observable{
     	try
         {
     		OutputStreamWriter out;
-    		/*if(URL.contains(".js")){
-    			source = new URL(URL);
-    			file = new File(urlLocal + deleteSpecialChar(URL.substring(URL.lastIndexOf("/"))));
-    		}else{
-    			source = new URL(urlSource+ "/"+  URL);
-    		}*/
         	System.out.println("\tcopy HTML : \"" + file.getAbsolutePath() + "\n");
             try
             {
