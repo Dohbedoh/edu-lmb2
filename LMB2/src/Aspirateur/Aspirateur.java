@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -484,7 +483,7 @@ public class Aspirateur extends Observable{
     }
     
     /**
-     * Procédure qui enregistre le contenu d'un fichier et l'enregistre sous le lien 
+     * Procédure qui copie le contenu d'un fichier et l'enregistre sous le lien 
      * local correspondant
      * @param URL
      */
@@ -544,7 +543,7 @@ public class Aspirateur extends Observable{
     }
     
     /**
-     * Procédure qui enregistre le contenu de la page HTML "parsée" et l'enregistre 
+     * Procédure qui copie le contenu de la page HTML "parsée" et l'enregistre 
      * sous le lien local correspondant
      * @param URL
      */
