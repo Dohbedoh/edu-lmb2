@@ -757,11 +757,19 @@ public class Aspirateur extends Observable{
 		public void doSemanticAction() throws ParserException {
 			String link = getLink();
 			if(isToBeCaptured(link)){
-				if(!pages.contains(link) && !urlPagesCopied.contains(link)){
-					//System.out.println("\n\t----------new Page----------");
-					//System.out.println("\tLink URL : " + link);
-					pages.add(link);
-					//System.out.println("\t----------------------------\n");
+				if(isHtml(link)){
+					if(!pages.contains(link) && !urlPagesCopied.contains(link)){
+						//System.out.println("\n\t----------new Page----------");
+						//System.out.println("\tLink URL : " + link);
+						pages.add(link);
+						//System.out.println("\t----------------------------\n");
+					}
+				}else{
+					if(!images.contains(link) && !urlImagesCopied.contains(link)){
+						//System.out.println("\n\t----------new Image----------");
+						//System.out.println("\tImage URL : " + link);
+						images.add(link);
+					}
 				}
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink (link, parser.getLexer ().getPage ().getUrl ())));
 				setLink(link);
