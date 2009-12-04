@@ -19,6 +19,8 @@ public class IGAspirateur extends JFrame{
 	VueMenu vueMenu;
 	VueOnglets vueOnglets;
 	VueProgressBar vueProgressBar;
+	VueConsole vueConsole;
+	VueSauvegarde vueSauvegarde;
 	
 	//------------------
 	// Constructeurs
@@ -31,18 +33,37 @@ public class IGAspirateur extends JFrame{
 		
 		// Valeurs par defaut du modele
 		laspirateur.setName("TestLMB2");
-		laspirateur.setPath("/users/renaudmathieu/Desktop/");
+		laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
 		//laspirateur.setPath("C:/LMB2/");
 		
 		// Creation des vues
 		vueMenu = new VueMenu(laspirateur);
 		vueProgressBar = new VueProgressBar(laspirateur);
 		vueOnglets = new VueOnglets(laspirateur,vueProgressBar);
+		vueConsole = new VueConsole(laspirateur);
+		vueSauvegarde = new VueSauvegarde(laspirateur);
 		
 		// Ajout des vues
-		add(vueOnglets,BorderLayout.CENTER);
-		add(vueProgressBar,BorderLayout.SOUTH);
+		JPanel gauche = new JPanel();
+		JPanel milieu = new JPanel();
+		//JPanel droit = new JPanel();
+		
+		milieu.setLayout(new BorderLayout());
+		gauche.setLayout(new BorderLayout());
+		
+		milieu.add(vueOnglets,BorderLayout.NORTH);
+		milieu.add(vueConsole,BorderLayout.CENTER);
+		
+		gauche.add(vueSauvegarde,BorderLayout.CENTER);
+		gauche.add(vueProgressBar,BorderLayout.SOUTH);
+		
+		add(milieu,BorderLayout.CENTER);
+		add(gauche,BorderLayout.WEST);
 		setJMenuBar(vueMenu);
+		
+		// Options pour les vues
+		this.vueMenu.setConsole(vueConsole);
+		
 		
 		// Options de la JFrame
 		//setPreferredSize(new Dimension(800,800));

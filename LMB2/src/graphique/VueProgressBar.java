@@ -30,6 +30,7 @@ public class VueProgressBar extends JPanel{
 		
 		// Options des elements graphiques
 		bar.setStringPainted(true);
+		//bar.setOrientation(JProgressBar.VERTICAL);
 		
 		bar.setMaximum(100);
 		bar.setMinimum(0);

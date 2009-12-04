@@ -17,13 +17,16 @@ public class VueMenu extends JMenuBar {
 	// Attributs
 	//------------------
 	Aspirateur laspirateur;
+	VueConsole laConsole;
 	
 	JMenu fichier;
 	JMenu capture;
+	JMenu affichage;
 	
 	JMenuItem quitter;
 	JMenuItem path;
-
+	JMenuItem console;
+	
 	//------------------
 	// Constructeurs
 	//------------------
@@ -34,18 +37,22 @@ public class VueMenu extends JMenuBar {
 		// Creation des JMenu
 		fichier = new JMenu("Fichier");
 		capture = new JMenu("Capturer Site");
+		affichage = new JMenu("Affichage");
 	
 		// Creation des JMenuItem
 		quitter = new JMenuItem("Quitter");
 		path = new JMenuItem("Changer path de sauvegarde");
+		console = new JMenuItem("Afficher la console");
 		
 		// Ajout des JMenuItem
 		fichier.add(quitter);
 		capture.add(path);
+		affichage.add(console);
 		
 		// Ajout des JMenu
 		add(fichier);
 		add(capture);
+		add(affichage);
 		
 		// Ajout des Actions
 		quitter.addActionListener(new ActionListener(){
@@ -54,12 +61,27 @@ public class VueMenu extends JMenuBar {
 			}
 		});
 		
+		console.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				if(laConsole.isVisible()){
+					laConsole.setVisible(false);
+				}else{
+					laConsole.setVisible(true);
+				}
+			}
+		});
+		
 		path.addActionListener(new ActionChangerPath());
+		
 	}
 	
 	//------------------
 	// Methodes
 	//------------------
+	public void setConsole(VueConsole uneConsole){
+		this.laConsole = uneConsole;
+	}
 	
 	//--------------
 	// Actions

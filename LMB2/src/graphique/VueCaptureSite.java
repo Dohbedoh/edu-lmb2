@@ -196,37 +196,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 			
 			/* On lance le premier processus qui lancera le deuxième */
 			t.start();
+			System.out.println("FIN");
 		}
 	}
 
-	
-
-	/*private class ActionCapturerSite implements ActionListener {
-	
-		public void actionPerformed(ActionEvent e) {
-		
-			laspirateur.setName(nom.getText());
-			laspirateur.setPath(path.getText());
-			laspirateur.makeURLLocal();
-			
-			laspirateur.launchProcess(url.getText());
-			laspirateur.launchCopy();
-			
-			t = new Thread(new Traitement());
-			t.start();
-		}
-	}*/
-	
-	/*public class Traitement implements Runnable{
-		
-		public void run(){
-			for(int val = 0; val <= 500; val++){
-				vueProgressBar.getProgressBar().setValue(val);
-				try {
-					t.sleep(1);
-				} catch (InterruptedException e) { e.printStackTrace();}
-			}
-		}	
-	}*/
 	
 }
