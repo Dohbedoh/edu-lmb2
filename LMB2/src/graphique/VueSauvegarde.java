@@ -4,19 +4,16 @@
 
 package graphique;
 
-import javax.print.DocFlavor.URL;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
-
-import org.w3c.dom.Document;
-
 import java.io.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import Aspirateur.*;
+import visualiser.*;
 
 public class VueSauvegarde extends JPanel{
 
@@ -96,8 +93,7 @@ public class VueSauvegarde extends JPanel{
 		this.model.addTreeModelListener(new TreeModelListener() {
 			
 	        public void treeNodesChanged(TreeModelEvent evt) {
-	          System.out.println("Changement dans l'arbre");
-	          initArbre();
+	          System.out.println("Not Yet Implemented.");
 	        }
 	        
 	        
@@ -158,50 +154,11 @@ public class VueSauvegarde extends JPanel{
 	// Actions
 	//------------------
 	private class ActionVisualiser implements ActionListener {
-			
-			public void actionPerformed(ActionEvent e) {
-				
-				if(selectedNode != null){
-					// On créé un JEditorPane avec ce chemin absolu
-					JFrame popup = new JFrame("a");
-					
-					popup.pack();
-					popup.setVisible(true);
-					popup.setSize(840,664);
-					JEditorPane conteneur;
-					
-					try {
-						File file = new File(selectedNode+"index.html");
-						if(file != null){
-							conteneur = new JEditorPane(file.toURL());
-							
-						}else{
-							File file2 = new File(selectedNode+"index.php");
-							conteneur = new JEditorPane(file2.toURL());
-						}
-						
-						conteneur.setEditable(false);
-						
-						conteneur.addHyperlinkListener(new HyperlinkListener() {
-						    public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent e) {
-						        if (e.getEventType() ==  HyperlinkEvent.EventType.ACTIVATED) {
-						                JEditorPane pane = (JEditorPane)e.getSource();
-						                try {
-						                    pane.setPage(e.getURL());
-						                }catch (IOException ex) {
-						                    pane.setText("ERREUR : "+ex.getMessage());
-						                }
-						        }
-						     }
-						 });
-						
-						
-						JScrollPane scrollPane = new JScrollPane(conteneur);
-						popup.add(scrollPane);
-					}catch (IOException ex) {ex.printStackTrace();}
-					
-					
-				}
+		public void actionPerformed(ActionEvent e) {
+			if (selectedNode != null) {
+				new Navigateur(selectedNode);
 			}
 		}
+	}
+	
 }
