@@ -196,7 +196,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 			
 			/* On lance le premier processus qui lancera le deuxième */
 			t.start();
-			System.out.println("FIN");
 		}
 	}
 

@@ -42,7 +42,7 @@ public class VueMenu extends JMenuBar {
 		// Creation des JMenuItem
 		quitter = new JMenuItem("Quitter");
 		path = new JMenuItem("Changer path de sauvegarde");
-		console = new JMenuItem("Afficher la console");
+		console = new JMenuItem("Afficher/Masquer la console");
 		
 		// Ajout des JMenuItem
 		fichier.add(quitter);

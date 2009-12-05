@@ -13,11 +13,12 @@ import org.w3c.dom.Document;
 
 import java.io.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import Aspirateur.*;
 
-
-public class VueSauvegarde extends JPanel {
+public class VueSauvegarde extends JPanel{
 
 	//------------------
 	// Attributs
@@ -26,8 +27,12 @@ public class VueSauvegarde extends JPanel {
 	
 	private JTree arbre;
 	private DefaultMutableTreeNode racine;
+	private DefaultTreeModel model;
 	
 	private JButton visualisation;
+	private JButton refresh;
+	
+	private String selectedNode;
 	
 	//------------------
 	// Constructeurs
@@ -35,15 +40,17 @@ public class VueSauvegarde extends JPanel {
 	public VueSauvegarde(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
 		setLayout(new BorderLayout());
-		
+				
 		// Creation des elements
 		initArbre();
 		visualisation = new JButton("Visualiser");
+		refresh = new JButton("Rafraichir");
 		
 		// Ajout des elements
 		JPanel options = new JPanel(new GridLayout(1,2));
 		
 		options.add(visualisation);
+		options.add(refresh);
 		
 		add(new JScrollPane(arbre),BorderLayout.NORTH);
 		add(options,BorderLayout.SOUTH);
@@ -52,7 +59,13 @@ public class VueSauvegarde extends JPanel {
 		setBorder(BorderFactory.createTitledBorder("Gestion des sauvegardes"));
 		arbre.setPreferredSize(new Dimension(200,350));
 		arbre.setRootVisible(false);
-		
+		visualisation.setEnabled(false);
+		visualisation.addActionListener(new ActionVisualiser());
+		refresh.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				model.nodeChanged(racine);
+			}
+		});
 	}//cons-1	
 	
 	//------------------
@@ -64,8 +77,7 @@ public class VueSauvegarde extends JPanel {
 		this.racine = new DefaultMutableTreeNode();
 		File workspace = new File(laspirateur.getPath());
 		
-		for(File file : workspace.listFiles())
-		{
+		for(File file : workspace.listFiles()) {
 			DefaultMutableTreeNode lecteur = new DefaultMutableTreeNode(file.getName());
 			try {
 				for(File nom : file.listFiles()){
@@ -80,46 +92,45 @@ public class VueSauvegarde extends JPanel {
 			
 		}
 		
+		this.model = new DefaultTreeModel(this.racine);
+		this.model.addTreeModelListener(new TreeModelListener() {
+			
+	        public void treeNodesChanged(TreeModelEvent evt) {
+	          System.out.println("Changement dans l'arbre");
+	          initArbre();
+	        }
+	        
+	        
+	        public void treeNodesInserted(TreeModelEvent event) {
+				System.out.println("Un noeud a été inséré !");
+				
+			}
+	        
+	        
+			public void treeNodesRemoved(TreeModelEvent event) {
+				System.out.println("Un noeud a été retiré !");
+			}
+			
+			public void treeStructureChanged(TreeModelEvent event) {
+				System.out.println("La structure d'un noeud a changé !");
+			}
+        });
 		arbre = new JTree(this.racine);
+		arbre.setModel(model);
 		arbre.addTreeSelectionListener(new TreeSelectionListener(){
-
 			public void valueChanged(TreeSelectionEvent event) {
-				
-				String value = arbre.getLastSelectedPathComponent().toString();
-				
-				// Si on est dans une sauvegarde
-				if(value.matches(".*-.*-.*")){
+				if(arbre.getLastSelectedPathComponent() != null){
+					String value = arbre.getLastSelectedPathComponent().toString();
 					
-					// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
-					String url = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
-					
-					//System.out.println(laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value);
-					
-					// On créé un JEditorPane avec ce chemin absolu
-					JFrame popup = new JFrame("a");
-					
-					popup.pack();
-					popup.setVisible(true);
-					popup.setSize(840,664);
-					JEditorPane conteneur;
-					
-					try {
-						File file = new File(url+"index.html");
-						if(file != null){
-							conteneur = new JEditorPane(file.toURL());
-							
-						}else{
-							File file2 = new File(url+"index.php");
-							conteneur = new JEditorPane(file2.toURL());
-						}
-						
-						conteneur.setEditable(false);
-						JScrollPane scrollPane = new JScrollPane(conteneur);
-						popup.add(scrollPane);
-					}catch (IOException e) {e.printStackTrace();}
-					
+					// Si on est dans une sauvegarde
+					if(value.matches(".*-.*-.*")){
+						visualisation.setEnabled(true);
+						// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
+						selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
+					}else{
+						visualisation.setEnabled(false);
+					}
 				}
-					
 			}
 		});
 	}
@@ -143,4 +154,54 @@ public class VueSauvegarde extends JPanel {
 		}
 	}
 
+	//------------------
+	// Actions
+	//------------------
+	private class ActionVisualiser implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				if(selectedNode != null){
+					// On créé un JEditorPane avec ce chemin absolu
+					JFrame popup = new JFrame("a");
+					
+					popup.pack();
+					popup.setVisible(true);
+					popup.setSize(840,664);
+					JEditorPane conteneur;
+					
+					try {
+						File file = new File(selectedNode+"index.html");
+						if(file != null){
+							conteneur = new JEditorPane(file.toURL());
+							
+						}else{
+							File file2 = new File(selectedNode+"index.php");
+							conteneur = new JEditorPane(file2.toURL());
+						}
+						
+						conteneur.setEditable(false);
+						
+						conteneur.addHyperlinkListener(new HyperlinkListener() {
+						    public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent e) {
+						        if (e.getEventType() ==  HyperlinkEvent.EventType.ACTIVATED) {
+						                JEditorPane pane = (JEditorPane)e.getSource();
+						                try {
+						                    pane.setPage(e.getURL());
+						                }catch (IOException ex) {
+						                    pane.setText("ERREUR : "+ex.getMessage());
+						                }
+						        }
+						     }
+						 });
+						
+						
+						JScrollPane scrollPane = new JScrollPane(conteneur);
+						popup.add(scrollPane);
+					}catch (IOException ex) {ex.printStackTrace();}
+					
+					
+				}
+			}
+		}
 }
