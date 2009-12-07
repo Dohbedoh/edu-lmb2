@@ -9,13 +9,15 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 import java.io.*;
+import java.util.Observable;
+import java.util.Observer;
 import java.awt.*;
 import java.awt.event.*;
 
 import Aspirateur.*;
 import visualiser.*;
 
-public class VueSauvegarde extends JPanel{
+public class VueSauvegarde extends JPanel implements Observer{
 
 	//------------------
 	// Attributs
@@ -38,12 +40,26 @@ public class VueSauvegarde extends JPanel{
 	public VueSauvegarde(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
 		setLayout(new BorderLayout());
-				
+		
+		laspirateur.addObserver(this);
 		// Creation des elements
 		pathRoot = laspirateur.getPath();
-		initArbre();
+		racine = new DefaultMutableTreeNode();
+		initArbre(racine);
 		visualisation = new JButton("Visualiser");
 		refresh = new JButton("Rafraichir");
+		
+		
+		// Création du Modele
+		treeModel = new DefaultTreeModel(racine);
+		
+		// Création du JTree
+		arbre = new JTree(this.racine);
+		arbre.setModel(treeModel);
+		arbre.setEditable(true);
+		
+		// Ajout d'actions
+		arbre.addTreeSelectionListener(new ActionSelectionArbre());		
 		
 		// Ajout des elements
 		JPanel options = new JPanel(new GridLayout(1,2));
@@ -62,8 +78,9 @@ public class VueSauvegarde extends JPanel{
 		visualisation.addActionListener(new ActionVisualiser());
 		refresh.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("Reload");
-				treeModel.reload();
+				((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
+				initArbre(racine);
+				((DefaultTreeModel)arbre.getModel()).reload();
 			}
 		});
 	}//cons-1	
@@ -71,7 +88,7 @@ public class VueSauvegarde extends JPanel{
 	//------------------
 	// Methodes
 	//------------------
-	public void initArbre(){
+	public void initArbre(DefaultMutableTreeNode racine){
 		
 		// Creation du workspace
 		File workspace = new File(pathRoot);
@@ -79,11 +96,9 @@ public class VueSauvegarde extends JPanel{
 			System.out.println("Le workspace spécifié est introuvable");
 			//workspace.mkdirs();
 		}
-		
-		// Creation de la racine
-		this.racine = new DefaultMutableTreeNode();
-		
+				
 		for(File file : workspace.listFiles()) {
+			System.out.println(file.getName());
 			if(!file.isHidden()){
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
@@ -97,17 +112,7 @@ public class VueSauvegarde extends JPanel{
 			}
 		}
 		
-		// Création du Modele
-		treeModel = new DefaultTreeModel(racine);
 		
-		// Création du JTree
-		arbre = new JTree(this.racine);
-		arbre.setModel(treeModel);
-		arbre.setEditable(true);
-		
-		// Ajout d'actions
-		arbre.addTreeSelectionListener(new ActionSelectionArbre());
-		treeModel.addTreeModelListener(new ActionModeleArbre());
 	}
 	
 	private DefaultMutableTreeNode listFile(File file, DefaultMutableTreeNode node){
@@ -129,6 +134,12 @@ public class VueSauvegarde extends JPanel{
 		}
 	}
 
+	public void update(Observable o, Object arg) {
+		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
+		initArbre(racine);
+		((DefaultTreeModel)arbre.getModel()).reload();
+	}
+	
 	//------------------
 	// Actions
 	//------------------
@@ -148,27 +159,6 @@ public class VueSauvegarde extends JPanel{
 			}
 		}
 	}
-	
-	private class ActionModeleArbre implements TreeModelListener{
-
-		public void treeNodesChanged(TreeModelEvent e) {
-			System.out.println("1 - Not Yet Implemented.");
-		}
-
-		public void treeNodesInserted(TreeModelEvent e) {
-			System.out.println("2 - Not Yet Implemented.");
-		}
-
-		public void treeNodesRemoved(TreeModelEvent e) {
-			System.out.println("3 - Not Yet Implemented.");
-		}
-
-		public void treeStructureChanged(TreeModelEvent e) {
-			System.out.println("4 - Not Yet Implemented.");
-		}
-		
-	}
-	
 	
 	private class ActionVisualiser implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
