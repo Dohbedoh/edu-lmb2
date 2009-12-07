@@ -24,7 +24,8 @@ public class VueSauvegarde extends JPanel{
 	
 	private JTree arbre;
 	private DefaultMutableTreeNode racine;
-	private DefaultTreeModel model;
+	private DefaultTreeModel treeModel;
+	private String pathRoot;
 	
 	private JButton visualisation;
 	private JButton refresh;
@@ -39,6 +40,7 @@ public class VueSauvegarde extends JPanel{
 		setLayout(new BorderLayout());
 				
 		// Creation des elements
+		pathRoot = laspirateur.getPath();
 		initArbre();
 		visualisation = new JButton("Visualiser");
 		refresh = new JButton("Rafraichir");
@@ -60,7 +62,8 @@ public class VueSauvegarde extends JPanel{
 		visualisation.addActionListener(new ActionVisualiser());
 		refresh.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				model.nodeChanged(racine);
+				System.out.println("Reload");
+				treeModel.reload();
 			}
 		});
 	}//cons-1	
@@ -70,72 +73,48 @@ public class VueSauvegarde extends JPanel{
 	//------------------
 	public void initArbre(){
 		
-		// Creation de la racine
-		this.racine = new DefaultMutableTreeNode();
-		File workspace = new File(laspirateur.getPath());
-		
-		for(File file : workspace.listFiles()) {
-			DefaultMutableTreeNode lecteur = new DefaultMutableTreeNode(file.getName());
-			try {
-				for(File nom : file.listFiles()){
-					DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName()+"/");
-					
-					lecteur.add(this.listFile(nom, node));
-					
-				}
-			} catch (NullPointerException e) {}
-			
-			this.racine.add(lecteur);
-			
+		// Creation du workspace
+		File workspace = new File(pathRoot);
+		if(!workspace.exists()){
+			System.out.println("Le workspace spécifié est introuvable");
+			//workspace.mkdirs();
 		}
 		
-		this.model = new DefaultTreeModel(this.racine);
-		this.model.addTreeModelListener(new TreeModelListener() {
-			
-	        public void treeNodesChanged(TreeModelEvent evt) {
-	          System.out.println("Not Yet Implemented.");
-	        }
-	        
-	        
-	        public void treeNodesInserted(TreeModelEvent event) {
-				System.out.println("Un noeud a été inséré !");
-				
-			}
-	        
-	        
-			public void treeNodesRemoved(TreeModelEvent event) {
-				System.out.println("Un noeud a été retiré !");
-			}
-			
-			public void treeStructureChanged(TreeModelEvent event) {
-				System.out.println("La structure d'un noeud a changé !");
-			}
-        });
-		arbre = new JTree(this.racine);
-		arbre.setModel(model);
-		arbre.addTreeSelectionListener(new TreeSelectionListener(){
-			public void valueChanged(TreeSelectionEvent event) {
-				if(arbre.getLastSelectedPathComponent() != null){
-					String value = arbre.getLastSelectedPathComponent().toString();
-					
-					// Si on est dans une sauvegarde
-					if(value.matches(".*-.*-.*")){
-						visualisation.setEnabled(true);
-						// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
-						selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
-					}else{
-						visualisation.setEnabled(false);
+		// Creation de la racine
+		this.racine = new DefaultMutableTreeNode();
+		
+		for(File file : workspace.listFiles()) {
+			if(!file.isHidden()){
+				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
+				try {
+					for(File nom : file.listFiles()){
+						DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName()+"/");
+						courant.add(this.listFile(nom, node));	
 					}
-				}
+				} catch (NullPointerException e) {}
+				
+				this.racine.add(courant);
 			}
-		});
+		}
+		
+		// Création du Modele
+		treeModel = new DefaultTreeModel(racine);
+		
+		// Création du JTree
+		arbre = new JTree(this.racine);
+		arbre.setModel(treeModel);
+		arbre.setEditable(true);
+		
+		// Ajout d'actions
+		arbre.addTreeSelectionListener(new ActionSelectionArbre());
+		treeModel.addTreeModelListener(new ActionModeleArbre());
 	}
 	
 	private DefaultMutableTreeNode listFile(File file, DefaultMutableTreeNode node){
 		
-		if(file.isFile())
+		if(file.isFile()){
 			return new DefaultMutableTreeNode(file.getName());
-		else{
+		}else{
 			for(File nom : file.listFiles()){
 				DefaultMutableTreeNode subNode;
 				if(nom.isDirectory()){
@@ -153,6 +132,44 @@ public class VueSauvegarde extends JPanel{
 	//------------------
 	// Actions
 	//------------------
+	private class ActionSelectionArbre implements TreeSelectionListener {
+		public void valueChanged(TreeSelectionEvent event) {
+			if(arbre.getLastSelectedPathComponent() != null){
+				String value = arbre.getLastSelectedPathComponent().toString();
+				
+				// Si on est dans une sauvegarde
+				if(value.matches(".*-.*-.*")){
+					visualisation.setEnabled(true);
+					// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
+					selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
+				}else{
+					visualisation.setEnabled(false);
+				}
+			}
+		}
+	}
+	
+	private class ActionModeleArbre implements TreeModelListener{
+
+		public void treeNodesChanged(TreeModelEvent e) {
+			System.out.println("1 - Not Yet Implemented.");
+		}
+
+		public void treeNodesInserted(TreeModelEvent e) {
+			System.out.println("2 - Not Yet Implemented.");
+		}
+
+		public void treeNodesRemoved(TreeModelEvent e) {
+			System.out.println("3 - Not Yet Implemented.");
+		}
+
+		public void treeStructureChanged(TreeModelEvent e) {
+			System.out.println("4 - Not Yet Implemented.");
+		}
+		
+	}
+	
+	
 	private class ActionVisualiser implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (selectedNode != null) {
