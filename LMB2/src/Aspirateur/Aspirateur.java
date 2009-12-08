@@ -1,7 +1,10 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
 package Aspirateur;
 
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Observable;
-
-import javax.swing.SwingUtilities;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
@@ -67,9 +67,15 @@ public class Aspirateur extends Observable {
 	/** Nom du projet */
 	private String name;
 
-	/** Notre pool de thread */
+	/** Nos pool de thread */
 	private ThreadPool pagesPool;
 	private ThreadPool ressourcesPool;
+	
+	/** Nos filtres */
+	private ArrayList<String> filtres;
+	
+	/** Liste des urls Filtrées */
+	private ArrayList<String> urlFiltred;
 
 	// ------------------
 	// Constructeur
@@ -82,18 +88,20 @@ public class Aspirateur extends Observable {
 		pagesCopied = new ArrayList<String>();
 		ressourcesCopied = new ArrayList<String>();
 		urlErrors = new ArrayList<Exception>();
+		filtres = new ArrayList<String>();
+		urlFiltred = new ArrayList<String>();
+		filtres.add("js");
+		filtres.add("css");
+		filtres.add("jpeg");
+		filtres.add("jpg");
+		filtres.add("ico");
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
-		parser = new Parser();
-		PrototypicalNodeFactory factory;
-		factory = new PrototypicalNodeFactory();
-		/* On definit les Tag qui nous interesse */
-		factory.registerTag(new LocalLinkTag());
-		factory.registerTag(new LocalImageTag());
-		factory.registerTag(new LocalFrameTag());
-		factory.registerTag(new CSSTag());
-		factory.registerTag(new JSTag());
-		parser.setNodeFactory(factory);
+		reinitialise();
+		urlSource = "";
+		urlLocal = "";
+		path = "";
+		name = "";
 	}
 
 	// ------------------
@@ -178,26 +186,6 @@ public class Aspirateur extends Observable {
 		return urlLocal;
 	}
 
-	/**
-	 * Cette methode permet de generer le chemin absolu ou sera sauvegarde le
-	 * site
-	 */
-	public void makeURLLocal() {
-		assert (name != null || path != null) : "Il faut specifie un nom et un chemin";
-		Date date = new Date();
-
-		String URL = getPath();
-		if (URL.endsWith("/")) {
-			URL = URL.substring(0, URL.length() - 1);
-		}
-		urlLocal = URL + "/" + name + "/" + date.getDate() + "-"
-				+ (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
-		System.out.println("URL LOCAL : " + urlLocal);
-
-		// Avertir les vues que le modele change
-		setChanged();
-		notifyObservers();
-	}
 
 	/**
 	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
@@ -229,6 +217,26 @@ public class Aspirateur extends Observable {
 		notifyObservers();
 	}
 
+	/**
+	 * Ajouter un filtre
+	 * @param filtre
+	 */
+	public void addFiltre(String filtre){
+		if(!filtres.contains(filtre.toLowerCase())){
+			filtres.add(filtre.toLowerCase());
+		}
+	}
+	
+	public void removeFiltre(String filtre){
+		if(filtres.contains(filtre.toLowerCase())){
+			filtres.remove(filtre.toLowerCase());
+		}
+	}
+
+	public int getNbFiltredURL(){
+		return urlFiltred.size();
+	}
+	
 	public int getNbPagesCopiees() {
 		return this.pagesCopied.size();
 	}
@@ -252,12 +260,48 @@ public class Aspirateur extends Observable {
 	public int getNbFichiersACopies() {
 		return getNbRessourcesACopiees() + getNbPagesACopiees();
 	}
+	
 
+	/**
+	 * Procédure qui rénitialise notre aspirateur
+	 */
+	public void reinitialise(){
+		ressources.clear();
+		pages.clear();
+		ressources.clear();
+		ressources.clear();
+		pagesCopied.clear();
+		ressourcesCopied.clear();
+		urlErrors.clear();
+		urlFiltred.clear();
+		pagesPool = new ThreadPool(1);
+		ressourcesPool = new ThreadPool(2);
+		parser = new Parser();
+		PrototypicalNodeFactory factory;
+		factory = new PrototypicalNodeFactory();
+		/* On definit les Tag qui nous interesse */
+		factory.registerTag(new LocalLinkTag());
+		factory.registerTag(new LocalImageTag());
+		factory.registerTag(new LocalFrameTag());
+		factory.registerTag(new CSSTag());
+		factory.registerTag(new JSTag());
+		parser.setNodeFactory(factory);
+	}
+	
+	/**
+	 * 
+	 */
 	public void join() {
 		ressourcesPool.join();
 		pagesPool.join();
 	}
 
+	/**
+	 * 
+	 * @param link
+	 * @return
+	 * @throws ParserException
+	 */
     private boolean isHtml (String link) throws ParserException{
 	    URL url;
 	    URLConnection connection;
@@ -300,6 +344,29 @@ public class Aspirateur extends Observable {
 
 	}
 
+
+	/**
+	 * Cette methode permet de generer le chemin absolu ou sera sauvegarde le
+	 * site
+	 */
+	public void makeURLLocal() {
+		assert (name != null && path != null) : "Il faut specifie un nom et un chemin";
+		Date date = new Date();
+
+		String URL = getPath();
+		if (URL.endsWith("/")) {
+			URL = URL.substring(0, URL.length() - 1);
+		}
+		System.out.println(date.getTime());
+		urlLocal = URL + "/" + name + "/" + date.getDate() + "-"
+				+ (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
+		System.out.println("URL LOCAL : " + urlLocal);
+
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
+	
 	/**
 	 * Retourne le lien utilisé en local pour les liens du type
 	 * "<urlSource>/http://unlien.com/deuxiemeLien/fichier.qqc" Ce lien sera par
@@ -314,13 +381,26 @@ public class Aspirateur extends Observable {
 	}
 
 	/**
-	 * Fonction qui retourne si la ressource sera capturée
-	 * 
-	 * @param link
-	 *            : chemin absolue de la ressource
+	 * Fonction qui retourne si la ressource doit être capturée
+	 * @param url : chemin absolu de la ressources
 	 * @return
 	 */
-	private boolean isToBeCaptured(String link) {
+	public boolean isToBeCaptured(String url){
+		if(url.contains(".")){
+			String extension = url.substring(url.lastIndexOf(".")+1,url.length());
+			return filtres.contains(extension);
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Fonction qui retourne si la ressource appartient au domaine de l'aspiration
+	 * (si elle commence par le même préfixe que celui donné par l'utilisateur)
+	 * @param link: chemin absolue de la ressource/page
+	 * @return
+	 */
+	private boolean isRelativeToTheSource(String link) {
 		return (link.toLowerCase().startsWith(urlSource.toLowerCase()));
 	}
 
@@ -385,68 +465,19 @@ public class Aspirateur extends Observable {
 	public void launchProcess(String url) {
 		setSource(url);
 		System.out.println(urlSource);
-		pagesPool.runTask(visitTask());
+		System.out.println(urlLocal);
+		System.out.println(path);
+		System.out.println(name);
+		pagesPool.runTask(new PageTask());
 		while (pagesPool.isAlive() || ressourcesPool.isAlive()) {
 		}
-		System.out.println("fini");
 		setChanged();
 		notifyObservers();
 		afficherCopied();
+		afficherFiltred();
 		afficherErrors();
+		reinitialise();
 
-	}
-
-	public Runnable visitTask() {
-		return new Runnable() {
-
-			@Override
-			public void run() {
-					try {
-
-						String urlPage = "";
-						synchronized (pages) {
-							System.out.println("\nCurrent Page : "
-									+ pages.get(0));
-							parser.setURL(pages.get(0));
-							urlPage = pages.remove(0);
-							list = new NodeList();
-							parser.reset();
-						}
-						try {
-							for (NodeIterator it = parser.elements(); it
-									.hasMoreNodes();) {
-								list.add(it.nextNode());
-							}
-						} catch (EncodingChangeException e) {
-							/*
-							 * Si l'encodage n'est pas le bon, il faut faire un
-							 * reset et il est changé automatiquement
-							 */
-							parser.reset();
-							list = new NodeList();
-							for (NodeIterator it = parser.elements(); it
-									.hasMoreNodes();) {
-								list.add(it.nextNode());
-							}
-						}
-						copyPage(urlPage);
-						/*
-						 * afficherCopied(); afficherImages(); afficherPages();
-						 * afficherCSS(); afficherJS();
-						 */
-
-					} catch (ParserException e) {
-						urlErrors.add(e);
-						e.printStackTrace();
-						System.out.println("\nError in : " + parser.getURL()
-								+ "\n");
-						pages.remove(0);
-					}
-					if(pages.size()==0){
-						join();
-					}
-			}
-		};
 	}
 
 	/**
@@ -459,30 +490,9 @@ public class Aspirateur extends Observable {
 	public void copyPage(final String relativeURL) {
 		System.out.println("\tcapture Page : \"" + relativeURL);
 		copyHTML(relativeURL);
-		pagesCopied.add(relativeURL);
-	}
-
-	/**
-	 * Procédure qui lance l'enregistrement copie du fichier CSS d'URL
-	 * 'relativeURL'
-	 * 
-	 * @param relativeURL
-	 */
-	public Runnable copyTask() {
-		return new Runnable() {
-
-			@Override
-			public void run() {
-					System.out.println("\tcapture Ressource : \""
-							+ ressources.get(0));
-					String URL;
-					synchronized (ressources){
-						URL = ressources.remove(0);
-					}
-					copyRessources(URL);
-					ressourcesCopied.add(URL);
-			}
-		};
+		synchronized(pages){
+			pagesCopied.add(relativeURL);
+		}
 	}
 
 	/**
@@ -621,13 +631,47 @@ public class Aspirateur extends Observable {
 					.println("\t------------------------------------------------");
 			Iterator<String> it = pages.iterator();
 			while (it.hasNext()) {
-				System.out.println("\t" + urlSource + "/" + it.next());
+				System.out.println("\t" + it.next());
+			}
+			System.out
+					.println("\t------------------------------------------------");
+		}
+	}
+	
+	/**
+	 * Affichage des ressources à copier
+	 */
+	public void afficherRessources() {
+		if (ressources.size() != 0) {
+			System.out.println("\n\tRessources à copier!");
+			System.out
+					.println("\t------------------------------------------------");
+			Iterator<String> it = ressources.iterator();
+			while (it.hasNext()) {
+				System.out.println("\t" + it.next());
 			}
 			System.out
 					.println("\t------------------------------------------------");
 		}
 	}
 
+	/**
+	 * Affichage des URLS Filtrées
+	 */
+	public void afficherFiltred(){
+		if (urlFiltred.size() != 0) {
+			System.out.println("\n\tURLs Filtred!");
+			System.out
+					.println("\t------------------------------------------------");
+			Iterator<String> it = urlFiltred.iterator();
+			while (it.hasNext()) {
+				System.out.println("\t" + it.next());
+			}
+			System.out
+					.println("\t------------------------------------------------");
+		}
+	}
+	
 	/**
 	 * Affichage des erreurs
 	 */
@@ -638,7 +682,6 @@ public class Aspirateur extends Observable {
 					.println("\t------------------------------------------------");
 			Iterator<Exception> it = urlErrors.iterator();
 			while (it.hasNext()) {
-				System.out.println("\n\t");
 				System.out.println("\t" + it.next().getLocalizedMessage());
 			}
 			System.out
@@ -649,29 +692,30 @@ public class Aspirateur extends Observable {
 	/**
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
 	 * tag de type 'img' est rencontré
-	 * 
-	 * @author Stolen_Flame_57
 	 */
 	class LocalImageTag extends ImageTag {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -4246051430371965999L;
 
 		@Override
 		public void doSemanticAction() throws ParserException {
 			String image = getImageURL();
-			if (isToBeCaptured(image)) {
-				if (!ressources.contains(image) && !ressourcesCopied.contains(image)) {
-					// System.out.println("\n\t----------new Image----------");
-					// System.out.println("\tImage URL : " + image);
-					ressources.add(image);
-					ressourcesPool.runTask(copyTask());
-					image = deleteSpecialChar(toRelativeLink(makeLocalLink(
-							image, parser.getLexer().getPage().getUrl())));
-					setImageURL(image);
-					// System.out.println("\t----------------------------\n");
+			if (isRelativeToTheSource(image)) {
+				if(isToBeCaptured(image)){
+					if (!ressources.contains(image) && !ressourcesCopied.contains(image)) {
+						// System.out.println("\n\t----------new Image----------");
+						// System.out.println("\tImage URL : " + image);
+						ressources.add(image);
+						ressourcesPool.runTask(new RessourceTask());
+						image = deleteSpecialChar(toRelativeLink(makeLocalLink(
+								image, parser.getLexer().getPage().getUrl())));
+						setImageURL(image);
+						// System.out.println("\t----------------------------\n");
+					}
+				}else{
+					if(!urlFiltred.contains(image)){
+						urlFiltred.add(image);
+					}
 				}
 			}
 		}
@@ -680,34 +724,35 @@ public class Aspirateur extends Observable {
 	/**
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
 	 * tag de type 'href' est rencontré
-	 * 
-	 * @author Stolen_Flame_57
 	 */
 	class LocalLinkTag extends LinkTag {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -2082635255821131373L;
 
 		@Override
 		public void doSemanticAction() throws ParserException {
 			String link = getLink();
-			if (isToBeCaptured(link)) {
+			if (isRelativeToTheSource(link)) {
 				if (isHtml(link)) {
 					if (!pages.contains(link) && !pagesCopied.contains(link)) {
 						// System.out.println("\n\t----------new Page----------");
 						// System.out.println("\tLink URL : " + link);
 						pages.add(link);
-						pagesPool.runTask(visitTask());
+						pagesPool.runTask(new PageTask());
 						// System.out.println("\t----------------------------\n");
 					}
 				} else {
-					if (!ressources.contains(link) && !ressourcesCopied.contains(link)) {
-						// System.out.println("\n\t----------new Image----------");
-						// System.out.println("\tImage URL : " + link);
-						ressources.add(link);
-						ressourcesPool.runTask(copyTask());
+					if(isToBeCaptured(link)){
+						if (!ressources.contains(link) && !ressourcesCopied.contains(link)) {
+							// System.out.println("\n\t----------new Image----------");
+							// System.out.println("\tImage URL : " + link);
+							ressources.add(link);
+							ressourcesPool.runTask(new RessourceTask());
+						}
+					}else{
+						if(!urlFiltred.contains(link)){
+							urlFiltred.add(link);
+						}
 					}
 				}
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
@@ -720,34 +765,34 @@ public class Aspirateur extends Observable {
 	/**
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
 	 * tag de type 'href' est rencontré
-	 * 
-	 * @author Stolen_Flame_57
 	 */
 	class LocalFrameTag extends FrameTag {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -2082635255821131373L;
 
 		@Override
 		public void doSemanticAction() throws ParserException {
 			String link = getFrameLocation();
-			if (isToBeCaptured(link)) {
+			if (isRelativeToTheSource(link)) {
 				if (isHtml(link)) {
 					if (!pages.contains(link) && !pagesCopied.contains(link)) {
 						// System.out.println("\n\t----------new Page----------");
 						// System.out.println("\tLink URL : " + link);
 						pages.add(link);
-						pagesPool.runTask(visitTask());
+						pagesPool.runTask(new PageTask());
 					}
 				} else {
-					if (!ressources.contains(link)
-							&& !ressourcesCopied.contains(link)) {
-						// System.out.println("\n\t----------new Image----------");
-						// System.out.println("\tImage URL : " + link);
-						ressources.add(link);
-						ressourcesPool.runTask(copyTask());
+					if(isToBeCaptured(link)){
+						if (!ressources.contains(link) && !ressourcesCopied.contains(link)) {
+							// System.out.println("\n\t----------new Image----------");
+							// System.out.println("\tImage URL : " + link);
+							ressources.add(link);
+							ressourcesPool.runTask(new RessourceTask());
+						}
+					}else{
+						if(!urlFiltred.contains(link)){
+							urlFiltred.add(link);
+						}
 					}
 				}
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
@@ -760,9 +805,6 @@ public class Aspirateur extends Observable {
 
 	class CSSTag extends org.htmlparser.tags.HeadTag {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -2558739946355789992L;
 
 		public void doSemanticAction() throws ParserException {
@@ -773,9 +815,8 @@ public class Aspirateur extends Observable {
 			for (int i = 0; i < getChildCount(); i++) {
 				/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
 				if (getChild(i) != null
-						& getChild(i).toString().contains("rel=\"stylesheet\"")
-						& getChild(i).toString().contains(".css")) {
-					// System.out.println("OK CSS");
+						& getChild(i).toHtml().contains("rel=\"stylesheet\"")
+						& getChild(i).toHtml().contains(".css")) {
 					tagLink = ((TagNode) getChild(i));
 					int j = 0;
 					/* On cherche à présent l'attribut contenant l'URL : 'href' */
@@ -786,24 +827,41 @@ public class Aspirateur extends Observable {
 					/* On récupère seulement le lien */
 					cssLink = cssLink.substring(cssLink.indexOf('"') + 1);
 					cssLink = cssLink.substring(0, cssLink.indexOf('"'));
-					String source = getSource(parser.getLexer().getPage()
-							.getUrl());
+					String source = getSource(parser.getLexer().getPage().getUrl());
 					while (cssLink.contains("../")) {
 						source = getSource(parser.getLexer().getPage().getUrl());
 						source = source.substring(0, source.lastIndexOf("/"));
-						cssLink = cssLink
-								.substring(cssLink.lastIndexOf("../") + 3);
+						cssLink = cssLink.substring(cssLink.lastIndexOf("../") + 3);
 					}
 					/* On ajoute le préfixe */
-					cssLink = getSource(source) + "/" + cssLink;
-					if (isToBeCaptured(cssLink)) {
-						if (!ressources.contains(cssLink)
-								&& !ressourcesCopied.contains(cssLink)) {
+					int k=1;
+					String tmp = "";
+					while(k<cssLink.length()){
+						if(source.contains(cssLink.substring(0,k))){
+							tmp+=cssLink.charAt(k-1);
+						}
+						k++;
+					}
+					if(source.endsWith(tmp)){
+						cssLink = cssLink.substring(tmp.length());
+					}
+					if(cssLink.startsWith("/")){
+						cssLink = cssLink.substring(1,cssLink.length());
+					}
+					cssLink = source + "/" + cssLink;
+					if (isRelativeToTheSource(cssLink)) {
+						if(isToBeCaptured(cssLink)){
+							if (!ressources.contains(cssLink) && !ressourcesCopied.contains(cssLink)) {
 							// System.out.println("\n\t----------new CSS-----------");
 							// System.out.println("\tCSS URL : " + cssLink);
 							ressources.add(cssLink);
-							ressourcesPool.runTask(copyTask());
+							ressourcesPool.runTask(new RessourceTask());
 							// System.out.println("\t----------------------------\n");
+							}
+						}else{
+							if(!urlFiltred.contains(cssLink)){
+								urlFiltred.add(cssLink);
+							}
 						}
 					}
 				}
@@ -811,15 +869,16 @@ public class Aspirateur extends Observable {
 		}
 	}
 
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'script' est rencontré
+	 */
 	class JSTag extends org.htmlparser.tags.ScriptTag {
 
-		/**
-			 * 
-			 */
 		private static final long serialVersionUID = -2558739946355789992L;
 
 		public void doSemanticAction() throws ParserException {
-			/* le lien css que l'on recherche */
+			/* le lien js que l'on recherche */
 			String jsLink = "";
 			String[] text = new String[3];
 			text[2] = "";
@@ -832,14 +891,153 @@ public class Aspirateur extends Observable {
 				jsLink = jsLink.split(" type")[0];
 				jsLink = jsLink.replace("\"", "");
 				jsLink = jsLink.replace("\'", "");
-				if (!ressources.contains(jsLink) && !ressourcesCopied.contains(jsLink)) {
-					ressources.add(jsLink);
-					ressourcesPool.runTask(copyTask());
+				jsLink = urlSource + "/" + jsLink;
+				if(isRelativeToTheSource(jsLink)){
+					if(isToBeCaptured(jsLink)){
+						if (!ressources.contains(jsLink) && !ressourcesCopied.contains(jsLink)) {
+							ressources.add(jsLink);
+							ressourcesPool.runTask(new RessourceTask());
+						}
+						jsLink = deleteSpecialChar(toLocalLink(jsLink));
+						text[1] = "\"" + jsLink + "\"";
+						setText("<script" + text[0] + text[1] + text[2] + "></script>");
+					}else{
+						if(!urlFiltred.contains(jsLink)){
+							urlFiltred.add(jsLink);
+						}
+					}
 				}
-				jsLink = deleteSpecialChar(toLocalLink(jsLink));
-				text[1] = "\"" + jsLink + "\"";
-				setText("<script" + text[0] + text[1] + text[2] + "></script>");
 			}
 		}
+	}
+	
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'style' est rencontré
+	 */
+	class CSSStyleTag extends org.htmlparser.tags.StyleTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			
+			/* A compléter... : parser du css*/
+			
+			String link =  "";
+			if (isRelativeToTheSource(link)) {
+				if(isToBeCaptured(link)){
+					if (!ressources.contains(link)
+							&& !ressourcesCopied.contains(link)) {
+						// System.out.println("\n\t----------new CSS-----------");
+						// System.out.println("\tCSS URL : " + cssLink);
+						ressources.add(link);
+						ressourcesPool.runTask(new RessourceTask());
+						// System.out.println("\t----------------------------\n");
+					}
+				}else{
+					if(!urlFiltred.contains(link)){
+						urlFiltred.add(link);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'form' est rencontré
+	 */
+	class ActionTag extends org.htmlparser.tags.FormTag {
+		
+		/* A compléter... : récupérer le php qui gère le formulaire*/
+
+		private static final long serialVersionUID = -286453057668751110L;
+
+		public void doSemanticAction() throws ParserException {
+			String link = this.getFormMethod();
+			if (isRelativeToTheSource(link)) {
+				if(isToBeCaptured(link)){
+					if (!ressources.contains(link)
+							&& !ressourcesCopied.contains(link)) {
+						// System.out.println("\n\t----------new CSS-----------");
+						// System.out.println("\tCSS URL : " + cssLink);
+						ressources.add(link);
+						ressourcesPool.runTask(new RessourceTask());
+						// System.out.println("\t----------------------------\n");
+					}
+				}else{
+					if(!urlFiltred.contains(link)){
+						urlFiltred.add(link);
+					}
+				}
+			}
+		}
+	}
+	
+	class RessourceTask implements Runnable{
+
+		@Override
+		public void run() {
+			System.out.println("\tcapture Ressource : \""
+					+ ressources.get(0));
+			String URL;
+			synchronized (ressources){
+				URL = ressources.remove(0);
+			}
+			copyRessources(URL);
+			synchronized(ressourcesCopied){
+				ressourcesCopied.add(URL);
+			}
+		}
+		
+	}
+	
+	class PageTask implements Runnable{
+
+		@Override
+		public void run() {
+			try {
+				String urlPage = "";
+				synchronized (pages) {
+					System.out.println("\nCurrent Page : " + pages.get(0));
+					parser.setURL(pages.get(0));
+					urlPage = pages.remove(0);
+					list = new NodeList();
+					parser.reset();
+				}
+				try {
+					for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
+						list.add(it.nextNode());
+					}
+				} catch (EncodingChangeException e) {
+					/*
+					 * Si l'encodage n'est pas le bon, il faut faire un reset et
+					 * il est changé automatiquement
+					 */
+					parser.reset();
+					list = new NodeList();
+					for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
+						list.add(it.nextNode());
+					}
+				}
+				copyPage(urlPage);
+				/*
+				 * afficherCopied(); afficherImages(); afficherPages();
+				 * afficherCSS(); afficherJS();
+				 */
+
+			} catch (ParserException e) {
+				urlErrors.add(e);
+				e.printStackTrace();
+				System.out.println("\nError in : " + parser.getURL() + "\n");
+				pages.remove(0);
+			}
+			if (pages.size() == 0) {
+				join();
+			}
+		}
+		
 	}
 }
