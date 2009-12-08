@@ -98,7 +98,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 		}
 				
 		for(File file : workspace.listFiles()) {
-			System.out.println(file.getName());
+			//System.out.println(file.getName());
 			if(!file.isHidden()){
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
