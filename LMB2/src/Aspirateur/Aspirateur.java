@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Observable;
 import org.htmlparser.Parser;
@@ -56,10 +57,10 @@ public class Aspirateur extends Observable {
 	private ArrayList<String> pages;
 
 	/** Liste des ressources déjà copiées */
-	private ArrayList<String> ressourcesCopied;
+	private HashSet<String> ressourcesCopied;
 
 	/** Liste des pages déjà copiées */
-	private ArrayList<String> pagesCopied;
+	private HashSet<String> pagesCopied;
 
 	/** Liste des erreurs */
 	private ArrayList<Exception> urlErrors;
@@ -76,6 +77,9 @@ public class Aspirateur extends Observable {
 	
 	/** Liste des urls Filtrées */
 	private ArrayList<String> urlFiltred;
+	
+	/** Indicateur de profondeur de pages*/
+	private int profondeur;
 
 	// ------------------
 	// Constructeur
@@ -83,10 +87,8 @@ public class Aspirateur extends Observable {
 	public Aspirateur() {
 		ressources = new ArrayList<String>();
 		pages = new ArrayList<String>();
-		ressources = new ArrayList<String>();
-		ressources = new ArrayList<String>();
-		pagesCopied = new ArrayList<String>();
-		ressourcesCopied = new ArrayList<String>();
+		pagesCopied = new HashSet<String>();
+		ressourcesCopied = new HashSet<String>();
 		urlErrors = new ArrayList<Exception>();
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
@@ -95,6 +97,9 @@ public class Aspirateur extends Observable {
 		filtres.add("jpeg");
 		filtres.add("jpg");
 		filtres.add("ico");
+		filtres.add("pdf");
+		filtres.add("gif");
+		profondeur = -1;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
 		reinitialise();
@@ -261,6 +266,35 @@ public class Aspirateur extends Observable {
 		return getNbRessourcesACopiees() + getNbPagesACopiees();
 	}
 	
+	/**
+	 * La profondeur en terme de pages
+	 * @return
+	 */
+	public int getProfondeur(){
+		return profondeur;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isNotTooDeep(String url){
+    	if(profondeur>=0){
+	    	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
+			if(tmp.startsWith("/")){
+				tmp =  tmp.substring(1,tmp.length());
+			}
+			int i = 0;
+			while(tmp.indexOf("/")!=-1){
+				tmp = tmp.substring(tmp.indexOf("/")+1);
+				i++;
+			}
+			if(i<=profondeur){
+				return true;
+			}
+			return false;
+    	}
+    	return true;
+	}
 
 	/**
 	 * Procédure qui rénitialise notre aspirateur
@@ -326,6 +360,21 @@ public class Aspirateur extends Observable {
 	    return (ret);
 	}
 
+    /**
+     * Retourne vrai si le lien semble être une page (donc du contenu html)
+     * @param url
+     * @return
+     */
+    private boolean isPage(String url){
+    	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
+		return (url.toLowerCase().contains(".htm")||
+				tmp.indexOf("?")!=-1 || 
+				tmp.indexOf("&")!=-1 ||
+				tmp.indexOf(".")==-1 ||
+				url.toLowerCase().contains(".htm") ||
+				url.toLowerCase().contains(".php"));
+    }
+    
 	/**
 	 * Fonction qui retourne si la ressource sera capturée
 	 * 
@@ -387,11 +436,10 @@ public class Aspirateur extends Observable {
 	 */
 	public boolean isToBeCaptured(String url){
 		if(url.contains(".")){
-			String extension = url.substring(url.lastIndexOf(".")+1,url.length());
-			return filtres.contains(extension);
-		}else{
-			return false;
+			String extension = url.substring(url.lastIndexOf(".")+1,url.length()).toLowerCase();
+			return (filtres.contains(extension) && !url.contains("#"));
 		}
+		return false;
 	}
 	
 	/**
@@ -465,9 +513,6 @@ public class Aspirateur extends Observable {
 	public void launchProcess(String url) {
 		setSource(url);
 		System.out.println(urlSource);
-		System.out.println(urlLocal);
-		System.out.println(path);
-		System.out.println(name);
 		pagesPool.runTask(new PageTask());
 		while (pagesPool.isAlive() || ressourcesPool.isAlive()) {
 		}
@@ -490,9 +535,7 @@ public class Aspirateur extends Observable {
 	public void copyPage(final String relativeURL) {
 		System.out.println("\tcapture Page : \"" + relativeURL);
 		copyHTML(relativeURL);
-		synchronized(pages){
-			pagesCopied.add(relativeURL);
-		}
+		pagesCopied.add(relativeURL);
 	}
 
 	/**
@@ -733,13 +776,19 @@ public class Aspirateur extends Observable {
 		public void doSemanticAction() throws ParserException {
 			String link = getLink();
 			if (isRelativeToTheSource(link)) {
-				if (isHtml(link)) {
-					if (!pages.contains(link) && !pagesCopied.contains(link)) {
-						// System.out.println("\n\t----------new Page----------");
-						// System.out.println("\tLink URL : " + link);
-						pages.add(link);
-						pagesPool.runTask(new PageTask());
-						// System.out.println("\t----------------------------\n");
+				if (isPage(link)) {
+					if(isNotTooDeep(link)){
+						if (!pages.contains(link) && !pagesCopied.contains(link)) {
+							// System.out.println("\n\t----------new Page----------");
+							// System.out.println("\tLink URL : " + link);
+							pages.add(link);
+							pagesPool.runTask(new PageTask());
+							// System.out.println("\t----------------------------\n");
+						}
+					}else{
+						if(!urlFiltred.contains(link)){
+							urlFiltred.add(link);
+						}
 					}
 				} else {
 					if(isToBeCaptured(link)){
@@ -774,12 +823,18 @@ public class Aspirateur extends Observable {
 		public void doSemanticAction() throws ParserException {
 			String link = getFrameLocation();
 			if (isRelativeToTheSource(link)) {
-				if (isHtml(link)) {
-					if (!pages.contains(link) && !pagesCopied.contains(link)) {
-						// System.out.println("\n\t----------new Page----------");
-						// System.out.println("\tLink URL : " + link);
-						pages.add(link);
-						pagesPool.runTask(new PageTask());
+				if (isPage(link)) {
+					if(isNotTooDeep(link)){
+						if (!pages.contains(link) && !pagesCopied.contains(link)) {
+							// System.out.println("\n\t----------new Page----------");
+							// System.out.println("\tLink URL : " + link);
+							pages.add(link);
+							pagesPool.runTask(new PageTask());
+						}
+					}else{
+						if(!urlFiltred.contains(link)){
+							urlFiltred.add(link);
+						}
 					}
 				} else {
 					if(isToBeCaptured(link)){
@@ -891,20 +946,22 @@ public class Aspirateur extends Observable {
 				jsLink = jsLink.split(" type")[0];
 				jsLink = jsLink.replace("\"", "");
 				jsLink = jsLink.replace("\'", "");
-				jsLink = urlSource + "/" + jsLink;
-				if(isRelativeToTheSource(jsLink)){
-					if(isToBeCaptured(jsLink)){
-						if (!ressources.contains(jsLink) && !ressourcesCopied.contains(jsLink)) {
-							ressources.add(jsLink);
-							ressourcesPool.runTask(new RessourceTask());
-						}
-						jsLink = deleteSpecialChar(toLocalLink(jsLink));
-						text[1] = "\"" + jsLink + "\"";
-						setText("<script" + text[0] + text[1] + text[2] + "></script>");
-					}else{
-						if(!urlFiltred.contains(jsLink)){
-							urlFiltred.add(jsLink);
-						}
+				if(!jsLink.startsWith("http://")){
+					jsLink = urlSource + "/" + jsLink;
+				}
+				if (isToBeCaptured(jsLink)) {
+					if (!ressources.contains(jsLink)
+							&& !ressourcesCopied.contains(jsLink)) {
+						ressources.add(jsLink);
+						ressourcesPool.runTask(new RessourceTask());
+					}
+					jsLink = deleteSpecialChar(toLocalLink(jsLink));
+					text[1] = "\"" + jsLink + "\"";
+					setText("<script" + text[0] + text[1] + text[2]
+							+ "></script>");
+				}else {
+					if (!urlFiltred.contains(jsLink)) {
+						urlFiltred.add(jsLink);
 					}
 				}
 			}
@@ -984,12 +1041,10 @@ public class Aspirateur extends Observable {
 					+ ressources.get(0));
 			String URL;
 			synchronized (ressources){
-				URL = ressources.remove(0);
+				URL = ressources.remove(0);	
 			}
 			copyRessources(URL);
-			synchronized(ressourcesCopied){
-				ressourcesCopied.add(URL);
-			}
+			ressourcesCopied.add(URL);
 		}
 		
 	}
