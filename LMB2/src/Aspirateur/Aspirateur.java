@@ -101,9 +101,10 @@ public class Aspirateur extends Observable {
 		filtres.add("jpeg");
 		filtres.add("jpg");
 		filtres.add("ico");
-		filtres.add("gif");
+		/*filtres.add("gif");
 		filtres.add("png");
 		filtres.add("log");
+		filtres.add("pdf");*/
 		profondeur = -1;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
@@ -422,7 +423,6 @@ public class Aspirateur extends Observable {
 		if (URL.endsWith("/")) {
 			URL = URL.substring(0, URL.length() - 1);
 		}
-		System.out.println(date.getTime());
 		urlLocal = URL + "/" + name + "/" + date.getDate() + "-"
 				+ (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
 		System.out.println("URL LOCAL : " + urlLocal);
@@ -907,55 +907,57 @@ public class Aspirateur extends Observable {
 			String cssLink = "";
 			/* Le Tag "link" dans lequel est de trouve l'URL */
 			TagNode tagLink = null;
-			for (int i = 0; i < getChildCount(); i++) {
-				/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
-				if (getChild(i) != null
-						& getChild(i).toHtml().contains("rel=\"stylesheet\"")
-						& getChild(i).toHtml().contains(".css")) {
-					tagLink = ((TagNode) getChild(i));
-					int j = 0;
-					/* On cherche à présent l'attribut contenant l'URL : 'href' */
-					while (!cssLink.contains("href")) {
-						cssLink = tagLink.getAttributesEx().get(j).toString();
-						j++;
-					}
-					/* On récupère seulement le lien */
-					cssLink = cssLink.substring(cssLink.indexOf('"') + 1);
-					cssLink = cssLink.substring(0, cssLink.indexOf('"'));
-					String source = getSource(parser.getLexer().getPage().getUrl());
-					while (cssLink.contains("../")) {
-						source = getSource(parser.getLexer().getPage().getUrl());
-						source = source.substring(0, source.lastIndexOf("/"));
-						cssLink = cssLink.substring(cssLink.lastIndexOf("../") + 3);
-					}
-					/* On ajoute le préfixe */
-					int k=1;
-					String tmp = "";
-					while(k<cssLink.length()){
-						if(source.contains(cssLink.substring(0,k))){
-							tmp+=cssLink.charAt(k-1);
+			if(isToBeCaptured(cssLink)){
+				for (int i = 0; i < getChildCount(); i++) {
+					/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
+					if (getChild(i) != null
+							&& getChild(i).toHtml().contains("rel=\"stylesheet\"")
+							&& getChild(i).toHtml().contains(".css")) {
+						tagLink = ((TagNode) getChild(i));
+						int j = 0;
+						/* On cherche à présent l'attribut contenant l'URL : 'href' */
+						while (!cssLink.contains("href")) {
+							cssLink = tagLink.getAttributesEx().get(j).toString();
+							j++;
 						}
-						k++;
-					}
-					if(source.endsWith(tmp)){
-						cssLink = cssLink.substring(tmp.length());
-					}
-					if(cssLink.startsWith("/")){
-						cssLink = cssLink.substring(1,cssLink.length());
-					}
-					cssLink = source + "/" + cssLink;
-					if (isRelativeToTheSource(cssLink)) {
-						if(isToBeCaptured(cssLink)){
-							if (!ressources.contains(cssLink) && !ressourcesCopied.contains(cssLink)) {
-							// System.out.println("\n\t----------new CSS-----------");
-							// System.out.println("\tCSS URL : " + cssLink);
-							ressources.add(cssLink);
-							ressourcesPool.runTask(new RessourceTask());
-							// System.out.println("\t----------------------------\n");
+						/* On récupère seulement le lien */
+						cssLink = cssLink.substring(cssLink.indexOf('"') + 1);
+						cssLink = cssLink.substring(0, cssLink.indexOf('"'));
+						String source = getSource(parser.getLexer().getPage().getUrl());
+						while (cssLink.contains("../")) {
+							source = getSource(parser.getLexer().getPage().getUrl());
+							source = source.substring(0, source.lastIndexOf("/"));
+							cssLink = cssLink.substring(cssLink.lastIndexOf("../") + 3);
+						}
+						/* On ajoute le préfixe */
+						int k=1;
+						String tmp = "";
+						while(k<cssLink.length()){
+							if(source.contains(cssLink.substring(0,k))){
+								tmp+=cssLink.charAt(k-1);
 							}
-						}else{
-							if(!urlFiltred.contains(cssLink)){
-								urlFiltred.add(cssLink);
+							k++;
+						}
+						if(source.endsWith(tmp)){
+							cssLink = cssLink.substring(tmp.length());
+						}
+						if(cssLink.startsWith("/")){
+							cssLink = cssLink.substring(1,cssLink.length());
+						}
+						cssLink = source + "/" + cssLink;
+						if (isRelativeToTheSource(cssLink)) {
+							if(isToBeCaptured(cssLink)){
+								if (!ressources.contains(cssLink) && !ressourcesCopied.contains(cssLink)) {
+								// System.out.println("\n\t----------new CSS-----------");
+								// System.out.println("\tCSS URL : " + cssLink);
+								ressources.add(cssLink);
+								ressourcesPool.runTask(new RessourceTask());
+								// System.out.println("\t----------------------------\n");
+								}
+							}else{
+								if(!urlFiltred.contains(cssLink)){
+									urlFiltred.add(cssLink);
+								}
 							}
 						}
 					}
