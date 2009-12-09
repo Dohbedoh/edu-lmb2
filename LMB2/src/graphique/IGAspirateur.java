@@ -33,8 +33,8 @@ public class IGAspirateur extends JFrame{
 		
 		// Valeurs par defaut du modele
 		laspirateur.setName("TestLMB2");
-		laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
-		//laspirateur.setPath("C:/LMB2/");
+		//laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
+		laspirateur.setPath("C:/LMB2/");
 		
 		// Creation des vues
 		vueMenu = new VueMenu(laspirateur);

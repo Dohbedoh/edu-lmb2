@@ -4,6 +4,9 @@
 
 package visualiser;
 
+import graphique.IGAspirateur;
+
+
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -13,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 
 
 public class Navigateur extends JFrame{
@@ -21,6 +26,11 @@ public class Navigateur extends JFrame{
 	// Attributs
 	//------------------
 	String path;
+	URL previousURL;
+	//ArrayList<URL> previousURL = new ArrayList<URL>();
+	URL nextURL;
+	//ArrayList<URL> nextURL = new ArrayList<URL>();
+	
 	
 	JEditorPane conteneur;
 	JButton precedent;
@@ -50,15 +60,20 @@ public class Navigateur extends JFrame{
 				File file2 = new File(path + "index.php");
 				conteneur = new JEditorPane(file2.toURL());
 			}
-
+			
 			// Options des éléments graphiques
 			conteneur.setEditable(false);
+			precedent.setEnabled(false);
+			suivant.setEnabled(false);
 			conteneur.addHyperlinkListener(new HyperlinkListener() {
 				public void hyperlinkUpdate(HyperlinkEvent e) {
 					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						JEditorPane pane = (JEditorPane) e.getSource();
+						previousURL = ((JEditorPane)e.getSource()).getPage() ;
+						precedent.setEnabled(true);
 						try {
 							pane.setPage(e.getURL());
+							nextURL = e.getURL() ;
 						} catch (IOException ex) {
 							pane.setText("ERREUR : " + ex.getMessage());
 						}
@@ -68,17 +83,17 @@ public class Navigateur extends JFrame{
 			
 			precedent.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					/*
-					 * A FAIRE
-					 */
+					try {
+						conteneur.setPage(previousURL);
+					} catch (IOException e1) {}
 				}
 			});
 			
 			suivant.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					/*
-					 * A FAIRE
-					 */
+					try {
+						conteneur.setPage(nextURL);
+					} catch (IOException e1) {}
 				}
 			});
 			
@@ -111,5 +126,12 @@ public class Navigateur extends JFrame{
 	//--------------
 	// Methodes
 	//--------------
+	
+	//------------------
+	// Main
+	//------------------
+	public static void main(String arg[]){
+		new Navigateur("C:/LMB2/Test1/7-12-2009/");
+	}
 
 }
