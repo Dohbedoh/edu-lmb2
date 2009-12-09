@@ -26,10 +26,10 @@ public class Navigateur extends JFrame{
 	// Attributs
 	//------------------
 	String path;
-	URL previousURL;
-	//ArrayList<URL> previousURL = new ArrayList<URL>();
-	URL nextURL;
-	//ArrayList<URL> nextURL = new ArrayList<URL>();
+	//URL previousURL;
+	ArrayList<URL> previousURL = new ArrayList<URL>();
+	//URL nextURL;
+	ArrayList<URL> nextURL = new ArrayList<URL>();
 	
 	
 	JEditorPane conteneur;
@@ -69,11 +69,12 @@ public class Navigateur extends JFrame{
 				public void hyperlinkUpdate(HyperlinkEvent e) {
 					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						JEditorPane pane = (JEditorPane) e.getSource();
-						previousURL = ((JEditorPane)e.getSource()).getPage() ;
-						precedent.setEnabled(true);
+						previousURL.add(((JEditorPane)e.getSource()).getPage()) ;
+						if(previousURL.size()>0)
+							precedent.setEnabled(true);
 						try {
 							pane.setPage(e.getURL());
-							nextURL = e.getURL() ;
+							nextURL.add(e.getURL()) ;
 						} catch (IOException ex) {
 							pane.setText("ERREUR : " + ex.getMessage());
 						}
@@ -84,7 +85,11 @@ public class Navigateur extends JFrame{
 			precedent.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					try {
-						conteneur.setPage(previousURL);
+						conteneur.setPage(previousURL.get(previousURL.size()-1));
+						previousURL.remove(previousURL.get(previousURL.size()-1));
+						suivant.setEnabled(true);
+						if(previousURL.size()==0)
+							precedent.setEnabled(false);
 					} catch (IOException e1) {}
 				}
 			});
@@ -92,7 +97,12 @@ public class Navigateur extends JFrame{
 			suivant.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					try {
-						conteneur.setPage(nextURL);
+						//previousURL.add(((JEditorPane)e.getSource()).getPage());
+						conteneur.setPage(nextURL.get(nextURL.size()-1));
+						nextURL.remove(nextURL.get(nextURL.size()-1));
+						precedent.setEnabled(true);
+						if(nextURL.size()==0)
+							suivant.setEnabled(false);
 					} catch (IOException e1) {}
 				}
 			});
