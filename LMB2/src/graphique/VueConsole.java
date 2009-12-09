@@ -39,7 +39,7 @@ public class VueConsole extends JPanel{
 
 		// Options des elements graphiques
 		laconsole.setEditable(false);
-		laconsole.setFont(new Font("TimesRoman",Font.PLAIN,10));
+		laconsole.setFont(new Font("TimesRoman",Font.PLAIN,12));
 		
 		this.setBorder(BorderFactory.createTitledBorder("Console"));
 	}//cons-1

@@ -137,7 +137,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
 		initArbre(racine);
-		((DefaultTreeModel)arbre.getModel()).reload();
+		//((DefaultTreeModel)arbre.getModel()).reload();
 	}
 	
 	//------------------

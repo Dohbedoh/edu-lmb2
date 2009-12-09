@@ -78,6 +78,9 @@ public class Aspirateur extends Observable {
 	/** Liste des urls Filtrées */
 	private ArrayList<String> urlFiltred;
 	
+	/** Liste des extension Filtrées */
+	private HashSet<String> extensionsFiltred;
+	
 	/** Indicateur de profondeur de pages*/
 	private int profondeur;
 
@@ -92,13 +95,15 @@ public class Aspirateur extends Observable {
 		urlErrors = new ArrayList<Exception>();
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
+		extensionsFiltred = new HashSet<String>();
 		filtres.add("js");
 		filtres.add("css");
 		filtres.add("jpeg");
 		filtres.add("jpg");
 		filtres.add("ico");
-		filtres.add("pdf");
 		filtres.add("gif");
+		filtres.add("png");
+		filtres.add("log");
 		profondeur = -1;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
@@ -275,6 +280,15 @@ public class Aspirateur extends Observable {
 	}
 	
 	/**
+	 * Changer la profondeur
+	 * <0 pour effectuer l'aspiration sans profondeur
+	 * @param prof
+	 */
+	public void setProfondeur(int prof){
+		profondeur = prof;
+	}
+	
+	/**
 	 * 
 	 */
 	public boolean isNotTooDeep(String url){
@@ -308,6 +322,7 @@ public class Aspirateur extends Observable {
 		ressourcesCopied.clear();
 		urlErrors.clear();
 		urlFiltred.clear();
+		extensionsFiltred.clear();
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
 		parser = new Parser();
@@ -367,9 +382,9 @@ public class Aspirateur extends Observable {
      */
     private boolean isPage(String url){
     	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
-		return (url.toLowerCase().contains(".htm")||
-				tmp.indexOf("?")!=-1 || 
+		return (tmp.indexOf("?")!=-1 || 
 				tmp.indexOf("&")!=-1 ||
+				tmp.indexOf("#")!=-1 ||
 				tmp.indexOf(".")==-1 ||
 				url.toLowerCase().contains(".htm") ||
 				url.toLowerCase().contains(".php"));
@@ -388,6 +403,7 @@ public class Aspirateur extends Observable {
 			res = res.replace("?", "");
 			res = res.replace("*", "");
 			res = res.replace(":", "");
+			res = res.replace("#", "");
 		}
 		return res;
 
@@ -437,7 +453,13 @@ public class Aspirateur extends Observable {
 	public boolean isToBeCaptured(String url){
 		if(url.contains(".")){
 			String extension = url.substring(url.lastIndexOf(".")+1,url.length()).toLowerCase();
-			return (filtres.contains(extension) && !url.contains("#"));
+			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
+				if(!extensionsFiltred.contains(extension)){
+					extensionsFiltred.add(extension);
+				}
+			}else{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -520,6 +542,7 @@ public class Aspirateur extends Observable {
 		notifyObservers();
 		afficherCopied();
 		afficherFiltred();
+		afficherExtentionsFiltred();
 		afficherErrors();
 		reinitialise();
 
@@ -707,6 +730,23 @@ public class Aspirateur extends Observable {
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = urlFiltred.iterator();
+			while (it.hasNext()) {
+				System.out.println("\t" + it.next());
+			}
+			System.out
+					.println("\t------------------------------------------------");
+		}
+	}
+	
+	/**
+	 * Affichage des extensions Filtrées
+	 */
+	public void afficherExtentionsFiltred(){
+		if (extensionsFiltred.size() != 0) {
+			System.out.println("\n\tExtensions Filtred!");
+			System.out
+					.println("\t------------------------------------------------");
+			Iterator<String> it = extensionsFiltred.iterator();
 			while (it.hasNext()) {
 				System.out.println("\t" + it.next());
 			}
@@ -1041,10 +1081,10 @@ public class Aspirateur extends Observable {
 					+ ressources.get(0));
 			String URL;
 			synchronized (ressources){
-				URL = ressources.remove(0);	
+				URL = ressources.remove(0);
+				ressourcesCopied.add(URL);
 			}
 			copyRessources(URL);
-			ressourcesCopied.add(URL);
 		}
 		
 	}
@@ -1055,13 +1095,13 @@ public class Aspirateur extends Observable {
 		public void run() {
 			try {
 				String urlPage = "";
-				synchronized (pages) {
+				synchronized (pages.get(0)) {
 					System.out.println("\nCurrent Page : " + pages.get(0));
 					parser.setURL(pages.get(0));
 					urlPage = pages.remove(0);
-					list = new NodeList();
-					parser.reset();
 				}
+				list = new NodeList();
+				parser.reset();
 				try {
 					for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
 						list.add(it.nextNode());
@@ -1087,7 +1127,9 @@ public class Aspirateur extends Observable {
 				urlErrors.add(e);
 				e.printStackTrace();
 				System.out.println("\nError in : " + parser.getURL() + "\n");
-				pages.remove(0);
+				synchronized(pages){
+					pages.remove(0);
+				};
 			}
 			if (pages.size() == 0) {
 				join();
