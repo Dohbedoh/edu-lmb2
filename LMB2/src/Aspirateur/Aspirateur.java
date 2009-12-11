@@ -24,7 +24,6 @@ import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.FrameTag;
 import org.htmlparser.tags.ImageTag;
-import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.EncodingChangeException;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
@@ -333,7 +332,7 @@ public class Aspirateur extends Observable {
 		factory.registerTag(new LocalLinkTag());
 		factory.registerTag(new LocalImageTag());
 		factory.registerTag(new LocalFrameTag());
-		factory.registerTag(new CSSTag());
+		//factory.registerTag(new CSSTag());
 		factory.registerTag(new JSTag());
 		parser.setNodeFactory(factory);
 	}
@@ -533,11 +532,14 @@ public class Aspirateur extends Observable {
 	 * des ressources incluses dans la pages (images, css, etc...)
 	 */
 	public void launchProcess(String url) {
+		long time = System.currentTimeMillis();
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
 		while (pagesPool.isAlive() || ressourcesPool.isAlive()) {
 		}
+		time = System.currentTimeMillis()-time;
+		System.out.println("Temps d'éxecution : " + time);
 		setChanged();
 		notifyObservers();
 		afficherCopied();
@@ -907,17 +909,17 @@ public class Aspirateur extends Observable {
 			String cssLink = "";
 			/* Le Tag "link" dans lequel est de trouve l'URL */
 			TagNode tagLink = null;
-			if(isToBeCaptured(cssLink)){
+			//if(isToBeCaptured(cssLink)){
 				for (int i = 0; i < getChildCount(); i++) {
 					/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
 					if (getChild(i) != null
-							&& getChild(i).toHtml().contains("rel=\"stylesheet\"")
-							&& getChild(i).toHtml().contains(".css")) {
+							&& getChild(i).toHtml().toLowerCase().contains("rel=\"stylesheet\"")
+							&& getChild(i).toHtml().toLowerCase().contains(".css")) {
 						tagLink = ((TagNode) getChild(i));
 						int j = 0;
 						/* On cherche à présent l'attribut contenant l'URL : 'href' */
 						while (!cssLink.contains("href")) {
-							cssLink = tagLink.getAttributesEx().get(j).toString();
+							cssLink = tagLink.getAttributesEx().get(j).toString().toLowerCase();
 							j++;
 						}
 						/* On récupère seulement le lien */
@@ -962,7 +964,7 @@ public class Aspirateur extends Observable {
 						}
 					}
 				}
-			}
+			//}
 		}
 	}
 
