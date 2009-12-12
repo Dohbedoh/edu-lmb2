@@ -399,11 +399,14 @@ public class Aspirateur extends Observable {
 	 */
 	private String deleteSpecialChar(String str) {
 		String res = str;
-		while (res.contains("?")) {
-			res = res.replace("?", "");
+		if(str.contains("?")){
+				res = res.replace("?", "");
+		}
+		if(str.contains("*")){
 			res = res.replace("*", "");
+		}
+		if(str.contains(":")){
 			res = res.replace(":", "");
-			res = res.replace("#", "");
 		}
 		return res;
 
