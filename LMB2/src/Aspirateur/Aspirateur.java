@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +24,6 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
@@ -104,15 +102,15 @@ public class Aspirateur extends Observable {
 		extensionsFiltred = new HashSet<String>();
 		filtres.add("js");
 		filtres.add("css");
-		//filtres.add("jpeg");
-		//filtres.add("jpg");
-		//filtres.add("ico");
-		/*filtres.add("gif");
+		/*filtres.add("jpeg");
+		filtres.add("jpg");
+		filtres.add("ico");
+		filtres.add("gif");
 		filtres.add("png");
 		filtres.add("log");
 		filtres.add("pdf");*/
 		profondeur = -1;
-		pagesPool = new ThreadPool(1);
+		pagesPool = new ThreadPool(2);
 		ressourcesPool = new ThreadPool(3);
 		reinitialise();
 		urlSource = "";
@@ -694,7 +692,11 @@ public class Aspirateur extends Observable {
 			if(link.endsWith("/")){
 				link+="index.html";
 			}else{
-				if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
+				if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
+						link.indexOf("?")==-1 && 
+						link.indexOf("&")==1  &&
+						link.indexOf("#")==1
+						){
 					link+="/index.html";
 				}
 			}
@@ -1082,8 +1084,6 @@ public class Aspirateur extends Observable {
 				jsLink = jsLink.split(" type")[0];
 				jsLink = jsLink.replace("\"", "");
 				jsLink = jsLink.replace("\'", "");
-				System.err.println("JS : " + jsLink);
-				System.err.println("source : " + urlSource);
 				if(!jsLink.startsWith("http://")){
 					if(!urlSource.endsWith("/") && !jsLink.startsWith("/")){
 						jsLink = urlSource + "/" + jsLink;
@@ -1172,21 +1172,6 @@ public class Aspirateur extends Observable {
 					}
 				}
 			}
-		}
-	}
-	
-	class CSSTask implements Runnable{
-
-		@Override
-		public void run() {
-			System.out.println("\tcapture Ressource : \""
-					+ ressources.get(0));
-			String URL;
-			synchronized (ressources){
-				URL = ressources.remove(0);
-				ressourcesCopied.add(URL);
-			}
-			copyRessources(URL);
 		}
 	}
 	
