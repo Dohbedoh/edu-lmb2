@@ -4,11 +4,15 @@
 
 package Aspirateur;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -19,6 +23,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.nodes.TagNode;
@@ -105,7 +112,7 @@ public class Aspirateur extends Observable {
 		filtres.add("log");
 		filtres.add("pdf");*/
 		profondeur = -1;
-		pagesPool = new ThreadPool(2);
+		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(3);
 		reinitialise();
 		urlSource = "";
@@ -592,6 +599,7 @@ public class Aspirateur extends Observable {
 			FileOutputStream out;
 			URL source = new URL(URL);
 			byte[] data = new byte[1024];
+			
 			try {
 				in = source.openStream();
 				try {
@@ -608,6 +616,18 @@ public class Aspirateur extends Observable {
 					fnfe.printStackTrace();
 				} finally {
 					in.close();
+					if(URL.endsWith(".css")){
+						String page = "";
+						in = new FileInputStream(file);
+						InputStreamReader ipsr = new InputStreamReader(in);
+						BufferedReader br = new BufferedReader(ipsr);
+						String ligne;
+						while ((ligne=br.readLine())!=null){
+							page+=ligne+"\n";
+						}
+						br.close(); 
+						treatCSS(page, URL.substring(0, URL.lastIndexOf("/")));
+					}
 				}
 			} catch (FileNotFoundException fnfe) {
 				urlErrors.add(fnfe);
@@ -623,6 +643,42 @@ public class Aspirateur extends Observable {
 		notifyObservers();
 	}
 
+	/**
+	 * Fonction qui parse le CSS pour récupérer les images
+	 * @param page
+	 */
+	private void treatCSS(String page, String urlPage) {
+
+		System.err.println("//on parse le css//");
+		Pattern p = Pattern.compile("url\\(.*\\)");
+		Matcher m = p.matcher(page);
+		while (m.find()) {
+			String temp = page.substring(m.start(), m.end());
+			temp = temp.substring(4);
+			temp = temp.substring(0, temp.length() - 1);
+			temp = temp.replace("'", "");
+			temp = temp.replace("\"", "");
+			if (!temp.contains(urlSource)) {
+				if (temp.startsWith("/")) {
+					//ressources.add(urlPage + temp);
+					//ressourcesPool.runTask(new RessourceTask());
+					copyRessources(urlPage + temp);
+					ressourcesCopied.add(urlPage + temp);
+				} else {
+					//ressources.add(urlPage + "/" + temp);
+					//ressourcesPool.runTask(new RessourceTask());
+					copyRessources(urlPage + "/" + temp);
+					ressourcesCopied.add(urlPage +"/"+ temp);
+				}
+
+			} else
+				//ressources.add(temp);
+				//ressourcesPool.runTask(new RessourceTask());
+				copyRessources(temp);
+				ressourcesCopied.add(temp);
+		}
+	}
+	
 	/**
 	 * Procédure qui copie le contenu de la page HTML "parsée" et l'enregistre
 	 * sous le lien local correspondant
@@ -1119,6 +1175,21 @@ public class Aspirateur extends Observable {
 		}
 	}
 	
+	class CSSTask implements Runnable{
+
+		@Override
+		public void run() {
+			System.out.println("\tcapture Ressource : \""
+					+ ressources.get(0));
+			String URL;
+			synchronized (ressources){
+				URL = ressources.remove(0);
+				ressourcesCopied.add(URL);
+			}
+			copyRessources(URL);
+		}
+	}
+	
 	class RessourceTask implements Runnable{
 
 		@Override
@@ -1132,7 +1203,6 @@ public class Aspirateur extends Observable {
 			}
 			copyRessources(URL);
 		}
-		
 	}
 	
 	class PageTask implements Runnable{
