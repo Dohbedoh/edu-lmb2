@@ -97,16 +97,16 @@ public class Aspirateur extends Observable {
 		extensionsFiltred = new HashSet<String>();
 		filtres.add("js");
 		filtres.add("css");
-		filtres.add("jpeg");
-		filtres.add("jpg");
-		filtres.add("ico");
+		//filtres.add("jpeg");
+		//filtres.add("jpg");
+		//filtres.add("ico");
 		/*filtres.add("gif");
 		filtres.add("png");
 		filtres.add("log");
 		filtres.add("pdf");*/
 		profondeur = -1;
-		pagesPool = new ThreadPool(1);
-		ressourcesPool = new ThreadPool(2);
+		pagesPool = new ThreadPool(2);
+		ressourcesPool = new ThreadPool(3);
 		reinitialise();
 		urlSource = "";
 		urlLocal = "";
@@ -382,12 +382,19 @@ public class Aspirateur extends Observable {
      */
     private boolean isPage(String url){
     	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
-		return (tmp.indexOf("?")!=-1 || 
+    	if(tmp.length()>urlSource.length()){
+    		tmp = url.substring(url.lastIndexOf("/"));
+    	}
+    	
+		return(url!=urlSource &&
+				(tmp.indexOf("?")!=-1 || 
 				tmp.indexOf("&")!=-1 ||
 				tmp.indexOf("#")!=-1 ||
 				tmp.indexOf(".")==-1 ||
-				url.toLowerCase().contains(".htm") ||
-				url.toLowerCase().contains(".php"));
+				url.toLowerCase().endsWith(".htm")||
+				url.toLowerCase().endsWith(".php")||
+				url.toLowerCase().endsWith(".html")||
+				url.toLowerCase().endsWith("/")));
     }
     
 	/**
@@ -425,8 +432,7 @@ public class Aspirateur extends Observable {
 		if (URL.endsWith("/")) {
 			URL = URL.substring(0, URL.length() - 1);
 		}
-		urlLocal = URL + "/" + name + "/" + date.getDate() + "-"
-				+ (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
+		urlLocal = URL + "/" + name + "/" + date.getTime();
 		System.out.println("URL LOCAL : " + urlLocal);
 
 		// Avertir les vues que le modele change
@@ -628,8 +634,17 @@ public class Aspirateur extends Observable {
 		if (URL.equals(urlSource + "/")) {
 			file = new File(urlLocal + "/index.html");
 		} else {
+			String link = URL;
+			if(link.endsWith("/")){
+				link+="index.html";
+			}else{
+				if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
+					link+="/index.html";
+				}
+			}
 			file = new File(urlLocal + "/"
-					+ deleteSpecialChar(toRelativeLink(URL)));
+					+ deleteSpecialChar(toRelativeLink(link)));
+
 		}
 		File dir = file.getParentFile();
 		if (!dir.exists()) {
@@ -826,7 +841,16 @@ public class Aspirateur extends Observable {
 						if (!pages.contains(link) && !pagesCopied.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
+							
 							pages.add(link);
+							if(link.endsWith("/")){
+								link+="index.html";
+							}else{
+								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
+									link+="/index.html";
+								}
+							}
+							setLink(link);
 							pagesPool.runTask(new PageTask());
 							// System.out.println("\t----------------------------\n");
 						}
@@ -873,7 +897,16 @@ public class Aspirateur extends Observable {
 						if (!pages.contains(link) && !pagesCopied.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
+							
 							pages.add(link);
+							if(link.endsWith("/")){
+								link+="index.html";
+							}else{
+								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
+									link+="/index.html";
+								}
+							}
+							setFrameLocation(link);
 							pagesPool.runTask(new PageTask());
 						}
 					}else{
@@ -993,8 +1026,14 @@ public class Aspirateur extends Observable {
 				jsLink = jsLink.split(" type")[0];
 				jsLink = jsLink.replace("\"", "");
 				jsLink = jsLink.replace("\'", "");
+				System.err.println("JS : " + jsLink);
+				System.err.println("source : " + urlSource);
 				if(!jsLink.startsWith("http://")){
-					jsLink = urlSource + "/" + jsLink;
+					if(!urlSource.endsWith("/") && !jsLink.startsWith("/")){
+						jsLink = urlSource + "/" + jsLink;
+					}else{
+						jsLink = urlSource + jsLink;
+					}
 				}
 				if (isToBeCaptured(jsLink)) {
 					if (!ressources.contains(jsLink)
