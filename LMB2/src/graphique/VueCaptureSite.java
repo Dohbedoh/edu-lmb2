@@ -7,6 +7,7 @@ package graphique;
 import Aspirateur.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -31,17 +32,19 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public JTextField path;
 	
 	public JButton capturer;
+	public JButton parcourir;
 	
 	// CONTRAINTES
 	public JLabel afficheProfondeur;
-	public JTextField profondeur;
 	
 	public JLabel afficheVolume;
-	public JTextField volume;
 	
 	public JLabel afficheFiltre;
 	public JCheckBox filtrerImage;
 	public JCheckBox filtrerTexte;
+	
+	public VueContraintes contraintesProfondeur;
+	public VueContraintes contraintesVolume;
 	
 	//------------------
 	// Constructeurs
@@ -54,15 +57,21 @@ public class VueCaptureSite extends JPanel implements Observer{
 		this.setLayout(new BorderLayout());
 		
 		// Creation des elements du panneau
-		afficheURL = new JLabel("URL : ", SwingConstants.RIGHT);
-		afficheNom = new JLabel("Nom : ", SwingConstants.RIGHT);
-		affichePath = new JLabel("Chemin : ", SwingConstants.RIGHT);
+		afficheURL = new JLabel("URL du site : ", SwingConstants.RIGHT);
+		afficheNom = new JLabel("Nom du site : ", SwingConstants.RIGHT);
+		affichePath = new JLabel("Workspace  : ", SwingConstants.RIGHT);
 				
 		url = new JTextField(20);
 		nom = new JTextField(laspirateur.getName(),20);
 		path = new JTextField(laspirateur.getPath(),20);
 		
 		capturer = new JButton("Capturer");
+		
+		parcourir = new JButton("...");
+		parcourir.setToolTipText("Changer de workspace");
+		capturer.setToolTipText("Capturer le site");
+		capturer.setForeground(Color.red);
+		
 		
 		// Ajout des elements du panneau
 		JPanel capture = new JPanel();
@@ -87,6 +96,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		droit.add(path);
 		
 		bas.add(capturer);
+		bas.add(parcourir);
 		
 		captureTop.add(gauche, BorderLayout.CENTER);
 		captureTop.add(droit,BorderLayout.EAST);
@@ -97,6 +107,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		capturer.addActionListener(new ActionCapturerSite());
 		nom.addActionListener(new ActionMAJName());
 		path.addActionListener(new ActionMAJPath());
+		parcourir.addActionListener(new ActionChangerPath());
 		
 		//--------------------------------
 		// Contraintes
@@ -111,16 +122,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 		cbas.setLayout(new GridLayout(2,2));
 		
 		afficheProfondeur = new JLabel("Profondeur a parcourir en nombre de pages");
-		profondeur = new JTextField(2);
-		
 		afficheVolume = new JLabel("Volume maximum de donnees a transferer");
-		volume = new JTextField(2);
+	
+		contraintesProfondeur = new VueContraintes(laspirateur);
+		contraintesVolume = new VueContraintes(laspirateur);
 		
 		chaut.add(afficheProfondeur);
-		chaut.add(profondeur);
-		chaut.add(afficheVolume);
-		chaut.add(volume);
+		chaut.add(contraintesProfondeur);
 		
+		chaut.add(afficheVolume);
+		chaut.add(contraintesVolume);
+	
 		afficheFiltre = new JLabel("Filtres");
 		filtrerImage = new JCheckBox("Filtrer les images");
 		filtrerTexte  = new JCheckBox("Filtrer le texte");		
@@ -136,8 +148,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 		add(capture,BorderLayout.NORTH);
 		add(contrainte,BorderLayout.SOUTH);
 		
-		profondeur.setText("Not Yet Implemented");
-		volume.setText("Not Yet Implemented");
 				
 	}//cons-1
 	
@@ -159,6 +169,10 @@ public class VueCaptureSite extends JPanel implements Observer{
 	//------------------
 	// Actions
 	//------------------
+	
+	/**
+	 * Cette action permet de donner au modele le nom specifie pour la sauvegarde du site
+	 */
 	private class ActionMAJName implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -167,6 +181,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		}
 	}
 	
+	/**
+	 * Cette action permet de donner au modele le chemin du workspace
+	 */
 	private class ActionMAJPath implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -175,15 +192,54 @@ public class VueCaptureSite extends JPanel implements Observer{
 		}
 	}
 	
+	/**
+	 * Cette action permet de changer le workspace du modele
+	 */
+	private class ActionChangerPath implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+        	JFileChooser chooser = new JFileChooser();
+        	chooser.setApproveButtonText("Choisir ce repertoire comme workspace...");
+        	chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        	int status = chooser.showOpenDialog(null);
+
+            if (status == JFileChooser.APPROVE_OPTION) {
+            	path.setText(chooser.getSelectedFile().getAbsolutePath());
+            	laspirateur.setPath(chooser.getSelectedFile().getAbsolutePath());
+            	System.out.println("Votre workspace : "+path.getText());
+            }
+        	
+			update(null,null);
+		}
+	}
+	
+	/**
+	 * Cette action permet de capturer un site
+	 */
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
 
 			capturer.setEnabled(false);
+			
+			// Recuperation des informations sur la capture
 			laspirateur.setName(nom.getText());
 			laspirateur.setPath(path.getText());
 			laspirateur.makeURLLocal();
-			/* Nouveau processus pour lancer le process */
+			
+			int profondeur = contraintesProfondeur.getValue();
+			int volume = contraintesVolume.getValue();
+			
+			/*
+			 * ALLAN TU VALIDES CA ?
+			if(profondeur > 0)
+				laspirateur.setProfondeur(profondeur);
+			*/
+			
+			System.out.println("Profondeur : "+profondeur+"- Volume : "+volume);
+			
+			// Nouveau processus pour lancer le process
 			t = new Thread(new Runnable(){
 
 				public void run() {
@@ -192,9 +248,11 @@ public class VueCaptureSite extends JPanel implements Observer{
 				}
 				
 			});
-			/* Methode pour faire les filtres ?*/
 			
-			/* On lance le premier processus qui lancera le deuxième */
+			
+			// Methode pour faire les filtres
+			
+			// On lance le premier processus qui lancera le deuxième
 			t.start();
 		}
 	}

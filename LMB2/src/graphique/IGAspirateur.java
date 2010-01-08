@@ -25,16 +25,13 @@ public class IGAspirateur extends JFrame{
 	//------------------
 	// Constructeurs
 	//------------------
-	public IGAspirateur(){
+	public IGAspirateur(Aspirateur laspirateur){
 		super("Aspirateur - LMB2");
 		
-		// Creation du modele
-		laspirateur = new Aspirateur();
+		this.laspirateur = laspirateur;
 		
 		// Valeurs par defaut du modele
 		laspirateur.setName("TestLMB2");
-		//laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
-		laspirateur.setPath("C:/users/renaudmathieu/Desktop/LMB2/");
 		
 		// Creation des vues
 		vueMenu = new VueMenu(laspirateur);
@@ -68,8 +65,10 @@ public class IGAspirateur extends JFrame{
 		// Options de la JFrame
 		//setPreferredSize(new Dimension(800,800));
 		pack();
-		setVisible(true) ;
+		setVisible(true);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		
 	}//cons-1
 	
@@ -80,8 +79,19 @@ public class IGAspirateur extends JFrame{
 	//------------------
 	// Main
 	//------------------
+	/*
 	public static void main(String arg[]){
-		new IGAspirateur();
+		Aspirateur laspirateur = new Aspirateur();
+		
+		// Renaud
+		//laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
+		
+		// Allan
+		//laspirateur.setPath("C:/users/renaudmathieu/Desktop/LMB2/");
+		
+		// Meryem
+		//laspirateur.setPath("C:/LMB2/");
+		new IGAspirateur(laspirateur);
 	}
-	
+	*/
 }

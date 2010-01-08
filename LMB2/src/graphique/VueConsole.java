@@ -18,9 +18,9 @@ public class VueConsole extends JPanel{
 	private JTextArea laconsole;
 	public Aspirateur laspirateur;
 	
-	//--------------
+	//------------------
 	// Constructeur
-	//--------------
+	//------------------
 	public VueConsole(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
 		
