@@ -22,6 +22,7 @@ public class IGAspirateur extends JFrame{
 	VueConsole vueConsole;
 	VueSauvegarde vueSauvegarde;
 	
+	JSplitPane split;
 	//------------------
 	// Constructeurs
 	//------------------
@@ -43,13 +44,14 @@ public class IGAspirateur extends JFrame{
 		// Ajout des vues
 		JPanel gauche = new JPanel();
 		JPanel milieu = new JPanel();
+		split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		//JPanel droit = new JPanel();
 		
-		milieu.setLayout(new BorderLayout());
 		gauche.setLayout(new BorderLayout());
 		
-		milieu.add(vueOnglets,BorderLayout.NORTH);
-		milieu.add(vueConsole,BorderLayout.CENTER);
+		split.setTopComponent(vueOnglets);
+		split.setBottomComponent(vueConsole);
+		milieu.add(split);
 		
 		gauche.add(vueSauvegarde,BorderLayout.CENTER);
 		gauche.add(vueProgressBar,BorderLayout.SOUTH);

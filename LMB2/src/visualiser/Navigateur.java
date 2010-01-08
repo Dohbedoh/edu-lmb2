@@ -16,8 +16,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
+import java.net.URL;
+
 import java.net.URL;
 import java.util.ArrayList;
+
 
 
 public class Navigateur extends JFrame{
@@ -37,6 +41,9 @@ public class Navigateur extends JFrame{
 	JButton suivant;
 	JButton fermer;
 	
+	URL precURL;
+	URL suivURL;
+	
 	//--------------
 	// Constructeur
 	//--------------
@@ -44,6 +51,7 @@ public class Navigateur extends JFrame{
 		super(path);
 		this.path = path;
 		this.setLayout(new BorderLayout());
+		
 		
 		// Creation des éléments graphiques
 		JPanel outils = new JPanel(new FlowLayout());
@@ -53,13 +61,18 @@ public class Navigateur extends JFrame{
 		
 		try {
 			File file = new File(path + "index.html");
+			URL url;
+			
 			if (file != null) {
-				conteneur = new JEditorPane(file.toURL());
-
+				url = file.toURL();
 			} else {
 				File file2 = new File(path + "index.php");
-				conteneur = new JEditorPane(file2.toURL());
+				url = file2.toURL();
 			}
+
+			
+			conteneur = new JEditorPane(url);
+			precURL = url;
 			
 			// Options des éléments graphiques
 			conteneur.setEditable(false);
@@ -69,11 +82,13 @@ public class Navigateur extends JFrame{
 				public void hyperlinkUpdate(HyperlinkEvent e) {
 					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						JEditorPane pane = (JEditorPane) e.getSource();
+						precURL = ((JEditorPane)e.getSource()).getPage();
 						previousURL.add(((JEditorPane)e.getSource()).getPage()) ;
 						if(previousURL.size()>0)
 							precedent.setEnabled(true);
 						try {
 							pane.setPage(e.getURL());
+							suivURL = e.getURL();
 							nextURL.add(e.getURL()) ;
 						} catch (IOException ex) {
 							pane.setText("ERREUR : " + ex.getMessage());
@@ -84,6 +99,9 @@ public class Navigateur extends JFrame{
 			
 			precedent.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
+					try {
+						conteneur.setPage(precURL);
+					} catch (IOException e1) {}
 					try {
 						conteneur.setPage(previousURL.get(previousURL.size()-1));
 						previousURL.remove(previousURL.get(previousURL.size()-1));
@@ -96,6 +114,9 @@ public class Navigateur extends JFrame{
 			
 			suivant.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
+					try {
+						conteneur.setPage(suivURL);
+					} catch (IOException e1) {}
 					try {
 						//previousURL.add(((JEditorPane)e.getSource()).getPage());
 						conteneur.setPage(nextURL.get(nextURL.size()-1));

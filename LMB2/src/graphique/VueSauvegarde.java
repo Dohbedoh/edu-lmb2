@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 import java.io.*;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Observable;
@@ -44,8 +45,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 		setLayout(new BorderLayout());
 		
 		laspirateur.addObserver(this);
+		
 		// Creation des elements
-		pathRoot = laspirateur.getPath();
 		racine = new DefaultMutableTreeNode();
 		initArbre(racine);
 		visualisation = new JButton("Visualiser");
@@ -93,6 +94,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 	public void initArbre(DefaultMutableTreeNode racine){
 		
 		// Creation du workspace
+		pathRoot = laspirateur.getPath();
 		File workspace = new File(pathRoot);
 		if(!workspace.exists()){
 			System.out.println("Le workspace spécifié est introuvable");
@@ -105,7 +107,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
 					for(File nom : file.listFiles()){
-						if(nom.getName().matches("[0-9]{13}")){
+						//if(nom.getName().matches("[0-9]{13}")){
 							
 							/*
 							// On converti le timestamp
@@ -119,7 +121,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 							
 							DefaultMutableTreeNode node = new DefaultMutableTreeNode(date+"/");
 							courant.add(this.listFile(nom, node));
-						}
+						//}
 					}
 				} catch (NullPointerException e) {}
 				
@@ -178,7 +180,22 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private class ActionVisualiser implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (selectedNode != null) {
-				new Navigateur(selectedNode);
+				//new Navigateur(selectedNode);
+				try{
+					File file = new File(selectedNode + "index.html");
+					URL url;
+					
+					if (file != null) {
+						url = file.toURL();
+						BareBonesBrowserLaunch.openURL(url.toString());
+					} else {
+						File file2 = new File(selectedNode + "index.php");
+						url = file2.toURL();
+						BareBonesBrowserLaunch.openURL(url.toString());
+					}
+					
+				} catch (IOException ex) { ex.printStackTrace(); }
+				 
 			}
 		}
 	}

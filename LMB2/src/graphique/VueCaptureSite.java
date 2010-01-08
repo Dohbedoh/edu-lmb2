@@ -60,7 +60,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheURL = new JLabel("URL du site : ", SwingConstants.RIGHT);
 		afficheNom = new JLabel("Nom du site : ", SwingConstants.RIGHT);
 		affichePath = new JLabel("Workspace  : ", SwingConstants.RIGHT);
-				
+		
 		url = new JTextField(20);
 		nom = new JTextField(laspirateur.getName(),20);
 		path = new JTextField(laspirateur.getPath(),20);
@@ -124,6 +124,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Volume maximum de données à transférer");
 	
+		afficheProfondeur.setToolTipText("-1 : Pas de profondeur");
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);
 		
