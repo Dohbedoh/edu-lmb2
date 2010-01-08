@@ -124,7 +124,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Volume maximum de données à transférer");
 	
-		afficheProfondeur.setToolTipText("-1 : Pas de profondeur");
+		afficheProfondeur.setToolTipText("0 : Pas de profondeur");
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);
 		
