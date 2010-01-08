@@ -121,8 +121,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		chaut.setLayout(new GridLayout(2,2));
 		cbas.setLayout(new GridLayout(2,2));
 		
-		afficheProfondeur = new JLabel("Profondeur a parcourir en nombre de pages");
-		afficheVolume = new JLabel("Volume maximum de donnees a transferer");
+		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
+		afficheVolume = new JLabel("Volume maximum de données à transférer");
 	
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);

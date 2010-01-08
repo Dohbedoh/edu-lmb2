@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 import java.io.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.*;
@@ -103,8 +105,21 @@ public class VueSauvegarde extends JPanel implements Observer{
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
 					for(File nom : file.listFiles()){
-						DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName()+"/");
-						courant.add(this.listFile(nom, node));	
+						if(nom.getName().matches("[0-9]{13}")){
+							
+							/*
+							// On converti le timestamp
+							Date currentDate = new Date(Long.parseLong(nom.getName()));
+							int heure = currentDate.getHours();
+							int minutes = currentDate.getMinutes();
+							int secondes = currentDate.getSeconds();
+							String date = heure+":"+minutes+":"+secondes;
+							*/
+							String date = nom.getName();
+							
+							DefaultMutableTreeNode node = new DefaultMutableTreeNode(date+"/");
+							courant.add(this.listFile(nom, node));
+						}
 					}
 				} catch (NullPointerException e) {}
 				
@@ -149,7 +164,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 				String value = arbre.getLastSelectedPathComponent().toString();
 				
 				// Si on est dans une sauvegarde
-				if(value.matches(".*-.*-.*")){
+				if(value.matches("[0-9]{13}/")){
 					visualisation.setEnabled(true);
 					// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
 					selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;

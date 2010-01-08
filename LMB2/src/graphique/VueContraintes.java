@@ -62,7 +62,8 @@ public class VueContraintes extends JPanel{
 
 		incrM.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				value--;
+				if(value > -1)
+					value--;
 				compteur.setText(value+"");
 			}
 			
@@ -82,6 +83,7 @@ public class VueContraintes extends JPanel{
 	}
 	
 	/*
+	// TEST
 	public static void main(String[] args){
 		JFrame fp = new JFrame("Test");
 		fp.add(new VueContraintes(new Aspirateur()));

@@ -69,7 +69,6 @@ public class IGAspirateur extends JFrame{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
 	}//cons-1
 	
 	//------------------
