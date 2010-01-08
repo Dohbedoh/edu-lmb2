@@ -102,12 +102,12 @@ public class Aspirateur extends Observable {
 		extensionsFiltred = new HashSet<String>();
 		filtres.add("js");
 		filtres.add("css");
-		/*filtres.add("jpeg");
+		filtres.add("jpeg");
 		filtres.add("jpg");
 		filtres.add("ico");
 		filtres.add("gif");
 		filtres.add("png");
-		filtres.add("log");
+		/*filtres.add("log");
 		filtres.add("pdf");*/
 		profondeur = -1;
 		pagesPool = new ThreadPool(2);
@@ -201,20 +201,32 @@ public class Aspirateur extends Observable {
 		return urlLocal;
 	}
 
-
 	/**
 	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
 	 * 
 	 * @param url
 	 *            : l'URL
 	 */
-	public String getSource(String url) {
-		if (url.endsWith("/")) {
+	private String toSource(String url){
+		if (url.endsWith("/") || url.endsWith("\\")) {
 			url = url.substring(0, url.length() - 1);
 		}else{
-			url = url.substring(0, url.lastIndexOf("/"));
+			if(url.indexOf("/")!=-1){
+				url = url.substring(0, url.lastIndexOf("/"));
+			}else{
+				if(url.indexOf("\\")!=-1){
+					url = url.substring(0, url.lastIndexOf("\\"));
+				}
+			}
 		}
 		return url;
+	}
+	
+	/**
+	 * Procédure qui retourne l'URL source
+	 */
+	public String getSource() {
+		return urlSource;
 	}
 
 	/**
@@ -224,7 +236,7 @@ public class Aspirateur extends Observable {
 	 *            : l'URL donnee par l'utilisateur
 	 */
 	public void setSource(String url) {
-		urlSource = getSource(url);
+		urlSource = toSource(url);
 		pages.add(url);
 
 		// Avertir les vues que le modele change
@@ -1019,9 +1031,9 @@ public class Aspirateur extends Observable {
 						/* On récupère seulement le lien */
 						cssLink = cssLink.substring(cssLink.indexOf('"') + 1);
 						cssLink = cssLink.substring(0, cssLink.indexOf('"'));
-						String source = getSource(parser.getLexer().getPage().getUrl());
+						String source = toSource(parser.getLexer().getPage().getUrl());
 						while (cssLink.contains("../")) {
-							source = getSource(parser.getLexer().getPage().getUrl());
+							source = toSource(parser.getLexer().getPage().getUrl());
 							source = source.substring(0, source.lastIndexOf("/"));
 							cssLink = cssLink.substring(cssLink.lastIndexOf("../") + 3);
 						}
