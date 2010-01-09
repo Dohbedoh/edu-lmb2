@@ -614,8 +614,6 @@ public class Aspirateur extends Observable {
 				i = j + 1;
 			}
 		}
-		System.err.println("Link : "+ current);
-		System.err.println("Ret Link : "+ ret);
 		return (ret);
 	}
 

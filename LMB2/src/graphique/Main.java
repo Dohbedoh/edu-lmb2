@@ -22,7 +22,7 @@ public class Main {
 	      public void run() {
 	        try {
 	        	//UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceOfficeSilver2007LookAndFeel");
-	        	UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceOfficeBlue2007LookAndFeel");
+	        	UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
 	        } catch (Exception e) {
 	          System.out.println("Substance Raven Graphite failed to initialize");
 	        }
