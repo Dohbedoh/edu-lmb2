@@ -26,7 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
-import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.FrameTag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.util.EncodingChangeException;
@@ -88,10 +87,15 @@ public class Aspirateur extends Observable {
 	/** Indicateur de profondeur de pages*/
 	private int profondeur;
 
+	/** Booléen permettant de contrôler le parsing */
+	private boolean stop,pause;
+	
 	// ------------------
 	// Constructeur
 	// ------------------
 	public Aspirateur() {
+		stop = true;
+		pause = false;
 		ressources = new ArrayList<String>();
 		pages = new ArrayList<String>();
 		pagesCopied = new HashSet<String>();
@@ -110,8 +114,8 @@ public class Aspirateur extends Observable {
 		/*filtres.add("log");
 		filtres.add("pdf");*/
 		profondeur = -1;
-		pagesPool = new ThreadPool(2);
-		ressourcesPool = new ThreadPool(3);
+		pagesPool = new ThreadPool(1);
+		ressourcesPool = new ThreadPool(2);
 		reinitialise();
 		urlSource = "";
 		urlLocal = "";
@@ -123,6 +127,24 @@ public class Aspirateur extends Observable {
 	// Methodes
 	// ------------------
 
+	/** Modifieur permettant de stopper le parser */
+	public void stop(){
+		stop = true;
+		join();
+	}
+
+	/** Modifieur permettant de mettre en pause le parser */
+	public void pause(){
+		pause = true;
+		ressourcesPool.suspend();
+		pagesPool.suspend();
+	}
+
+	/** Modifieur permettant de reprendre le parser mis en pause */
+	public void resume(){
+		pause = false;
+	}
+	
 	/**
 	 * Modifier le nb de thread à utiliser pour le traitement des pages
 	 */
@@ -308,7 +330,7 @@ public class Aspirateur extends Observable {
 	/**
 	 * 
 	 */
-	public boolean isNotTooDeep(String url){
+	private boolean isNotTooDeep(String url){
     	if(profondeur>=0){
 	    	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
 			if(tmp.startsWith("/")){
@@ -331,6 +353,8 @@ public class Aspirateur extends Observable {
 	 * Procédure qui rénitialise notre aspirateur
 	 */
 	public void reinitialise(){
+		stop = true;
+		pause = false;
 		ressources.clear();
 		pages.clear();
 		ressources.clear();
@@ -357,7 +381,7 @@ public class Aspirateur extends Observable {
 	/**
 	 * 
 	 */
-	public void join() {
+	private void join() {
 		ressourcesPool.join();
 		pagesPool.join();
 	}
@@ -397,13 +421,13 @@ public class Aspirateur extends Observable {
      * @param url
      * @return
      */
-    private boolean isPage(String url){
+    private boolean isPage(String url) throws ParserException{
     	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
     	if(tmp.length()>urlSource.length()){
     		tmp = url.substring(url.lastIndexOf("/"));
     	}
     	
-		return(url!=urlSource &&
+		if(url!=urlSource &&
 				(tmp.indexOf("?")!=-1 || 
 				tmp.indexOf("&")!=-1 ||
 				tmp.indexOf("#")!=-1 ||
@@ -411,7 +435,33 @@ public class Aspirateur extends Observable {
 				url.toLowerCase().endsWith(".htm")||
 				url.toLowerCase().endsWith(".php")||
 				url.toLowerCase().endsWith(".html")||
-				url.toLowerCase().endsWith("/")));
+				url.toLowerCase().endsWith("/")))
+		{
+			return true;
+		}else{
+			URL link;
+		    URLConnection connection;
+		    String type;
+		    boolean ret;
+		    ret = false;
+		    
+		    try
+		    {
+		        link = new URL (url);
+		        connection = link.openConnection ();
+		        type = connection.getContentType ();
+		        if (type == null)
+		            ret = false;
+		        else
+		            ret = type.startsWith ("text/html");
+		    }
+		    catch (Exception e)
+		    {
+		        throw new ParserException ("URL " + url + " has a problem", e);
+		    }
+		    System.err.println("\n\n\n+1\n\n\n");
+		    return (ret);
+		}
     }
     
 	/**
@@ -465,7 +515,7 @@ public class Aspirateur extends Observable {
 	 * @param url
 	 * @return
 	 */
-	public String toLocalLink(String url) {
+	private String toLocalLink(String url) {
 		url = url.replace("http:/", "");
 		return url;
 	}
@@ -475,7 +525,7 @@ public class Aspirateur extends Observable {
 	 * @param url : chemin absolu de la ressources
 	 * @return
 	 */
-	public boolean isToBeCaptured(String url){
+	private boolean isToBeCaptured(String url){
 		if(url.contains(".")){
 			String extension = url.substring(url.lastIndexOf(".")+1,url.length()).toLowerCase();
 			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
@@ -562,7 +612,7 @@ public class Aspirateur extends Observable {
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
-		while (pagesPool.isAlive() || ressourcesPool.isAlive()) {
+		while (pagesPool.isAlive() || ressourcesPool.isAlive() || pause && !stop) {
 		}
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
@@ -577,13 +627,61 @@ public class Aspirateur extends Observable {
 	}
 
 	/**
+	 * Fonction qui parse le CSS pour récupérer les images
+	 * @param page
+	 */
+	private void treatCSS(String page, String urlPage) {
+
+		Pattern p = Pattern.compile("url\\(.*\\)");
+		Matcher m = p.matcher(page);
+		while (m.find()) {
+			String temp = page.substring(m.start(), m.end());
+			temp = temp.substring(4);
+			temp = temp.substring(0, temp.length() - 1);
+			temp = temp.replace("'", "");
+			temp = temp.replace("\"", "");
+			if (!temp.contains(urlSource)) {
+				if(isToBeCaptured(urlPage + temp)){
+					if (temp.startsWith("/")) {
+						//ressources.add(urlPage + temp);
+						//ressourcesPool.runTask(new RessourceTask());
+						copyRessources(urlPage + temp);
+						ressourcesCopied.add(urlPage + temp);
+					} else {
+						//ressources.add(urlPage + "/" + temp);
+						//ressourcesPool.runTask(new RessourceTask());
+						copyRessources(urlPage + "/" + temp);
+						ressourcesCopied.add(urlPage +"/"+ temp);
+					}
+				}else{
+					if(!urlFiltred.contains(urlPage + temp)){
+						urlFiltred.add(urlPage + temp);
+					}
+				}
+
+			} else{
+				if(isToBeCaptured(urlPage + temp)){
+					//ressources.add(temp);
+					//ressourcesPool.runTask(new RessourceTask());
+					copyRessources(temp);
+					ressourcesCopied.add(temp);
+				}else{
+					if(!urlFiltred.contains(urlPage + temp)){
+						urlFiltred.add(urlPage + temp);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Procédure qui lance l'enregistrement local de la page HTML d'URL
 	 * 'relativeURL' Elle lance également l'enregistrement de toutes les images
 	 * et fichiers CSS contenus dans cette page
 	 * 
 	 * @param relativeURL
 	 */
-	public void copyPage(final String relativeURL) {
+	private void copyPage(final String relativeURL) {
 		System.out.println("\tcapture Page : \"" + relativeURL);
 		copyHTML(relativeURL);
 		pagesCopied.add(relativeURL);
@@ -595,7 +693,7 @@ public class Aspirateur extends Observable {
 	 * 
 	 * @param URL
 	 */
-	public void copyRessources(String URL) {
+	private void copyRessources(String URL) {
 		File file;
 		file = new File(urlLocal + "/"
 				+ deleteSpecialChar(toLocalLink(toRelativeLink(URL))));
@@ -653,41 +751,6 @@ public class Aspirateur extends Observable {
 		notifyObservers();
 	}
 
-	/**
-	 * Fonction qui parse le CSS pour récupérer les images
-	 * @param page
-	 */
-	private void treatCSS(String page, String urlPage) {
-
-		System.err.println("//on parse le css//");
-		Pattern p = Pattern.compile("url\\(.*\\)");
-		Matcher m = p.matcher(page);
-		while (m.find()) {
-			String temp = page.substring(m.start(), m.end());
-			temp = temp.substring(4);
-			temp = temp.substring(0, temp.length() - 1);
-			temp = temp.replace("'", "");
-			temp = temp.replace("\"", "");
-			if (!temp.contains(urlSource)) {
-				if (temp.startsWith("/")) {
-					//ressources.add(urlPage + temp);
-					//ressourcesPool.runTask(new RessourceTask());
-					copyRessources(urlPage + temp);
-					ressourcesCopied.add(urlPage + temp);
-				} else {
-					//ressources.add(urlPage + "/" + temp);
-					//ressourcesPool.runTask(new RessourceTask());
-					copyRessources(urlPage + "/" + temp);
-					ressourcesCopied.add(urlPage +"/"+ temp);
-				}
-
-			} else
-				//ressources.add(temp);
-				//ressourcesPool.runTask(new RessourceTask());
-				copyRessources(temp);
-				ressourcesCopied.add(temp);
-		}
-	}
 	
 	/**
 	 * Procédure qui copie le contenu de la page HTML "parsée" et l'enregistre
@@ -695,7 +758,7 @@ public class Aspirateur extends Observable {
 	 * 
 	 * @param URL
 	 */
-	public void copyHTML(String URL) {
+	private void copyHTML(String URL) {
 		File file;
 		if (URL.equals(urlSource + "/")) {
 			file = new File(urlLocal + "/index.html");
@@ -1005,74 +1068,7 @@ public class Aspirateur extends Observable {
 			}
 		}
 	}
-
-	class CSSTag extends org.htmlparser.tags.HeadTag {
-
-		private static final long serialVersionUID = -2558739946355789992L;
-
-		public void doSemanticAction() throws ParserException {
-			/* le lien css que l'on recherche */
-			String cssLink = "";
-			/* Le Tag "link" dans lequel est de trouve l'URL */
-			TagNode tagLink = null;
-			//if(isToBeCaptured(cssLink)){
-				for (int i = 0; i < getChildCount(); i++) {
-					/* On cherche le tag qui contient la chaîne 'rel="stylesheet"' */
-					if (getChild(i) != null
-							&& getChild(i).toHtml().toLowerCase().contains("rel=\"stylesheet\"")
-							&& getChild(i).toHtml().toLowerCase().contains(".css")) {
-						tagLink = ((TagNode) getChild(i));
-						int j = 0;
-						/* On cherche à présent l'attribut contenant l'URL : 'href' */
-						while (!cssLink.contains("href")) {
-							cssLink = tagLink.getAttributesEx().get(j).toString().toLowerCase();
-							j++;
-						}
-						/* On récupère seulement le lien */
-						cssLink = cssLink.substring(cssLink.indexOf('"') + 1);
-						cssLink = cssLink.substring(0, cssLink.indexOf('"'));
-						String source = toSource(parser.getLexer().getPage().getUrl());
-						while (cssLink.contains("../")) {
-							source = toSource(parser.getLexer().getPage().getUrl());
-							source = source.substring(0, source.lastIndexOf("/"));
-							cssLink = cssLink.substring(cssLink.lastIndexOf("../") + 3);
-						}
-						/* On ajoute le préfixe */
-						int k=1;
-						String tmp = "";
-						while(k<cssLink.length()){
-							if(source.contains(cssLink.substring(0,k))){
-								tmp+=cssLink.charAt(k-1);
-							}
-							k++;
-						}
-						if(source.endsWith(tmp)){
-							cssLink = cssLink.substring(tmp.length());
-						}
-						if(cssLink.startsWith("/")){
-							cssLink = cssLink.substring(1,cssLink.length());
-						}
-						cssLink = source + "/" + cssLink;
-						if (isRelativeToTheSource(cssLink)) {
-							if(isToBeCaptured(cssLink)){
-								if (!ressources.contains(cssLink) && !ressourcesCopied.contains(cssLink)) {
-								// System.out.println("\n\t----------new CSS-----------");
-								// System.out.println("\tCSS URL : " + cssLink);
-								ressources.add(cssLink);
-								ressourcesPool.runTask(new RessourceTask());
-								// System.out.println("\t----------------------------\n");
-								}
-							}else{
-								if(!urlFiltred.contains(cssLink)){
-									urlFiltred.add(cssLink);
-								}
-							}
-						}
-					}
-				}
-			//}
-		}
-	}
+	
 
 	/**
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
