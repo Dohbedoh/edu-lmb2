@@ -32,6 +32,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public JTextField path;
 	
 	public JButton capturer;
+	public JButton stop;
+	public JButton pause;
+	public JButton reprendre;
 	public JButton parcourir;
 	
 	// CONTRAINTES
@@ -66,11 +69,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 		path = new JTextField(laspirateur.getPath(),20);
 		
 		capturer = new JButton("Capturer");
+		stop = new JButton("Stop");
+		pause = new JButton("Pause");
+		reprendre = new JButton("Reprendre");
 		
 		parcourir = new JButton("...");
 		parcourir.setToolTipText("Changer de workspace");
 		capturer.setToolTipText("Capturer le site");
 		capturer.setForeground(Color.red);
+		stop.setForeground(Color.red);
+		pause.setForeground(Color.blue);
+		reprendre.setForeground(Color.green);
 		
 		
 		// Ajout des elements du panneau
@@ -96,6 +105,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		droit.add(path);
 		
 		bas.add(capturer);
+		bas.add(stop);
+		bas.add(pause);
+		bas.add(reprendre);
 		bas.add(parcourir);
 		
 		captureTop.add(gauche, BorderLayout.CENTER);
@@ -105,6 +117,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 		// Ajout des actions
 		capturer.addActionListener(new ActionCapturerSite());
+		stop.addActionListener(new ActionStopAsiprateur());
+		pause.addActionListener(new ActionPauseAsiprateur());
+		reprendre.addActionListener(new ActionResumeAsiprateur());
 		nom.addActionListener(new ActionMAJName());
 		path.addActionListener(new ActionMAJPath());
 		parcourir.addActionListener(new ActionChangerPath());
@@ -223,6 +238,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		public void actionPerformed(ActionEvent e) {
 
 			capturer.setEnabled(false);
+			stop.setEnabled(true);
+			pause.setEnabled(true);
+			reprendre.setEnabled(false);
 			
 			// Recuperation des informations sur la capture
 			laspirateur.setName(nom.getText());
@@ -258,5 +276,39 @@ public class VueCaptureSite extends JPanel implements Observer{
 		}
 	}
 
+	/**
+	 * Cette action permet stopper le parser
+	 */
+	private class ActionStopAsiprateur implements ActionListener {
 	
+		public void actionPerformed(ActionEvent e) {
+			laspirateur.stop();
+			pause.setEnabled(false);
+			reprendre.setEnabled(false);
+		}
+	}
+	
+	/**
+	 * Cette action permet de mettre en pause le parser
+	 */
+	private class ActionPauseAsiprateur implements ActionListener {
+	
+		public void actionPerformed(ActionEvent e) {
+			laspirateur.suspend();
+			reprendre.setEnabled(true);
+			pause.setEnabled(false);
+		}
+	}
+	
+	/**
+	 * Cette action permet de reprendre le parser mis en pause
+	 */
+	private class ActionResumeAsiprateur implements ActionListener {
+	
+		public void actionPerformed(ActionEvent e) {
+			laspirateur.reprendre();
+			pause.setEnabled(true);
+			reprendre.setEnabled(false);
+		}
+	}
 }
