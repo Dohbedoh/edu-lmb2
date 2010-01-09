@@ -519,6 +519,24 @@ public class Aspirateur extends Observable {
 		return url;
 	}
 
+	private String toLocalPage(String url){
+		String tmp = url.substring(url.lastIndexOf("/"));
+		if(url.endsWith("/")){
+			url+="index.html";
+		}else{
+			if(tmp.indexOf(".")==-1 &&
+					tmp.indexOf("?")==-1 && 
+					tmp.indexOf("&")==-1 &&
+					tmp.indexOf("=")==-1 &&
+					tmp.indexOf("#")==-1 &&
+					tmp.indexOf(":")==-1
+					){
+				url+="/index.html";
+			}
+		}
+		return url;
+	}
+	
 	/**
 	 * Fonction qui retourne si la ressource doit être capturée
 	 * @param url : chemin absolu de la ressources
@@ -596,6 +614,8 @@ public class Aspirateur extends Observable {
 				i = j + 1;
 			}
 		}
+		System.err.println("Link : "+ current);
+		System.err.println("Ret Link : "+ ret);
 		return (ret);
 	}
 
@@ -765,18 +785,7 @@ public class Aspirateur extends Observable {
 			file = new File(urlLocal + "/index.html");
 		} else {
 			String link = URL;
-			if(link.endsWith("/")){
-				link+="index.html";
-			}else{
-				if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
-						link.indexOf("?")==-1 && 
-						link.indexOf("&")==-1 &&
-						link.indexOf("#")==-1 &&
-						link.indexOf(":")==-1
-						){
-					link+="/index.html";
-				}
-			}
+    		link = toLocalPage(link);
 			file = new File(urlLocal + "/"
 					+ deleteSpecialChar(toRelativeLink(link)));
 
@@ -977,28 +986,9 @@ public class Aspirateur extends Observable {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
-							/*if(link.endsWith("/")){
-								link+="index.html";
-							}else{
-								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
-									link+="/index.html";
-								}
-							}*/
-
-							if(link.endsWith("/")){
-								link+="index.html";
-							}else{
-								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
-										link.indexOf("?")==-1 && 
-										link.indexOf("&")==-1 &&
-										link.indexOf("#")==-1 &&
-										link.indexOf(":")==-1
-										){
-									link+="/index.html";
-								}
-							}
-							setLink(link);
 							pages.add(link);
+				    		link = toLocalPage(link);
+							setLink(link);
 							pagesPool.runTask(new PageTask());
 							// System.out.println("\t----------------------------\n");
 						}
@@ -1021,6 +1011,7 @@ public class Aspirateur extends Observable {
 						}
 					}
 				}
+	    		link = toLocalPage(link);
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
 						parser.getLexer().getPage().getUrl())));
 				setLink(link);
@@ -1047,25 +1038,7 @@ public class Aspirateur extends Observable {
 							// System.out.println("\tLink URL : " + link);
 							
 							pages.add(link);
-							/*if(link.endsWith("/")){
-								link+="index.html";
-							}else{
-								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
-									link+="/index.html";
-								}
-							}*/
-							if(link.endsWith("/")){
-								link+="index.html";
-							}else{
-								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
-										link.indexOf("?")==-1 && 
-										link.indexOf("&")==-1 &&
-										link.indexOf("#")==-1 &&
-										link.indexOf(":")==-1
-										){
-									link+="/index.html";
-								}
-							}
+				    		link = toLocalPage(link);
 							setFrameLocation(link);
 							pagesPool.runTask(new PageTask());
 						}
@@ -1088,6 +1061,7 @@ public class Aspirateur extends Observable {
 						}
 					}
 				}
+	    		link = toLocalPage(link);
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
 						parser.getLexer().getPage().getUrl())));
 				setFrameLocation(link);
