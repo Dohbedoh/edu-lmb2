@@ -130,19 +130,54 @@ public class Aspirateur extends Observable {
 	/** Modifieur permettant de stopper le parser */
 	public void stop(){
 		stop = true;
-		join();
+		ressources.clear();
+		pages.clear();
+		stopAll();
 	}
 
 	/** Modifieur permettant de mettre en pause le parser */
-	public void pause(){
+	public void suspend(){
 		pause = true;
-		ressourcesPool.suspend();
-		pagesPool.suspend();
+		suspendAll();
 	}
 
 	/** Modifieur permettant de reprendre le parser mis en pause */
-	public void resume(){
+	public void reprendre(){
 		pause = false;
+		resumeAll();
+	}
+	
+
+	/**
+	 * Finir les tâches en cours et arrêter
+	 */
+	private void joinAll() {
+		ressourcesPool.join();
+		pagesPool.join();
+	}
+	
+	/**
+	 * Fermer les ThreadPool
+	 */
+	private void stopAll(){
+		ressourcesPool.stop();
+		pagesPool.stop();
+	}
+	
+	/**
+	 * Suspend les tâches courantes
+	 */
+	private void suspendAll(){
+		ressourcesPool.suspend();
+		pagesPool.suspend();
+	}
+	
+	/**
+	 * Reprendre les tâches suspendues
+	 */
+	private void resumeAll(){
+		ressourcesPool.resume();
+		pagesPool.resume();
 	}
 	
 	/**
@@ -357,8 +392,6 @@ public class Aspirateur extends Observable {
 		pause = false;
 		ressources.clear();
 		pages.clear();
-		ressources.clear();
-		ressources.clear();
 		pagesCopied.clear();
 		ressourcesCopied.clear();
 		urlErrors.clear();
@@ -378,13 +411,6 @@ public class Aspirateur extends Observable {
 		parser.setNodeFactory(factory);
 	}
 	
-	/**
-	 * 
-	 */
-	private void join() {
-		ressourcesPool.join();
-		pagesPool.join();
-	}
 
 	/**
 	 * 
@@ -426,8 +452,7 @@ public class Aspirateur extends Observable {
     	if(tmp.length()>urlSource.length()){
     		tmp = url.substring(url.lastIndexOf("/"));
     	}
-    	
-		if(url!=urlSource &&
+		return (url!=urlSource &&
 				(tmp.indexOf("?")!=-1 || 
 				tmp.indexOf("&")!=-1 ||
 				tmp.indexOf("#")!=-1 ||
@@ -435,33 +460,7 @@ public class Aspirateur extends Observable {
 				url.toLowerCase().endsWith(".htm")||
 				url.toLowerCase().endsWith(".php")||
 				url.toLowerCase().endsWith(".html")||
-				url.toLowerCase().endsWith("/")))
-		{
-			return true;
-		}else{
-			URL link;
-		    URLConnection connection;
-		    String type;
-		    boolean ret;
-		    ret = false;
-		    
-		    try
-		    {
-		        link = new URL (url);
-		        connection = link.openConnection ();
-		        type = connection.getContentType ();
-		        if (type == null)
-		            ret = false;
-		        else
-		            ret = type.startsWith ("text/html");
-		    }
-		    catch (Exception e)
-		    {
-		        throw new ParserException ("URL " + url + " has a problem", e);
-		    }
-		    System.err.println("\n\n\n+1\n\n\n");
-		    return (ret);
-		}
+				url.toLowerCase().endsWith("/")));
     }
     
 	/**
@@ -608,12 +607,14 @@ public class Aspirateur extends Observable {
 	 * des ressources incluses dans la pages (images, css, etc...)
 	 */
 	public void launchProcess(String url) {
+		stop = false;
 		long time = System.currentTimeMillis();
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
-		while (pagesPool.isAlive() || ressourcesPool.isAlive() || pause && !stop) {
+		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause) && !stop) {
 		}
+		System.err.println("\nfini!!!!!!");
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
 		setChanged();
@@ -1241,7 +1242,7 @@ public class Aspirateur extends Observable {
 				};
 			}
 			if (pages.size() == 0) {
-				join();
+				joinAll();
 			}
 		}
 		
