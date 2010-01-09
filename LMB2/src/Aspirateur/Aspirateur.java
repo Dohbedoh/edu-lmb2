@@ -770,8 +770,9 @@ public class Aspirateur extends Observable {
 			}else{
 				if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
 						link.indexOf("?")==-1 && 
-						link.indexOf("&")==1  &&
-						link.indexOf("#")==1
+						link.indexOf("&")==-1 &&
+						link.indexOf("#")==-1 &&
+						link.indexOf(":")==-1
 						){
 					link+="/index.html";
 				}
@@ -976,15 +977,28 @@ public class Aspirateur extends Observable {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
-							pages.add(link);
-							if(link.endsWith("/")){
+							/*if(link.endsWith("/")){
 								link+="index.html";
 							}else{
 								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
 									link+="/index.html";
 								}
+							}*/
+
+							if(link.endsWith("/")){
+								link+="index.html";
+							}else{
+								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
+										link.indexOf("?")==-1 && 
+										link.indexOf("&")==-1 &&
+										link.indexOf("#")==-1 &&
+										link.indexOf(":")==-1
+										){
+									link+="/index.html";
+								}
 							}
 							setLink(link);
+							pages.add(link);
 							pagesPool.runTask(new PageTask());
 							// System.out.println("\t----------------------------\n");
 						}
@@ -1033,10 +1047,22 @@ public class Aspirateur extends Observable {
 							// System.out.println("\tLink URL : " + link);
 							
 							pages.add(link);
-							if(link.endsWith("/")){
+							/*if(link.endsWith("/")){
 								link+="index.html";
 							}else{
 								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1){
+									link+="/index.html";
+								}
+							}*/
+							if(link.endsWith("/")){
+								link+="index.html";
+							}else{
+								if(link.substring(link.lastIndexOf("/")).indexOf(".")==-1 &&
+										link.indexOf("?")==-1 && 
+										link.indexOf("&")==-1 &&
+										link.indexOf("#")==-1 &&
+										link.indexOf(":")==-1
+										){
 									link+="/index.html";
 								}
 							}
