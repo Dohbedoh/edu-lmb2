@@ -11,7 +11,9 @@ import javax.swing.tree.*;
 import java.io.*;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.*;
@@ -34,6 +36,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 	
 	private JButton visualisation;
 	private JButton refresh;
+	private JLabel infos;
 	
 	private String selectedNode;
 	
@@ -51,7 +54,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 		initArbre(racine);
 		visualisation = new JButton("Visualiser");
 		refresh = new JButton("Rafraichir");
-		
+		infos = new JLabel("",SwingConstants.CENTER);
+		infos.setForeground(Color.GRAY);
+		//infos.setHorizontalTextPosition(JLabel.CENTER);
 		
 		// Création du Modele
 		treeModel = new DefaultTreeModel(racine);
@@ -72,6 +77,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 		
 		add(new JScrollPane(arbre),BorderLayout.NORTH);
 		add(options,BorderLayout.SOUTH);
+		add(infos,BorderLayout.CENTER);
 		
 		// Option des elements
 		setBorder(BorderFactory.createTitledBorder("Gestion des sauvegardes"));
@@ -107,21 +113,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
 					for(File nom : file.listFiles()){
-						//if(nom.getName().matches("[0-9]{13}")){
-							
-							/*
-							// On converti le timestamp
-							Date currentDate = new Date(Long.parseLong(nom.getName()));
-							int heure = currentDate.getHours();
-							int minutes = currentDate.getMinutes();
-							int secondes = currentDate.getSeconds();
-							String date = heure+":"+minutes+":"+secondes;
-							*/
 							String date = nom.getName();
-							
 							DefaultMutableTreeNode node = new DefaultMutableTreeNode(date+"/");
 							courant.add(this.listFile(nom, node));
-						//}
 					}
 				} catch (NullPointerException e) {}
 				
@@ -165,6 +159,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 			if(arbre.getLastSelectedPathComponent() != null){
 				String value = arbre.getLastSelectedPathComponent().toString();
 				
+				File file= new File(getAbsolutePath(event.getPath()));
+				getDescription(file);
+				
 				// Si on est dans une sauvegarde
 				if(value.matches("[0-9]{13}/")){
 					visualisation.setEnabled(true);
@@ -174,6 +171,41 @@ public class VueSauvegarde extends JPanel implements Observer{
 					visualisation.setEnabled(false);
 				}
 			}
+		}
+		
+		private String getAbsolutePath(TreePath treePath){
+			String str = "";
+			
+			for(Object name : treePath.getPath()){
+				
+				if(name.toString() != null)
+					str += name.toString()+"/";
+			}
+			return str;
+		}
+		
+		private void getDescription(File file){ 
+			
+			String str = "";
+			//str = "Chemin :"+file.getAbsolutePath();
+			//str += "  "+file.getName();
+			
+			if(file.getName().matches("[0-9]{13}")){
+			
+				// On converti le timestamp
+				Date currentDate = new Date(Long.parseLong(file.getName()));
+				int heure = currentDate.getHours();
+				int minutes = currentDate.getMinutes();
+				int secondes = currentDate.getSeconds();
+				
+				
+				
+				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE);
+				str = df.format(currentDate);
+				str += " - "+heure+":"+minutes+":"+secondes;
+			}
+			
+			infos.setText(str);
 		}
 	}
 	

@@ -5,6 +5,7 @@
 package graphique;
 
 import java.awt.*;
+
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -38,6 +39,7 @@ public class VueChoixWorkspace extends JFrame {
 		value = new JTextField("/users/renaudmathieu/Desktop/LMB2/",25);
 		
 		parcourir = new JButton("...");
+		parcourir.setPreferredSize(new Dimension(20,20));
 		
 		valider = new JButton("Valider");
 
