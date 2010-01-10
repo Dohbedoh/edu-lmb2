@@ -74,7 +74,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		reprendre = new JButton("Reprendre");
 		
 		parcourir = new JButton("...");
+		parcourir.setPreferredSize(new Dimension(20,20));
 		parcourir.setToolTipText("Changer de workspace");
+		
 		capturer.setToolTipText("Capturer le site");
 		capturer.setForeground(Color.red);
 		stop.setForeground(Color.red);
