@@ -64,7 +64,7 @@ public class VueContraintes extends JPanel{
 
 		incrM.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if(value > 0)
+				if(value > -1)
 					value--;
 				compteur.setText(value+"");
 			}
