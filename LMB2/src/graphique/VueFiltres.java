@@ -7,6 +7,9 @@ package graphique;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import Aspirateur.*;
 
@@ -19,6 +22,10 @@ public class VueFiltres extends JPanel{
 	public Aspirateur laspirateur;
 	
 	public JLabel afficheFiltre;
+	
+	ArrayList<JCheckBox> checkBoxes;
+	ArrayList<String> listeFiltres;
+
 	
 	//Les cases à cocher
 	//Images
@@ -52,7 +59,7 @@ public class VueFiltres extends JPanel{
 		panneauFiltres.setLayout(new GridLayout(1,3,50,0));	
 		
 		// Creation des elements graphiques de VueFiltres
-		afficheFiltre = new JLabel("Filtres");
+		afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
 		
 		// Ajout des elements dans le conteneur VueFiltres
 		add(afficheFiltre,BorderLayout.NORTH);
@@ -63,7 +70,7 @@ public class VueFiltres extends JPanel{
 		JPanel filtres1 = new JPanel();
 		filtres1.setLayout(new GridLayout(6,1));
 		JScrollPane scroll1 = new JScrollPane(filtres1);
-		filtres1.add(new JLabel("Images :"));
+		filtres1.add(new JLabel("Images :", SwingUtilities.CENTER));
 		filtres1.add(check1);
 		filtres1.add(check2);
 		filtres1.add(check3);
@@ -76,7 +83,7 @@ public class VueFiltres extends JPanel{
 		JPanel filtres2 = new JPanel();
 		filtres2.setLayout(new GridLayout(6,1));
 		JScrollPane scroll2 = new JScrollPane(filtres2);
-		filtres2.add(new JLabel("Audio / Video :"));
+		filtres2.add(new JLabel("Audio / Video :", SwingUtilities.CENTER));
 		filtres2.add(check6);
 		filtres2.add(check7);
 		filtres2.add(check8);
@@ -89,7 +96,7 @@ public class VueFiltres extends JPanel{
 		JPanel filtres3 = new JPanel();
 		filtres3.setLayout(new GridLayout(7,1));
 		JScrollPane scroll3 = new JScrollPane(filtres3);
-		filtres3.add(new JLabel("Autres :"));
+		filtres3.add(new JLabel("Autres :", SwingUtilities.CENTER));
 		filtres3.add(check11);
 		filtres3.add(check12);
 		filtres3.add(check13);
@@ -101,9 +108,23 @@ public class VueFiltres extends JPanel{
 		
 		
 		// Ajout des actions
+		for(int i=0; i<checkBoxes.size()-1; i++){
+			checkBoxes.get(i).addActionListener(new ActionCheck());
+		}
+		
+		
 		
 		
 	}//cons-1
+	
+	//Action des cases à cocher :
+	private class ActionCheck implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				for(int i=0; i<checkBoxes.size()-1; i++){
+					listeFiltres.add(checkBoxes.get(i).getName());
+				}
+			}
+	}
 	
 	//------------------
 	// Methodes
