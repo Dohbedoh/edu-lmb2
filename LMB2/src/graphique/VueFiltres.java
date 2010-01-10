@@ -44,7 +44,7 @@ public class VueFiltres extends JPanel{
     private JCheckBox check11 = new JCheckBox(".css");    
     private JCheckBox check12 = new JCheckBox(".doc");
     private JCheckBox check13 = new JCheckBox(".exe");
-    private JCheckBox check14 = new JCheckBox(".html");
+    private JCheckBox check14 = new JCheckBox(".js");
     private JCheckBox check15 = new JCheckBox(".pdf");
     private JCheckBox check16 = new JCheckBox(".zip");
     
@@ -59,11 +59,11 @@ public class VueFiltres extends JPanel{
 		//panneauFiltres.setLayout(new GridLayout(1,3,10,0));	
 		
 		// Creation des elements graphiques de VueFiltres
-		afficheFiltre = new JLabel("Filtres");
+		afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
 		
 		// Ajout des elements dans le conteneur VueFiltres
 		add(afficheFiltre,BorderLayout.NORTH);
-		add(panneauFiltres,BorderLayout.CENTER);
+		add(panneauFiltres,BorderLayout.SOUTH);
 		
 		
 		//1er panneau : pour les filtres d'images

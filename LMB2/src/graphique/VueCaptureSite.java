@@ -7,6 +7,8 @@ package graphique;
 import Aspirateur.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -114,6 +116,11 @@ public class VueCaptureSite extends JPanel implements Observer{
 		captureTop.add(bas,BorderLayout.SOUTH);
 		capture.add(captureTop);
 		
+		
+		TitledBorder afact = BorderFactory.createTitledBorder("Données");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		capture.setBorder(afact);
+		
 		// Ajout des actions
 		capturer.addActionListener(new ActionCapturerSite());
 		stop.addActionListener(new ActionStopAsiprateur());
@@ -126,13 +133,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 		//--------------------------------
 		// Contraintes
 		JPanel contrainte = new JPanel();
-		contrainte.setBorder(BorderFactory.createTitledBorder("Contraintes de capture"));
+		
+		TitledBorder bfact = BorderFactory.createTitledBorder("Contraintes de capture");
+		bfact.setTitleJustification(TitledBorder.CENTER);
+		contrainte.setBorder(bfact);
 		contrainte.setLayout(new BorderLayout());
 		
 		JPanel chaut = new JPanel();
-		
-		chaut.setLayout(new GridLayout(2,2));
-		
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Volume maximum de données à transférer");
@@ -143,21 +150,26 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);
 		
-		chaut.add(afficheProfondeur);
-		chaut.add(contraintesProfondeur);
+		JPanel cgauche = new JPanel(new GridLayout(2,1));
+		cgauche.add(afficheProfondeur);
+		cgauche.add(afficheVolume);
 		
-		chaut.add(afficheVolume);
-		chaut.add(contraintesVolume);
+		((GridLayout)cgauche.getLayout()).setVgap(10);
+		
+		JPanel cdroit = new JPanel(new GridLayout(2,1));
+		cdroit.add(contraintesProfondeur);
+		cdroit.add(contraintesVolume);
 	
-		vueFiltres = new VueFiltres(laspirateur);
-		//vueFiltres.setPreferredSize(new Dimension(50,200));
+		chaut.add(cgauche);
+		chaut.add(cdroit);
 		
+		vueFiltres = new VueFiltres(laspirateur);
 		
 		contrainte.add(chaut,BorderLayout.NORTH);
 		contrainte.add(vueFiltres,BorderLayout.SOUTH);
 		
-		add(capture,BorderLayout.NORTH);
-		add(contrainte,BorderLayout.SOUTH);
+		add(capture,BorderLayout.WEST);
+		add(contrainte,BorderLayout.EAST);
 		
 				
 	}//cons-1

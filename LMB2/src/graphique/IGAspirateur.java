@@ -35,17 +35,17 @@ public class IGAspirateur extends JFrame{
 		laspirateur.setName("TestLMB2");
 		
 		// Creation des vues
+		split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		vueMenu = new VueMenu(laspirateur);
 		vueProgressBar = new VueProgressBar(laspirateur);
-		vueOnglets = new VueOnglets(laspirateur,vueProgressBar);
+		vueOnglets = new VueOnglets(laspirateur,vueProgressBar,split);
 		vueConsole = new VueConsole(laspirateur);
 		vueSauvegarde = new VueSauvegarde(laspirateur);
 		
 		// Ajout des vues
 		JPanel gauche = new JPanel();
 		JPanel milieu = new JPanel();
-		split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		//JPanel droit = new JPanel();
+		
 		
 		gauche.setLayout(new BorderLayout());
 		
