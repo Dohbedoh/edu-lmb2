@@ -23,8 +23,8 @@ public class VueFiltres extends JPanel{
 	
 	public JLabel afficheFiltre;
 	
-	ArrayList<JCheckBox> checkBoxes;
-	ArrayList<String> listeFiltres;
+	ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
+	ArrayList<String> listeFiltres = new ArrayList<String>();
 
 	
 	//Les cases à cocher
@@ -76,7 +76,6 @@ public class VueFiltres extends JPanel{
 		filtres1.add(check3);
 		filtres1.add(check4);
 		filtres1.add(check5);
-		filtres1.setBackground(Color.ORANGE);
 		panneauFiltres.add(scroll1);		
 		
 		//2er panneau : pour les filtres d'audios / videos
@@ -89,7 +88,6 @@ public class VueFiltres extends JPanel{
 		filtres2.add(check8);
 		filtres2.add(check9);
 		filtres2.add(check10);
-		filtres2.setBackground(Color.BLUE);
 		panneauFiltres.add(scroll2);
 		
 		//3eme panneau : pour les autres filtres
@@ -103,7 +101,6 @@ public class VueFiltres extends JPanel{
 		filtres3.add(check14);
 		filtres3.add(check15);
 		filtres3.add(check16);
-		filtres3.setBackground(Color.RED);
 		panneauFiltres.add(scroll3);
 		
 		
@@ -121,7 +118,10 @@ public class VueFiltres extends JPanel{
 	private class ActionCheck implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				for(int i=0; i<checkBoxes.size()-1; i++){
-					listeFiltres.add(checkBoxes.get(i).getName());
+					if(checkBoxes.get(i).isEnabled())
+						listeFiltres.add(checkBoxes.get(i).getName());
+					else 
+						listeFiltres.remove(checkBoxes.get(i).getName());
 				}
 			}
 	}
