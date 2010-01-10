@@ -109,7 +109,7 @@ public class Aspirateur extends Observable {
 		tailleSite = 0;
 		taillePagesMax = -1;
 		tailleSiteMax = -1;
-		tailleRessourcesMax = -1;
+		tailleRessourcesMax = 3000;
 		stop = true;
 		pause = false;
 		ressources = new ArrayList<String>();
@@ -120,15 +120,15 @@ public class Aspirateur extends Observable {
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
 		extensionsFiltred = new HashSet<String>();
-		filtres.add("js");
-		filtres.add("css");
-		filtres.add("jpeg");
-		filtres.add("jpg");
-		filtres.add("ico");
-		filtres.add("gif");
-		filtres.add("png");
-		/*filtres.add("log");
-		filtres.add("pdf");*/
+		filtres.add(".js");
+		filtres.add(".css");
+		filtres.add(".jpeg");
+		filtres.add(".jpg");
+		filtres.add(".ico");
+		filtres.add(".gif");
+		filtres.add(".png");
+		/*filtres.add(".log");
+		filtres.add(".pdf");*/
 		profondeur = 0;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
@@ -629,7 +629,7 @@ public class Aspirateur extends Observable {
 	 */
 	private boolean isToBeCaptured(String url){
 		if(url.contains(".")){
-			String extension = url.substring(url.lastIndexOf(".")+1,url.length()).toLowerCase();
+			String extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
 			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
 				if(!extensionsFiltred.contains(extension)){
 					extensionsFiltred.add(extension);
@@ -717,7 +717,7 @@ public class Aspirateur extends Observable {
 		pagesPool.runTask(new PageTask());
 		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
 				&& !stop){
-			if(tailleSiteMax-tailleSite<1000 || tailleSite==-1) {
+			if(tailleSiteMax-tailleSite<2000 && tailleSiteMax!=-1) {
 				stop();
 			}
 		}
@@ -823,7 +823,7 @@ public class Aspirateur extends Observable {
 					try {
 						while (-1 != (read = in.read(data, 0, data.length)) 
 								&& taille<tailleRessourcesMax 
-								&& (tailleSiteMax>tailleSite || tailleSite==-1))
+								&& (tailleSiteMax>tailleSite || tailleSiteMax==-1))
 							out.write(data, 0, read);
 							taille=file.length();
 					} finally {
@@ -856,13 +856,13 @@ public class Aspirateur extends Observable {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		if(taille>tailleRessourcesMax 
-				|| (tailleSiteMax<tailleSite+taille && tailleSite!=-1)){
+		if((taille>tailleRessourcesMax && tailleRessourcesMax!=-1)
+				|| (tailleSiteMax<tailleSite+taille && tailleSiteMax!=-1)){
 			file.delete();
 			if(!urlFiltred.contains(URL)){
 				urlFiltred.add(URL);
 			}
-			System.out.println("\tTrop volumineuse!\n");
+			System.out.println("\tTrop volumineuse! : " + taille + "\n");
 		}else{
 			tailleSite+=taille;
 			ressourcesCopied.add(URL);
@@ -1339,10 +1339,13 @@ public class Aspirateur extends Observable {
 						list.add(it.nextNode());
 					}
 				}
-				if((taillePagesMax==-1|| taillePagesMax>list.toHtml().getBytes().length)
-						&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSite==-1)){
+				if(((taillePagesMax==-1 
+						|| taillePagesMax>list.toHtml().getBytes().length))
+						&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1)){
 					copyPage(urlPage);
 				}else{
+					System.err.println("doh:"+list.toHtml().getBytes().length);
+					System.err.println((tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1));
 					if(!urlFiltred.contains(urlPage)){
 						urlFiltred.add(urlPage);
 					}
