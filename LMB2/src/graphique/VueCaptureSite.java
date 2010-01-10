@@ -174,6 +174,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		if(totalCopies!=0 || total!=0){
 			double value = totalCopies/total*100;
 			vueProgressBar.getProgressBar().setValue((int)value);
+		}else{
+			vueProgressBar.getProgressBar().setValue(0);
 		}
 	}
 	
