@@ -52,11 +52,20 @@ public class VueSauvegarde extends JPanel implements Observer{
 		// Creation des elements
 		racine = new DefaultMutableTreeNode();
 		initArbre(racine);
+		
 		visualisation = new JButton("Visualiser");
+		visualisation.setPreferredSize(new Dimension(80,20));
+		visualisation.setToolTipText("Lancer la visualisation dans votre navigateur par défaut");
+		
 		refresh = new JButton("Rafraichir");
+		refresh.setPreferredSize(new Dimension(80,20));
+		refresh.setToolTipText("Actualiser les sauvegardes");
+		
 		infos = new JLabel("",SwingConstants.CENTER);
 		infos.setForeground(Color.GRAY);
-		//infos.setHorizontalTextPosition(JLabel.CENTER);
+		infos.setToolTipText("Date de capture");
+		
+		
 		
 		// Création du Modele
 		treeModel = new DefaultTreeModel(racine);
@@ -70,14 +79,14 @@ public class VueSauvegarde extends JPanel implements Observer{
 		arbre.addTreeSelectionListener(new ActionSelectionArbre());		
 		
 		// Ajout des elements
-		JPanel options = new JPanel(new GridLayout(1,2));
+		JPanel options = new JPanel();
 		
 		options.add(visualisation);
 		options.add(refresh);
 		
 		add(new JScrollPane(arbre),BorderLayout.NORTH);
-		add(options,BorderLayout.SOUTH);
-		add(infos,BorderLayout.CENTER);
+		add(options,BorderLayout.CENTER);
+		add(infos,BorderLayout.SOUTH);
 		
 		// Option des elements
 		setBorder(BorderFactory.createTitledBorder("Gestion des sauvegardes"));
@@ -148,7 +157,11 @@ public class VueSauvegarde extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
 		initArbre(racine);
+		
+		// Rechargement en continu pendant une capture
 		//((DefaultTreeModel)arbre.getModel()).reload();
+		
+		arbre.setPreferredSize(arbre.getMinimumSize());
 	}
 	
 	//------------------

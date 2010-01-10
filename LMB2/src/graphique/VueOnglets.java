@@ -41,6 +41,9 @@ public class VueOnglets extends JPanel {
 		
 		// Ajout onglets
 		this.add(onglets);
+		
+		// Options
+		//onglets.setPreferredSize(new Dimension(700,300));
 	}
 	
 	//------------------

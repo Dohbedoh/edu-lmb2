@@ -28,6 +28,7 @@ public class Main {
 	        }
 	        Aspirateur laspirateur = new Aspirateur();
 			new VueChoixWorkspace(laspirateur);
+			
 	      }
 	    });
 		

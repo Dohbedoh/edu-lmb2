@@ -40,6 +40,7 @@ public class VueChoixWorkspace extends JFrame {
 		
 		parcourir = new JButton("...");
 		parcourir.setPreferredSize(new Dimension(20,20));
+		parcourir.setToolTipText("Choisir un autre répertoire comme workspace");
 		
 		valider = new JButton("Valider");
 
@@ -69,7 +70,6 @@ public class VueChoixWorkspace extends JFrame {
 		
 		// Actions
 		valider.addActionListener(new ActionDefinirPath());
-		
 		parcourir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
@@ -86,6 +86,8 @@ public class VueChoixWorkspace extends JFrame {
             }
         });
 		
+		//message.addKeyListener(new ClavierDefinirPath());
+		
 		//---
 		pack();
 		setLocationRelativeTo(null);
@@ -97,16 +99,31 @@ public class VueChoixWorkspace extends JFrame {
 	//------------------
 	// Méthodes
 	//------------------
-	private class ActionDefinirPath implements ActionListener {
+	/*
+	private class ClavierDefinirPath implements KeyListener {
 		
-		public void actionPerformed(ActionEvent e) {
-			System.out.println(value.getText());
-			
+		public void keyPressed(KeyEvent e) {
+			System.out.println("Code touche pressée : " + e.getKeyCode());
 			laspirateur.setPath(value.getText());
 			IGAspirateur ig = new IGAspirateur(laspirateur);
 			setVisible(false);
             dispose();
 		}
+
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
 	}
+	*/
 	
+	private class ActionDefinirPath implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			laspirateur.setPath(value.getText());
+			IGAspirateur ig = new IGAspirateur(laspirateur);
+			setVisible(false);
+            dispose();
+			
+		}
+		
+	}
 }

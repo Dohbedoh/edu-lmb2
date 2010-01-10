@@ -2,6 +2,8 @@ package graphique;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
