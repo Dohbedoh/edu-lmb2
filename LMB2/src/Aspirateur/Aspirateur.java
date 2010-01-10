@@ -109,7 +109,7 @@ public class Aspirateur extends Observable {
 		tailleSite = 0;
 		taillePagesMax = -1;
 		tailleSiteMax = -1;
-		tailleRessourcesMax = 3000;
+		tailleRessourcesMax = -1;
 		stop = true;
 		pause = false;
 		ressources = new ArrayList<String>();
@@ -120,14 +120,14 @@ public class Aspirateur extends Observable {
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
 		extensionsFiltred = new HashSet<String>();
-		filtres.add(".js");
+		/*filtres.add(".js");
 		filtres.add(".css");
 		filtres.add(".jpeg");
 		filtres.add(".jpg");
 		filtres.add(".ico");
 		filtres.add(".gif");
 		filtres.add(".png");
-		/*filtres.add(".log");
+		filtres.add(".log");
 		filtres.add(".pdf");*/
 		profondeur = 0;
 		pagesPool = new ThreadPool(1);
@@ -194,6 +194,15 @@ public class Aspirateur extends Observable {
 	private void resumeAll(){
 		ressourcesPool.resume();
 		pagesPool.resume();
+	}
+	
+	/**
+	 * Importer des filtres dans l'aspirateur
+	 * @param filtres
+	 */
+	public void setFiltres(ArrayList<String> filtres){
+		this.filtres.clear();
+		this.filtres.addAll(filtres);
 	}
 	
 	/**
@@ -629,7 +638,8 @@ public class Aspirateur extends Observable {
 	 */
 	private boolean isToBeCaptured(String url){
 		if(url.contains(".")){
-			String extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
+			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
+			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
 			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
 				if(!extensionsFiltred.contains(extension)){
 					extensionsFiltred.add(extension);

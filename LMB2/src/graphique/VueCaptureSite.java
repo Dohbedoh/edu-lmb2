@@ -249,12 +249,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 			System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
 			
 			// Methode pour faire les filtres
-			/**
-			 * ALLAN FAUT QUE TU VALIDES :D
-			 */
-			// Recuperation de l'ArrayList contenant toutes les extensions
-			//ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
-			//laspirateur.setFiltres(lesFiltres);
+			
+			ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
+			laspirateur.setFiltres(lesFiltres);
 			
 			
 			// Nouveau processus pour lancer le process
