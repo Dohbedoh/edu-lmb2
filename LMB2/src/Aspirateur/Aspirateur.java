@@ -113,7 +113,7 @@ public class Aspirateur extends Observable {
 		filtres.add("png");
 		/*filtres.add("log");
 		filtres.add("pdf");*/
-		profondeur = -1;
+		profondeur = 0;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
 		reinitialise();
@@ -194,12 +194,6 @@ public class Aspirateur extends Observable {
 		ressourcesPool = new ThreadPool(nb);
 	}
 
-	/**
-	 * Obtenir le chemin du workspace
-	 */
-	public String getPath() {
-		return this.path;
-	}
 
 	/**
 	 * Modifier le chemin du workspace
@@ -208,6 +202,44 @@ public class Aspirateur extends Observable {
 	 */
 	public void setPath(String unPath) {
 		this.path = unPath;
+
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
+
+	
+	/**
+	 * Changer la profondeur
+	 * <0 pour effectuer l'aspiration sans profondeur
+	 * @param prof
+	 */
+	public void setProfondeur(int prof){
+		profondeur = prof;
+	}
+	
+	
+	/**
+	 * Procedure qui modifie le Prefixe qui sera utilise
+	 * 
+	 * @param url
+	 *            : l'URL donnee par l'utilisateur
+	 */
+	public void setSource(String url) {
+		urlSource = toSource(url);
+		pages.add(url);
+
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
+	/**
+	 * Modifier le lien local ou sera enregistre le projet
+	 * 
+	 * @param URL
+	 */
+	public void setLocal(String URL) {
+		this.urlLocal = URL;
 
 		// Avertir les vues que le modele change
 		setChanged();
@@ -226,6 +258,15 @@ public class Aspirateur extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+	
+	
+	/**
+	 * Obtenir le chemin du workspace
+	 */
+	public String getPath() {
+		return this.path;
+	}
+
 
 	/**
 	 * Obtenir le nom du repertoire contenant le site
@@ -236,19 +277,7 @@ public class Aspirateur extends Observable {
 		return name;
 	}
 
-	/**
-	 * Modifier le lien local ou sera enregistre le projet
-	 * 
-	 * @param URL
-	 */
-	public void setLocal(String URL) {
-		this.urlLocal = URL;
-
-		// Avertir les vues que le modele change
-		setChanged();
-		notifyObservers();
-	}
-
+	
 	/**
 	 * Obtenir le lien local ou sera enregistre le projet
 	 * 
@@ -258,26 +287,6 @@ public class Aspirateur extends Observable {
 		return urlLocal;
 	}
 
-	/**
-	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
-	 * 
-	 * @param url
-	 *            : l'URL
-	 */
-	private String toSource(String url){
-		if (url.endsWith("/") || url.endsWith("\\")) {
-			url = url.substring(0, url.length() - 1);
-		}else{
-			if(url.indexOf("/")!=-1){
-				url = url.substring(0, url.lastIndexOf("/"));
-			}else{
-				if(url.indexOf("\\")!=-1){
-					url = url.substring(0, url.lastIndexOf("\\"));
-				}
-			}
-		}
-		return url;
-	}
 	
 	/**
 	 * Procédure qui retourne l'URL source
@@ -286,36 +295,6 @@ public class Aspirateur extends Observable {
 		return urlSource;
 	}
 
-	/**
-	 * Procedure qui modifie le Prefixe qui sera utilise
-	 * 
-	 * @param url
-	 *            : l'URL donnee par l'utilisateur
-	 */
-	public void setSource(String url) {
-		urlSource = toSource(url);
-		pages.add(url);
-
-		// Avertir les vues que le modele change
-		setChanged();
-		notifyObservers();
-	}
-
-	/**
-	 * Ajouter un filtre
-	 * @param filtre
-	 */
-	public void addFiltre(String filtre){
-		if(!filtres.contains(filtre.toLowerCase())){
-			filtres.add(filtre.toLowerCase());
-		}
-	}
-	
-	public void removeFiltre(String filtre){
-		if(filtres.contains(filtre.toLowerCase())){
-			filtres.remove(filtre.toLowerCase());
-		}
-	}
 
 	public int getNbFiltredURL(){
 		return urlFiltred.size();
@@ -353,14 +332,6 @@ public class Aspirateur extends Observable {
 		return profondeur;
 	}
 	
-	/**
-	 * Changer la profondeur
-	 * <0 pour effectuer l'aspiration sans profondeur
-	 * @param prof
-	 */
-	public void setProfondeur(int prof){
-		profondeur = prof;
-	}
 	
 	/**
 	 * 
@@ -384,6 +355,47 @@ public class Aspirateur extends Observable {
     	return true;
 	}
 
+	/**
+	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
+	 * 
+	 * @param url
+	 *            : l'URL
+	 */
+	private String toSource(String url){
+		if (url.endsWith("/") || url.endsWith("\\")) {
+			url = url.substring(0, url.length() - 1);
+		}else{
+			if(url.indexOf("/")!=-1){
+				url = url.substring(0, url.lastIndexOf("/"));
+			}else{
+				if(url.indexOf("\\")!=-1){
+					url = url.substring(0, url.lastIndexOf("\\"));
+				}
+			}
+		}
+		return url;
+	}
+	
+	/**
+	 * Ajouter un filtre
+	 * @param filtre
+	 */
+	public void addFiltre(String filtre){
+		if(!filtres.contains(filtre.toLowerCase())){
+			filtres.add(filtre.toLowerCase());
+		}
+	}
+	
+	/**
+	 * Supprimer un filtre
+	 * @param filtre
+	 */
+	public void removeFiltre(String filtre){
+		if(filtres.contains(filtre.toLowerCase())){
+			filtres.remove(filtre.toLowerCase());
+		}
+	}
+	
 	/**
 	 * Procédure qui rénitialise notre aspirateur
 	 */
