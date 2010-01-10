@@ -42,13 +42,10 @@ public class VueCaptureSite extends JPanel implements Observer{
 	
 	public JLabel afficheVolume;
 	
-	public JLabel afficheFiltre;
-	public JCheckBox filtrerImage;
-	public JCheckBox filtrerTexte;
-	
 	public VueContraintes contraintesProfondeur;
 	public VueContraintes contraintesVolume;
 	
+	public VueFiltres vueFiltres;
 	//------------------
 	// Constructeurs
 	//------------------
@@ -133,15 +130,16 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contrainte.setLayout(new BorderLayout());
 		
 		JPanel chaut = new JPanel();
-		JPanel cbas = new JPanel();
 		
 		chaut.setLayout(new GridLayout(2,2));
-		cbas.setLayout(new GridLayout(2,2));
+		
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Volume maximum de données à transférer");
 	
-		afficheProfondeur.setToolTipText("-1 : Pas de profondeur");
+		afficheProfondeur.setToolTipText("-1 : Profondeur illimitée");
+		afficheVolume.setToolTipText("-1 : Volume illimité");
+		
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);
 		
@@ -151,17 +149,12 @@ public class VueCaptureSite extends JPanel implements Observer{
 		chaut.add(afficheVolume);
 		chaut.add(contraintesVolume);
 	
-		afficheFiltre = new JLabel("Filtres");
-		filtrerImage = new JCheckBox("Filtrer les images");
-		filtrerTexte  = new JCheckBox("Filtrer le texte");		
+		vueFiltres = new VueFiltres(laspirateur);
+		//vueFiltres.setPreferredSize(new Dimension(50,200));
 		
-		cbas.add(afficheFiltre);
-		cbas.add(filtrerImage);
-		cbas.add(new JLabel(""));
-		cbas.add(filtrerTexte);
 		
 		contrainte.add(chaut,BorderLayout.NORTH);
-		contrainte.add(cbas,BorderLayout.SOUTH);
+		contrainte.add(vueFiltres,BorderLayout.SOUTH);
 		
 		add(capture,BorderLayout.NORTH);
 		add(contrainte,BorderLayout.SOUTH);
@@ -252,10 +245,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 			int profondeur = contraintesProfondeur.getValue();
 			int volume = contraintesVolume.getValue();
 			
-
 			laspirateur.setProfondeur(profondeur);
-			
 			System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
+			
+			// Methode pour faire les filtres
+			/**
+			 * ALLAN FAUT QUE TU VALIDES :D
+			 */
+			// Recuperation de l'ArrayList contenant toutes les extensions
+			//ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
+			//laspirateur.setFiltres(lesFiltres);
+			
 			
 			// Nouveau processus pour lancer le process
 			t = new Thread(new Runnable(){
@@ -268,7 +268,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			});
 			
 			
-			// Methode pour faire les filtres
+			
 			
 			// On lance le premier processus qui lancera le deuxième
 			t.start();

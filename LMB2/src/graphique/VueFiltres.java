@@ -56,10 +56,10 @@ public class VueFiltres extends JPanel{
 		this.laspirateur = laspirateur;
 		this.setLayout(new BorderLayout());
 		JPanel panneauFiltres = new JPanel();
-		panneauFiltres.setLayout(new GridLayout(1,3,50,0));	
+		//panneauFiltres.setLayout(new GridLayout(1,3,10,0));	
 		
 		// Creation des elements graphiques de VueFiltres
-		afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
+		afficheFiltre = new JLabel("Filtres");
 		
 		// Ajout des elements dans le conteneur VueFiltres
 		add(afficheFiltre,BorderLayout.NORTH);
@@ -70,42 +70,58 @@ public class VueFiltres extends JPanel{
 		JPanel filtres1 = new JPanel();
 		filtres1.setLayout(new GridLayout(6,1));
 		JScrollPane scroll1 = new JScrollPane(filtres1);
-		filtres1.add(new JLabel("Images :", SwingUtilities.CENTER));
-		filtres1.add(check1);
-		filtres1.add(check2);
-		filtres1.add(check3);
-		filtres1.add(check4);
-		filtres1.add(check5);
+		filtres1.add(new JLabel("Images", SwingUtilities.CENTER));
+		filtres1.add(check1); checkBoxes.add(check1);
+		filtres1.add(check2); checkBoxes.add(check2);
+		filtres1.add(check3); checkBoxes.add(check3);
+		filtres1.add(check4); checkBoxes.add(check4);
+		filtres1.add(check5); checkBoxes.add(check5);
 		panneauFiltres.add(scroll1);		
 		
 		//2er panneau : pour les filtres d'audios / videos
 		JPanel filtres2 = new JPanel();
 		filtres2.setLayout(new GridLayout(6,1));
 		JScrollPane scroll2 = new JScrollPane(filtres2);
-		filtres2.add(new JLabel("Audio / Video :", SwingUtilities.CENTER));
-		filtres2.add(check6);
-		filtres2.add(check7);
-		filtres2.add(check8);
-		filtres2.add(check9);
-		filtres2.add(check10);
+		filtres2.add(new JLabel("Audio / Video", SwingUtilities.CENTER));
+		filtres2.add(check6); checkBoxes.add(check6);
+		filtres2.add(check7); checkBoxes.add(check7);
+		filtres2.add(check8); checkBoxes.add(check8);
+		filtres2.add(check9); checkBoxes.add(check9);
+		filtres2.add(check10); checkBoxes.add(check10);
 		panneauFiltres.add(scroll2);
 		
 		//3eme panneau : pour les autres filtres
 		JPanel filtres3 = new JPanel();
 		filtres3.setLayout(new GridLayout(7,1));
 		JScrollPane scroll3 = new JScrollPane(filtres3);
-		filtres3.add(new JLabel("Autres :", SwingUtilities.CENTER));
-		filtres3.add(check11);
-		filtres3.add(check12);
-		filtres3.add(check13);
-		filtres3.add(check14);
-		filtres3.add(check15);
-		filtres3.add(check16);
+		filtres3.add(new JLabel("Autres", SwingUtilities.CENTER));
+		filtres3.add(check11); checkBoxes.add(check11);
+		filtres3.add(check12); checkBoxes.add(check12);
+		filtres3.add(check13); checkBoxes.add(check13);
+		filtres3.add(check14); checkBoxes.add(check14);
+		filtres3.add(check15); checkBoxes.add(check15);
+		filtres3.add(check16); checkBoxes.add(check16);
 		panneauFiltres.add(scroll3);
 		
+		//-------------------------------
+		// Options
 		
+		// Couleurs
+		filtres1.setBackground(new Color(150,200,250));
+		filtres2.setBackground(new Color(150,200,250));
+		filtres3.setBackground(new Color(150,200,250));
+		
+		// Taille
+		filtres1.setPreferredSize(new Dimension(100,150));
+		filtres2.setPreferredSize(new Dimension(100,150));
+		filtres3.setPreferredSize(new Dimension(100,150));
+		
+		// Divers
+		//afficheFiltre.setFont(new Font("", Font.BOLD,12));
+		
+		//-------------------------------
 		// Ajout des actions
-		for(int i=0; i<checkBoxes.size()-1; i++){
+		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).addActionListener(new ActionCheck());
 		}
 		
@@ -114,21 +130,34 @@ public class VueFiltres extends JPanel{
 		
 	}//cons-1
 	
-	//Action des cases à cocher :
-	private class ActionCheck implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-				for(int i=0; i<checkBoxes.size()-1; i++){
-					if(checkBoxes.get(i).isEnabled())
-						listeFiltres.add(checkBoxes.get(i).getName());
-					else 
-						listeFiltres.remove(checkBoxes.get(i).getName());
-				}
-			}
-	}
-	
 	//------------------
 	// Methodes
 	//------------------
+	public ArrayList<String> getListeFiltres(){
+		return this.listeFiltres;
+	}
+	
+	//Action des cases à cocher :
+	private class ActionCheck implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				
+				// Recuperation de la source de l'action
+				JCheckBox current = (JCheckBox)e.getSource();
+				
+				if(current.isSelected())
+					listeFiltres.add(current.getText());
+				else
+					listeFiltres.remove(current.getText());
+				
+				/*// Visualiser le contenu de la liste des Filtres
+				for (int i = 0; i < listeFiltres.size(); i++){
+					System.out.println(listeFiltres.get(i));
+				}*/
+				
+			}
+	}
+	
+	/*
 	public static void main(String[] args){
 		JFrame fp = new JFrame("Test");
 		fp.add(new VueFiltres(new Aspirateur()));
@@ -136,4 +165,5 @@ public class VueFiltres extends JPanel{
 		fp.setVisible(true);
 		fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	*/
 }

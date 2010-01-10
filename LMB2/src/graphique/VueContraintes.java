@@ -36,6 +36,7 @@ public class VueContraintes extends JPanel{
 	public VueContraintes(Aspirateur aspi){
 		this.aspi=aspi;
 		
+		value = -1;
 		// Creation des elements graphiques
 		incrP = new JButton(new ImageIcon("boutons_plus.png"));
 		incrM = new JButton(new ImageIcon("boutons_moins.png"));
@@ -47,9 +48,9 @@ public class VueContraintes extends JPanel{
 		// Ajout des elements dans le conteneur
 		   
         // Le gridlayout vient se confondre avec la fenêtre  
-		add(incrP, BorderLayout.NORTH);
+		add(incrM, BorderLayout.NORTH);
 		add(compteur);
-		add(incrM, BorderLayout.SOUTH);
+		add(incrP, BorderLayout.SOUTH);
 		
 		
 		// Ajout des actions
@@ -66,7 +67,7 @@ public class VueContraintes extends JPanel{
 				if(value > -1){
 					value--;
 				}
-				if(value>0){
+				if(value >= -1){
 					compteur.setText(value+"");
 				}else{
 					compteur.setText("No");

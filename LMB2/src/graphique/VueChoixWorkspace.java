@@ -86,7 +86,8 @@ public class VueChoixWorkspace extends JFrame {
             }
         });
 		
-		//message.addKeyListener(new ClavierDefinirPath());
+		
+		valider.setMnemonic(KeyEvent.VK_ENTER);
 		
 		//---
 		pack();
@@ -99,22 +100,6 @@ public class VueChoixWorkspace extends JFrame {
 	//------------------
 	// Méthodes
 	//------------------
-	/*
-	private class ClavierDefinirPath implements KeyListener {
-		
-		public void keyPressed(KeyEvent e) {
-			System.out.println("Code touche pressée : " + e.getKeyCode());
-			laspirateur.setPath(value.getText());
-			IGAspirateur ig = new IGAspirateur(laspirateur);
-			setVisible(false);
-            dispose();
-		}
-
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	}
-	*/
-	
 	private class ActionDefinirPath implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
