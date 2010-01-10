@@ -832,7 +832,7 @@ public class Aspirateur extends Observable {
 					out = new FileOutputStream(file);
 					try {
 						while (-1 != (read = in.read(data, 0, data.length)) 
-								&& taille<tailleRessourcesMax 
+								&& (taille<tailleRessourcesMax || tailleRessourcesMax==-1)
 								&& (tailleSiteMax>tailleSite || tailleSiteMax==-1))
 							out.write(data, 0, read);
 							taille=file.length();
