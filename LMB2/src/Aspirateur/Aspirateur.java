@@ -38,9 +38,10 @@ public class Aspirateur extends Observable {
 	// ------------------
 	// Attributs
 	// ------------------
-	NodeList list;
+	private NodeList list;
 
-	Parser parser;
+	private Parser parser;
+	
 	/**
 	 * Préfixe de l'URL WEB donnée (généralement le dossier parent de
 	 * "index.html" par exemple
@@ -87,13 +88,28 @@ public class Aspirateur extends Observable {
 	/** Indicateur de profondeur de pages*/
 	private int profondeur;
 
+	/** Indicateur de taille max de fichier*/
+	private long taillePagesMax;
+	
+	/** Indicateur de taille max du site*/
+	private long tailleSiteMax;
+	private long tailleSite;
+	
+	/** Indicateur de taille max du site*/
+	private long tailleRessourcesMax;
+	
 	/** Booléen permettant de contrôler le parsing */
 	private boolean stop,pause;
+	
 	
 	// ------------------
 	// Constructeur
 	// ------------------
 	public Aspirateur() {
+		tailleSite = 0;
+		taillePagesMax = -1;
+		tailleSiteMax = -1;
+		tailleRessourcesMax = -1;
 		stop = true;
 		pause = false;
 		ressources = new ArrayList<String>();
@@ -259,6 +275,62 @@ public class Aspirateur extends Observable {
 		notifyObservers();
 	}
 	
+	/**
+	 * Définir la taille maximale du site que l'on veut aspirer
+	 * @param taille
+	 */
+	public void setTailleSiteMax(long taille){
+		tailleSiteMax = taille;
+	}
+	
+	/**
+	 * Définir la taille maximale des fichiers ressources que l'on veut aspirer
+	 * @param taille
+	 */
+	public void setTailleRessourcesMax(long taille){
+		tailleRessourcesMax = taille;
+	}
+	
+	/**
+	 * Définir la taille maximale des pages (HTML et PHP) que l'on veut aspirer
+	 * @param taille
+	 */
+	public void setTaillePagesMax(long taille){
+		taillePagesMax = taille;
+	}
+	
+	
+	/**
+	 * Obtenir la taille totale des fichiers aspirés
+	 * @return
+	 */
+	public long getTailleSite(){
+		return tailleSite;
+	}
+	
+	/**
+	 * Obtenir la taille maximale définie pour un site
+	 * @return
+	 */
+	public long getTailleSiteMax(){
+		return tailleSiteMax;
+	}
+	
+	/**
+	 * Obtenir la taille maximale définie pour un fichier ressources
+	 * @return
+	 */
+	public long getTailleRessourcesMax(){
+		return tailleRessourcesMax;
+	}
+	
+	/**
+	 * Obtenir la taille maximale définie pour une page (HTML ou PHP)
+	 * @return
+	 */
+	public long getTaillePagesMax(){
+		return tailleRessourcesMax;
+	}
 	
 	/**
 	 * Obtenir le chemin du workspace
@@ -400,6 +472,7 @@ public class Aspirateur extends Observable {
 	 * Procédure qui rénitialise notre aspirateur
 	 */
 	public void reinitialise(){
+		tailleSite = 0;
 		stop = true;
 		pause = false;
 		ressources.clear();
@@ -642,9 +715,13 @@ public class Aspirateur extends Observable {
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
-		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause) && !stop) {
+		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
+				&& !stop){
+			if(tailleSiteMax-tailleSite<1000 || tailleSite==-1) {
+				stop();
+			}
 		}
-		System.err.println("\nfini!!!!!!");
+		System.err.println("\nfini!!!!!! avec "+ tailleSite);
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
 		setChanged();
@@ -677,12 +754,10 @@ public class Aspirateur extends Observable {
 						//ressources.add(urlPage + temp);
 						//ressourcesPool.runTask(new RessourceTask());
 						copyRessources(urlPage + temp);
-						ressourcesCopied.add(urlPage + temp);
 					} else {
 						//ressources.add(urlPage + "/" + temp);
 						//ressourcesPool.runTask(new RessourceTask());
 						copyRessources(urlPage + "/" + temp);
-						ressourcesCopied.add(urlPage +"/"+ temp);
 					}
 				}else{
 					if(!urlFiltred.contains(urlPage + temp)){
@@ -695,7 +770,6 @@ public class Aspirateur extends Observable {
 					//ressources.add(temp);
 					//ressourcesPool.runTask(new RessourceTask());
 					copyRessources(temp);
-					ressourcesCopied.add(temp);
 				}else{
 					if(!urlFiltred.contains(urlPage + temp)){
 						urlFiltred.add(urlPage + temp);
@@ -726,6 +800,7 @@ public class Aspirateur extends Observable {
 	 */
 	private void copyRessources(String URL) {
 		File file;
+		long taille = 0;
 		file = new File(urlLocal + "/"
 				+ deleteSpecialChar(toLocalLink(toRelativeLink(URL))));
 		File dir = file.getParentFile();
@@ -743,11 +818,14 @@ public class Aspirateur extends Observable {
 				in = source.openStream();
 				try {
 					System.out.println("\tcopy RESSOURCES : \""
-							+ file.getAbsolutePath() + "\n");
+							+ file.getAbsolutePath());
 					out = new FileOutputStream(file);
 					try {
-						while (-1 != (read = in.read(data, 0, data.length)))
+						while (-1 != (read = in.read(data, 0, data.length)) 
+								&& taille<tailleRessourcesMax 
+								&& (tailleSiteMax>tailleSite || tailleSite==-1))
 							out.write(data, 0, read);
+							taille=file.length();
 					} finally {
 						out.close();
 					}
@@ -778,6 +856,17 @@ public class Aspirateur extends Observable {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		if(taille>tailleRessourcesMax 
+				|| (tailleSiteMax<tailleSite+taille && tailleSite!=-1)){
+			file.delete();
+			if(!urlFiltred.contains(URL)){
+				urlFiltred.add(URL);
+			}
+			System.out.println("\tTrop volumineuse!\n");
+		}else{
+			tailleSite+=taille;
+			ressourcesCopied.add(URL);
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -795,7 +884,7 @@ public class Aspirateur extends Observable {
 			file = new File(urlLocal + "/index.html");
 		} else {
 			String link = URL;
-    		link = toLocalPage(link);
+			link = toLocalPage(link);
 			file = new File(urlLocal + "/"
 					+ deleteSpecialChar(toRelativeLink(link)));
 
@@ -819,6 +908,7 @@ public class Aspirateur extends Observable {
 					pw.close();
 				} finally {
 					out.close();
+					tailleSite+=list.toHtml().getBytes().length;
 				}
 			} catch (FileNotFoundException fnfe) {
 				System.err.println("broken link " + fnfe.getMessage()
@@ -959,7 +1049,9 @@ public class Aspirateur extends Observable {
 			String image = getImageURL();
 			if (isRelativeToTheSource(image)) {
 				if(isToBeCaptured(image)){
-					if (!ressources.contains(image) && !ressourcesCopied.contains(image)) {
+					if (!ressources.contains(image) 
+							&& !ressourcesCopied.contains(image)
+							&& !urlFiltred.contains(image)) {
 						// System.out.println("\n\t----------new Image----------");
 						// System.out.println("\tImage URL : " + image);
 						ressources.add(image);
@@ -992,7 +1084,9 @@ public class Aspirateur extends Observable {
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {
 					if(isNotTooDeep(link)){
-						if (!pages.contains(link) && !pagesCopied.contains(link)) {
+						if (!pages.contains(link) 
+								&& !pagesCopied.contains(link)
+								&& !urlFiltred.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
@@ -1009,7 +1103,9 @@ public class Aspirateur extends Observable {
 					}
 				} else {
 					if(isToBeCaptured(link)){
-						if (!ressources.contains(link) && !ressourcesCopied.contains(link)) {
+						if (!ressources.contains(link) 
+								&& !ressourcesCopied.contains(link)
+								&& !urlFiltred.contains(link)) {
 							// System.out.println("\n\t----------new Image----------");
 							// System.out.println("\tImage URL : " + link);
 							ressources.add(link);
@@ -1043,7 +1139,9 @@ public class Aspirateur extends Observable {
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {
 					if(isNotTooDeep(link)){
-						if (!pages.contains(link) && !pagesCopied.contains(link)) {
+						if (!pages.contains(link) 
+								&& !pagesCopied.contains(link)
+								&& !urlFiltred.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
@@ -1059,7 +1157,9 @@ public class Aspirateur extends Observable {
 					}
 				} else {
 					if(isToBeCaptured(link)){
-						if (!ressources.contains(link) && !ressourcesCopied.contains(link)) {
+						if (!ressources.contains(link) 
+								&& !ressourcesCopied.contains(link)
+								&& !urlFiltred.contains(link)) {
 							// System.out.println("\n\t----------new Image----------");
 							// System.out.println("\tImage URL : " + link);
 							ressources.add(link);
@@ -1112,7 +1212,8 @@ public class Aspirateur extends Observable {
 				}
 				if (isToBeCaptured(jsLink)) {
 					if (!ressources.contains(jsLink)
-							&& !ressourcesCopied.contains(jsLink)) {
+							&& !ressourcesCopied.contains(jsLink)
+							&& !urlFiltred.contains(jsLink)) {
 						ressources.add(jsLink);
 						ressourcesPool.runTask(new RessourceTask());
 					}
@@ -1147,7 +1248,8 @@ public class Aspirateur extends Observable {
 			if (isRelativeToTheSource(link)) {
 				if(isToBeCaptured(link)){
 					if (!ressources.contains(link)
-							&& !ressourcesCopied.contains(link)) {
+							&& !ressourcesCopied.contains(link)
+							&& !urlFiltred.contains(link)) {
 						// System.out.println("\n\t----------new CSS-----------");
 						// System.out.println("\tCSS URL : " + cssLink);
 						ressources.add(link);
@@ -1178,7 +1280,8 @@ public class Aspirateur extends Observable {
 			if (isRelativeToTheSource(link)) {
 				if(isToBeCaptured(link)){
 					if (!ressources.contains(link)
-							&& !ressourcesCopied.contains(link)) {
+							&& !ressourcesCopied.contains(link)
+							&& !urlFiltred.contains(link)) {
 						// System.out.println("\n\t----------new CSS-----------");
 						// System.out.println("\tCSS URL : " + cssLink);
 						ressources.add(link);
@@ -1203,7 +1306,6 @@ public class Aspirateur extends Observable {
 			String URL;
 			synchronized (ressources){
 				URL = ressources.remove(0);
-				ressourcesCopied.add(URL);
 			}
 			copyRessources(URL);
 		}
@@ -1237,7 +1339,14 @@ public class Aspirateur extends Observable {
 						list.add(it.nextNode());
 					}
 				}
-				copyPage(urlPage);
+				if((taillePagesMax==-1|| taillePagesMax>list.toHtml().getBytes().length)
+						&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSite==-1)){
+					copyPage(urlPage);
+				}else{
+					if(!urlFiltred.contains(urlPage)){
+						urlFiltred.add(urlPage);
+					}
+				}
 				/*
 				 * afficherCopied(); afficherImages(); afficherPages();
 				 * afficherCSS(); afficherJS();
