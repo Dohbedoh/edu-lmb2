@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/Users/renaudmathieu/Desktop/lib/htmllexer.jar"/>
-	<classpathentry kind="lib" path="/Users/renaudmathieu/Desktop/lib/htmlparser.jar"/>
-	<classpathentry kind="lib" path="/Users/renaudmathieu/Desktop/lib/substance.jar"/>
+	<classpathentry kind="lib" path="htmllexer.jar"/>
+	<classpathentry kind="lib" path="htmlparser.jar"/>
+	<classpathentry kind="lib" path="substance.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

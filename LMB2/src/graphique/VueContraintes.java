@@ -39,6 +39,8 @@ public class VueContraintes extends JPanel{
 		// Creation des elements graphiques
 		incrP = new JButton(new ImageIcon("boutons_plus.png"));
 		incrM = new JButton(new ImageIcon("boutons_moins.png"));
+		//incrP= new JButton();
+		//incrM = new JButton();
 		compteur = new JLabel(""+value);
 		incrP.setPreferredSize(new Dimension(10,10));
 		incrM.setPreferredSize(new Dimension(10,10));
