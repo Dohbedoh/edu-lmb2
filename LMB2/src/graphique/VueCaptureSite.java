@@ -7,7 +7,6 @@ package graphique;
 import Aspirateur.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
@@ -129,6 +128,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		nom.addActionListener(new ActionMAJName());
 		path.addActionListener(new ActionMAJPath());
 		parcourir.addActionListener(new ActionChangerPath());
+		
+		pause.setEnabled(false);
+		reprendre.setEnabled(false);
 		
 		//--------------------------------
 		// Contraintes
@@ -292,7 +294,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 	private class ActionStopAsiprateur implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
-			laspirateur.stop();
+			if(!laspirateur.isStopped()){
+				laspirateur.stop();
+			}
 			pause.setEnabled(false);
 			reprendre.setEnabled(false);
 		}

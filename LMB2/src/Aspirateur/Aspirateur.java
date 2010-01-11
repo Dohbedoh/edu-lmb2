@@ -413,6 +413,21 @@ public class Aspirateur extends Observable {
 		return profondeur;
 	}
 	
+	/**
+	 * Retourne si le Parser n'est pas actif
+	 * @return
+	 */
+	public boolean isStopped(){
+		return stop;
+	}
+	
+	/**
+	 * Retourne si le Parser est en pause
+	 * @return
+	 */
+	public boolean isPaused(){
+		return pause;
+	}
 	
 	/**
 	 * 
