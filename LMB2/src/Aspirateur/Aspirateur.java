@@ -808,7 +808,6 @@ public class Aspirateur extends Observable {
 				if(isToBeCaptured(temp)){
 					ressources.add(temp);
 					ressourcesPool.runTask(new RessourceTask());
-					System.err.println("image3 : " + temp);
 					//copyRessources(temp);
 				}else{
 					if(!urlFiltred.contains(temp)){
