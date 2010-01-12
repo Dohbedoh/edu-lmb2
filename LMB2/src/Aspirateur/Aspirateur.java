@@ -515,8 +515,8 @@ public class Aspirateur extends Observable {
 		factory.registerTag(new LocalLinkTag());
 		factory.registerTag(new LocalImageTag());
 		factory.registerTag(new LocalFrameTag());
-		factory.registerTag(new CSSStyleTag());
-		factory.registerTag(new JSTag());
+		factory.registerTag(new LocalStyleTag());
+		factory.registerTag(new LocalJSTag());
 		parser.setNodeFactory(factory);
 	}
 	
@@ -1225,7 +1225,7 @@ public class Aspirateur extends Observable {
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
 	 * tag de type 'script' est rencontré
 	 */
-	class JSTag extends org.htmlparser.tags.ScriptTag {
+	class LocalJSTag extends org.htmlparser.tags.ScriptTag {
 
 		private static final long serialVersionUID = -2558739946355789992L;
 
@@ -1274,7 +1274,7 @@ public class Aspirateur extends Observable {
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
 	 * tag de type 'style' est rencontré
 	 */
-	class CSSStyleTag extends org.htmlparser.tags.StyleTag{
+	class LocalStyleTag extends org.htmlparser.tags.StyleTag{
 		
 		/* A compléter... */
 
@@ -1287,38 +1287,6 @@ public class Aspirateur extends Observable {
 		}
 	}
 
-	/**
-	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
-	 * tag de type 'form' est rencontré
-	 */
-	class ActionTag extends org.htmlparser.tags.FormTag {
-		
-		/* A compléter... : récupérer le php qui gère le formulaire*/
-
-		private static final long serialVersionUID = -286453057668751110L;
-
-		public void doSemanticAction() throws ParserException {
-			String link = this.getFormMethod();
-			if (isRelativeToTheSource(link)) {
-				if(isToBeCaptured(link)){
-					if (!ressources.contains(link)
-							&& !ressourcesCopied.contains(link)
-							&& !urlFiltred.contains(link)) {
-						// System.out.println("\n\t----------new CSS-----------");
-						// System.out.println("\tCSS URL : " + cssLink);
-						ressources.add(link);
-						ressourcesPool.runTask(new RessourceTask());
-						// System.out.println("\t----------------------------\n");
-					}
-				}else{
-					if(!urlFiltred.contains(link)){
-						urlFiltred.add(link);
-					}
-				}
-			}
-		}
-	}
-	
 	class RessourceTask implements Runnable{
 
 		@Override
