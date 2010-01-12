@@ -47,6 +47,7 @@ public class VueOnglets extends JPanel {
 		
 		// Options
 		//vueCaptureSite.setPreferredSize(new Dimension(800,420));
+		//onglets.setTabPlacement(JTabbedPane.RIGHT);
 	}
 	
 	//------------------
