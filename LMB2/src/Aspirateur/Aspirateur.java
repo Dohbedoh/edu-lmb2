@@ -515,7 +515,7 @@ public class Aspirateur extends Observable {
 		factory.registerTag(new LocalLinkTag());
 		factory.registerTag(new LocalImageTag());
 		factory.registerTag(new LocalFrameTag());
-		//factory.registerTag(new CSSTag());
+		factory.registerTag(new CSSStyleTag());
 		factory.registerTag(new JSTag());
 		parser.setNodeFactory(factory);
 	}
@@ -767,36 +767,51 @@ public class Aspirateur extends Observable {
 
 		Pattern p = Pattern.compile("url\\(.*\\)");
 		Matcher m = p.matcher(page);
+		String link = "";
 		while (m.find()) {
 			String temp = page.substring(m.start(), m.end());
 			temp = temp.substring(4);
 			temp = temp.substring(0, temp.length() - 1);
 			temp = temp.replace("'", "");
 			temp = temp.replace("\"", "");
+			
+			link = urlPage.substring(0,urlPage.lastIndexOf("/"));
+			if(!link.equals("http:/") && link.length()>0){
+				if (temp.startsWith("/")) {
+					link = urlPage.substring(0,urlPage.lastIndexOf("/"))+ temp;
+				}else{
+					link = urlPage.substring(0,urlPage.lastIndexOf("/")+1)+ temp;
+				}
+			}else{
+				link = urlPage + "/" + temp;
+			}
+			
+			
 			if (!temp.contains(urlSource)) {
 				if(isToBeCaptured(urlPage + temp)){
-					if (temp.startsWith("/")) {
-						//ressources.add(urlPage + temp);
-						//ressourcesPool.runTask(new RessourceTask());
-						copyRessources(urlPage + temp);
-					} else {
-						//ressources.add(urlPage + "/" + temp);
-						//ressourcesPool.runTask(new RessourceTask());
-						copyRessources(urlPage + "/" + temp);
+					if (!ressources.contains(link)
+							&& !ressourcesCopied.contains(link)
+							&& !urlFiltred.contains(link)) {
+
+						ressources.add(link);
+						ressourcesPool.runTask(new RessourceTask());
+						//copyRessources(link);
+							
 					}
 				}else{
-					if(!urlFiltred.contains(urlPage + temp)){
-						urlFiltred.add(urlPage + temp);
+					if(!urlFiltred.contains(link)){
+						urlFiltred.add(link);
 					}
 				}
 
 			} else{
-				if(isToBeCaptured(urlPage + temp)){
-					//ressources.add(temp);
-					//ressourcesPool.runTask(new RessourceTask());
-					copyRessources(temp);
+				if(isToBeCaptured(temp)){
+					ressources.add(temp);
+					ressourcesPool.runTask(new RessourceTask());
+					System.err.println("image3 : " + temp);
+					//copyRessources(temp);
 				}else{
-					if(!urlFiltred.contains(urlPage + temp)){
+					if(!urlFiltred.contains(temp)){
 						urlFiltred.add(urlPage + temp);
 					}
 				}
@@ -1267,26 +1282,8 @@ public class Aspirateur extends Observable {
 
 		public void doSemanticAction() throws ParserException {
 			
-			/* A compléter... : parser du css*/
+			treatCSS(toString(),parser.getLexer().getPage().getUrl());
 			
-			String link =  "";
-			if (isRelativeToTheSource(link)) {
-				if(isToBeCaptured(link)){
-					if (!ressources.contains(link)
-							&& !ressourcesCopied.contains(link)
-							&& !urlFiltred.contains(link)) {
-						// System.out.println("\n\t----------new CSS-----------");
-						// System.out.println("\tCSS URL : " + cssLink);
-						ressources.add(link);
-						ressourcesPool.runTask(new RessourceTask());
-						// System.out.println("\t----------------------------\n");
-					}
-				}else{
-					if(!urlFiltred.contains(link)){
-						urlFiltred.add(link);
-					}
-				}
-			}
 		}
 	}
 
