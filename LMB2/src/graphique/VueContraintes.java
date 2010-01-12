@@ -41,7 +41,7 @@ public class VueContraintes extends JPanel{
 		incrP = new JButton(new ImageIcon("boutons_plus.png"));
 		incrM = new JButton(new ImageIcon("boutons_moins.png"));
 		
-		compteur = new JLabel(""+value);
+		compteur = new JLabel("No");
 		incrP.setPreferredSize(new Dimension(10,10));
 		incrM.setPreferredSize(new Dimension(10,10));
 		
@@ -67,7 +67,7 @@ public class VueContraintes extends JPanel{
 				if(value > -1){
 					value--;
 				}
-				if(value >= -1){
+				if(value > -1){
 					compteur.setText(value+"");
 				}else{
 					compteur.setText("No");
