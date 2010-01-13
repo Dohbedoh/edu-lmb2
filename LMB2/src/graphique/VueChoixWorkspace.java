@@ -86,8 +86,7 @@ public class VueChoixWorkspace extends JFrame {
             }
         });
 		
-		
-		valider.setMnemonic(KeyEvent.VK_ENTER);
+		value.addKeyListener(new ClavierDefinirPath());
 		
 		//---
 		pack();
@@ -100,6 +99,10 @@ public class VueChoixWorkspace extends JFrame {
 	//------------------
 	// Méthodes
 	//------------------
+	
+	/**
+	 * Action qui lance le projet dans le workspace choisi
+	 */
 	private class ActionDefinirPath implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -107,8 +110,26 @@ public class VueChoixWorkspace extends JFrame {
 			IGAspirateur ig = new IGAspirateur(laspirateur);
 			setVisible(false);
             dispose();
-			
 		}
+	}//ActionDefinirPath
+	
+	/**
+	 * Action qui lance le projet dans le wokspace choisi apres avoir tapé sur la touche entrée
+	 */
+	private class ClavierDefinirPath implements KeyListener{
+
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == 10){
+				laspirateur.setPath(value.getText());
+				IGAspirateur ig = new IGAspirateur(laspirateur);
+				setVisible(false);
+	            dispose();
+			}
+		}
+
+		public void keyReleased(KeyEvent e) {}
+
+		public void keyTyped(KeyEvent e) {}
 		
-	}
+	}//ClavierDefinirPath
 }

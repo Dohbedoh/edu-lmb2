@@ -6,11 +6,10 @@ package statistiques;
 
 import java.io.*;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Locale;
+import java.util.*;
 
+import org.htmlparser.parserapplications.StringExtractor;
+import org.htmlparser.util.ParserException;
 public class Statistiques {
 
 	//------------------
@@ -28,7 +27,7 @@ public class Statistiques {
 	
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
-	Hashtable<String, Integer> dataMots;
+	private Hashtable<String, Integer> dataMotsComplet;
 
 	//------------------
 	// Constructeurs
@@ -52,8 +51,10 @@ public class Statistiques {
 		*/
 		
 		// Lancement du process de recuperation des statistiques
-		lireFichier(lesFichiersEnregistres.get(0));
 		
+		// Pour tous les fichiers de lesFichiersEnregistres, si le fichier est un fichier html alors
+		MyStringExtractor stringExtractor = new MyStringExtractor(lesFichiersEnregistres.get(0).getPath());
+		// Fusionner stringExtractor.dataMots avec dataMotsComplet
 	}//cons-1
 	
 	//------------------
@@ -70,15 +71,6 @@ public class Statistiques {
 		this.version = version;
 	}
 
-	public Hashtable<String, Integer> getDataMots() {
-		return dataMots;
-	}
-
-	public void setDataMots(Hashtable<String, Integer> dataMots) {
-		this.dataMots = dataMots;
-	}
-	
-	
 	//----------------------------------------------------------------------------------
 	// Procédures nécessaires à la récupération des données
 	
@@ -119,34 +111,7 @@ public class Statistiques {
 		}
 	}
 
-	/**
-	 * Cette methode permet de lire un fichier
-	 * @param le fichier que l'on veut lire
-	 */
-	public void lireFichier(File file){
-		
-		/*
-		 * A FAIRE
-		 *
-		try {
-			
-			// Creation d'un StreamTokenizer pour parser les informations
-			StreamTokenizer tokenizer = new StreamTokenizer (new FileReader(file));
-			
-			// Options du tokenizer
-			//tokenizer.eolIsSignificant (true);
-			while (StreamTokenizer.TT_EOF != tokenizer.nextToken()){
-				System.out.print (tokenizer.sval + " ");
-			}
-			
-		} 
-		catch (FileNotFoundException e) {System.out.println(e.getMessage());} 
-		catch (IOException e) {System.out.println(e.getMessage());}
-		 * 
-		 * A FAIRE
-		 */
-	}
-	
+
 	//------------------
 	// Tests
 	//------------------
