@@ -9,6 +9,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.io.File;
 
 import Aspirateur.*;
 
@@ -106,10 +107,17 @@ public class VueChoixWorkspace extends JFrame {
 	private class ActionDefinirPath implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			laspirateur.setPath(value.getText());
-			IGAspirateur ig = new IGAspirateur(laspirateur);
-			setVisible(false);
-            dispose();
+			
+			File test = new File(value.getText());
+			
+			if(test.isDirectory()){
+				laspirateur.setPath(test.getPath());
+				IGAspirateur ig = new IGAspirateur(laspirateur);
+				setVisible(false);
+	            dispose();
+			}else{
+				JOptionPane.showMessageDialog(null,"Vous avez choisi un espace de travail incorrect.","Attention",JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	}//ActionDefinirPath
 	
@@ -120,10 +128,16 @@ public class VueChoixWorkspace extends JFrame {
 
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == 10){
-				laspirateur.setPath(value.getText());
-				IGAspirateur ig = new IGAspirateur(laspirateur);
-				setVisible(false);
-	            dispose();
+				File test = new File(value.getText());
+				
+				if(test.isDirectory()){
+					laspirateur.setPath(test.getPath());
+					IGAspirateur ig = new IGAspirateur(laspirateur);
+					setVisible(false);
+		            dispose();
+				}else{
+					JOptionPane.showMessageDialog(null,"Vous avez choisi un espace de travail incorrect.","Attention",JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		}
 
