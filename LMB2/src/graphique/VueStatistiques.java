@@ -5,9 +5,9 @@
 package graphique;
 
 import Aspirateur.*;
-
 import javax.swing.*;
-
+import statistiques.Statistiques;
+import statistiques.VueAnalyse;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Observable;
@@ -18,22 +18,23 @@ public class VueStatistiques extends JPanel implements Observer{
 	//------------------
 	// Attributs
 	//------------------
-	public Aspirateur laspirateur;
-	
-	public JLabel afficheURL;
+	private JLabel afficheURL;
+	private VueAnalyse vueAnalyse;
+	private Statistiques stats;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueStatistiques(Aspirateur laspirateur){
-		this.laspirateur = laspirateur;
+	public VueStatistiques(Statistiques stats){
+		this.stats = stats;
 		
-		laspirateur.addObserver(this);
+		this.setLayout(new BorderLayout());
+		
 		// Creation des elements graphique
 		afficheURL = new JLabel();
 		
-		// Ajout des elements
-		add(afficheURL);
+		vueAnalyse = new VueAnalyse(stats);
+		this.add(vueAnalyse, BorderLayout.CENTER);
 		
 		update(null,null);
 	}//cons-1
@@ -42,6 +43,6 @@ public class VueStatistiques extends JPanel implements Observer{
 	// Methodes
 	//------------------
 	public void update(Observable o, Object arg) {
-		afficheURL.setText(laspirateur.getName());
+		
 	}
 }

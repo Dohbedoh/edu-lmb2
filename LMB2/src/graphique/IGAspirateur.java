@@ -21,7 +21,6 @@ public class IGAspirateur extends JFrame{
 	VueProgressBar vueProgressBar;
 	VueConsole vueConsole;
 	VueSauvegarde vueSauvegarde;
-	
 	JSplitPane split;
 	//------------------
 	// Constructeurs
@@ -30,6 +29,7 @@ public class IGAspirateur extends JFrame{
 		super("Aspirateur - LMB2");
 		
 		this.laspirateur = laspirateur;
+		this.setLayout(new BorderLayout(5,5));
 		
 		// Valeurs par defaut du modele
 		laspirateur.setName("TestLMB2");
@@ -48,10 +48,11 @@ public class IGAspirateur extends JFrame{
 		
 		
 		gauche.setLayout(new BorderLayout());
+		milieu.setLayout(new BorderLayout());
 		
 		split.setTopComponent(vueOnglets);
 		split.setBottomComponent(vueConsole);
-		milieu.add(split);
+		milieu.add(split,BorderLayout.CENTER);
 		
 		gauche.add(vueSauvegarde,BorderLayout.CENTER);
 		gauche.add(vueProgressBar,BorderLayout.SOUTH);

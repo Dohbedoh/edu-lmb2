@@ -5,10 +5,8 @@
 package graphique;
 
 import Aspirateur.*;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -170,7 +168,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contrainte.add(chaut,BorderLayout.NORTH);
 		contrainte.add(vueFiltres,BorderLayout.SOUTH);
 		
-		add(capture,BorderLayout.WEST);
+		add(capture,BorderLayout.CENTER);
 		add(contrainte,BorderLayout.EAST);
 		
 				

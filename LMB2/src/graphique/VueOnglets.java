@@ -30,12 +30,13 @@ public class VueOnglets extends JPanel {
 		this.laspirateur = laspirateur;
 		this.vueProgressBar = vueProgressBar;
 		this.split = split;
+		this.setLayout(new BorderLayout(5,5));
 		
 		onglets = new JTabbedPane();
 		
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar);
-		vueStatistiques = new VueStatistiques(laspirateur);
+		vueStatistiques = new VueStatistiques(null);
 		
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);
@@ -43,7 +44,7 @@ public class VueOnglets extends JPanel {
 		onglets.addChangeListener(new ChangerOnglet());
 		
 		// Ajout onglets
-		this.add(onglets);
+		this.add(onglets, BorderLayout.CENTER);
 		
 		// Options
 		//vueCaptureSite.setPreferredSize(new Dimension(800,420));

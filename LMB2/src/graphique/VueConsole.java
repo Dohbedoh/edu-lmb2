@@ -26,6 +26,7 @@ public class VueConsole extends JPanel  implements Observer{
 	//------------------
 	public VueConsole(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
+		this.setLayout(new BorderLayout(5,5));
 		
 		laspirateur.addObserver(this);
 		
@@ -35,7 +36,7 @@ public class VueConsole extends JPanel  implements Observer{
 		
 		// Ajout des elements graphiques
 		scroll = new JScrollPane(laconsole,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		this.add(scroll);
+		this.add(scroll, BorderLayout.CENTER);
 		
 		// Redirection des sorties standard et d'erreur
 		System.setOut(out);
