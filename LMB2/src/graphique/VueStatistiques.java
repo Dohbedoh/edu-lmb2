@@ -36,9 +36,15 @@ public class VueStatistiques extends JPanel implements Observer{
 		update(null,null);
 	}//cons-1
 	
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
+		update(null, null);
+	}
+	
 	//------------------
 	// Methodes
 	//------------------
 	public void update(Observable o, Object arg) {
+		
 	}
 }

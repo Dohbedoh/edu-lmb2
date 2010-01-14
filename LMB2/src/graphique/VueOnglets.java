@@ -41,7 +41,6 @@ public class VueOnglets extends JPanel {
 		onglets.add("Capturer site",vueCaptureSite);
 		onglets.add("Statistiques",vueStatistiques);
 		onglets.addChangeListener(new ChangerOnglet());
-		
 		// Ajout onglets
 		this.add(onglets, BorderLayout.CENTER);
 		
@@ -59,6 +58,12 @@ public class VueOnglets extends JPanel {
 	
 	public VueStatistiques getVueStatistiques(){
 		return this.vueStatistiques;
+	}
+	
+	public void setOnglet(int i){
+		if(onglets.getComponent(i)!=null){
+			onglets.setSelectedIndex(i);
+		}
 	}
 	
 	//------------------

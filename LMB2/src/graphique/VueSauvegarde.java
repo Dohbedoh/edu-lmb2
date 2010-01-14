@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import Aspirateur.*;
+import statistiques.Statistiques;
 import visualiser.*;
 
 public class VueSauvegarde extends JPanel implements Observer{
@@ -36,13 +37,14 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private JButton refresh;
 	private JLabel infos;
 	private String selectedNode;
-	private VueStatistiques vueStatistiques;
+	private VueOnglets vueOnglets;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueSauvegarde(Aspirateur laspirateur){
+	public VueSauvegarde(Aspirateur laspirateur, VueOnglets vueOnglets){
 		this.laspirateur = laspirateur;
+		this.vueOnglets = vueOnglets;
 		setLayout(new BorderLayout());
 		
 		laspirateur.addObserver(this);
@@ -262,7 +264,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			vueOnglets.getVueStatistiques().setStatistiques(new Statistiques(new File(selectedNode)));
+			vueOnglets.setOnglet(1);
 		}
 		
 	}

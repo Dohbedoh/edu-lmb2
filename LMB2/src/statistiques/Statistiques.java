@@ -7,9 +7,6 @@ package statistiques;
 import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
-
-import org.htmlparser.parserapplications.StringExtractor;
-import org.htmlparser.util.ParserException;
 public class Statistiques {
 
 	//------------------
