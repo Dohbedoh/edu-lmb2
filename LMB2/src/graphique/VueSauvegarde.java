@@ -177,9 +177,15 @@ public class VueSauvegarde extends JPanel implements Observer{
 				
 				// Si on est dans une sauvegarde
 				if(value.matches("[0-9]{13}/")){
+					
+					// Pour le bouton
 					visualisation.setEnabled(true);
-					// On va chercher le chemin absolu de index.html ou index.php qui est contenu dans ce repertoire
 					selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
+					
+					// Pour les statistiques
+					/**
+					 * Je pense qu'il faut créer l'objet Statistiques a cet endroit. 
+					 */
 				}else{
 					visualisation.setEnabled(false);
 				}

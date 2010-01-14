@@ -28,8 +28,12 @@ public class Statistiques {
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
 	private Hashtable<String, Integer> dataMotsComplet;
+	private ArrayList<File> dataImages;
 
-
+	//------------------
+	// Divers
+	private String extensionsImages[] = {".gif",".jpg",".jpeg",".png"};
+	
 	//------------------
 	// Constructeurs
 	//------------------
@@ -39,7 +43,9 @@ public class Statistiques {
 		// Creation des elements necessaires
 		filtre = new InvisibleFileFilter();
 		lesFichiersEnregistres = new ArrayList<File>();
+		
 		dataMotsComplet = new Hashtable<String, Integer>();
+		dataImages = new ArrayList<File>();
 		
 		this.date = getDateVersion(version);
 		//System.out.println(date);
@@ -57,7 +63,8 @@ public class Statistiques {
 		// Recuperation des dataMots
 		processDataMots();
 		
-		
+		// Tri des fichiers - images
+		processSortFiles();
 		
 	}//cons-1
 	
@@ -112,6 +119,12 @@ public class Statistiques {
 		return dataMotsComplet;
 	}
 
+	/**
+	 * Cette méthode retourne une ArrayList contenant tous les fichiers images de la version
+	 */
+	public ArrayList<File> getDataImages(){
+		return dataImages;
+	}
 	//----------------------------------------------------------------------------------
 	// Procédures de traitement
 	
@@ -197,6 +210,27 @@ public class Statistiques {
 				// On fusionne avec les données déjà existantes
 				merge(dataMotsComplet, new_data);
 			}
+		}
+	}
+	
+	/**
+	 * Cette méthode permet de trier l'ensemble des fichiers enregistrées
+	 */
+	public void processSortFiles(){
+		for(int i = 0 ; i < lesFichiersEnregistres.size();i++){
+			String current = lesFichiersEnregistres.get(i).getName();
+		
+			// Gestion Images
+			for(int j = 0; j < extensionsImages.length ; j++){
+				if(current.endsWith(extensionsImages[j])) {
+					dataImages.add(lesFichiersEnregistres.get(i));
+				}
+			}
+			
+			// Autres
+			/**
+			 * A FAIRE
+			 */
 		}
 	}
 	//------------------
