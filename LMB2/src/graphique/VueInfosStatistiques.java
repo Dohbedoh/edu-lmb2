@@ -45,6 +45,9 @@ public class VueInfosStatistiques extends JPanel {
 		nomSite = new JLabel(" N.C");
 		dateVersion = new JLabel(" N.C");
 		tailleVersion = new JLabel(" N.C");
+		nomSite.setForeground(new Color(51,204,0));
+		dateVersion.setForeground(new Color(51,204,0));
+		tailleVersion.setForeground(new Color(51,204,0));
 		
 		// Options
 		

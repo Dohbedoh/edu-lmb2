@@ -20,7 +20,6 @@ public class VueOnglets extends JPanel {
 	public VueProgressBar vueProgressBar;
 	public JTabbedPane onglets;
 	public JSplitPane split;
-	
 	public VueCaptureSite vueCaptureSite;
 	public VueStatistiques vueStatistiques;
 	//------------------

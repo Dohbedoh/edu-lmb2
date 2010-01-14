@@ -10,7 +10,6 @@ import javax.swing.event.*;
 import javax.swing.tree.*;
 import java.io.*;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -33,12 +32,11 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private DefaultMutableTreeNode racine;
 	private DefaultTreeModel treeModel;
 	private String pathRoot;
-	
 	private JButton visualisation;
 	private JButton refresh;
 	private JLabel infos;
-	
 	private String selectedNode;
+	private VueStatistiques vueStatistiques;
 	
 	//------------------
 	// Constructeurs
@@ -76,7 +74,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 		arbre.setEditable(true);
 		
 		// Ajout d'actions
-		arbre.addTreeSelectionListener(new ActionSelectionArbre());		
+		arbre.addTreeSelectionListener(new ActionSelectionArbre());
+		arbre.addMouseListener(new ActionClikDroit());
 		
 		// Ajout des elements
 		JPanel options = new JPanel();
@@ -154,6 +153,24 @@ public class VueSauvegarde extends JPanel implements Observer{
 		}
 	}
 
+	public boolean version(TreePath treePath){
+		if(arbre.getLastSelectedPathComponent() != null){
+			String value = arbre.getLastSelectedPathComponent().toString();
+			
+			File file= new File(getAbsolutePath(treePath));
+			getDescription(file);
+			
+			if(value.matches("[0-9]{13}/")){
+				selectedNode = laspirateur.getPath()+"/"+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
 	public void update(Observable o, Object arg) {
 		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
 		initArbre(racine);
@@ -164,67 +181,52 @@ public class VueSauvegarde extends JPanel implements Observer{
 		arbre.setPreferredSize(arbre.getMinimumSize());
 	}
 	
+	private String getAbsolutePath(TreePath treePath){
+		String str = "";
+		
+		for(Object name : treePath.getPath()){
+			
+			if(name.toString() != null)
+				str += name.toString()+"/";
+		}
+		return str;
+	}
+	
+	private void getDescription(File file){ 
+		
+		String str = "";
+		//str = "Chemin :"+file.getAbsolutePath();
+		//str += "  "+file.getName();
+		
+		if(file.getName().matches("[0-9]{13}")){
+		
+			// On converti le timestamp
+			Date currentDate = new Date(Long.parseLong(file.getName()));
+			int heure = currentDate.getHours();
+			int minutes = currentDate.getMinutes();
+			int secondes = currentDate.getSeconds();
+			
+			
+			
+			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE);
+			str = df.format(currentDate);
+			str += " - "+heure+":"+minutes+":"+secondes;
+		}
+		
+		infos.setText(str);
+	}
+	
 	//------------------
 	// Actions
 	//------------------
 	private class ActionSelectionArbre implements TreeSelectionListener {
 		public void valueChanged(TreeSelectionEvent event) {
-			if(arbre.getLastSelectedPathComponent() != null){
-				String value = arbre.getLastSelectedPathComponent().toString();
-				
-				File file= new File(getAbsolutePath(event.getPath()));
-				getDescription(file);
-				
-				// Si on est dans une sauvegarde
-				if(value.matches("[0-9]{13}/")){
-					
-					// Pour le bouton
-					visualisation.setEnabled(true);
-					selectedNode = laspirateur.getPath()+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+value;
-					
-					// Pour les statistiques
-					/**
-					 * Je pense qu'il faut créer l'objet Statistiques a cet endroit. 
-					 */
-				}else{
-					visualisation.setEnabled(false);
-				}
+			if(version(event.getPath())){
+				System.err.println(selectedNode);
+				visualisation.setEnabled(true);
+			}else{
+				visualisation.setEnabled(false);
 			}
-		}
-		
-		private String getAbsolutePath(TreePath treePath){
-			String str = "";
-			
-			for(Object name : treePath.getPath()){
-				
-				if(name.toString() != null)
-					str += name.toString()+"/";
-			}
-			return str;
-		}
-		
-		private void getDescription(File file){ 
-			
-			String str = "";
-			//str = "Chemin :"+file.getAbsolutePath();
-			//str += "  "+file.getName();
-			
-			if(file.getName().matches("[0-9]{13}")){
-			
-				// On converti le timestamp
-				Date currentDate = new Date(Long.parseLong(file.getName()));
-				int heure = currentDate.getHours();
-				int minutes = currentDate.getMinutes();
-				int secondes = currentDate.getSeconds();
-				
-				
-				
-				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE);
-				str = df.format(currentDate);
-				str += " - "+heure+":"+minutes+":"+secondes;
-			}
-			
-			infos.setText(str);
 		}
 	}
 	
@@ -249,6 +251,70 @@ public class VueSauvegarde extends JPanel implements Observer{
 				 
 			}
 		}
+	}
+	
+	/**
+	 * Action lancée lorsque l'on sélectionne "Lancer Les Statistiques" dans le clique droit du JTree 
+	 * @author Stolen_Flame_57
+	 *
+	 */
+	private class ActionLancerStat implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	/**
+	 * Action lancée lorsque l'on sélectionne "Supprimer" dans le clique droit du JTree 
+	 * @author Stolen_Flame_57
+	 *
+	 */
+	private class ActionDelete implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	
+	/**
+	 * Action lancée lorsque l'on clique droit sur le JTree
+	 * @author Stolen_Flame_57
+	 *
+	 */
+	private class ActionClikDroit extends MouseAdapter{
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (SwingUtilities.isRightMouseButton(e)) {
+				// System.out.println("click Right");
+				int selRow = arbre.getRowForLocation(e.getX(), e.getY());
+				TreePath selPath = arbre.getPathForLocation(e.getX(), e.getY());
+				if (selRow != -1) {
+					arbre.clearSelection();
+					arbre.setSelectionPath(selPath);
+					selectedNode = laspirateur.getPath()+"/"+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+arbre.getLastSelectedPathComponent();
+					System.err.println(selectedNode);
+				    JPopupMenu menu = new JPopupMenu();
+					JMenuItem lancerStat = new JMenuItem("Lancer les Statistiques");
+					lancerStat.addActionListener(new ActionLancerStat());
+					
+					JMenuItem delete = new JMenuItem("Supprimer");
+					delete.addActionListener(new ActionDelete());
+					
+					menu.add(lancerStat);
+					menu.add(delete);
+					add(menu);
+				    menu.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		}
+		
 	}
 	
 }

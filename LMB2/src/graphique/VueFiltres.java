@@ -56,14 +56,14 @@ public class VueFiltres extends JPanel{
 		this.laspirateur = laspirateur;
 		this.setLayout(new BorderLayout());
 		JPanel panneauFiltres = new JPanel();
-		//panneauFiltres.setLayout(new GridLayout(1,3,10,0));	
+		
 		
 		// Creation des elements graphiques de VueFiltres
 		afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
 		
 		// Ajout des elements dans le conteneur VueFiltres
 		add(afficheFiltre,BorderLayout.NORTH);
-		add(panneauFiltres,BorderLayout.SOUTH);
+		add(panneauFiltres,BorderLayout.CENTER);
 		
 		
 		//1er panneau : pour les filtres d'images

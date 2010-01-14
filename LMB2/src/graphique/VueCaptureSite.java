@@ -166,7 +166,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		vueFiltres = new VueFiltres(laspirateur);
 		
 		contrainte.add(chaut,BorderLayout.NORTH);
-		contrainte.add(vueFiltres,BorderLayout.SOUTH);
+		contrainte.add(vueFiltres,BorderLayout.CENTER);
 		
 		add(capture,BorderLayout.CENTER);
 		add(contrainte,BorderLayout.SOUTH);
