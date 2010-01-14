@@ -25,7 +25,7 @@ public class VueAnalyse extends JPanel implements Observer{
 		
 		this.stats = stats;
 		//stats.addObserver(this);
-		this.setLayout(new BorderLayout(5,5));
+		this.setLayout(new BorderLayout());
 		
 		setBorder(BorderFactory.createTitledBorder("Analyse du Contenu"));
 		

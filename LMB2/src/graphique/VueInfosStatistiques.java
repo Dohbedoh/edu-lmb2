@@ -52,14 +52,14 @@ public class VueInfosStatistiques extends JPanel {
 				.addGroup(layout.createParallelGroup()
 	            	.addGroup(layout.createSequentialGroup()
 	                    // Le groupe des labels
-	    	            .addGap(5)
+	    	            .addGap(10)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(nomSiteLab)
 	                        .addComponent(dateVersionLab)
 	                        .addComponent(tailleVersionLab)
 	                    )
 	                    //le groupe des nbs
-	    	            .addGap(5)
+	    	            .addGap(10)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 		                    .addComponent(nomSite)
 		                    .addComponent(dateVersion)

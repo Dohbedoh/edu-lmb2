@@ -68,6 +68,9 @@ public class VueAnalyseInfos extends JPanel {
 		                    .addComponent(nbAddrDif)
 		                    .addComponent(nbImagesDif)
 		                    .addComponent(nbHypersDif)
+		                    .addComponent(nbCSS)
+		                    .addComponent(nbJS)
+		                    .addComponent(nbHTML)
 		                )
 	                )
 	            	.addGroup(layout.createSequentialGroup()
@@ -79,14 +82,7 @@ public class VueAnalyseInfos extends JPanel {
 		                        .addComponent(js)
 		                        .addComponent(html)
 		                    )
-		                    //le groupe des nbs
-		    	            .addGap(10)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-			                    .addComponent(nbCSS)
-			                    .addComponent(nbJS)
-			                    .addComponent(nbHTML)
-			                )
-			         )
+	            	)
 	            )
 	    );
 	    
