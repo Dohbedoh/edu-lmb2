@@ -29,7 +29,8 @@ public class Statistiques {
 	// Attributs relatifs aux calculs des statistiques
 	private Hashtable<String, Integer> dataMotsComplet;
 	private ArrayList<File> dataImages;
-
+	private ArrayList<File> dataCSS;
+	private ArrayList<File> dataJS;
 	//------------------
 	// Divers
 	private String extensionsImages[] = {".gif",".jpg",".jpeg",".png"};
@@ -46,6 +47,8 @@ public class Statistiques {
 		
 		dataMotsComplet = new Hashtable<String, Integer>();
 		dataImages = new ArrayList<File>();
+		dataCSS = new ArrayList<File>();
+		dataJS = new ArrayList<File>();
 		
 		this.date = getDateVersion(version);
 		//System.out.println(date);
@@ -124,6 +127,20 @@ public class Statistiques {
 	 */
 	public ArrayList<File> getDataImages(){
 		return dataImages;
+	}
+	
+	/**
+	 * Cette méthode retourne une ArrayList contenant tous les fichiers css de la version
+	 */
+	public ArrayList<File> getDataCSS(){
+		return dataCSS;
+	}
+	
+	/**
+	 * Cette méthode retourne une ArrayList contenant tous les fichiers javascript de la version
+	 */
+	public ArrayList<File> getDataJS(){
+		return dataJS;
 	}
 	//----------------------------------------------------------------------------------
 	// Procédures de traitement
@@ -227,10 +244,13 @@ public class Statistiques {
 				}
 			}
 			
-			// Autres
-			/**
-			 * A FAIRE
-			 */
+			// CSS
+			if(current.endsWith(".css"))
+				dataCSS.add(lesFichiersEnregistres.get(i));
+			
+			// JS
+			if(current.endsWith(".js"))
+				dataJS.add(lesFichiersEnregistres.get(i));
 		}
 	}
 	//------------------
@@ -243,6 +263,9 @@ public class Statistiques {
 		
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
+		
+		//System.out.println(stats.getDataCSS());
+		//System.out.println(stats.getDataJS());
 		
 		// Test de la fonction merge
 		/*Hashtable<String, Integer> tab1 = new Hashtable<String, Integer>();
