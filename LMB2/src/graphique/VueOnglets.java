@@ -67,19 +67,17 @@ public class VueOnglets extends JPanel {
 	//------------------
 	/**
 	 * Cette action permet de déplacer le JSplitPane 
-	 * (On peut la modifier pour masquer la Console)
 	 */
 	private class ChangerOnglet implements ChangeListener{
 		
 		public void stateChanged(ChangeEvent e) {
-			/*
-			//System.out.println(split.getDividerLocation());
+			
 			if(onglets.getSelectedComponent() instanceof VueStatistiques){
-				split.setDividerLocation(600);
+				split.setDividerLocation(split.getMaximumDividerLocation());
 			}else if(onglets.getSelectedComponent() instanceof VueCaptureSite){
-				split.setDividerLocation(463);
+				split.setDividerLocation(split.getMinimumDividerLocation());
 			}
-			*/
+			
 		}
 	}
 }
