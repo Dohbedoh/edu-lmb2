@@ -169,9 +169,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contrainte.add(vueFiltres,BorderLayout.SOUTH);
 		
 		add(capture,BorderLayout.CENTER);
-		add(contrainte,BorderLayout.EAST);
+		add(contrainte,BorderLayout.SOUTH);
 		
-				
 	}//cons-1
 	
 	//------------------
