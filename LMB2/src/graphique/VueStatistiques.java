@@ -4,12 +4,10 @@
 
 package graphique;
 
-import Aspirateur.*;
 import javax.swing.*;
 import statistiques.Statistiques;
-import statistiques.VueAnalyse;
+
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 

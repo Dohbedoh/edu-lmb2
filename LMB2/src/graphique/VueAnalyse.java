@@ -2,13 +2,16 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package statistiques;
+package graphique;
 
 import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
+import statistiques.Statistiques;
+
 
 public class VueAnalyse extends JPanel implements Observer{
 

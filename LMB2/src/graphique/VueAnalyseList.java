@@ -2,7 +2,7 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package statistiques;
+package graphique;
 
 import javax.swing.JPanel;
 

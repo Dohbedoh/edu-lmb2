@@ -2,16 +2,17 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package statistiques;
+package graphique;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import statistiques.Statistiques;
+
 
 public class VueAnalyseBoutons extends JPanel {
 
@@ -21,6 +22,7 @@ public class VueAnalyseBoutons extends JPanel {
 	public VueAnalyseBoutons(Statistiques stats){
 		this.stats = stats;
 		this.setLayout(new BorderLayout(5,5));
+		
 		lesMotsBut = new JButton("Statistiques sur la fréquence des Mots");
 		lesMotsBut.addActionListener(new ActionStatsMots());
 		
