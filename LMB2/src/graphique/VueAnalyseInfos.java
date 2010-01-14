@@ -49,9 +49,7 @@ public class VueAnalyseInfos extends JPanel {
 		nbJS.setForeground(Color.BLUE);
 		nbHTML.setForeground(Color.BLUE);
 		
-		/* 
-		 * Groupe de Label
-		 */
+
 	    layout.setHorizontalGroup(layout.createParallelGroup()
 	            .addGroup(layout.createParallelGroup()
 	            	.addGroup(layout.createSequentialGroup()

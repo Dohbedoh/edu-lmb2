@@ -18,6 +18,7 @@ public class VueStatistiques extends JPanel implements Observer{
 	//------------------
 	private JLabel afficheURL;
 	private VueAnalyse vueAnalyse;
+	private VueInfosStatistiques vueInfosStatistiques;
 	private Statistiques stats;
 	
 	//------------------
@@ -32,7 +33,9 @@ public class VueStatistiques extends JPanel implements Observer{
 		afficheURL = new JLabel();
 		
 		vueAnalyse = new VueAnalyse(stats);
+		vueInfosStatistiques = new VueInfosStatistiques(stats);
 		this.add(vueAnalyse, BorderLayout.CENTER);
+		this.add(vueInfosStatistiques, BorderLayout.NORTH);
 		
 		update(null,null);
 	}//cons-1
