@@ -44,16 +44,16 @@ public class Statistiques {
 		
 		// Recuperation de tous les fichiers fils
 		listerFils(version);
-		/*
+		
 		for(int i = 0; i < lesFichiersEnregistres.size();i++){
 			System.out.println(lesFichiersEnregistres.get(i).getPath());
 		}
-		*/
+		
 		
 		// Lancement du process de recuperation des statistiques
 		
 		// Pour tous les fichiers de lesFichiersEnregistres, si le fichier est un fichier html alors
-		MyStringExtractor stringExtractor = new MyStringExtractor(lesFichiersEnregistres.get(0).getPath());
+		MyStringExtractor stringExtractor = new MyStringExtractor(lesFichiersEnregistres.get(1).getPath());
 		// Fusionner stringExtractor.dataMots avec dataMotsComplet
 	}//cons-1
 	
@@ -118,7 +118,7 @@ public class Statistiques {
 	public static void main(String[] args){
 		
 		// Fichier de test
-		File test = new File("/users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470/");
+		File test = new File("C:/LMB2/Site01/1262982386294/");
 		
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);

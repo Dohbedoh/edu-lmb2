@@ -47,7 +47,7 @@ public class VueFiltres extends JPanel{
     private JCheckBox check14 = new JCheckBox(".js");
     private JCheckBox check15 = new JCheckBox(".pdf");
     private JCheckBox check16 = new JCheckBox(".zip");
-    
+    private JCheckBox check17 = new JCheckBox(".xml");
 	
 	//------------------
 	// Contructeur
@@ -92,7 +92,7 @@ public class VueFiltres extends JPanel{
 		
 		//3eme panneau : pour les autres filtres
 		JPanel filtres3 = new JPanel();
-		filtres3.setLayout(new GridLayout(7,1));
+		filtres3.setLayout(new GridLayout(8,1));
 		JScrollPane scroll3 = new JScrollPane(filtres3);
 		filtres3.add(new JLabel("Autres", SwingUtilities.CENTER));
 		filtres3.add(check11); checkBoxes.add(check11);
@@ -100,6 +100,7 @@ public class VueFiltres extends JPanel{
 		filtres3.add(check13); checkBoxes.add(check13);
 		filtres3.add(check14); checkBoxes.add(check14);
 		filtres3.add(check15); checkBoxes.add(check15);
+		filtres3.add(check17); checkBoxes.add(check17);
 		filtres3.add(check16); checkBoxes.add(check16);
 		panneauFiltres.add(scroll3);
 		
