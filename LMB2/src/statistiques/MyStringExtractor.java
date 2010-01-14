@@ -69,11 +69,14 @@ public class MyStringExtractor {
     	 while (st.hasMoreTokens()) {
     		 String current = st.nextToken();
     		 
+    		 // Definir les contraintes sur le token
+    		 /**
+    		  * A FAIRE pour les caracteres suivants : ! ? < > , ; .
+    		  * + lower case
+    		  */
+    		 
              if(dataMots.containsKey(current)){
-            	 
-            	 /**
-            	  * A AMELIORER ?
-            	  */
+            	
             	 // On incremente le nombre d'occurrences
             	 Integer old_valeur = dataMots.get(current);
             	 int a = old_valeur.intValue() + 1 ;
