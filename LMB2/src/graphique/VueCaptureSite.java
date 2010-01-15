@@ -94,6 +94,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		droit.setLayout(new GridLayout(3,1));
 		
 		((GridLayout)gauche.getLayout()).setVgap(10);
+		((GridLayout)droit.getLayout()).setVgap(5);
 		
 		gauche.add(afficheURL);
 		droit.add(url);

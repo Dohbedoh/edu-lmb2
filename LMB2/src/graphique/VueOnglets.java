@@ -83,9 +83,9 @@ public class VueOnglets extends JPanel {
 		public void stateChanged(ChangeEvent e) {
 		
 			if(onglets.getSelectedComponent() instanceof VueStatistiques){
-				split.setDividerLocation(split.getMaximumDividerLocation()-5);
+				split.setDividerLocation(split.getMaximumDividerLocation()-10);
 			}else if(onglets.getSelectedComponent() instanceof VueCaptureSite){
-				split.setDividerLocation(split.getMinimumDividerLocation()+15);
+				split.setDividerLocation(split.getMinimumDividerLocation()+25);
 			}
 			
 		}
