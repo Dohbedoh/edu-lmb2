@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
 
 import statistiques.*;
 
@@ -30,9 +32,11 @@ public class VueInfosStatistiques extends JPanel {
 	//------------------
 	public VueInfosStatistiques(Statistiques stats){
 		this.stats = stats;
+		
 		setBorder(BorderFactory.createTitledBorder("Informations sur la sauvegarde"));
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
+		
 		// Création des éléments graphiques
 		/*nomSite = new JLabel(stats.getNomSite());
 		dateVersion = new JLabel(stats.getDate());
@@ -106,13 +110,22 @@ public class VueInfosStatistiques extends JPanel {
 	//------------------
 	// Méthodes
 	//------------------
+	/*
+	public void update(Observable o, Object arg) {
+		nomSite.setText(stats.getNomSite());
+		System.out.println(stats.getNomSite());
+	}
+	*/
+	
 	public static void main(String[] args){
 		JFrame fp = new JFrame("VueInfosStatistiques");
 		Statistiques stats = new Statistiques(new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470"));
+		
 		fp.add(new VueInfosStatistiques(stats));
 		fp.pack();
 		fp.setVisible(true);
 		fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
+
 }

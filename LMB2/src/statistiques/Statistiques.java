@@ -5,9 +5,10 @@
 package statistiques;
 
 import java.io.*;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.*;
-public class Statistiques {
+public class Statistiques extends Observable {
 
 	//------------------
 	// Attributs
@@ -24,10 +25,14 @@ public class Statistiques {
 	
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
-	private Hashtable<String, Integer> dataMotsComplet;
+	private ArrayList<File> dataHTML;
 	private ArrayList<File> dataImages;
 	private ArrayList<File> dataCSS;
 	private ArrayList<File> dataJS;
+	
+	private Hashtable<String, Integer> dataMotsComplet;
+	private Hashtable<URL, Integer> dataLinksComplet;
+	
 	//------------------
 	// Divers
 	private String extensionsImages[] = {".gif",".jpg",".jpeg",".png"};
@@ -42,29 +47,26 @@ public class Statistiques {
 		filtre = new InvisibleFileFilter();
 		lesFichiersEnregistres = new ArrayList<File>();
 		
-		dataMotsComplet = new Hashtable<String, Integer>();
+		dataHTML = new ArrayList<File>();
 		dataImages = new ArrayList<File>();
 		dataCSS = new ArrayList<File>();
 		dataJS = new ArrayList<File>();
 		
 		this.date = getDateVersion(version);
-		//System.out.println(date);
 		
 		// Recuperation de tous les fichiers fils
 		listerFils(version);
-		/*
-		for(int i = 0; i < lesFichiersEnregistres.size();i++){
-			System.out.println(lesFichiersEnregistres.get(i).getPath());
-		}
-		*/
-		
+
 		// Lancement du process de recuperation des statistiques
+			// Tri des fichiers - images
+			processSortFiles();
 		
-		// Recuperation des dataMots
-		processDataMots();
+			// Recuperation des dataMotsComplet
+			processDataMots();
 		
-		// Tri des fichiers - images
-		processSortFiles();
+			// Recuperation des dataLinkComplet
+			processDataLinks();
+		
 		
 	}//cons-1
 	
@@ -80,6 +82,9 @@ public class Statistiques {
 
 	public void setVersion(File version) {
 		this.version = version;
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getDate(){
@@ -88,6 +93,9 @@ public class Statistiques {
 	
 	public void setDate(String date){
 		this.date = date;
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -113,12 +121,26 @@ public class Statistiques {
 	}
 
 	/**
-	 * Cette méthode retourne une Hashtable contenant toutes les occurrences + le nombre contenues dans les fichiers de la version
+	 * Cette méthode retourne une ArrayList contenant tous les fichiers HTML inclus dans la version
+	 */
+	public ArrayList<File> getDataHTML() {
+		return dataHTML;
+	}
+	
+	/**
+	 * Cette méthode retourne une Hashtable contenant toutes les occurrences du texte + le nombre contenues dans les fichiers de la version
 	 */
 	public Hashtable<String, Integer> getDataMotsComplet() {
 		return dataMotsComplet;
 	}
 
+	/**
+	 * Cette méthode retourne une Hashtable contenant toutes les occurrences des Links + le nombre contenues dans les fichiers de la version
+	 */
+	public Hashtable<URL, Integer> getDataLinksComplet() {
+		return dataLinksComplet;
+	}
+	
 	/**
 	 * Cette méthode retourne une ArrayList contenant tous les fichiers images de la version
 	 */
@@ -151,6 +173,23 @@ public class Statistiques {
 		Enumeration<String> e = tab2.keys();
 		while (e.hasMoreElements()) {
 			String str = (String)e.nextElement();
+			
+			if(tab1.containsKey(str)){
+				int old_value = tab1.get(str).intValue();
+				int new_value = old_value + tab2.get(str).intValue();
+				tab1.put(str, Integer.valueOf(new_value));
+			}else{
+				tab1.put(str, tab2.get(str));
+			}
+			
+		}
+	}
+	
+	public void merge2(Hashtable<URL, Integer> tab1, Hashtable<URL, Integer> tab2){
+		
+		Enumeration<URL> e = tab2.keys();
+		while (e.hasMoreElements()) {
+			URL str = (URL)e.nextElement();
 			
 			if(tab1.containsKey(str)){
 				int old_value = tab1.get(str).intValue();
@@ -204,36 +243,17 @@ public class Statistiques {
 	}
 
 	/**
-	 * Cette méthode permet d'instancier dataMotsComplets
-	 */
-	public void processDataMots(){
-		for(int i = 0 ; i < lesFichiersEnregistres.size();i++){
-			String current = lesFichiersEnregistres.get(i).getName();
-			
-			/**
-			 * 	ATTENTION : vérifier la conditionnelle
-			 */
-			if(current.endsWith(".html") || current.endsWith(".htm") || current.contains(".php?=") ){
-				
-				System.out.println("Traitement de : "+current);
-				
-				// On récupère les données sur la page current
-				MyStringExtractor stringExtractor = new MyStringExtractor(lesFichiersEnregistres.get(i).getPath());
-				Hashtable<String, Integer> new_data = stringExtractor.getDataMots();
-				
-				// On fusionne avec les données déjà existantes
-				merge(dataMotsComplet, new_data);
-			}
-		}
-	}
-	
-	/**
 	 * Cette méthode permet de trier l'ensemble des fichiers enregistrées
 	 */
 	public void processSortFiles(){
 		for(int i = 0 ; i < lesFichiersEnregistres.size();i++){
 			String current = lesFichiersEnregistres.get(i).getName();
 		
+			// HTML
+			if(current.endsWith(".html") || current.endsWith(".htm") || current.contains(".php?=") ){
+				dataHTML.add(lesFichiersEnregistres.get(i));
+			}
+			
 			// Gestion Images
 			for(int j = 0; j < extensionsImages.length ; j++){
 				if(current.endsWith(extensionsImages[j])) {
@@ -250,6 +270,46 @@ public class Statistiques {
 				dataJS.add(lesFichiersEnregistres.get(i));
 		}
 	}
+	
+	/**
+	 * Cette méthode permet de recuperer dataMotsComplets
+	 */
+	public void processDataMots(){
+		dataMotsComplet = new Hashtable<String, Integer>();
+		
+		for(int i = 0 ; i < dataHTML.size();i++){
+			String current = dataHTML.get(i).getName();
+			System.out.println("Traitement dataMots de : "+current);
+				
+			// On récupère les données sur la page current
+			MyStringExtractor stringExtractor = new MyStringExtractor(dataHTML.get(i).getPath());
+			Hashtable<String, Integer> new_data = stringExtractor.getDataMots();
+				
+			// On fusionne avec les données déjà existantes
+			merge(dataMotsComplet, new_data);
+			
+		}
+	}
+	
+	/**
+	 * Cette méthode permet de recuperer dataLinks
+	 */
+	public void processDataLinks(){
+		dataLinksComplet = new Hashtable<URL, Integer>();
+		
+		for(int i = 0 ; i < dataHTML.size();i++){
+			String current = dataHTML.get(i).getName();
+			System.out.println("Traitement dataLinks de : "+current);
+			
+			// On récupère les données sur la page current
+			MyLinkExtractor urlExtractor = new MyLinkExtractor(dataHTML.get(i).getPath());
+			Hashtable<URL,Integer> new_data = urlExtractor.getTableUrl();
+			
+			// On fusionne avec les données déjà existantes
+			merge2(dataLinksComplet, new_data);
+		}
+	}
+	
 	//------------------
 	// Tests
 	//------------------
@@ -261,8 +321,13 @@ public class Statistiques {
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
 		
+		//System.out.println(stats.getDataHTML());
 		//System.out.println(stats.getDataCSS());
 		//System.out.println(stats.getDataJS());
+		
+		//System.out.println(stats.getDataMotsComplet());
+		//System.out.println(stats.getDataLinksComplet());
+		
 		
 		// Test de la fonction merge
 		/*Hashtable<String, Integer> tab1 = new Hashtable<String, Integer>();

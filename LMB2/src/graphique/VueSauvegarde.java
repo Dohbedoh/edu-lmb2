@@ -203,7 +203,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 		String str = "";
 		
 		for(Object name : treePath.getPath()){
-			
 			if(name.toString() != null)
 				str += name.toString()+"/";
 		}
@@ -223,8 +222,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 			int heure = currentDate.getHours();
 			int minutes = currentDate.getMinutes();
 			int secondes = currentDate.getSeconds();
-			
-			
 			
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE);
 			str = df.format(currentDate);
@@ -272,12 +269,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 	
 	/**
 	 * Action lancée lorsque l'on sélectionne "Lancer Les Statistiques" dans le clique droit du JTree 
-	 * @author Stolen_Flame_57
-	 *
 	 */
 	private class ActionLancerStat implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			vueOnglets.getVueStatistiques().setStatistiques(new Statistiques(new File(selectedNode)));
 			vueOnglets.setOnglet(1);
@@ -288,12 +282,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 	
 	/**
 	 * Action lancée lorsque l'on sélectionne "Supprimer" dans le clique droit du JTree 
-	 * @author Stolen_Flame_57
-	 *
 	 */
 	private class ActionDelete implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 		}
 		
@@ -302,12 +293,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 	
 	/**
 	 * Action lancée lorsque l'on clique droit sur le JTree
-	 * @author Stolen_Flame_57
-	 *
 	 */
 	private class ActionClikDroit extends MouseAdapter{
 
-		@Override
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isRightMouseButton(e)) {
 				// System.out.println("click Right");
