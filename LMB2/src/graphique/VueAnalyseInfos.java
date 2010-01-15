@@ -18,15 +18,21 @@ import statistiques.Statistiques;
 
 public class VueAnalyseInfos extends JPanel implements Observer{
 	
+	//------------------
+	// Attributs
+	//------------------
 	private Statistiques stats;
 	private JLabel 	nbMotsDif, nbAddrDif, nbImagesDif, nbHypersDif,
 					divers, css, js, html,
 					motsDif, addrDif, imagesDif, hypersDif,
 					nbCSS, nbJS, nbHTML;
 
+	//------------------
+	// Constructeurs
+	//------------------
 	public VueAnalyseInfos(Statistiques stats){
 		this.stats = stats;
-		//stats.addObserver(this);
+		
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		motsDif = new JLabel("• Mots différents sur le site : ");
@@ -153,25 +159,27 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	    );
 	}
 	
-	/**
-	 * Méthode qui mets à jour les champ des infos à partir du modèle 'stats'
-	 */
-	public void updateInfos(){
-		
-		/*
-		 * A voir avec Renaud ....
-		 */
-		
-		//nbMotsDif.setText(stats.getNbMotsDif());
-		//nbAddrDif.setText(stats.getNbAddrDif());
-		//nbImagesDif.setText(stats.getNbImagesDif());
-		//nbHypersDif.setText(stats.getNbHypersDif);
+	
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
 	}
-
-	@Override
+	
+	public Statistiques getStatistiques(){
+		return this.stats;
+	}
+	
+	//------------------
+	// Méthodes
+	//------------------
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+		nbMotsDif.setText(stats.getDataMotsComplet().size()+"");
+		nbAddrDif.setText("NYI");
+		nbImagesDif.setText(stats.getDataImages().size()+"");
+		nbHypersDif.setText(stats.getDataLinksComplet().size()+"");
 		
+		nbCSS.setText(stats.getDataCSS().size()+"");
+		nbJS.setText(stats.getDataJS().size()+"");
+		nbHTML.setText(stats.getDataHTML().size()+"");
 	}
 	
 }

@@ -8,8 +8,12 @@ import Aspirateur.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
+import statistiques.Statistiques;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class VueOnglets extends JPanel {
 
@@ -35,7 +39,10 @@ public class VueOnglets extends JPanel {
 		
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar);
-		vueStatistiques = new VueStatistiques(null);
+		
+		//Statistiques stats = new Statistiques(new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470"));
+		//stats.init();
+		vueStatistiques = new VueStatistiques(new Statistiques(null));
 		
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);

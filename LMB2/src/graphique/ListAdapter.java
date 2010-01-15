@@ -1,53 +1,42 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
 package graphique;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.AbstractListModel;
 import statistiques.Statistiques;
 
-public class ListAdapter extends AbstractListModel implements Observer{
+public class ListAdapter extends AbstractListModel{
 
-
+	//------------------
+	// Attributs
+	//------------------
 	private static final long serialVersionUID = -8345246054788105890L;
-	private Statistiques stats;
+	private ArrayList<File> lesFiles;
 	private int nb;
 	
-	
-	public ListAdapter(Statistiques stats){
+	//------------------
+	// Constructeur
+	//------------------
+	public ListAdapter(ArrayList<File> lesFiles){
 		super();
-		this.stats = stats;
-		//stats.addObserver(this);
-		//nb = stats.getLineCount();
+		this.lesFiles = lesFiles;
 	}
 
-
-	@Override
-	public void update(Observable o, Object arg) {
-		/*int nbL = stats.getLineCount();
-		if(nbL==nb){
-			fireContentsChanged(this, 0,getSize());
-		}else{
-			if(nbL<nb){
-				fireContentsChanged(this, 0, getSize());
-			}else{
-				fireContentsChanged(this, 0, getSize());
-			}
-		}*/
-		
-	}
-
-
-	@Override
+	//------------------
+	// Méthodes
+	//------------------
 	public Object getElementAt(int arg0) {
-		//return (stats.getLine(arg0));
-		return null;
+		return this.lesFiles.get(arg0);
 	}
 
-
-	@Override
 	public int getSize() {
-		//return stats.getLineCount();
-		return 0;
+		return this.lesFiles.size();
 	}
 	
 }

@@ -1,26 +1,35 @@
+/**
+ * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
+ */
+
 package graphique;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.io.File;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 public class ListFormateur extends JLabel implements ListCellRenderer {
 
+	//------------------
+	// Attributs
+	//------------------
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-		int index, boolean isSelected, boolean cellHasFocus) {
-		setText(value.toString());
+
+	//------------------
+	// Méthodes
+	//------------------
+	public Component getListCellRendererComponent(JList list, Object value,int index, boolean isSelected, boolean cellHasFocus) {
+		setText(((File) value).getName()+"  ("+((File) value).length()+"bytes)");
 		setForeground(isSelected ? Color.red : Color.black);
+		setFont(new Font("TimesRoman",Font.PLAIN,11));
+		list.setBackground(new Color(150,200,250));
 		return this;
-	}
-	
-	public void setText(String val){
-		setForeground(Color.blue);
-		super.setText(val);
 	}
 
 }

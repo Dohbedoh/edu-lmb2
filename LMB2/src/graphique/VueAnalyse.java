@@ -18,21 +18,29 @@ import javax.swing.border.TitledBorder;
 import statistiques.Statistiques;
 
 
-public class VueAnalyse extends JPanel implements Observer{
+public class VueAnalyse extends JPanel{
 
-	
+	//------------------
+	// Attributs
+	//------------------
 	private Statistiques stats;
 	private VueAnalyseBoutons vueAnalyseBoutons;
 	private VueAnalyseInfos vueAnalyseInfos;
 	private VueAnalyseList vueAnalyseList;
 	
+	//------------------
+	// Constructeurs
+	//------------------
 	public VueAnalyse(Statistiques stats){
 		
 		this.stats = stats;
 		//stats.addObserver(this);
 		this.setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder("Analyse du Contenu"));
-		
+
+		TitledBorder afact = BorderFactory.createTitledBorder("Analyse du Contenu");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		setBorder(afact);
+
 		Container cont = new Container();
 		GridLayout layout = new GridLayout(1,2);
 		cont.setLayout(layout);
@@ -48,11 +56,45 @@ public class VueAnalyse extends JPanel implements Observer{
 		//this.add(vueAnalyseInfos, BorderLayout.WEST);
 		//this.add(vueAnalyseList,BorderLayout.CENTER);
 		this.add(cont, BorderLayout.CENTER);
-		update(null,null);
+		
 	}
 	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		vueAnalyseInfos.updateInfos();
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
+		vueAnalyseBoutons.setStatistiques(stats);
+		vueAnalyseInfos.setStatistiques(stats);
+		vueAnalyseList.setStatistiques(stats);
 	}
+	
+	public Statistiques getStatistiques(){
+		return this.stats;
+	}
+	
+	//------------------
+	// Méthodes
+	//------------------
+	public VueAnalyseBoutons getVueAnalyseBoutons() {
+		return vueAnalyseBoutons;
+	}
+
+	public void setVueAnalyseBoutons(VueAnalyseBoutons vueAnalyseBoutons) {
+		this.vueAnalyseBoutons = vueAnalyseBoutons;
+	}
+
+	public VueAnalyseInfos getVueAnalyseInfos() {
+		return vueAnalyseInfos;
+	}
+
+	public void setVueAnalyseInfos(VueAnalyseInfos vueAnalyseInfos) {
+		this.vueAnalyseInfos = vueAnalyseInfos;
+	}
+
+	public VueAnalyseList getVueAnalyseList() {
+		return vueAnalyseList;
+	}
+
+	public void setVueAnalyseList(VueAnalyseList vueAnalyseList) {
+		this.vueAnalyseList = vueAnalyseList;
+	}
+	
 }

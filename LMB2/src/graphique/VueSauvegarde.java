@@ -273,8 +273,19 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private class ActionLancerStat implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			vueOnglets.getVueStatistiques().setStatistiques(new Statistiques(new File(selectedNode)));
+			
+			Statistiques stats = new Statistiques(new File(selectedNode));
+			vueOnglets.getVueStatistiques().setStatistiques(stats);
 			vueOnglets.setOnglet(1);
+			
+			// Ajout des observers
+			stats.addObserver(vueOnglets.getVueStatistiques().getVueInfosStatistiques());
+			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
+			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
+			
+			System.out.println(stats.getVersion());
+			System.out.println(stats.countObservers());
+			stats.init();
 			
 		}
 		
@@ -286,6 +297,9 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private class ActionDelete implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
+			/**
+			 * A FAIRE
+			 */
 		}
 		
 	}
@@ -305,7 +319,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 					arbre.clearSelection();
 					arbre.setSelectionPath(selPath);
 					selectedNode = laspirateur.getPath()+"/"+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+arbre.getLastSelectedPathComponent();
-					System.err.println(selectedNode);
 					if(version(selPath)){
 					    menu.show(e.getComponent(), e.getX(), e.getY());
 					}

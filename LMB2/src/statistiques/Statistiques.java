@@ -54,22 +54,6 @@ public class Statistiques extends Observable {
 		dataCSS = new ArrayList<File>();
 		dataJS = new ArrayList<File>();
 		
-		this.date = getDateVersion(version);
-		
-		// Recuperation de tous les fichiers fils
-		listerFils(version);
-
-		// Lancement du process de recuperation des statistiques
-			// Tri des fichiers - images
-			processSortFiles();
-		
-			// Recuperation des dataMotsComplet
-			processDataMots();
-		
-			// Recuperation des dataLinkComplet
-			processDataLinks();
-		
-		
 	}//cons-1
 	
 	//------------------
@@ -312,6 +296,31 @@ public class Statistiques extends Observable {
 		}
 	}
 	
+	/**
+	 * Cette méthode lance toutes les statistiques
+	 */
+	public void init(){
+		
+		this.date = getDateVersion(version);
+		
+		// Recuperation de tous les fichiers fils
+		listerFils(version);
+
+		// Lancement du process de recuperation des statistiques
+			// Tri des fichiers - images
+			processSortFiles();
+		
+			// Recuperation des dataMotsComplet
+			processDataMots();
+		
+			// Recuperation des dataLinkComplet
+			processDataLinks();
+			
+		// Avertir les vues que le modele change
+		setChanged();
+		notifyObservers();
+	}
+	
 	//------------------
 	// Tests
 	//------------------
@@ -322,7 +331,7 @@ public class Statistiques extends Observable {
 		
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
-		
+		stats.init();
 		
 		//System.out.println(stats.getDataHTML());
 		//System.out.println(stats.getDataCSS());

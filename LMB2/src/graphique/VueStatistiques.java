@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class VueStatistiques extends JPanel implements Observer{
+public class VueStatistiques extends JPanel{
 
 	//------------------
 	// Attributs
@@ -33,18 +33,35 @@ public class VueStatistiques extends JPanel implements Observer{
 		this.add(vueAnalyse, BorderLayout.CENTER);
 		this.add(vueInfosStatistiques, BorderLayout.NORTH);
 		
-		update(null,null);
 	}//cons-1
 	
 	public void setStatistiques(Statistiques stats){
 		this.stats = stats;
-		update(null, null);
+		this.vueInfosStatistiques.setStatistiques(stats);
+		this.vueAnalyse.setStatistiques(stats);
+	}
+	
+	public Statistiques getStatistiques(){
+		return this.stats;
 	}
 	
 	//------------------
 	// Methodes
 	//------------------
-	public void update(Observable o, Object arg) {
-		
+	public VueAnalyse getVueAnalyse() {
+		return vueAnalyse;
 	}
+
+	public void setVueAnalyse(VueAnalyse vueAnalyse) {
+		this.vueAnalyse = vueAnalyse;
+	}
+
+	public VueInfosStatistiques getVueInfosStatistiques() {
+		return vueInfosStatistiques;
+	}
+
+	public void setVueInfosStatistiques(VueInfosStatistiques vueInfosStatistiques) {
+		this.vueInfosStatistiques = vueInfosStatistiques;
+	}
+	
 }

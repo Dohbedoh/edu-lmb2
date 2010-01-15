@@ -4,6 +4,7 @@
 package graphique;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,7 +14,7 @@ import java.util.Observer;
 
 import statistiques.*;
 
-public class VueInfosStatistiques extends JPanel {
+public class VueInfosStatistiques extends JPanel implements Observer{
 
 	//------------------
 	// Attributs
@@ -33,14 +34,16 @@ public class VueInfosStatistiques extends JPanel {
 	public VueInfosStatistiques(Statistiques stats){
 		this.stats = stats;
 		
-		setBorder(BorderFactory.createTitledBorder("Informations sur la sauvegarde"));
+		TitledBorder afact = BorderFactory.createTitledBorder("Informations sur la sauvegarde");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		setBorder(afact);
+		
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		
+		stats.addObserver(this);
+		
 		// Création des éléments graphiques
-		/*nomSite = new JLabel(stats.getNomSite());
-		dateVersion = new JLabel(stats.getDate());
-		tailleVersion = new JLabel(stats.getLength()+"bytes");*/
 		
 		nomSiteLab = new JLabel("• Nom de Site : ");
 		dateVersionLab = new JLabel("• Date d'Aspiration : ");
@@ -107,16 +110,24 @@ public class VueInfosStatistiques extends JPanel {
 	    );
 	}//cons-1
 	
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
+	}
+	
+	public Statistiques getStatistiques(){
+		return this.stats;
+	}
+	
 	//------------------
 	// Méthodes
 	//------------------
-	/*
 	public void update(Observable o, Object arg) {
 		nomSite.setText(stats.getNomSite());
-		System.out.println(stats.getNomSite());
+		dateVersion.setText(stats.getDate());
+		tailleVersion.setText(stats.getLength()+"bytes");
 	}
-	*/
 	
+	/*
 	public static void main(String[] args){
 		JFrame fp = new JFrame("VueInfosStatistiques");
 		Statistiques stats = new Statistiques(new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470"));
@@ -125,7 +136,7 @@ public class VueInfosStatistiques extends JPanel {
 		fp.pack();
 		fp.setVisible(true);
 		fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		stats.init();
 	}
-
+	*/
 }

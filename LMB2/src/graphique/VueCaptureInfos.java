@@ -11,10 +11,16 @@ import Aspirateur.Aspirateur;
 
 public class VueCaptureInfos extends JPanel implements Observer {
 	
+	//------------------
+	// Attributs
+	//------------------
 	private Aspirateur laspirateur;
 	private JLabel infosPages, infosRessources, infosTaille, infosFiltres,
 	nbPages, nbRessources, taille, nbFiltrees;
 
+	//------------------
+	// Constructeur
+	//------------------
 	public VueCaptureInfos(Aspirateur aspi){
 		this.laspirateur = aspi;
 		laspirateur.addObserver(this);
@@ -96,7 +102,9 @@ public class VueCaptureInfos extends JPanel implements Observer {
 	    );
 	}
 	
-	@Override
+	//------------------
+	// Méthodes
+	//------------------
 	public void update(Observable o, Object arg) {
 		double totalCopies = laspirateur.getNbFichiersCopies();
 		double total = totalCopies + laspirateur.getNbFichiersACopies();

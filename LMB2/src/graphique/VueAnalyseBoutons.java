@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -16,9 +19,15 @@ import statistiques.Statistiques;
 
 public class VueAnalyseBoutons extends JPanel {
 
+	//------------------
+	// Attributs
+	//------------------
 	private Statistiques stats;
 	private JButton lesMotsBut,lesLiensBut;
 	
+	//------------------
+	// Constructeurs
+	//------------------
 	public VueAnalyseBoutons(Statistiques stats){
 		this.stats = stats;
 		this.setLayout(new BorderLayout(5,5));
@@ -31,30 +40,43 @@ public class VueAnalyseBoutons extends JPanel {
 		
 		this.add(lesMotsBut,BorderLayout.NORTH);
 		this.add(lesLiensBut,BorderLayout.SOUTH);
+	}//cons-1
+	
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
 	}
 	
+	public Statistiques getStatistiques(){
+		return this.stats;
+	}
+		
+	//------------------
+	// Méthodes
+	//------------------	
 	public Insets getInsets() {
 		Insets normal = super.getInsets();
 		return new Insets(normal.top + 5, normal.left + 5, 
 				normal.bottom + 5, normal.right + 5);
 	}
 	
+	//------------------
+	// Actions
+	//------------------
 	private class ActionStatsMots implements ActionListener {
 
-		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			
+						
 		}
 	}
 	
 	private class ActionStatsLiens implements ActionListener {
 
-		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			
+				
 		}
 	}
+
+	
+	
 	
 }
