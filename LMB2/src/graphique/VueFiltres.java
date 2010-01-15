@@ -131,7 +131,7 @@ public class VueFiltres extends JPanel{
 		// Ajout des actions
 		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).addActionListener(new ActionCheck());
-			checkBoxes.get(i).setSelected(true);
+			//checkBoxes.get(i).setSelected(true);
 		}
 		
 		
