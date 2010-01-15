@@ -54,6 +54,9 @@ public class VueChoixWorkspace extends JFrame {
 		//global.setBorder(BorderFactory.createLineBorder(Color.black));
 		haut.add(message);
 		
+		JPanel picPan = new JPanel();
+		JLabel picture = new JLabel(new ImageIcon("logo.png"));
+		
 		JPanel milieu = new JPanel();
 		milieu.setBackground(new Color(150,200,250));
 		milieu.add(value);
@@ -61,17 +64,14 @@ public class VueChoixWorkspace extends JFrame {
 		
 		JPanel bas = new JPanel();
 		bas.setBackground(new Color(150,200,250));
-		bas.add(valider);
+		bas.add(picture);
 		
 		global.add(haut, BorderLayout.NORTH);
 		global.add(milieu, BorderLayout.CENTER);
 		global.add(bas, BorderLayout.SOUTH);
 		
-		JPanel picPan = new JPanel();
-		JLabel picture = new JLabel(new ImageIcon("logo.png"));
-		
 		picPan.setBackground(new Color(150,200,250));
-		picPan.add(picture);
+		picPan.add(valider);
 		this.add(global,BorderLayout.NORTH);
 		this.add(picPan,BorderLayout.CENTER);
 		

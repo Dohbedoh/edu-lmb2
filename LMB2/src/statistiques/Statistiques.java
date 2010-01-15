@@ -8,6 +8,8 @@ import java.io.*;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.*;
+	import org.htmlparser.util.sort.*;
+
 public class Statistiques extends Observable {
 
 	//------------------
@@ -321,12 +323,13 @@ public class Statistiques extends Observable {
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
 		
+		
 		//System.out.println(stats.getDataHTML());
 		//System.out.println(stats.getDataCSS());
 		//System.out.println(stats.getDataJS());
 		
 		//System.out.println(stats.getDataMotsComplet());
-		//System.out.println(stats.getDataLinksComplet());
+		System.out.println(stats.getDataLinksComplet());
 		
 		
 		// Test de la fonction merge
