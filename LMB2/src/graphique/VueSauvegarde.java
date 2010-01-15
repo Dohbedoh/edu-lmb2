@@ -39,6 +39,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private String selectedNode;
 	private VueOnglets vueOnglets;
 	private VueCaptureInfos vueCaptureInfos;
+	private Container cont;
+	private JPopupMenu menu;
 	
 	//------------------
 	// Constructeurs
@@ -66,6 +68,17 @@ public class VueSauvegarde extends JPanel implements Observer{
 		infos.setForeground(Color.GRAY);
 		infos.setToolTipText("Date de capture");
 		
+		//Création du menu Popup
+	    menu = new JPopupMenu();
+		JMenuItem lancerStat = new JMenuItem("Lancer les Statistiques");
+		lancerStat.addActionListener(new ActionLancerStat());
+		
+		JMenuItem delete = new JMenuItem("Supprimer");
+		delete.addActionListener(new ActionDelete());
+		
+		menu.add(lancerStat);
+		menu.add(delete);
+		add(menu);
 		
 		// Création du Modele
 		treeModel = new DefaultTreeModel(racine);
@@ -85,8 +98,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 		options.add(visualisation);
 		options.add(refresh);
 		
-		Container cont = new Container();
-		cont.setLayout(new BorderLayout(5,5));
+		cont = new Container();
+		cont.setLayout(new BorderLayout());
 		cont.add(new JScrollPane(arbre), BorderLayout.CENTER);
 		cont.add(options, BorderLayout.SOUTH);
 		
@@ -227,7 +240,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private class ActionSelectionArbre implements TreeSelectionListener {
 		public void valueChanged(TreeSelectionEvent event) {
 			if(version(event.getPath())){
-				System.err.println(selectedNode);
 				visualisation.setEnabled(true);
 			}else{
 				visualisation.setEnabled(false);
@@ -269,6 +281,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 		public void actionPerformed(ActionEvent e) {
 			vueOnglets.getVueStatistiques().setStatistiques(new Statistiques(new File(selectedNode)));
 			vueOnglets.setOnglet(1);
+			
 		}
 		
 	}
@@ -282,7 +295,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 		}
 		
 	}
@@ -307,16 +319,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 					selectedNode = laspirateur.getPath()+"/"+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+arbre.getLastSelectedPathComponent();
 					System.err.println(selectedNode);
 					if(version(selPath)){
-					    JPopupMenu menu = new JPopupMenu();
-						JMenuItem lancerStat = new JMenuItem("Lancer les Statistiques");
-						lancerStat.addActionListener(new ActionLancerStat());
-						
-						JMenuItem delete = new JMenuItem("Supprimer");
-						delete.addActionListener(new ActionDelete());
-						
-						menu.add(lancerStat);
-						menu.add(delete);
-						add(menu);
 					    menu.show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
