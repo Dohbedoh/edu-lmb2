@@ -45,9 +45,17 @@ public class VueInfosStatistiques extends JPanel {
 		nomSite = new JLabel(" N.C");
 		dateVersion = new JLabel(" N.C");
 		tailleVersion = new JLabel(" N.C");
+		
 		nomSite.setForeground(new Color(51,204,0));
 		dateVersion.setForeground(new Color(51,204,0));
 		tailleVersion.setForeground(new Color(51,204,0));
+		
+		nomSiteLab.setFont(new Font(null,1,11));
+		dateVersionLab.setFont(new Font(null,1,11));
+		tailleVersionLab.setFont(new Font(null,1,11));
+		nomSite.setFont(new Font(null,1,11));
+		dateVersion.setFont(new Font(null,1,11));
+		tailleVersion.setFont(new Font(null,1,11));
 		
 		// Options
 		
@@ -63,7 +71,7 @@ public class VueInfosStatistiques extends JPanel {
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(10)
-	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 		                    .addComponent(nomSite)
 		                    .addComponent(dateVersion)
 		                    .addComponent(tailleVersion)

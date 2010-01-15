@@ -5,6 +5,10 @@
 package graphique;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +16,7 @@ import javax.swing.JPanel;
 import statistiques.Statistiques;
 
 
-public class VueAnalyseInfos extends JPanel {
+public class VueAnalyseInfos extends JPanel implements Observer{
 	
 	private Statistiques stats;
 	private JLabel 	nbMotsDif, nbAddrDif, nbImagesDif, nbHypersDif,
@@ -22,6 +26,7 @@ public class VueAnalyseInfos extends JPanel {
 
 	public VueAnalyseInfos(Statistiques stats){
 		this.stats = stats;
+		//stats.addObserver(this);
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		motsDif = new JLabel("• Mots différents sur le site : ");
@@ -33,13 +38,29 @@ public class VueAnalyseInfos extends JPanel {
 		js = new JLabel("• Fichiers JS : ");
 		html = new JLabel("• Fichiers HTML : ");
 		
-		nbMotsDif = new JLabel(" 00");
+		nbMotsDif = new JLabel(" 0");
 		nbAddrDif = new JLabel(" 0");
-		nbImagesDif = new JLabel(" 000");
-		nbHypersDif = new JLabel(" 00");
+		nbImagesDif = new JLabel(" 0");
+		nbHypersDif = new JLabel(" 0");
 		nbCSS = new JLabel(" 0");
-		nbJS = new JLabel(" 00");
+		nbJS = new JLabel(" 0");
 		nbHTML = new JLabel(" 0");
+
+		/*html.setFont(new Font(null,1,11));
+		js.setFont(new Font(null,1,11));
+		css.setFont(new Font(null,1,11));
+		divers.setFont(new Font(null,1,11));
+		hypersDif.setFont(new Font(null,1,11));
+		imagesDif.setFont(new Font(null,1,11));
+		addrDif.setFont(new Font(null,1,11));
+		motsDif.setFont(new Font(null,1,11));
+		nbHypersDif.setFont(new Font(null,1,11));
+		nbCSS.setFont(new Font(null,1,11));
+		nbJS.setFont(new Font(null,1,11));
+		nbHTML.setFont(new Font(null,1,11));
+		nbImagesDif.setFont(new Font(null,1,11));
+		nbAddrDif.setFont(new Font(null,1,11));
+		nbMotsDif.setFont(new Font(null,1,11));*/
 		
 		nbMotsDif.setForeground(Color.RED);
 		nbAddrDif.setForeground(Color.RED);
@@ -145,6 +166,12 @@ public class VueAnalyseInfos extends JPanel {
 		//nbAddrDif.setText(stats.getNbAddrDif());
 		//nbImagesDif.setText(stats.getNbImagesDif());
 		//nbHypersDif.setText(stats.getNbHypersDif);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

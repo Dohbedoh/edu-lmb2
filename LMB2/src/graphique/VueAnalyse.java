@@ -5,10 +5,15 @@
 package graphique;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import statistiques.Statistiques;
 
@@ -26,15 +31,23 @@ public class VueAnalyse extends JPanel implements Observer{
 		this.stats = stats;
 		//stats.addObserver(this);
 		this.setLayout(new BorderLayout());
-		
 		setBorder(BorderFactory.createTitledBorder("Analyse du Contenu"));
+		
+		Container cont = new Container();
+		GridLayout layout = new GridLayout(1,2);
+		cont.setLayout(layout);
 		
 		/* Construction des vues */
 		vueAnalyseBoutons = new VueAnalyseBoutons(stats);
 		vueAnalyseInfos = new VueAnalyseInfos(stats);
+		vueAnalyseList = new VueAnalyseList(stats);
 		
+		cont.add(vueAnalyseInfos);
+		cont.add(vueAnalyseList);
 		this.add(vueAnalyseBoutons, BorderLayout.NORTH);
-		this.add(vueAnalyseInfos, BorderLayout.WEST);
+		//this.add(vueAnalyseInfos, BorderLayout.WEST);
+		//this.add(vueAnalyseList,BorderLayout.CENTER);
+		this.add(cont, BorderLayout.CENTER);
 		update(null,null);
 	}
 	

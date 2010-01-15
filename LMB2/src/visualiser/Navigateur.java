@@ -5,20 +5,14 @@
 package visualiser;
 
 import graphique.IGAspirateur;
-
-
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
-import java.net.URL;
-
 import java.net.URL;
 import java.util.ArrayList;
 

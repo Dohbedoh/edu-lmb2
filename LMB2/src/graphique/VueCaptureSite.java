@@ -179,7 +179,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
-		vueProgressBar.getProgressBar().setValue(5);
+		//vueProgressBar.getProgressBar().setValue(5);
 		double totalCopies = laspirateur.getNbFichiersCopies();
 		double total = totalCopies + laspirateur.getNbFichiersACopies();
 		if(totalCopies!=0 || total!=0){
