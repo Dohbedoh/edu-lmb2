@@ -265,7 +265,7 @@ public class Statistiques extends Observable {
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
 			String current = dataHTML.get(i).getName();
-			System.out.println("Traitement dataMots de : "+current);
+			//System.out.println("Traitement dataMots de : "+current);
 				
 			// On récupère les données sur la page current
 			MyStringExtractor stringExtractor = new MyStringExtractor(dataHTML.get(i).getPath());
@@ -285,7 +285,7 @@ public class Statistiques extends Observable {
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
 			String current = dataHTML.get(i).getName();
-			System.out.println("Traitement dataLinks de : "+current);
+			//System.out.println("Traitement dataLinks de : "+current);
 			
 			// On récupère les données sur la page current
 			MyLinkExtractor urlExtractor = new MyLinkExtractor(dataHTML.get(i).getPath());

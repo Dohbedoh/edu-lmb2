@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.io.File;
@@ -38,7 +39,10 @@ public class VueAnalyseList extends JPanel implements Observer{
 		this.stats = stats;
 		this.setLayout(new BorderLayout(5,5));
 		
-		//setBorder(BorderFactory.createTitledBorder("Listes de Fichiers"));
+		TitledBorder afact = BorderFactory.createTitledBorder("Listes de Fichiers");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		setBorder(afact);
+		
 		jlist = new JList();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlist.setCellRenderer(new ListFormateur());
@@ -182,6 +186,15 @@ public class VueAnalyseList extends JPanel implements Observer{
 					menu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
+			if (e.getClickCount() == 2) {
+				selected = (File)jlist.getSelectedValue();
+				URL url;
+				try {
+					url = selected.toURL();
+					BareBonesBrowserLaunch.openURL(url.toString());
+				} catch (MalformedURLException er) {er.printStackTrace();}
+				
+			}
 		}
 		
 	}
@@ -189,7 +202,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionVisualiserSelection implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			selected = (File)jlist.getSelectedValue();
-			System.out.println(selected.getPath());
 			URL url;
 			try {
 				url = selected.toURL();

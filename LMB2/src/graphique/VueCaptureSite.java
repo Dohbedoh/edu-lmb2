@@ -45,6 +45,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public VueContraintes contraintesVolume;
 	
 	public VueFiltres vueFiltres;
+	public VueMetaDonnees vueMeta;
+	
 	//------------------
 	// Constructeurs
 	//------------------
@@ -164,9 +166,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 		chaut.add(cdroit);
 		
 		vueFiltres = new VueFiltres(laspirateur);
+		vueMeta = new VueMetaDonnees(laspirateur);
 		
 		contrainte.add(chaut,BorderLayout.NORTH);
-		contrainte.add(vueFiltres,BorderLayout.CENTER);
+		contrainte.add(vueFiltres,BorderLayout.WEST);
+		contrainte.add(vueMeta, BorderLayout.CENTER);
+		
+		
 		
 		add(capture,BorderLayout.CENTER);
 		add(contrainte,BorderLayout.SOUTH);

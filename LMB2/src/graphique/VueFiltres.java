@@ -5,6 +5,9 @@
 package graphique;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +24,7 @@ public class VueFiltres extends JPanel{
 	//------------------
 	public Aspirateur laspirateur;
 	
-	public JLabel afficheFiltre;
+	//public JLabel afficheFiltre;
 	
 	ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
 	ArrayList<String> listeFiltres = new ArrayList<String>();
@@ -57,12 +60,16 @@ public class VueFiltres extends JPanel{
 		this.setLayout(new BorderLayout());
 		JPanel panneauFiltres = new JPanel();
 		
+		setLayout(new BorderLayout());
+		TitledBorder afact = BorderFactory.createTitledBorder("Filtres");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		setBorder(afact);
 		
 		// Creation des elements graphiques de VueFiltres
-		afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
+		//afficheFiltre = new JLabel("Filtres", SwingUtilities.CENTER);
 		
 		// Ajout des elements dans le conteneur VueFiltres
-		add(afficheFiltre,BorderLayout.NORTH);
+		//add(afficheFiltre,BorderLayout.NORTH);
 		add(panneauFiltres,BorderLayout.CENTER);
 		
 		
@@ -124,6 +131,7 @@ public class VueFiltres extends JPanel{
 		// Ajout des actions
 		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).addActionListener(new ActionCheck());
+			checkBoxes.get(i).setSelected(true);
 		}
 		
 		

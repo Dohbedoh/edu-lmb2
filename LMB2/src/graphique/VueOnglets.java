@@ -52,8 +52,7 @@ public class VueOnglets extends JPanel {
 		this.add(onglets, BorderLayout.CENTER);
 		
 		// Options
-		//vueCaptureSite.setPreferredSize(new Dimension(800,420));
-		//onglets.setTabPlacement(JTabbedPane.RIGHT);
+		
 	}
 	
 	//------------------
@@ -82,11 +81,11 @@ public class VueOnglets extends JPanel {
 	private class ChangerOnglet implements ChangeListener{
 		
 		public void stateChanged(ChangeEvent e) {
-			
+		
 			if(onglets.getSelectedComponent() instanceof VueStatistiques){
-				split.setDividerLocation(split.getMaximumDividerLocation());
+				split.setDividerLocation(split.getMaximumDividerLocation()-5);
 			}else if(onglets.getSelectedComponent() instanceof VueCaptureSite){
-				split.setDividerLocation(split.getMinimumDividerLocation());
+				split.setDividerLocation(split.getMinimumDividerLocation()+15);
 			}
 			
 		}

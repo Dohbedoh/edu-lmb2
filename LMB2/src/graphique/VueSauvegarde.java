@@ -118,6 +118,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 				((DefaultTreeModel)arbre.getModel()).reload();
 			}
 		});
+		
+		
 	}//cons-1	
 	
 	//------------------
@@ -283,10 +285,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
 			
-			System.out.println(stats.getVersion());
-			System.out.println(stats.countObservers());
 			stats.init();
-			
 		}
 		
 	}
@@ -312,7 +311,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isRightMouseButton(e)) {
-				// System.out.println("click Right");
+				
 				int selRow = arbre.getRowForLocation(e.getX(), e.getY());
 				TreePath selPath = arbre.getPathForLocation(e.getX(), e.getY());
 				if (selRow != -1) {
@@ -322,6 +321,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 					if(version(selPath)){
 					    menu.show(e.getComponent(), e.getX(), e.getY());
 					}
+				}else{
+					// Trie quand on clique dans le vide
 				}
 			}
 		}

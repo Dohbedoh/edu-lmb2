@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import Aspirateur.*;
 
@@ -46,7 +47,9 @@ public class VueConsole extends JPanel  implements Observer{
 		laconsole.setEditable(false);
 		laconsole.setFont(new Font("TimesRoman",Font.PLAIN,12));
 		
-		this.setBorder(BorderFactory.createTitledBorder("Console"));
+		TitledBorder afact = BorderFactory.createTitledBorder("Console");
+		afact.setTitleJustification(TitledBorder.CENTER);
+		setBorder(afact);
 	}//cons-1
 
 	//------------------
