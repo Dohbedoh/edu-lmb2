@@ -6,6 +6,7 @@ package statistiques;
 
 import java.util.*;
 import org.htmlparser.beans.StringBean;
+import org.htmlparser.tags.MetaTag;
 import org.htmlparser.util.ParserException;
 
 public class MyStringExtractor {
@@ -56,6 +57,10 @@ public class MyStringExtractor {
 	    sb = new StringBean();
 	    sb.setLinks (links);
 	    sb.setURL (this.nomFichier);
+	    sb.setReplaceNonBreakingSpaces (true);
+	    sb.setCollapse (true);
+	    
+	    //sb.visitTag(new MyMetaTag());
 	    return (sb.getStrings ());
     }
 
@@ -74,6 +79,9 @@ public class MyStringExtractor {
     		  * A FAIRE pour les caracteres suivants : ! ? < > , ; .
     		  * + lower case
     		  */
+    		 if(current.endsWith(",") || current.endsWith(".") || current.endsWith(";") || current.endsWith(">") || current.endsWith(")") || current.endsWith("!")){
+    			 current = current.substring(0, current.length()-1);
+    		 }
     		 
              if(dataMots.containsKey(current)){
             	
@@ -94,4 +102,12 @@ public class MyStringExtractor {
     	 //System.out.println(dataMots.toString());
     }
 	
+    //------------------
+	//  Interne
+	//------------------
+    private class MyMetaTag extends MetaTag{
+    	public void doSemanticAction(){
+    		System.out.println("J'ai en reperer un");
+    	}
+    }
 }
