@@ -41,13 +41,15 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private VueCaptureInfos vueCaptureInfos;
 	private Container cont;
 	private JPopupMenu menu;
+	private VueProgressBar vueProgressBar;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueSauvegarde(Aspirateur laspirateur, VueOnglets vueOnglets){
+	public VueSauvegarde(Aspirateur laspirateur, VueOnglets vueOnglets, VueProgressBar vueProgressBar){
 		this.laspirateur = laspirateur;
 		this.vueOnglets = vueOnglets;
+		this.vueProgressBar = vueProgressBar;
 		setLayout(new BorderLayout());
 		laspirateur.addObserver(this);
 		vueCaptureInfos = new VueCaptureInfos(laspirateur);
@@ -274,10 +276,15 @@ public class VueSauvegarde extends JPanel implements Observer{
 	 */
 	private class ActionLancerStat implements ActionListener{
 
+		private Statistiques stats;
+		
 		public void actionPerformed(ActionEvent e) {
-			
-			Statistiques stats = new Statistiques(new File(selectedNode));
+
+			arbre.setEnabled(false);
+			vueOnglets.setEnabled(false);
+			this.stats = new Statistiques(new File(selectedNode));
 			vueOnglets.getVueStatistiques().setStatistiques(stats);
+			vueProgressBar.setStatistiques(stats);
 			vueOnglets.setOnglet(1);
 			
 			// Ajout des observers
@@ -285,7 +292,17 @@ public class VueSauvegarde extends JPanel implements Observer{
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
 			
-			stats.init();
+			// Nouveau processus pour lancer le process
+			Thread t = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					stats.init();
+					arbre.setEnabled(true);
+					vueOnglets.setEnabled(true);
+				}
+			});
+			t.start();
 		}
 		
 	}
@@ -307,26 +324,33 @@ public class VueSauvegarde extends JPanel implements Observer{
 	/**
 	 * Action lancée lorsque l'on clique droit sur le JTree
 	 */
-	private class ActionClikDroit extends MouseAdapter{
+	private class ActionClikDroit extends MouseAdapter {
 
 		public void mousePressed(MouseEvent e) {
-			if (SwingUtilities.isRightMouseButton(e)) {
-				
-				int selRow = arbre.getRowForLocation(e.getX(), e.getY());
-				TreePath selPath = arbre.getPathForLocation(e.getX(), e.getY());
-				if (selRow != -1) {
-					arbre.clearSelection();
-					arbre.setSelectionPath(selPath);
-					selectedNode = laspirateur.getPath()+"/"+((DefaultMutableTreeNode)arbre.getLastSelectedPathComponent()).getParent()+"/"+arbre.getLastSelectedPathComponent();
-					if(version(selPath)){
-					    menu.show(e.getComponent(), e.getX(), e.getY());
+			if (arbre.isEnabled()) {
+				if (SwingUtilities.isRightMouseButton(e)) {
+					int selRow = arbre.getRowForLocation(e.getX(), e.getY());
+					TreePath selPath = arbre.getPathForLocation(e.getX(), e
+							.getY());
+					if (selRow != -1) {
+						arbre.clearSelection();
+						arbre.setSelectionPath(selPath);
+						selectedNode = laspirateur.getPath()
+								+ "/"
+								+ ((DefaultMutableTreeNode) arbre
+										.getLastSelectedPathComponent())
+										.getParent() + "/"
+								+ arbre.getLastSelectedPathComponent();
+						if (version(selPath)) {
+							menu.show(e.getComponent(), e.getX(), e.getY());
+						}
+					} else {
+						// Trie quand on clique dans le vide
 					}
-				}else{
-					// Trie quand on clique dans le vide
 				}
 			}
 		}
-		
+
 	}
 	
 }

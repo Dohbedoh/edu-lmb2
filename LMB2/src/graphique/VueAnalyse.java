@@ -59,6 +59,11 @@ public class VueAnalyse extends JPanel{
 		
 	}
 	
+	public void setEnabled(boolean b){
+		vueAnalyseBoutons.setEnabled(b);
+		vueAnalyseList.setEnabled(b);
+	}
+	
 	public void setStatistiques(Statistiques stats){
 		this.stats = stats;
 		vueAnalyseBoutons.setStatistiques(stats);

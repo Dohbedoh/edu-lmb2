@@ -273,7 +273,6 @@ public class Statistiques extends Observable {
 				
 			// On fusionne avec les données déjà existantes
 			merge(dataMotsComplet, new_data);
-			
 		}
 	}
 	

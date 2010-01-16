@@ -72,6 +72,11 @@ public class VueOnglets extends JPanel {
 		}
 	}
 	
+	public void setEnabled(boolean b){
+		vueCaptureSite.setEnabled(b);
+		vueStatistiques.setEnabled(b);
+	}
+	
 	//------------------
 	// Actions
 	//------------------

@@ -45,6 +45,10 @@ public class VueStatistiques extends JPanel{
 		return this.stats;
 	}
 	
+	public void setEnabled(boolean b){
+		vueAnalyse.setEnabled(false);
+	}
+	
 	//------------------
 	// Methodes
 	//------------------

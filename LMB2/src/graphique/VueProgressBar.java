@@ -5,25 +5,31 @@
 package graphique;
 
 import javax.swing.*;
+
+import statistiques.Statistiques;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Observable;
 import java.util.Observer;
 
 import Aspirateur.*;
 
-public class VueProgressBar extends JPanel{
+public class VueProgressBar extends JPanel implements Observer{
 
 	//------------------
 	// Attributs
 	//------------------
-	Aspirateur laspirateur;
-	JProgressBar bar;
+	private Aspirateur laspirateur;
+	private Statistiques stats;
+	private JProgressBar bar;
 	
 	//--------------
 	// Constructeur
 	//--------------
 	public VueProgressBar(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
+		laspirateur.addObserver(this);
 		
 		// Creation des elements graphiques
 		bar = new JProgressBar();
@@ -50,6 +56,23 @@ public class VueProgressBar extends JPanel{
 	
 	public VueProgressBar getVueProgressBar(){
 		return this;
+	}
+
+	public void setStatistiques(Statistiques stats){
+		this.stats = stats;
+		stats.addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		double totalCopies = laspirateur.getNbFichiersCopies();
+		double total = totalCopies + laspirateur.getNbFichiersACopies();
+		if(totalCopies!=0 || total!=0){
+			double value = totalCopies/total*100;
+			bar.setValue((int)value);
+		}else{
+			bar.setValue(0);
+		}
 	}
 	
 	//--------------

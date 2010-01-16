@@ -42,6 +42,14 @@ public class VueAnalyseBoutons extends JPanel {
 		this.add(lesLiensBut,BorderLayout.SOUTH);
 	}//cons-1
 	
+	/**
+	 * Désactive les boutons
+	 */
+	public void setEnabled(boolean b){
+		lesMotsBut.setEnabled(b);
+		lesLiensBut.setEnabled(b);
+	}
+	
 	public void setStatistiques(Statistiques stats){
 		this.stats = stats;
 	}

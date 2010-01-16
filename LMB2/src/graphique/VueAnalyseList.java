@@ -112,6 +112,13 @@ public class VueAnalyseList extends JPanel implements Observer{
 		
 	}
 
+	public void setEnabled(boolean b){
+		imagesBut.setEnabled(b);
+		addrBut.setEnabled(b);
+		cssBut.setEnabled(b);
+		jsBut.setEnabled(b);
+	}
+	
 	public void setStatistiques(Statistiques stats){
 		this.stats = stats;
 	}

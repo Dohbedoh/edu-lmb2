@@ -187,14 +187,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
 		//vueProgressBar.getProgressBar().setValue(5);
-		double totalCopies = laspirateur.getNbFichiersCopies();
+		/*double totalCopies = laspirateur.getNbFichiersCopies();
 		double total = totalCopies + laspirateur.getNbFichiersACopies();
 		if(totalCopies!=0 || total!=0){
 			double value = totalCopies/total*100;
 			vueProgressBar.getProgressBar().setValue((int)value);
 		}else{
 			vueProgressBar.getProgressBar().setValue(0);
-		}
+		}*/
 	}
 	
 	//------------------
@@ -210,6 +210,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 			laspirateur.setName(nom.getText());
 			update(null,null);
 		}
+	}
+	
+	public void setEnabled(boolean b){
+		pause.setEnabled(b);
+		reprendre.setEnabled(b);
+		stop.setEnabled(b);
+		capturer.setEnabled(b);
+		parcourir.setEnabled(b);
 	}
 	
 	/**
@@ -284,10 +292,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 				
 			});
 			
-			
-			
-			
-			// On lance le premier processus qui lancera le deuxième
 			t.start();
 		}
 	}
