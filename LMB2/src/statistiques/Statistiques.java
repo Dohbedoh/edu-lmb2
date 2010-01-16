@@ -18,7 +18,6 @@ public class Statistiques extends Observable {
 	
 	//------------------
 	// Attributs relatifs à la version sélectionnée
-
 	File version;
 	String date;
 	
@@ -295,6 +294,10 @@ public class Statistiques extends Observable {
 		}
 	}
 	
+	
+	
+	
+	
 	/**
 	 * Cette méthode lance toutes les statistiques
 	 */
@@ -337,7 +340,7 @@ public class Statistiques extends Observable {
 		//System.out.println(stats.getDataJS());
 		
 		//System.out.println(stats.getDataMotsComplet());
-		System.out.println(stats.getDataLinksComplet());
+		//System.out.println(stats.getDataLinksComplet());
 		
 		
 		// Test de la fonction merge

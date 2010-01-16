@@ -9,6 +9,8 @@ import org.htmlparser.beans.StringBean;
 import org.htmlparser.tags.MetaTag;
 import org.htmlparser.util.ParserException;
 
+import Aspirateur.LinkTag;
+
 public class MyStringExtractor {
 
 	//------------------
@@ -60,7 +62,7 @@ public class MyStringExtractor {
 	    sb.setReplaceNonBreakingSpaces (true);
 	    sb.setCollapse (true);
 	    
-	    //sb.visitTag(new MyMetaTag());
+	    sb.visitTag(new MyLinkTag());
 	    return (sb.getStrings ());
     }
 
@@ -69,7 +71,7 @@ public class MyStringExtractor {
      * @param  big est la grosse chaine de caractere contenant tous les mots du texte
      */
     public void analyserTexte(String big){
-    	
+ 
     	 StringTokenizer st = new StringTokenizer(big);
     	 while (st.hasMoreTokens()) {
     		 String current = st.nextToken();
@@ -105,9 +107,9 @@ public class MyStringExtractor {
     //------------------
 	//  Interne
 	//------------------
-    private class MyMetaTag extends MetaTag{
+    private class MyLinkTag extends LinkTag{
     	public void doSemanticAction(){
-    		System.out.println("J'ai en reperer un");
+    		System.out.println("*********************************");
     	}
     }
 }
