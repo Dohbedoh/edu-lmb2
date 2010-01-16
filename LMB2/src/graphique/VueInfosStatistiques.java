@@ -6,9 +6,12 @@ package graphique;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import Aspirateur.Meta;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,6 +23,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	// Attributs
 	//------------------
 	Statistiques stats;
+	VueMetaStat vueMetaStat;
 	
 	JLabel nomSite;
 	JLabel dateVersion;
@@ -33,13 +37,15 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	//------------------
 	public VueInfosStatistiques(Statistiques stats){
 		this.stats = stats;
-		
+		vueMetaStat = new VueMetaStat(stats);
 		TitledBorder afact = BorderFactory.createTitledBorder("Informations sur la sauvegarde");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
+		this.setLayout(new BorderLayout());
 		
-		GroupLayout layout = new GroupLayout(this);
-		this.setLayout(layout);
+		Container cont = new Container();
+		GroupLayout layout = new GroupLayout(cont);
+		cont.setLayout(layout);
 		
 		stats.addObserver(this);
 		
@@ -108,6 +114,10 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	          )
 	          .addGap(10)
 	    );
+	    
+	    this.add(cont, BorderLayout.WEST);
+	    this.add(vueMetaStat,BorderLayout.EAST);
+	    vueMetaStat.setVisible(false);
 	}//cons-1
 	
 	public void setStatistiques(Statistiques stats){
@@ -125,6 +135,15 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		nomSite.setText(stats.getNomSite());
 		dateVersion.setText(stats.getDate());
 		tailleVersion.setText(stats.getLength()+"bytes");
+		Meta meta = new Meta();
+		System.err.println(stats.getVersion().getAbsolutePath()+"\\meta.dat");
+		try {
+			meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"/meta.dat");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		vueMetaStat.setText(meta.getMetaData());
+		vueMetaStat.setVisible(true);
 	}
 	
 	/*

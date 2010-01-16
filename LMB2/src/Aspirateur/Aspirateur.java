@@ -101,6 +101,9 @@ public class Aspirateur extends Observable {
 	/** Booléen permettant de contrôler le parsing */
 	private boolean stop,pause;
 	
+	/** Les Metadonnées */
+	private Meta meta;
+	
 	
 	// ------------------
 	// Constructeur
@@ -120,15 +123,7 @@ public class Aspirateur extends Observable {
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
 		extensionsFiltred = new HashSet<String>();
-		/*filtres.add(".js");
-		filtres.add(".css");
-		filtres.add(".jpeg");
-		filtres.add(".jpg");
-		filtres.add(".ico");
-		filtres.add(".gif");
-		filtres.add(".png");
-		filtres.add(".log");
-		filtres.add(".pdf");*/
+		meta = new Meta();
 		profondeur = 0;
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
@@ -219,7 +214,15 @@ public class Aspirateur extends Observable {
 		ressourcesPool = new ThreadPool(nb);
 	}
 
-
+	/**
+	 * Remplir les metadonnées
+	 * @param data
+	 */
+	public void setMeta(String data){
+		meta.setMetaData(data);
+	}
+	
+	
 	/**
 	 * Modifier le chemin du workspace
 	 * 
@@ -252,6 +255,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setSource(String url) {
 		urlSource = toSource(url);
+		meta.setURL(url);
 		pages.add(url);
 
 		// Avertir les vues que le modele change
@@ -452,6 +456,103 @@ public class Aspirateur extends Observable {
 	}
 
 	/**
+	 * 
+	 * @param link
+	 * @return
+	 * @throws ParserException
+	 */
+    private boolean isHtml (String link) throws ParserException{
+	    URL url;
+	    URLConnection connection;
+	    String type;
+	    boolean ret;
+	    ret = false;
+	    
+	    try
+	    {
+	        url = new URL (link);
+	        connection = url.openConnection ();
+	        type = connection.getContentType ();
+	        if (type == null)
+	            ret = false;
+	        else
+	            ret = type.startsWith ("text/html");
+	    }
+	    catch (Exception e)
+	    {
+	        throw new ParserException ("URL " + link + " has a problem", e);
+	    }
+	    return (ret);
+	}
+
+    /**
+     * Retourne vrai si le lien semble être une page (donc du contenu html)
+     * @param url
+     * @return
+     */
+    private boolean isPage(String url) throws ParserException{
+    	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
+    	if(tmp.length()>urlSource.length()){
+    		tmp = url.substring(url.lastIndexOf("/"));
+    	}
+		return (url!=urlSource &&
+				(tmp.indexOf("?")!=-1 || 
+				tmp.indexOf("&")!=-1 ||
+				tmp.indexOf("#")!=-1 ||
+				tmp.indexOf(".")==-1 ||
+				url.toLowerCase().endsWith(".htm")||
+				url.toLowerCase().endsWith(".php")||
+				url.toLowerCase().endsWith(".html")||
+				url.toLowerCase().endsWith("/")));
+    }
+    
+	/**
+	 * Fonction qui retourne si la ressource doit être capturée
+	 * @param url : chemin absolu de la ressources
+	 * @return
+	 */
+	private boolean isToBeCaptured(String url){
+		if(url.contains(".")){
+			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
+			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
+			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
+				if(!extensionsFiltred.contains(extension)){
+					extensionsFiltred.add(extension);
+				}
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Fonction qui retourne si la ressource appartient au domaine de l'aspiration
+	 * (si elle commence par le même préfixe que celui donné par l'utilisateur)
+	 * @param link: chemin absolue de la ressource/page
+	 * @return
+	 */
+	private boolean isRelativeToTheSource(String link) {
+		return (link.toLowerCase().startsWith(urlSource.toLowerCase()));
+	}
+	
+	/**
+	 * Sauvegarder les métadonnée dans un fichier "meta.dat"
+	 */
+	public void saveMeta(){
+		File file = new File(urlLocal+"/meta.dat");
+		File dir = file.getParentFile();
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		try {
+			meta.serializer(urlLocal+"/meta.dat");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Procédure qui extrait le Préfixe(chemin absolu du dossier parent)
 	 * 
 	 * @param url
@@ -519,58 +620,6 @@ public class Aspirateur extends Observable {
 		factory.registerTag(new LocalJSTag());
 		parser.setNodeFactory(factory);
 	}
-	
-
-	/**
-	 * 
-	 * @param link
-	 * @return
-	 * @throws ParserException
-	 */
-    private boolean isHtml (String link) throws ParserException{
-	    URL url;
-	    URLConnection connection;
-	    String type;
-	    boolean ret;
-	    ret = false;
-	    
-	    try
-	    {
-	        url = new URL (link);
-	        connection = url.openConnection ();
-	        type = connection.getContentType ();
-	        if (type == null)
-	            ret = false;
-	        else
-	            ret = type.startsWith ("text/html");
-	    }
-	    catch (Exception e)
-	    {
-	        throw new ParserException ("URL " + link + " has a problem", e);
-	    }
-	    return (ret);
-	}
-
-    /**
-     * Retourne vrai si le lien semble être une page (donc du contenu html)
-     * @param url
-     * @return
-     */
-    private boolean isPage(String url) throws ParserException{
-    	String tmp = url.substring(url.indexOf(urlSource)+urlSource.length());
-    	if(tmp.length()>urlSource.length()){
-    		tmp = url.substring(url.lastIndexOf("/"));
-    	}
-		return (url!=urlSource &&
-				(tmp.indexOf("?")!=-1 || 
-				tmp.indexOf("&")!=-1 ||
-				tmp.indexOf("#")!=-1 ||
-				tmp.indexOf(".")==-1 ||
-				url.toLowerCase().endsWith(".htm")||
-				url.toLowerCase().endsWith(".php")||
-				url.toLowerCase().endsWith(".html")||
-				url.toLowerCase().endsWith("/")));
-    }
     
 	/**
 	 * Fonction qui retourne si la ressource sera capturée
@@ -645,36 +694,6 @@ public class Aspirateur extends Observable {
 		}
 		return url;
 	}
-	
-	/**
-	 * Fonction qui retourne si la ressource doit être capturée
-	 * @param url : chemin absolu de la ressources
-	 * @return
-	 */
-	private boolean isToBeCaptured(String url){
-		if(url.contains(".")){
-			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
-			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
-			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
-				if(!extensionsFiltred.contains(extension)){
-					extensionsFiltred.add(extension);
-				}
-			}else{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Fonction qui retourne si la ressource appartient au domaine de l'aspiration
-	 * (si elle commence par le même préfixe que celui donné par l'utilisateur)
-	 * @param link: chemin absolue de la ressource/page
-	 * @return
-	 */
-	private boolean isRelativeToTheSource(String link) {
-		return (link.toLowerCase().startsWith(urlSource.toLowerCase()));
-	}
 
 	/**
 	 * Fonction qui créé une URL relative à partir de l'URL du lien en fonction
@@ -738,6 +757,7 @@ public class Aspirateur extends Observable {
 		stop = false;
 		long time = System.currentTimeMillis();
 		setSource(url);
+		saveMeta();
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
 		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
@@ -1218,7 +1238,6 @@ public class Aspirateur extends Observable {
 			}
 		}
 	}
-	
 
 	/**
 	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un

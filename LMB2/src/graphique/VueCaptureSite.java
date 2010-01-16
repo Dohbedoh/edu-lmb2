@@ -264,11 +264,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 			stop.setEnabled(true);
 			pause.setEnabled(true);
 			reprendre.setEnabled(false);
+			vueMeta.setEnabled(false);
 			
 			// Recuperation des informations sur la capture
 			laspirateur.setName(nom.getText());
 			laspirateur.setPath(path.getText());
 			laspirateur.makeURLLocal();
+			laspirateur.setMeta(vueMeta.getValeur().getText());
 			
 			int profondeur = contraintesProfondeur.getValue();
 			int volume = contraintesVolume.getValue();
@@ -288,6 +290,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 				public void run() {
 					laspirateur.launchProcess(url.getText());
 					capturer.setEnabled(true);
+					vueMeta.setEnabled(true);
 				}
 				
 			});
