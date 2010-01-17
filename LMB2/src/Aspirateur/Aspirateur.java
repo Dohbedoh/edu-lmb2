@@ -618,6 +618,10 @@ public class Aspirateur extends Observable {
 		factory.registerTag(new LocalFrameTag());
 		factory.registerTag(new LocalStyleTag());
 		factory.registerTag(new LocalJSTag());
+		factory.registerTag(new LocalDivTag());
+		factory.registerTag(new LocalHeadingTag());
+		factory.registerTag(new LocalTableTag());
+		factory.registerTag(new LocalMetaTag());
 		parser.setNodeFactory(factory);
 	}
     
@@ -757,7 +761,6 @@ public class Aspirateur extends Observable {
 		stop = false;
 		long time = System.currentTimeMillis();
 		setSource(url);
-		saveMeta();
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
 		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
@@ -769,6 +772,8 @@ public class Aspirateur extends Observable {
 		System.err.println("\nfini!!!!!! avec "+ tailleSite);
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
+		meta.setTime(time);
+		saveMeta();
 		setChanged();
 		notifyObservers();
 		afficherCopied();
@@ -1316,6 +1321,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.addMetaTag(toHtml());
 		}
 	}
 	
@@ -1330,7 +1336,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
-			
+			meta.addHeadingTag(toHtml());
 		}
 	}
 	
@@ -1345,7 +1351,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
-			
+			meta.addMetaTag(toHtml());
 		}
 	}
 	
@@ -1360,7 +1366,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
-			
+			meta.addTableTag(toHtml());
 		}
 	}
 	

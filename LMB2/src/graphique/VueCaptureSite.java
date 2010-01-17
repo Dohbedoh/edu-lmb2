@@ -180,6 +180,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 	}//cons-1
 	
+	
+	public void setEnabled(boolean b){
+		pause.setEnabled(b);
+		reprendre.setEnabled(b);
+		stop.setEnabled(b);
+		capturer.setEnabled(b);
+		parcourir.setEnabled(b);
+	}
+	
 	//------------------
 	// Methodes
 	//------------------
@@ -210,14 +219,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 			laspirateur.setName(nom.getText());
 			update(null,null);
 		}
-	}
-	
-	public void setEnabled(boolean b){
-		pause.setEnabled(b);
-		reprendre.setEnabled(b);
-		stop.setEnabled(b);
-		capturer.setEnabled(b);
-		parcourir.setEnabled(b);
 	}
 	
 	/**

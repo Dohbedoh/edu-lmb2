@@ -171,6 +171,10 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.err.println("---------- Div ------------\n"+meta.getDivTagsList().size());
+		System.err.println("---------- Heading ------------\n"+meta.getHeadingTagsList().size());
+		System.err.println("---------- Table ------------\n"+meta.getTableTagsList().size());
+		System.err.println("---------- Meta ------------\n"+meta.getMetaTagsList().size());
 	}
 	
 	/*

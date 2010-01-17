@@ -10,8 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import javax.swing.text.html.HTML.Tag;
+import org.htmlparser.Tag;
 
 public class Meta implements Serializable{
 	
@@ -21,22 +20,23 @@ public class Meta implements Serializable{
 	private static final long serialVersionUID = -8793617748921430510L;
 	private String url;
 	private String meta;
-	private ArrayList<Tag> divTags;
-	private ArrayList<Tag> tableTags;
-	private ArrayList<Tag> headingTags;
-	private ArrayList<Tag> metaTags;
-	
-	
+	private ArrayList<String> divTags;
+	private ArrayList<String> tableTags;
+	private ArrayList<String> headingTags;
+	private ArrayList<String> metaTags;
+	private long time;
 	
 	public Meta(){
 		meta = "";
 		url = "";
+		divTags = new ArrayList<String>();
+		tableTags = new ArrayList<String>();
+		headingTags = new ArrayList<String>();
+		metaTags = new ArrayList<String>();
+		time = 0;
 	}
 	
-	public String getURL(){
-		return url;
-	}
-	
+
 	public void setURL(String url){
 		this.url = url;
 	}
@@ -45,8 +45,52 @@ public class Meta implements Serializable{
 		this.meta = meta;
 	}
 	
+	public void setTime(long time){
+		this.time = time;
+	}
+	
+	public long getTime(){
+		return time;
+	}
+	
+	public ArrayList<String> getDivTagsList(){
+		return divTags;
+	}
+	
+	public ArrayList<String> getTableTagsList(){
+		return tableTags;
+	}
+	
+	public ArrayList<String> getMetaTagsList(){
+		return metaTags;
+	}
+	
+	public ArrayList<String> getHeadingTagsList(){
+		return headingTags;
+	}
+	
 	public String getMetaData(){
 		return meta;
+	}
+	
+	public String getURL(){
+		return url;
+	}
+	
+	public void addDivTag(String tag){
+		divTags.add(tag);
+	}
+
+	public void addTableTag(String tag){
+		tableTags.add(tag);
+	}
+	
+	public void addHeadingTag(String tag){
+		headingTags.add(tag);
+	}
+	
+	public void addMetaTag(String tag){
+		metaTags.add(tag);
 	}
 	
 	public String toString(){
