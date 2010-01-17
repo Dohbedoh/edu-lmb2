@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import statistiques.Statistiques;
-
+import tableur.*;
 
 public class VueAnalyseBoutons extends JPanel {
 
@@ -73,14 +73,16 @@ public class VueAnalyseBoutons extends JPanel {
 	private class ActionStatsMots implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-						
+			SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
 		}
 	}
 	
 	private class ActionStatsLiens implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-				
+			/*
+			 * APRES
+			 */
 		}
 	}
 
