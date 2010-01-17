@@ -37,7 +37,7 @@ public class VueTableau extends JPanel {
 		table = new JTable(modele);
 		
 		// Ajout des éléments graphiques
-		add(table);
+		add(new JScrollPane(table));
 		
 		// Options
 		

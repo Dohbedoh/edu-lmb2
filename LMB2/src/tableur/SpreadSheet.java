@@ -40,7 +40,7 @@ public class SpreadSheet extends JFrame{
 		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
-		setPreferredSize(new Dimension(800,800));
+		//setPreferredSize(new Dimension(800,800));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}//cons-1
 	

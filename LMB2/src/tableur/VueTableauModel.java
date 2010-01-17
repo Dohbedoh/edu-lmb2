@@ -35,14 +35,26 @@ public class VueTableauModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		int i = 0;
-		Enumeration<String> e = dataMotsComplet.keys();
-		String cle = "";
-		while (e.hasMoreElements() || i == rowIndex){
-			i++;
-			cle = e.nextElement();
+		if(columnIndex == 0){
+			int i = 0;
+			Enumeration<String> e = dataMotsComplet.keys();
+			String cle = e.nextElement();
+			
+			while (e.hasMoreElements() && i != rowIndex){
+				i++;
+				cle = e.nextElement();
+			}
+			
+			return cle;
+		}else{
+			int i = 0;
+			Enumeration<String> e = dataMotsComplet.keys();
+			String cle = e.nextElement();
+			while (e.hasMoreElements() && i != rowIndex){
+				i++;
+				cle = e.nextElement();
+			}
+			return dataMotsComplet.get(cle);
 		}
-		
-		return cle;
 	}
 }
