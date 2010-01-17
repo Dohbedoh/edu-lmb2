@@ -32,6 +32,8 @@ public class VueMetaDonnees extends JPanel {
 		
 		// Création des éléments graphiques
 		valeur = new JTextArea("<Entrer vos commentaires>");
+		valeur.setLineWrap(true);
+		valeur.setWrapStyleWord(true);
 		
 		// Ajout des elements
 		add(valeur, BorderLayout.CENTER);

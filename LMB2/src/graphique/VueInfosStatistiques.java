@@ -28,7 +28,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	JLabel dateVersion;
 	JLabel tailleVersion;
 	JLabel url;
-	JLabel metadata;
+	JTextArea metadata;
 	JLabel nomSiteLab;
 	JLabel dateVersionLab;
 	JLabel tailleVersionLab;
@@ -63,7 +63,10 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		dateVersion = new JLabel("N.C");
 		tailleVersion = new JLabel("N.C");
 		url = new JLabel("N.C");
-		metadata = new JLabel("N.C");
+		metadata = new JTextArea("N.C");
+		metadata.setLineWrap(true);
+		metadata.setWrapStyleWord(true);
+		metadata.setEditable(false);
 		
 		nomSite.setForeground(new Color(51,204,0));
 		dateVersion.setForeground(new Color(51,204,0));
@@ -103,7 +106,6 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		                    .addComponent(dateVersion)
 		                    .addComponent(tailleVersion)
 		                    .addComponent(url)
-		                    .addComponent(metadata)
 		                )
 	                )
 	            )
@@ -135,13 +137,13 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(metadataLab)
-		                    .addComponent(metadata)
 	                )
 	          )
 	          .addGap(10)
 	    );
 	    
-	    this.add(cont, BorderLayout.WEST);
+	    this.add(cont, BorderLayout.CENTER);
+	    this.add(metadata, BorderLayout.SOUTH);
 	}//cons-1
 	
 	public void setStatistiques(Statistiques stats){
