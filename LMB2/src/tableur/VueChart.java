@@ -17,6 +17,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.util.SortOrder;
 
 public class VueChart extends JPanel {
 
@@ -40,13 +41,15 @@ public class VueChart extends JPanel {
 		Enumeration<String> e = dataMotsComplet.keys();
 		String cle = e.nextElement();
 		while (e.hasMoreElements()){
-			System.err.println(dataMotsComplet.get(cle));
-			pieDataset.setValue(cle, dataMotsComplet.get(cle));
+			pieDataset.setValue(cle.toLowerCase(), dataMotsComplet.get(cle));
 			cle = e.nextElement();
 		}
+		pieDataset.sortByKeys(SortOrder.ASCENDING);
+		
 
-	    JFreeChart pieChart = ChartFactory.createPieChart3D("Test camembert", 
-	      pieDataset, true, true, true); 
+	    JFreeChart pieChart = ChartFactory.createPieChart3D("Diagramme", 
+	      pieDataset, true, true, true);
+
 	    ChartPanel cPanel = new ChartPanel(pieChart); 
 	    add(cPanel); 
 

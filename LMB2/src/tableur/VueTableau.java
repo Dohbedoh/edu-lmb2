@@ -35,7 +35,7 @@ public class VueTableau extends JPanel {
 		// Création des éléments graphiques
 		modele = new VueTableauModel(this.dataMotsComplet);
 		table = new JTable(modele);
-		
+		table.setAutoCreateRowSorter(true);
 		
 		// Ajout des éléments graphiques
 		add(new JScrollPane(table));

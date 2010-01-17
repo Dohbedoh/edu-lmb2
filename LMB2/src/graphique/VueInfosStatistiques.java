@@ -188,6 +188,8 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 			if(!meta.getMetaData().equals("<Entrer vos commentaires>")
 				&& meta.getMetaData().length()!=0){
 				metadata.setText(meta.getMetaData());
+			}else{
+				metadata.setText("N.C");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

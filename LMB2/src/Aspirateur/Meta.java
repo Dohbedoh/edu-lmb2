@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import org.htmlparser.Tag;
+import java.util.Hashtable;
 
 public class Meta implements Serializable{
 	
@@ -25,6 +25,8 @@ public class Meta implements Serializable{
 	private ArrayList<String> headingTags;
 	private ArrayList<String> metaTags;
 	private long time;
+	private Hashtable<String, Integer> tags;
+	
 	
 	public Meta(){
 		meta = "";
@@ -34,8 +36,20 @@ public class Meta implements Serializable{
 		headingTags = new ArrayList<String>();
 		metaTags = new ArrayList<String>();
 		time = 0;
+		tags = new Hashtable<String, Integer>();
+	}
+
+	public void increment(String key) {
+		if(tags.get(key)==null){
+			tags.put(key, new Integer(0));
+		}else{
+			tags.put(key, tags.get(key));
+		}
 	}
 	
+	public Hashtable<String, Integer> getTagsTable(){
+		return tags;
+	}
 
 	public void setURL(String url){
 		this.url = url;

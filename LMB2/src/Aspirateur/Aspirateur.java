@@ -133,6 +133,63 @@ public class Aspirateur extends Observable {
 		path = "";
 		name = "";
 	}
+	
+	/**
+	 * Procédure qui rénitialise notre aspirateur
+	 */
+	public void reinitialise(){
+		tailleSite = 0;
+		stop = true;
+		pause = false;
+		ressources.clear();
+		pages.clear();
+		pagesCopied.clear();
+		ressourcesCopied.clear();
+		urlErrors.clear();
+		urlFiltred.clear();
+		extensionsFiltred.clear();
+		pagesPool = new ThreadPool(1);
+		ressourcesPool = new ThreadPool(2);
+		parser = new Parser();
+		PrototypicalNodeFactory factory;
+		factory = new PrototypicalNodeFactory();
+		/* On definit les Tag qui nous interesse */
+		factory.registerTag(new LocalAppletTag());
+		factory.registerTag(new LocalBaseHrefTag());
+		factory.registerTag(new LocalBodyTag());
+		factory.registerTag(new LocalBulletListTag());
+		factory.registerTag(new LocalBulletTag());
+		factory.registerTag(new LocalCompositeTag());
+		factory.registerTag(new LocalDefinitionListTag());
+		factory.registerTag(new LocalDivTag());
+		factory.registerTag(new LocalDocTypeTag());
+		factory.registerTag(new LocalFormTag());
+		factory.registerTag(new LocalFrameTag());
+		factory.registerTag(new LocalFrameSetTag());
+		factory.registerTag(new LocalHeadingTag());
+		factory.registerTag(new LocalHeadTag());
+		factory.registerTag(new LocalHTMLTag());
+		factory.registerTag(new LocalImageTag());
+		factory.registerTag(new LocalJspTag());
+		factory.registerTag(new LocalJSTag());
+		factory.registerTag(new LocalLabelTag());
+		factory.registerTag(new LocalLinkTag());
+		factory.registerTag(new LocalMetaTag());
+		factory.registerTag(new LocalObjectTag());
+		factory.registerTag(new LocalOptionTag());
+		factory.registerTag(new LocalParagraphTag());
+		factory.registerTag(new LocalProcessingInstructionTag());
+		factory.registerTag(new LocalSelectTag());
+		factory.registerTag(new LocalSpanTag());
+		factory.registerTag(new LocalStyleTag());
+		factory.registerTag(new LocalTableColumnTag());
+		factory.registerTag(new LocalTableHeaderTag());
+		factory.registerTag(new LocalTableRowTag());
+		factory.registerTag(new LocalTableTag());
+		factory.registerTag(new LocalTextAreaTag());
+		factory.registerTag(new LocalTitleTag());
+		parser.setNodeFactory(factory);
+	}
 
 	// ------------------
 	// Methodes
@@ -592,38 +649,6 @@ public class Aspirateur extends Observable {
 			filtres.remove(filtre.toLowerCase());
 		}
 	}
-	
-	/**
-	 * Procédure qui rénitialise notre aspirateur
-	 */
-	public void reinitialise(){
-		tailleSite = 0;
-		stop = true;
-		pause = false;
-		ressources.clear();
-		pages.clear();
-		pagesCopied.clear();
-		ressourcesCopied.clear();
-		urlErrors.clear();
-		urlFiltred.clear();
-		extensionsFiltred.clear();
-		pagesPool = new ThreadPool(1);
-		ressourcesPool = new ThreadPool(2);
-		parser = new Parser();
-		PrototypicalNodeFactory factory;
-		factory = new PrototypicalNodeFactory();
-		/* On definit les Tag qui nous interesse */
-		factory.registerTag(new LocalLinkTag());
-		factory.registerTag(new LocalImageTag());
-		factory.registerTag(new LocalFrameTag());
-		factory.registerTag(new LocalStyleTag());
-		factory.registerTag(new LocalJSTag());
-		factory.registerTag(new LocalDivTag());
-		factory.registerTag(new LocalHeadingTag());
-		factory.registerTag(new LocalTableTag());
-		factory.registerTag(new LocalMetaTag());
-		parser.setNodeFactory(factory);
-	}
     
 	/**
 	 * Fonction qui retourne si la ressource sera capturée
@@ -851,7 +876,6 @@ public class Aspirateur extends Observable {
 	 * @param relativeURL
 	 */
 	private void copyPage(final String relativeURL) {
-		System.out.println("\tcapture Page : \"" + relativeURL);
 		copyHTML(relativeURL);
 		pagesCopied.add(relativeURL);
 	}
@@ -881,8 +905,6 @@ public class Aspirateur extends Observable {
 			try {
 				in = source.openStream();
 				try {
-					System.out.println("\tcopy RESSOURCES : \""
-							+ file.getAbsolutePath());
 					out = new FileOutputStream(file);
 					try {
 						while (-1 != (read = in.read(data, 0, data.length)) 
@@ -930,6 +952,8 @@ public class Aspirateur extends Observable {
 		}else{
 			tailleSite+=taille;
 			ressourcesCopied.add(URL);
+			System.out.println("\tcopy RESSOURCES : \""
+					+ file.getAbsolutePath());
 		}
 		setChanged();
 		notifyObservers();
@@ -959,8 +983,6 @@ public class Aspirateur extends Observable {
 		}
 		try {
 			OutputStreamWriter out;
-			System.out.println("\tcopy HTML : \"" + file.getAbsolutePath()
-					+ "\n");
 			try {
 				out = new OutputStreamWriter(new FileOutputStream(file), parser
 						.getEncoding());
@@ -973,6 +995,8 @@ public class Aspirateur extends Observable {
 				} finally {
 					out.close();
 					tailleSite+=list.toHtml().getBytes().length;
+					System.out.println("\tcopy HTML : \"" + file.getAbsolutePath()
+							+ "\n");
 				}
 			} catch (FileNotFoundException fnfe) {
 				System.err.println("broken link " + fnfe.getMessage()
@@ -992,7 +1016,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void afficherCopied() {
 		if (pagesCopied.size() != 0) {
-			System.out.println("\n\tPages déjà copiées!");
+			System.out.println("\n\tPages deja copiees!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = pagesCopied.iterator();
@@ -1003,7 +1027,7 @@ public class Aspirateur extends Observable {
 					.println("\t------------------------------------------------");
 		}
 		if (ressourcesCopied.size() != 0) {
-			System.out.println("\n\tRessources déjà copiées!");
+			System.out.println("\n\tRessources deja copiees!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = ressourcesCopied.iterator();
@@ -1020,7 +1044,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void afficherPages() {
 		if (pages.size() != 0) {
-			System.out.println("\n\tPages à copier!");
+			System.out.println("\n\tPages a copier!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = pages.iterator();
@@ -1037,7 +1061,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void afficherRessources() {
 		if (ressources.size() != 0) {
-			System.out.println("\n\tRessources à copier!");
+			System.out.println("\n\tRessources a copier!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = ressources.iterator();
@@ -1054,7 +1078,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void afficherFiltred(){
 		if (urlFiltred.size() != 0) {
-			System.out.println("\n\tURLs Filtred!");
+			System.out.println("\n\tURLs Filtrees!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = urlFiltred.iterator();
@@ -1071,7 +1095,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void afficherExtentionsFiltred(){
 		if (extensionsFiltred.size() != 0) {
-			System.out.println("\n\tExtensions Filtred!");
+			System.out.println("\n\tExtensions Filtrees!");
 			System.out
 					.println("\t------------------------------------------------");
 			Iterator<String> it = extensionsFiltred.iterator();
@@ -1110,6 +1134,7 @@ public class Aspirateur extends Observable {
 
 		@Override
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Image");
 			String image = getImageURL();
 			if (isRelativeToTheSource(image)) {
 				if(isToBeCaptured(image)){
@@ -1144,6 +1169,7 @@ public class Aspirateur extends Observable {
 
 		@Override
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Link");
 			String link = getLink();
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {
@@ -1199,6 +1225,7 @@ public class Aspirateur extends Observable {
 
 		@Override
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Frame");
 			String link = getFrameLocation();
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {
@@ -1253,6 +1280,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = -2558739946355789992L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Script");
 			/* le lien js que l'on recherche */
 			String jsLink = "";
 			String[] text = new String[3];
@@ -1304,7 +1332,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
-			
+			meta.increment("Style");
 			treatCSS(toString(),parser.getLexer().getPage().getUrl());
 			
 		}
@@ -1321,6 +1349,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Div");
 			meta.addMetaTag(toHtml());
 		}
 	}
@@ -1336,6 +1365,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Heading");
 			meta.addHeadingTag(toHtml());
 		}
 	}
@@ -1351,6 +1381,7 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Meta");
 			meta.addMetaTag(toHtml());
 		}
 	}
@@ -1366,17 +1397,284 @@ public class Aspirateur extends Observable {
 		private static final long serialVersionUID = 1851549267225708433L;
 
 		public void doSemanticAction() throws ParserException {
+			meta.increment("Table");
 			meta.addTableTag(toHtml());
 		}
 	}
 	
+	class LocalAppletTag extends org.htmlparser.tags.AppletTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Applet");
+		}
+	}
+	
+	class LocalBaseHrefTag extends org.htmlparser.tags.BaseHrefTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("BaseHref");
+		}
+	}
+	
+	class LocalBodyTag extends org.htmlparser.tags.BodyTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Body");
+		}
+	}
+	
+	class LocalBulletTag extends org.htmlparser.tags.Bullet{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Bullet");
+		}
+	}
+	
+	class LocalBulletListTag extends org.htmlparser.tags.BulletList{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("BulletList");
+		}
+	}
+	
+	class LocalCompositeTag extends org.htmlparser.tags.CompositeTag{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Composite");
+		}
+	}
+	
+	class LocalDefinitionListTag extends org.htmlparser.tags.DefinitionListBullet{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("DefinitionListBullet");
+		}
+	}
+	
+	class LocalDocTypeTag extends org.htmlparser.tags.DoctypeTag{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("DocType");
+		}
+	}
+	class LocalFormTag extends org.htmlparser.tags.FormTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Form");
+		}
+	}
+	
+	class LocalFrameSetTag extends org.htmlparser.tags.FrameSetTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("FrameSet");
+		}
+	}
+	
+	class LocalHeadTag extends org.htmlparser.tags.HeadTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Head");
+		}
+	}
+	
+	class LocalHTMLTag extends org.htmlparser.tags.Html{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Html");
+		}
+	}
+	
+	class LocaInputTag extends org.htmlparser.tags.InputTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Input");
+		}
+	}
+	
+	class LocalJspTag extends org.htmlparser.tags.JspTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Jsp");
+		}
+	}
+	
+	class LocalLabelTag extends org.htmlparser.tags.LabelTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Label");
+		}
+	}
+	
+	class LocalObjectTag extends org.htmlparser.tags.ObjectTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Object");
+		}
+	}
+	
+	class LocalOptionTag extends org.htmlparser.tags.OptionTag{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Option");
+		}
+	}
+	
+	class LocalParagraphTag extends org.htmlparser.tags.ParagraphTag{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("DefinitionListBullet");
+		}
+	}
+	
+	class LocalProcessingInstructionTag extends org.htmlparser.tags.ProcessingInstructionTag{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("ProcessingInstruction");
+		}
+	}
+	class LocalSelectTag extends org.htmlparser.tags.SelectTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Select");
+		}
+	}
+	
+	class LocalSpanTag extends org.htmlparser.tags.Span{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("Span");
+		}
+	}
+	
+	class LocalTableColumnTag extends org.htmlparser.tags.TableColumn{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("TableColumn");
+		}
+	}
+	
+	class LocalTableHeaderTag extends org.htmlparser.tags.TableHeader{
+		
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("TableHeader");
+		}
+	}
+	class LocalTextAreaTag extends org.htmlparser.tags.TextareaTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("TextArea");
+		}
+	}
+	
+	class LocalTableRowTag extends org.htmlparser.tags.TableRow{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("TableRow");
+		}
+	}
+	
+	class LocalTitleTag extends org.htmlparser.tags.TitleTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			meta.increment("TableColumn");
+		}
+	}
 	
 	class RessourceTask implements Runnable{
 
 		@Override
 		public void run() {
-			System.out.println("\tcapture Ressource : \""
-					+ ressources.get(0));
 			String URL;
 			synchronized (ressources){
 				URL = ressources.remove(0);
