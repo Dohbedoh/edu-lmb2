@@ -15,6 +15,7 @@ public class VueTableauModel extends AbstractTableModel {
 	// Attributs
 	//------------------
 	private Hashtable<String, Integer> dataMotsComplet;
+	private final String[] columnNames = {"Elements","Nombre d'occurrences"};
 	
 	//------------------
 	// Constructeur
@@ -34,6 +35,10 @@ public class VueTableauModel extends AbstractTableModel {
 		return dataMotsComplet.size();
 	}
 
+	public String getColumnName(int column) {
+	    return columnNames[column];
+	  }
+	
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if(columnIndex == 0){
 			int i = 0;
