@@ -39,15 +39,12 @@ public class VueOnglets extends JPanel {
 		
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar);
-		
-		//Statistiques stats = new Statistiques(new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470"));
-		//stats.init();
 		vueStatistiques = new VueStatistiques(new Statistiques(null));
 		
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);
 		onglets.add("Statistiques",vueStatistiques);
-		onglets.addChangeListener(new ChangerOnglet());
+		onglets.addChangeListener(new DeplacerSplit());
 		// Ajout onglets
 		this.add(onglets, BorderLayout.CENTER);
 		
@@ -94,10 +91,8 @@ public class VueOnglets extends JPanel {
 	/**
 	 * Cette action permet de déplacer le JSplitPane 
 	 */
-	private class ChangerOnglet implements ChangeListener{
-		
+	private class DeplacerSplit implements ChangeListener{
 		public void stateChanged(ChangeEvent e) {
-		
 			if(onglets.getSelectedComponent() instanceof VueStatistiques){
 				split.setDividerLocation(split.getMaximumDividerLocation()-10);
 			}else if(onglets.getSelectedComponent() instanceof VueCaptureSite){

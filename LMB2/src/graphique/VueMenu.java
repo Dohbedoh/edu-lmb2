@@ -150,25 +150,26 @@ public class VueMenu extends JMenuBar {
 		
 	private class ActionAspirerPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			/**
-			 * A FAIRE
-			 */
+			JOptionPane.showMessageDialog(null,"Eggs are not supposed to be green.");
 		}
 	}
 
 	private class ActionAspirerStop implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			/**
-			 * A FAIRE
-			 */
+			JOptionPane.showMessageDialog(null, "Not Yet Implemented.");
 		}
 	}
 	
 	private class ActionAbout implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			/**
-			 * A FAIRE
-			 */
+			
+			String message = "Aspirateur - LMB2" +
+					"\n\t\t >Besluau Gregoire\n\t\t >Burdajewicz Allan \n\t\t >Laraki Meryem \n\t\t >Mathieu Renaud";
+			JOptionPane.showMessageDialog(null,
+					message,
+					"A propos",
+					JOptionPane.INFORMATION_MESSAGE,
+				    new ImageIcon("logo.png"));
 		}
 	}
 	

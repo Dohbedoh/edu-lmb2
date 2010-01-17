@@ -19,6 +19,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public Aspirateur laspirateur;
 	public VueProgressBar vueProgressBar;
 	private Thread t;
+	public VueSauvegarde vueSauvegarde;
 	
 	// CAPTURE
 	public JLabel afficheURL;
@@ -205,11 +206,18 @@ public class VueCaptureSite extends JPanel implements Observer{
 			vueProgressBar.getProgressBar().setValue(0);
 		}*/
 	}
+
+	public VueSauvegarde getVueSauvegarde() {
+		return vueSauvegarde;
+	}
+
+	public void setVueSauvegarde(VueSauvegarde vueSauvegarde) {
+		this.vueSauvegarde = vueSauvegarde;
+	}
 	
 	//------------------
 	// Actions
 	//------------------
-	
 	/**
 	 * Cette action permet de donner au modele le nom specifie pour la sauvegarde du site
 	 */
@@ -277,7 +285,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			int volume = contraintesVolume.getValue();
 			
 			laspirateur.setProfondeur(profondeur);
-			System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
+			//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
 			
 			// Methode pour faire les filtres
 			
@@ -292,11 +300,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 					laspirateur.launchProcess(url.getText());
 					capturer.setEnabled(true);
 					vueMeta.setEnabled(true);
+					vueSauvegarde.refresh();
 				}
 				
 			});
 			
 			t.start();
+			
 		}
 	}
 

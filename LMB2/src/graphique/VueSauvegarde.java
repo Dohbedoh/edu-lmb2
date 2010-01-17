@@ -137,7 +137,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 		}
 				
 		for(File file : workspace.listFiles()) {
-			//System.out.println(file.getName());
+
 			if(!file.isHidden()){
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
@@ -202,7 +202,13 @@ public class VueSauvegarde extends JPanel implements Observer{
 		initArbre(racine);
 		// Rechargement en continu pendant une capture
 		//((DefaultTreeModel)arbre.getModel()).reload();
-		
+		arbre.setPreferredSize(arbre.getMinimumSize());
+	}
+	
+	public void refresh() {
+		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
+		initArbre(racine);
+		((DefaultTreeModel)arbre.getModel()).reload();
 		arbre.setPreferredSize(arbre.getMinimumSize());
 	}
 	
@@ -219,8 +225,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private void getDescription(File file){ 
 		
 		String str = "";
-		//str = "Chemin :"+file.getAbsolutePath();
-		//str += "  "+file.getName();
 		
 		if(file.getName().matches("[0-9]{13}")){
 		
@@ -299,8 +303,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 			
 			// Nouveau processus pour lancer le process
 			Thread t = new Thread(new Runnable() {
-				
-				@Override
 				public void run() {
 					stats.init();
 					arbre.setEnabled(true);
@@ -320,9 +322,20 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private class ActionDelete implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
+			
+			// dispatchEvent
 			/**
-			 * A FAIRE
-			 */
+			System.out.println(selectedNode);
+			File myFile = new File("selectedNode"); 
+			
+			for(File nom : myFile.listFiles()){
+				if(nom.isFile())
+					System.out.println(nom.getName()+" : "+myFile.delete());
+			}
+			
+			//System.out.println(myFile.delete()); 
+			refresh();
+			*/
 		}
 		
 	}

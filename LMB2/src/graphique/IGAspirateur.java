@@ -46,7 +46,6 @@ public class IGAspirateur extends JFrame{
 		JPanel gauche = new JPanel();
 		JPanel milieu = new JPanel();
 		
-		
 		gauche.setLayout(new BorderLayout());
 		milieu.setLayout(new BorderLayout());
 		
@@ -63,9 +62,9 @@ public class IGAspirateur extends JFrame{
 		
 		// Options pour les vues
 		this.vueMenu.setOnglets(vueOnglets);
+		this.vueOnglets.getVueCaptureSite().setVueSauvegarde(vueSauvegarde);
 		
 		// Options de la JFrame
-		//setPreferredSize(new Dimension(800,800));
 		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -77,22 +76,4 @@ public class IGAspirateur extends JFrame{
 	// Methodes
 	//------------------
 	
-	//------------------
-	// Main
-	//------------------
-	/*
-	public static void main(String arg[]){
-		Aspirateur laspirateur = new Aspirateur();
-		
-		// Renaud
-		//laspirateur.setPath("/users/renaudmathieu/Desktop/LMB2/");
-		
-		// Allan
-		//laspirateur.setPath("C:/users/renaudmathieu/Desktop/LMB2/");
-		
-		// Meryem
-		//laspirateur.setPath("C:/LMB2/");
-		new IGAspirateur(laspirateur);
-	}
-	*/
 }
