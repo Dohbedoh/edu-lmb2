@@ -8,11 +8,14 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import Aspirateur.Meta;
 
 import statistiques.Statistiques;
 import tableur.*;
@@ -23,7 +26,7 @@ public class VueAnalyseBoutons extends JPanel {
 	// Attributs
 	//------------------
 	private Statistiques stats;
-	private JButton lesMotsBut,lesLiensBut;
+	private JButton lesMotsBut,lesLiensBut,LesBalisesBut;
 	
 	//------------------
 	// Constructeurs
@@ -38,8 +41,12 @@ public class VueAnalyseBoutons extends JPanel {
 		lesLiensBut = new JButton("Statistiques sur les liens hypertextes");
 		lesLiensBut.addActionListener(new ActionStatsLiens());
 		
+		LesBalisesBut = new JButton("Statistiques sur les balises (tags)");
+		LesBalisesBut.addActionListener(new ActionStatsBalises());
+		
 		this.add(lesMotsBut,BorderLayout.NORTH);
-		this.add(lesLiensBut,BorderLayout.SOUTH);
+		this.add(lesLiensBut,BorderLayout.CENTER);
+		this.add(LesBalisesBut,BorderLayout.SOUTH);
 	}//cons-1
 	
 	/**
@@ -48,6 +55,7 @@ public class VueAnalyseBoutons extends JPanel {
 	public void setEnabled(boolean b){
 		lesMotsBut.setEnabled(b);
 		lesLiensBut.setEnabled(b);
+		LesBalisesBut.setEnabled(b);
 	}
 	
 	public void setStatistiques(Statistiques stats){
@@ -80,9 +88,20 @@ public class VueAnalyseBoutons extends JPanel {
 	private class ActionStatsLiens implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			/*
-			 * APRES
-			 */
+			
+		}
+	}
+	
+	private class ActionStatsBalises implements ActionListener {
+
+		public void actionPerformed(ActionEvent arg0) {
+			Meta meta;
+			try {
+				meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"\\meta.dat");
+				SpreadSheet s = new SpreadSheet(meta.getTagsTable());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

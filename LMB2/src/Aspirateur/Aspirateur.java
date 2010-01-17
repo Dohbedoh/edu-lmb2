@@ -995,8 +995,7 @@ public class Aspirateur extends Observable {
 				} finally {
 					out.close();
 					tailleSite+=list.toHtml().getBytes().length;
-					System.out.println("\tcopy HTML : \"" + file.getAbsolutePath()
-							+ "\n");
+					System.out.println("\tcopy HTML : \"" + file.getAbsolutePath());
 				}
 			} catch (FileNotFoundException fnfe) {
 				System.err.println("broken link " + fnfe.getMessage()
@@ -1690,7 +1689,7 @@ public class Aspirateur extends Observable {
 			try {
 				String urlPage = "";
 				synchronized (pages.get(0)) {
-					System.out.println("\nCurrent Page : " + pages.get(0));
+					//System.out.println("\nCurrent Page : " + pages.get(0));
 					parser.setURL(pages.get(0));
 					urlPage = pages.remove(0);
 				}

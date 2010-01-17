@@ -40,10 +40,10 @@ public class Meta implements Serializable{
 	}
 
 	public void increment(String key) {
-		if(tags.get(key)==null){
-			tags.put(key, new Integer(0));
+		if(!tags.containsKey(key)){
+			tags.put(key, new Integer(1));
 		}else{
-			tags.put(key, tags.get(key));
+			tags.put(key, tags.get(key)+1);
 		}
 	}
 	
