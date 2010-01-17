@@ -77,6 +77,17 @@ public class VueOnglets extends JPanel {
 		vueStatistiques.setEnabled(b);
 	}
 	
+	public JSplitPane getSplit() {
+		return split;
+	}
+
+	public void setSplit(JSplitPane split) {
+		this.split = split;
+	}
+
+	public JTabbedPane getTabbedPane(){
+		return this.onglets;
+	}
 	//------------------
 	// Actions
 	//------------------

@@ -28,8 +28,8 @@ public class MyTagExtractor {
 	public MyTagExtractor(String nomFichier){
 		this.nomFichier = nomFichier;
 		
-		meta = new TagNameFilter("META");
-		h1 = new TagNameFilter("H1");
+		meta = new TagNameFilter("meta");
+		h1 = new TagNameFilter("h1");
 		filters = new TagNameFilter[]{ meta };
 		extractTag();
 		
@@ -62,6 +62,8 @@ public class MyTagExtractor {
 	
 
 	public static void main(String[] args){
-		MyTagExtractor le = new MyTagExtractor("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470/index.html");
+		
+		
+		MyTagExtractor le = new MyTagExtractor("/Users/renaudmathieu/Desktop/LMB2/Site01/1263727555587/index.html");
 	}
 }

@@ -134,7 +134,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 		File workspace = new File(pathRoot);
 		if(!workspace.exists()){
 			System.out.println("Le workspace spécifié est introuvable");
-			//workspace.mkdirs();
 		}
 				
 		for(File file : workspace.listFiles()) {
@@ -143,9 +142,10 @@ public class VueSauvegarde extends JPanel implements Observer{
 				DefaultMutableTreeNode courant = new DefaultMutableTreeNode(file.getName());
 				try {
 					for(File nom : file.listFiles()){
-							String date = nom.getName();
-							DefaultMutableTreeNode node = new DefaultMutableTreeNode(date+"/");
-							courant.add(this.listFile(nom, node));
+						
+						String date = nom.getName();
+						DefaultMutableTreeNode node = new DefaultMutableTreeNode(date+"/");
+						courant.add(this.listFile(nom, node));
 					}
 				} catch (NullPointerException e) {}
 				
@@ -162,14 +162,18 @@ public class VueSauvegarde extends JPanel implements Observer{
 			return new DefaultMutableTreeNode(file.getName());
 		}else{
 			for(File nom : file.listFiles()){
+				
 				DefaultMutableTreeNode subNode;
 				if(nom.isDirectory()){
 					subNode = new DefaultMutableTreeNode(nom.getName()+"/");
 					node.add(this.listFile(nom, subNode));
 				}else{
-					subNode = new DefaultMutableTreeNode(nom.getName());
+					if(nom.getName().compareTo("meta.dat") != 0){
+						subNode = new DefaultMutableTreeNode(nom.getName());
+						node.add(subNode);
+					}
 				}
-				node.add(subNode);
+				
 			}
 			return node;
 		}
@@ -196,7 +200,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		((DefaultMutableTreeNode)arbre.getModel().getRoot()).removeAllChildren(); 
 		initArbre(racine);
-		
 		// Rechargement en continu pendant une capture
 		//((DefaultTreeModel)arbre.getModel()).reload();
 		

@@ -62,8 +62,7 @@ public class IGAspirateur extends JFrame{
 		setJMenuBar(vueMenu);
 		
 		// Options pour les vues
-		this.vueMenu.setConsole(vueConsole);
-		
+		this.vueMenu.setOnglets(vueOnglets);
 		
 		// Options de la JFrame
 		//setPreferredSize(new Dimension(800,800));

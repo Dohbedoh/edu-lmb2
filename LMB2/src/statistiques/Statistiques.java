@@ -329,7 +329,7 @@ public class Statistiques extends Observable {
 	public static void main(String[] args){
 		
 		// Fichier de test
-		File test = new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470");
+		File test = new File("/Users/renaudmathieu/Desktop/LMB2/Site01/1263727555587/");
 		
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
