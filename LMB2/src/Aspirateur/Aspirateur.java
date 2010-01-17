@@ -515,7 +515,7 @@ public class Aspirateur extends Observable {
 		if(url.contains(".")){
 			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
 			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
-			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
+			if(extension.toLowerCase().matches(".[a-z0-9]*") && filtres.contains(extension)){
 				if(!extensionsFiltred.contains(extension)){
 					extensionsFiltred.add(extension);
 				}
