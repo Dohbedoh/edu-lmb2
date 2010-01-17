@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import javax.swing.text.html.HTML.Tag;
 
 public class Meta implements Serializable{
 	
@@ -18,6 +21,11 @@ public class Meta implements Serializable{
 	private static final long serialVersionUID = -8793617748921430510L;
 	private String url;
 	private String meta;
+	private ArrayList<Tag> divTags;
+	private ArrayList<Tag> tableTags;
+	private ArrayList<Tag> headingTags;
+	private ArrayList<Tag> metaTags;
+	
 	
 	
 	public Meta(){
@@ -25,7 +33,7 @@ public class Meta implements Serializable{
 		url = "";
 	}
 	
-	public String getURL(String url){
+	public String getURL(){
 		return url;
 	}
 	

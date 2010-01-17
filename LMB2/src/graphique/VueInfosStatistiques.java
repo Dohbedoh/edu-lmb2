@@ -23,21 +23,23 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	// Attributs
 	//------------------
 	Statistiques stats;
-	VueMetaStat vueMetaStat;
 	
 	JLabel nomSite;
 	JLabel dateVersion;
 	JLabel tailleVersion;
+	JLabel url;
+	JLabel metadata;
 	JLabel nomSiteLab;
 	JLabel dateVersionLab;
 	JLabel tailleVersionLab;
+	JLabel urlLab;
+	JLabel metadataLab;
 	
 	//------------------
 	// Constructeur
 	//------------------
 	public VueInfosStatistiques(Statistiques stats){
 		this.stats = stats;
-		vueMetaStat = new VueMetaStat(stats);
 		TitledBorder afact = BorderFactory.createTitledBorder("Informations sur la sauvegarde");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
@@ -54,21 +56,31 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		nomSiteLab = new JLabel("• Nom de Site : ");
 		dateVersionLab = new JLabel("• Date d'Aspiration : ");
 		tailleVersionLab = new JLabel("• Taille du Site : ");
+		urlLab = new JLabel("• URL : ");
+		metadataLab = new JLabel("• MetaDonnées : ");
 		
-		nomSite = new JLabel(" N.C");
-		dateVersion = new JLabel(" N.C");
-		tailleVersion = new JLabel(" N.C");
+		nomSite = new JLabel("N.C");
+		dateVersion = new JLabel("N.C");
+		tailleVersion = new JLabel("N.C");
+		url = new JLabel("N.C");
+		metadata = new JLabel("N.C");
 		
 		nomSite.setForeground(new Color(51,204,0));
 		dateVersion.setForeground(new Color(51,204,0));
 		tailleVersion.setForeground(new Color(51,204,0));
+		url.setForeground(new Color(51,204,0));
+		metadata.setForeground(new Color(51,204,0));
 		
 		nomSiteLab.setFont(new Font(null,1,11));
 		dateVersionLab.setFont(new Font(null,1,11));
 		tailleVersionLab.setFont(new Font(null,1,11));
+		urlLab.setFont(new Font(null,1,11));
+		metadataLab.setFont(new Font(null,1,11));
 		nomSite.setFont(new Font(null,1,11));
 		dateVersion.setFont(new Font(null,1,11));
 		tailleVersion.setFont(new Font(null,1,11));
+		url.setFont(new Font(null,1,11));
+		metadata.setFont(new Font(null,1,11));
 		
 		// Options
 		
@@ -81,6 +93,8 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	                    	.addComponent(nomSiteLab)
 	                        .addComponent(dateVersionLab)
 	                        .addComponent(tailleVersionLab)
+	                        .addComponent(urlLab)
+	                        .addComponent(metadataLab)
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(10)
@@ -88,6 +102,8 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		                    .addComponent(nomSite)
 		                    .addComponent(dateVersion)
 		                    .addComponent(tailleVersion)
+		                    .addComponent(url)
+		                    .addComponent(metadata)
 		                )
 	                )
 	            )
@@ -111,13 +127,21 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		                	.addComponent(tailleVersionLab)
 		                    .addComponent(tailleVersion)
 	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(urlLab)
+		                    .addComponent(url)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(metadataLab)
+		                    .addComponent(metadata)
+	                )
 	          )
 	          .addGap(10)
 	    );
 	    
 	    this.add(cont, BorderLayout.WEST);
-	    this.add(vueMetaStat,BorderLayout.EAST);
-	    vueMetaStat.setVisible(false);
 	}//cons-1
 	
 	public void setStatistiques(Statistiques stats){
@@ -139,11 +163,14 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		System.err.println(stats.getVersion().getAbsolutePath()+"\\meta.dat");
 		try {
 			meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"/meta.dat");
+			url.setText(meta.getURL());
+			if(!meta.getMetaData().equals("<Entrer vos commentaires>")
+				&& meta.getMetaData().length()!=0){
+				metadata.setText(meta.getMetaData());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		vueMetaStat.setText(meta.getMetaData());
-		vueMetaStat.setVisible(true);
 	}
 	
 	/*

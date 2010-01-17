@@ -285,6 +285,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 
 			arbre.setEnabled(false);
 			vueOnglets.setEnabled(false);
+			refresh.setEnabled(false);
+			visualisation.setEnabled(false);
 			this.stats = new Statistiques(new File(selectedNode));
 			vueOnglets.getVueStatistiques().setStatistiques(stats);
 			vueProgressBar.setStatistiques(stats);
@@ -303,6 +305,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 					stats.init();
 					arbre.setEnabled(true);
 					vueOnglets.setEnabled(true);
+					refresh.setEnabled(true);
+					visualisation.setEnabled(true);
 				}
 			});
 			t.start();

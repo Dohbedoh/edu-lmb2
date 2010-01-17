@@ -1305,6 +1305,66 @@ public class Aspirateur extends Observable {
 		}
 	}
 
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'style' est rencontré
+	 */
+	class LocalDivTag extends org.htmlparser.tags.Div{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+		}
+	}
+	
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'h1' est rencontré
+	 */
+	class LocalHeadingTag extends org.htmlparser.tags.HeadingTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			
+		}
+	}
+	
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'meta' est rencontré
+	 */
+	class LocalMetaTag extends org.htmlparser.tags.MetaTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			
+		}
+	}
+	
+	/**
+	 * Classe Interne qui permet de redéfinir la fonction à effectuer lorsqu'un
+	 * tag de type 'table' est rencontré
+	 */
+	class LocalTableTag extends org.htmlparser.tags.TableTag{
+		
+		/* A compléter... */
+
+		private static final long serialVersionUID = 1851549267225708433L;
+
+		public void doSemanticAction() throws ParserException {
+			
+		}
+	}
+	
+	
 	class RessourceTask implements Runnable{
 
 		@Override
