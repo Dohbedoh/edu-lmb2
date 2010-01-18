@@ -29,8 +29,8 @@ public class VueFiltres extends JPanel{
 	ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
 	ArrayList<String> listeFiltres = new ArrayList<String>();
 	
-	private JButton selectAll;
-	private JButton deselectAll;
+	private JCheckBox selection;
+	private JButton ajouterFiltre;
 	
 	//Les cases à cocher
 	//Images
@@ -132,44 +132,36 @@ public class VueFiltres extends JPanel{
 		// Ajout des actions
 		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).addActionListener(new ActionCheck());
-			//checkBoxes.get(i).setSelected(true);
 		}
 		
-		selectAll = new JButton("Tout Cocher");
-		selectAll.addActionListener(new ActionCheckAll());
-		deselectAll = new JButton("Tout Décocher");
-		deselectAll.addActionListener(new ActionUncheckAll());
+		selection = new JCheckBox("Tout cocher");
+		selection.addActionListener(new ActionCheckAll());
+		
+		ajouterFiltre = new JButton("Ajouter un filtre");
+		ajouterFiltre.addActionListener(new ActionAjouterFiltre());
 		
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup()
-	            .addGroup(layout.createParallelGroup()
-	            	.addGroup(layout.createSequentialGroup()
-	    	            .addGap(10)
-	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-	                    	.addComponent(selectAll)
-	                    )
-	    	            .addGap(10)
-	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-		                    .addComponent(deselectAll)
-		                )
-	                )
-	            )
-	    );
-	    
-	    layout.setVerticalGroup(layout.createSequentialGroup()
-	            .addGroup(layout.createSequentialGroup()
-		            .addGap(10)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    	.addComponent(selectAll)
-		                	.addComponent(deselectAll)
-	                )
-	          )
-              .addGap(10)
-	    );
-		add(panneauFiltres,BorderLayout.CENTER);
-		add(cont, BorderLayout.SOUTH);
+		layout.setHorizontalGroup(layout.createParallelGroup().addGroup(
+				layout.createParallelGroup().addGroup(
+						layout.createSequentialGroup().addGap(50).addGroup(
+								layout.createParallelGroup(
+										GroupLayout.Alignment.CENTER)
+										.addComponent(selection)).addGap(10)
+								.addGroup(
+										layout.createParallelGroup(
+												GroupLayout.Alignment.CENTER)
+												.addComponent(ajouterFiltre)))));
+
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
+				layout.createSequentialGroup().addGap(10).addGroup(
+						layout.createParallelGroup(
+								GroupLayout.Alignment.BASELINE).addComponent(
+								selection).addComponent(ajouterFiltre))).addGap(10));
+		
+		add(panneauFiltres,BorderLayout.NORTH);
+		add(cont, BorderLayout.CENTER);
 		
 		
 		
@@ -194,8 +186,8 @@ public class VueFiltres extends JPanel{
 				else
 					listeFiltres.remove(current.getText());
 				
-				/*// Visualiser le contenu de la liste des Filtres
-				for (int i = 0; i < listeFiltres.size(); i++){
+				// Visualiser le contenu de la liste des Filtres
+				/*for (int i = 0; i < listeFiltres.size(); i++){
 					System.out.println(listeFiltres.get(i));
 				}*/
 				
@@ -204,61 +196,32 @@ public class VueFiltres extends JPanel{
 	
 	private class ActionCheckAll implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
-			check1.setSelected(true);
-			check2.setSelected(true);
-			check3.setSelected(true);
-			check4.setSelected(true);
-			check5.setSelected(true);
-			check6.setSelected(true);
-			check7.setSelected(true);
-			check8.setSelected(true);
-			check9.setSelected(true);
-			check10.setSelected(true);
-			check11.setSelected(true);
-			check12.setSelected(true);
-			check13.setSelected(true);
-			check14.setSelected(true);
-			check15.setSelected(true);
-			check16.setSelected(true);
-			check17.setSelected(true);
+			if(selection.isSelected()){
+				for(int i=0; i<checkBoxes.size(); i++){
+					checkBoxes.get(i).setSelected(true);
+				}
+			}else{
+				for(int i=0; i<checkBoxes.size(); i++){
+					checkBoxes.get(i).setSelected(false);
+				}
+			}
 		}
 		
 	}
 	
-	private class ActionUncheckAll implements ActionListener{
+	private class ActionAjouterFiltre implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
-			check1.setSelected(false);
-			check2.setSelected(false);
-			check3.setSelected(false);
-			check4.setSelected(false);
-			check5.setSelected(false);
-			check6.setSelected(false);
-			check7.setSelected(false);
-			check8.setSelected(false);
-			check9.setSelected(false);
-			check10.setSelected(false);
-			check11.setSelected(false);
-			check12.setSelected(false);
-			check13.setSelected(false);
-			check14.setSelected(false);
-			check15.setSelected(false);
-			check16.setSelected(false);
-			check17.setSelected(false);
+			String value = JOptionPane.showInputDialog("Entrez un filtre (ex : \"zip\")");
+			if(!value.contains(".") || !value.matches("[0-9]")){
+				listeFiltres.add(value);
+				JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
+			}else{
+				JOptionPane.showMessageDialog(null, "Le filtre saisi n'est pas valide");
+			}
 		}
 		
 	}
 	
-	/*
-	public static void main(String[] args){
-		JFrame fp = new JFrame("Test");
-		fp.add(new VueFiltres(new Aspirateur()));
-		fp.pack();
-		fp.setVisible(true);
-		fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	*/
 }

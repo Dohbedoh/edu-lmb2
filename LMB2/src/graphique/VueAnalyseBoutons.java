@@ -86,7 +86,7 @@ public class VueAnalyseBoutons extends JPanel {
 	private class ActionStatsLiens implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			
+			SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class VueAnalyseBoutons extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			Meta meta;
 			try {
-				meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"\\meta.dat");
+				meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"/meta.dat");
 				SpreadSheet s = new SpreadSheet(meta.getTagsTable());
 			} catch (IOException e) {
 				e.printStackTrace();

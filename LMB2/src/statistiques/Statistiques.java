@@ -32,7 +32,7 @@ public class Statistiques extends Observable {
 	private ArrayList<File> dataJS;
 	
 	private Hashtable<String, Integer> dataMotsComplet;
-	private Hashtable<URL, Integer> dataLinksComplet;
+	private Hashtable<String, Integer> dataLinksComplet;
 	
 	//------------------
 	// Divers
@@ -122,7 +122,7 @@ public class Statistiques extends Observable {
 	/**
 	 * Cette méthode retourne une Hashtable contenant toutes les occurrences des Links + le nombre contenues dans les fichiers de la version
 	 */
-	public Hashtable<URL, Integer> getDataLinksComplet() {
+	public Hashtable<String, Integer> getDataLinksComplet() {
 		return dataLinksComplet;
 	}
 	
@@ -146,9 +146,10 @@ public class Statistiques extends Observable {
 	public ArrayList<File> getDataJS(){
 		return dataJS;
 	}
+	
+	
 	//----------------------------------------------------------------------------------
 	// Procédures de traitement
-	
 	/**
 	 * Cette méthode permet la fusion de deux hashtables
 	 * ie. mets dans tab1 le contenu de tab2
@@ -170,21 +171,25 @@ public class Statistiques extends Observable {
 		}
 	}
 	
-	public void merge2(Hashtable<URL, Integer> tab1, Hashtable<URL, Integer> tab2){
+	/**
+	 * Cette méthode permet des recuperer les paths de toutes les versions soeurs a la version courante
+	 * @return les versions soeurs de la version courante
+	 */
+	public ArrayList<File> getOthersVersion(){
+		ArrayList<File> retour = new ArrayList<File>();
+		File pere = version.getParentFile();
 		
-		Enumeration<URL> e = tab2.keys();
-		while (e.hasMoreElements()) {
-			URL str = (URL)e.nextElement();
-			
-			if(tab1.containsKey(str)){
-				int old_value = tab1.get(str).intValue();
-				int new_value = old_value + tab2.get(str).intValue();
-				tab1.put(str, Integer.valueOf(new_value));
-			}else{
-				tab1.put(str, tab2.get(str));
+		for(File frere : pere.listFiles()){
+			if(frere.getAbsolutePath().compareTo(version.getAbsolutePath()) != 0){
+				if(frere.isDirectory()){
+					if(frere.getName().matches("[0-9]{13}")){
+						retour.add(frere);
+						//System.out.println(frere.getName());
+					}
+				}
 			}
-			
 		}
+		return retour;
 	}
 	
 	//----------------------------------------------------------------------------------
@@ -279,7 +284,7 @@ public class Statistiques extends Observable {
 	 * Cette méthode permet de recuperer dataLinks
 	 */
 	public void processDataLinks(){
-		dataLinksComplet = new Hashtable<URL, Integer>();
+		dataLinksComplet = new Hashtable<String, Integer>();
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
 			String current = dataHTML.get(i).getName();
@@ -287,10 +292,10 @@ public class Statistiques extends Observable {
 			
 			// On récupère les données sur la page current
 			MyLinkExtractor urlExtractor = new MyLinkExtractor(dataHTML.get(i).getPath());
-			Hashtable<URL,Integer> new_data = urlExtractor.getTableUrl();
+			Hashtable<String,Integer> new_data = urlExtractor.getTableUrl();
 			
 			// On fusionne avec les données déjà existantes
-			merge2(dataLinksComplet, new_data);
+			merge(dataLinksComplet, new_data);
 		}
 	}
 	
@@ -329,11 +334,13 @@ public class Statistiques extends Observable {
 	public static void main(String[] args){
 		
 		// Fichier de test
-		File test = new File("/Users/renaudmathieu/Desktop/LMB2/Site01/1263727555587/");
+		File test = new File("/Users/renaudmathieu/Desktop/LMB2/Site01/1263824938003/");
 		
 		// Creation du modele
 		Statistiques stats = new Statistiques(test);
 		stats.init();
+		
+		//stats.getOthersVersion();
 		
 		//System.out.println(stats.getDataHTML());
 		//System.out.println(stats.getDataCSS());

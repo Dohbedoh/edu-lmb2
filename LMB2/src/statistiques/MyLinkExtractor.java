@@ -18,14 +18,14 @@ public class MyLinkExtractor {
 	private String nomFichier;
 	
 	private URL[] lesURL;
-	private Hashtable<URL, Integer> tableUrl;
+	private Hashtable<String, Integer> tableUrl;
 	//------------------
 	// Constructeur
 	//------------------
 	public MyLinkExtractor(String nomFichier){
 		this.nomFichier = nomFichier;
 		
-		tableUrl = new Hashtable<URL,Integer>();
+		tableUrl = new Hashtable<String,Integer>();
 		lesURL = extractLinks();
 		
 		analyserURL(lesURL);
@@ -35,11 +35,11 @@ public class MyLinkExtractor {
 	//------------------
 	// Méthodes
 	//------------------
-	public Hashtable<URL, Integer> getTableUrl() {
+	public Hashtable<String, Integer> getTableUrl() {
 		return tableUrl;
 	}
 
-	public void setTableUrl(Hashtable<URL, Integer> tableUrl) {
+	public void setTableUrl(Hashtable<String, Integer> tableUrl) {
 		this.tableUrl = tableUrl;
 	}
 	
@@ -70,17 +70,17 @@ public class MyLinkExtractor {
 	           	 Integer new_valeur = new Integer(a);
 	           	 
 	           	 //dataMots.remove(current); Normalement Hashtable ecrase 
-	           	tableUrl.put(urls[i],new_valeur);
+	           	tableUrl.put(urls[i].getPath(),new_valeur);
            	 
     		}else{
-    			tableUrl.put(urls[i], Integer.valueOf(1));
+    			tableUrl.put(urls[i].getPath(), Integer.valueOf(1));
     		}
     	}
     }
 
     /*
 	public static void main(String[] args){
-		MyLinkExtractor le = new MyLinkExtractor("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470/index.html");
+		MyLinkExtractor le = new MyLinkExtractor("/Users/renaudmathieu/Desktop/LMB2/Site01/1263824938003/Site01/index.html");
 		System.out.println(le.getTableUrl());
 	}
 	*/

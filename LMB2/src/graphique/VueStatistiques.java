@@ -18,6 +18,8 @@ public class VueStatistiques extends JPanel{
 	//------------------
 	private VueAnalyse vueAnalyse;
 	private VueInfosStatistiques vueInfosStatistiques;
+	private VueComparaisonVersion vueComparaison;
+	
 	private Statistiques stats;
 	
 	//------------------
@@ -30,8 +32,11 @@ public class VueStatistiques extends JPanel{
 		
 		vueAnalyse = new VueAnalyse(stats);
 		vueInfosStatistiques = new VueInfosStatistiques(stats);
+		vueComparaison = new VueComparaisonVersion(stats);
+		
 		this.add(vueAnalyse, BorderLayout.CENTER);
 		this.add(vueInfosStatistiques, BorderLayout.NORTH);
+		this.add(vueComparaison,BorderLayout.SOUTH);
 		
 	}//cons-1
 	
@@ -39,6 +44,7 @@ public class VueStatistiques extends JPanel{
 		this.stats = stats;
 		this.vueInfosStatistiques.setStatistiques(stats);
 		this.vueAnalyse.setStatistiques(stats);
+		this.vueComparaison.setStatistiques(stats);
 	}
 	
 	public Statistiques getStatistiques(){
@@ -67,5 +73,14 @@ public class VueStatistiques extends JPanel{
 	public void setVueInfosStatistiques(VueInfosStatistiques vueInfosStatistiques) {
 		this.vueInfosStatistiques = vueInfosStatistiques;
 	}
+
+	public VueComparaisonVersion getVueComparaison() {
+		return vueComparaison;
+	}
+
+	public void setVueComparaison(VueComparaisonVersion vueComparaison) {
+		this.vueComparaison = vueComparaison;
+	}
+	
 	
 }

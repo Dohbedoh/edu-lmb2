@@ -8,6 +8,8 @@ import Aspirateur.*;
 
 import javax.swing.*;
 
+import aide.VueAide;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -175,9 +177,7 @@ public class VueMenu extends JMenuBar {
 	
 	private class ActionHelp implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			/**
-			 * A FAIRE
-			 */
+			new VueAide();
 		}
 	}
 }

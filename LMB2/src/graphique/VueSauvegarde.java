@@ -311,6 +311,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueInfosStatistiques());
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
+			stats.addObserver(vueOnglets.getVueStatistiques().getVueComparaison());
 			
 			// Nouveau processus pour lancer le process
 			Thread t = new Thread(new Runnable() {
