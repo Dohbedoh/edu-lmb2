@@ -32,27 +32,26 @@ public class VueAnalyse extends JPanel{
 		
 		this.stats = stats;
 		//stats.addObserver(this);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridLayout(1,2));
 
 		TitledBorder afact = BorderFactory.createTitledBorder("Analyse du Contenu");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
 
 		Container cont = new Container();
-		GridLayout layout = new GridLayout(1,2);
-		cont.setLayout(layout);
+		cont.setLayout(new BorderLayout(5,5));
 		
 		/* Construction des vues */
 		vueAnalyseBoutons = new VueAnalyseBoutons(stats);
 		vueAnalyseInfos = new VueAnalyseInfos(stats);
 		vueAnalyseList = new VueAnalyseList(stats);
 		
-		cont.add(vueAnalyseInfos);
-		cont.add(vueAnalyseList);
-		this.add(vueAnalyseBoutons, BorderLayout.NORTH);
+		cont.add(vueAnalyseBoutons, BorderLayout.NORTH);
+		cont.add(vueAnalyseInfos, BorderLayout.CENTER);
 		//this.add(vueAnalyseInfos, BorderLayout.WEST);
 		//this.add(vueAnalyseList,BorderLayout.CENTER);
-		this.add(cont, BorderLayout.CENTER);
+		this.add(cont);
+		this.add(vueAnalyseList);
 		
 	}
 	

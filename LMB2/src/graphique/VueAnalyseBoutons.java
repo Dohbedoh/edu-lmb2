@@ -5,11 +5,13 @@
 package graphique;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -25,14 +27,15 @@ public class VueAnalyseBoutons extends JPanel {
 	// Attributs
 	//------------------
 	private Statistiques stats;
-	private JButton lesMotsBut,lesLiensBut,LesBalisesBut;
+	private JButton lesMotsBut,lesLiensBut,lesBalisesBut;
 	
 	//------------------
 	// Constructeurs
 	//------------------
 	public VueAnalyseBoutons(Statistiques stats){
 		this.stats = stats;
-		this.setLayout(new BorderLayout(5,5));
+		GroupLayout layout = new GroupLayout(this);
+		this.setLayout(layout);
 		
 		lesMotsBut = new JButton("Statistiques sur la fréquence des Mots");
 		lesMotsBut.addActionListener(new ActionStatsMots());
@@ -40,12 +43,48 @@ public class VueAnalyseBoutons extends JPanel {
 		lesLiensBut = new JButton("Statistiques sur les liens hypertextes");
 		lesLiensBut.addActionListener(new ActionStatsLiens());
 		
-		LesBalisesBut = new JButton("Statistiques sur les balises (tags)");
-		LesBalisesBut.addActionListener(new ActionStatsBalises());
+		lesBalisesBut = new JButton("Statistiques sur les balises (tags)");
+		lesBalisesBut.addActionListener(new ActionStatsBalises());
 		
-		this.add(lesMotsBut,BorderLayout.NORTH);
+		Dimension maxDim = lesMotsBut.getMaximumSize();
+		lesMotsBut.setPreferredSize(maxDim);
+		lesLiensBut.setMinimumSize(maxDim);
+		lesBalisesBut.setMinimumSize(maxDim);
+		
+		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addGroup(layout.createParallelGroup()
+	            	.addGroup(layout.createSequentialGroup()
+	    	            .addGap(10)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(lesMotsBut)
+	                        .addComponent(lesLiensBut)
+	                        .addComponent(lesBalisesBut)
+		                )
+	                )
+	            )
+	    );
+	    
+	    layout.setVerticalGroup(layout.createSequentialGroup()
+	            .addGap(10)
+	            .addGroup(layout.createSequentialGroup()
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(lesMotsBut)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(lesLiensBut)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(lesBalisesBut)
+	                )
+	          )
+	          .addGap(10)
+	    );
+		
+		/*this.add(lesMotsBut,BorderLayout.NORTH);
 		this.add(lesLiensBut,BorderLayout.CENTER);
-		this.add(LesBalisesBut,BorderLayout.SOUTH);
+		this.add(LesBalisesBut,BorderLayout.SOUTH);*/
 	}//cons-1
 	
 	/**
@@ -54,7 +93,7 @@ public class VueAnalyseBoutons extends JPanel {
 	public void setEnabled(boolean b){
 		lesMotsBut.setEnabled(b);
 		lesLiensBut.setEnabled(b);
-		LesBalisesBut.setEnabled(b);
+		lesBalisesBut.setEnabled(b);
 	}
 	
 	public void setStatistiques(Statistiques stats){

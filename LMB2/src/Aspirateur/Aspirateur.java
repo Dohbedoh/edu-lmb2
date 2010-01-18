@@ -1442,7 +1442,6 @@ public class Aspirateur extends Observable {
 
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Table");
-			meta.addTableTag(toHtml());
 		}
 	}
 	

@@ -11,11 +11,13 @@ import java.util.Hashtable;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.RefineryUtilities;
+import org.jfree.util.Rotation;
 import org.jfree.util.SortOrder;
 
 public class VueChart extends JPanel {
@@ -48,8 +50,13 @@ public class VueChart extends JPanel {
 
 	    JFreeChart pieChart = ChartFactory.createPieChart3D("Diagramme", 
 	      pieDataset, true, true, true);
+	    PiePlot3D plot = (PiePlot3D) pieChart.getPlot();
+        plot.setStartAngle(290);
+        plot.setDirection(Rotation.CLOCKWISE);
+        plot.setForegroundAlpha(0.7f);
+        plot.setNoDataMessage("No data to display");
 
-	    ChartPanel cPanel = new ChartPanel(pieChart); 
+	    ChartPanel cPanel = new ChartPanel(pieChart);
 	    add(cPanel); 
 
 		

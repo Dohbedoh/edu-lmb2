@@ -11,6 +11,8 @@ import java.util.Hashtable;
 
 import javax.swing.JFrame;
 
+import org.jfree.ui.RefineryUtilities;
+
 public class SpreadSheet extends JFrame{
 
 	//------------------
@@ -31,7 +33,6 @@ public class SpreadSheet extends JFrame{
 		// Création des éléments graphiques
 		vueChart = new VueChart(dataMotsComplet);
 		vueTableau = new VueTableau(dataMotsComplet);
-		
 		// Ajouts des élements graphiques
 		add(vueTableau,BorderLayout.WEST);
 		add(vueChart,BorderLayout.CENTER);

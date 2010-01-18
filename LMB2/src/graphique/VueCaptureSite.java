@@ -173,11 +173,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 		vueMeta = new VueMetaDonnees(laspirateur);
 		
 		contrainte.add(chaut,BorderLayout.NORTH);
-		contrainte.add(vueFiltres,BorderLayout.WEST);
-		contrainte.add(vueMeta, BorderLayout.CENTER);
+		Container cont = new Container();
+		cont.setLayout(new GridLayout(1,2));
+		cont.add(vueFiltres);
+		cont.add(vueMeta);
 		
 		
-		
+		contrainte.add(cont,BorderLayout.CENTER);
 		add(capture,BorderLayout.NORTH);
 		add(contrainte,BorderLayout.CENTER);
 		

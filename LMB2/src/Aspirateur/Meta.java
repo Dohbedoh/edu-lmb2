@@ -21,7 +21,6 @@ public class Meta implements Serializable{
 	private String url;
 	private String meta;
 	private ArrayList<String> divTags;
-	private ArrayList<String> tableTags;
 	private ArrayList<String> headingTags;
 	private ArrayList<String> metaTags;
 	private long time;
@@ -32,7 +31,6 @@ public class Meta implements Serializable{
 		meta = "";
 		url = "";
 		divTags = new ArrayList<String>();
-		tableTags = new ArrayList<String>();
 		headingTags = new ArrayList<String>();
 		metaTags = new ArrayList<String>();
 		time = 0;
@@ -71,10 +69,6 @@ public class Meta implements Serializable{
 		return divTags;
 	}
 	
-	public ArrayList<String> getTableTagsList(){
-		return tableTags;
-	}
-	
 	public ArrayList<String> getMetaTagsList(){
 		return metaTags;
 	}
@@ -93,10 +87,6 @@ public class Meta implements Serializable{
 	
 	public void addDivTag(String tag){
 		divTags.add(tag);
-	}
-
-	public void addTableTag(String tag){
-		tableTags.add(tag);
 	}
 	
 	public void addHeadingTag(String tag){
