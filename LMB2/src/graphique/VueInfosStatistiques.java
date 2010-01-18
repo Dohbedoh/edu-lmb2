@@ -185,7 +185,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 			int nbM = (int)(temp-nbH*3600000)/60000;
 			int nbS = (int)(temp-(nbH*3600000+nbM*60000))/1000;
 			time.setText(nbH+"h "+nbM+"min "+ nbS+"s");
-			if(!meta.getMetaData().equals("<Entrer vos commentaires>")
+			if(!meta.getMetaData().equals("<Entrez vos commentaires>")
 				&& meta.getMetaData().length()!=0){
 				metadata.setText(meta.getMetaData());
 			}else{
