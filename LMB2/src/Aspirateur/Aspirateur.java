@@ -43,11 +43,19 @@ public class Aspirateur extends Observable {
 	private Parser parser;
 	
 	/**
+	 * booléen qui indique que l'on est en train de capturer un site
+	 */
+	private boolean onCapture;
+	
+	/**
 	 * Préfixe de l'URL WEB donnée (généralement le dossier parent de
 	 * "index.html" par exemple
 	 */
 	private String urlSource;
 
+	/** page courante */
+	private String currentPage;
+	
 	/** Préfixe de l'URL LOCAL donnée (le dossier où l'on sauvegarde */
 	private String urlLocal;
 
@@ -138,6 +146,8 @@ public class Aspirateur extends Observable {
 	 * Procédure qui rénitialise notre aspirateur
 	 */
 	public void reinitialise(){
+		onCapture = false;
+		currentPage = "";
 		tailleSite = 0;
 		stop = true;
 		pause = false;
@@ -246,6 +256,20 @@ public class Aspirateur extends Observable {
 	private void resumeAll(){
 		ressourcesPool.resume();
 		pagesPool.resume();
+	}
+	
+	/**
+	 * Modifier le booléen qui indique que l'on capture un site
+	 */
+	public void setOnCapture(boolean b){
+		onCapture = true;
+	}
+	
+	/** 
+	 * Modifier la page courante
+	 */
+	public void setCurrentPage(String current){
+		this.currentPage = current;
 	}
 	
 	/**
@@ -367,6 +391,23 @@ public class Aspirateur extends Observable {
 	 */
 	public void setTaillePagesMax(long taille){
 		taillePagesMax = taille;
+	}
+	
+	
+	/**
+	 * Savoir si on est en train de capturer un site
+	 * @return
+	 */
+	public boolean isOnCapture(){
+		return onCapture;
+	}
+	
+	/**
+	 * Obtenir la page courante (en parsing)
+	 * @return
+	 */
+	public String getCurrentPage(){
+		return currentPage;
 	}
 	
 	
@@ -788,12 +829,16 @@ public class Aspirateur extends Observable {
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
+		onCapture = true;
+		setChanged();
+		notifyObservers();
 		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
 				&& !stop){
 			if(tailleSiteMax-tailleSite<2000 && tailleSiteMax!=-1) {
 				stop();
 			}
 		}
+		onCapture = false;
 		System.err.println("\nfini!!!!!! avec "+ tailleSite);
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
@@ -1689,7 +1734,7 @@ public class Aspirateur extends Observable {
 			try {
 				String urlPage = "";
 				synchronized (pages.get(0)) {
-					//System.out.println("\nCurrent Page : " + pages.get(0));
+					currentPage = pages.get(0);
 					parser.setURL(pages.get(0));
 					urlPage = pages.remove(0);
 				}

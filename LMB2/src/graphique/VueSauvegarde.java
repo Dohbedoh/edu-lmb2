@@ -124,6 +124,14 @@ public class VueSauvegarde extends JPanel implements Observer{
 		
 	}//cons-1	
 	
+	
+	public void setEnabled(boolean b){
+		arbre.setEnabled(b);
+		visualisation.setEnabled(b);
+		refresh.setEnabled(b);
+	}
+	
+	
 	//------------------
 	// Methodes
 	//------------------
@@ -203,6 +211,11 @@ public class VueSauvegarde extends JPanel implements Observer{
 		// Rechargement en continu pendant une capture
 		//((DefaultTreeModel)arbre.getModel()).reload();
 		arbre.setPreferredSize(arbre.getMinimumSize());
+		if(laspirateur.isOnCapture()){
+			setEnabled(false);
+		}else{
+			setEnabled(true);
+		}
 	}
 	
 	public void refresh() {
@@ -287,10 +300,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 		
 		public void actionPerformed(ActionEvent e) {
 
-			arbre.setEnabled(false);
+			setEnabled(false);
 			vueOnglets.setEnabled(false);
-			refresh.setEnabled(false);
-			visualisation.setEnabled(false);
 			this.stats = new Statistiques(new File(selectedNode));
 			vueOnglets.getVueStatistiques().setStatistiques(stats);
 			vueProgressBar.setStatistiques(stats);
@@ -305,10 +316,8 @@ public class VueSauvegarde extends JPanel implements Observer{
 			Thread t = new Thread(new Runnable() {
 				public void run() {
 					stats.init();
-					arbre.setEnabled(true);
+					setEnabled(true);
 					vueOnglets.setEnabled(true);
-					refresh.setEnabled(true);
-					visualisation.setEnabled(true);
 				}
 			});
 			t.start();

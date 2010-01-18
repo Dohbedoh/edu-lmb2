@@ -47,13 +47,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 	
 	public VueFiltres vueFiltres;
 	public VueMetaDonnees vueMeta;
+	public VueOnglets vueOnglets;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueCaptureSite(Aspirateur laspirateur, VueProgressBar vueProgressBar){
+	public VueCaptureSite(Aspirateur laspirateur, VueProgressBar vueProgressBar, VueOnglets vueOnglets){
 		this.laspirateur = laspirateur;
 		this.vueProgressBar = vueProgressBar;
+		this.vueOnglets = vueOnglets;
 		
 		laspirateur.addObserver(this);
 		this.setLayout(new BorderLayout());
@@ -115,7 +117,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		captureTop.add(gauche, BorderLayout.CENTER);
 		captureTop.add(droit,BorderLayout.EAST);
 		captureTop.add(bas,BorderLayout.SOUTH);
-		capture.add(captureTop);
+		capture.add(captureTop, BorderLayout.CENTER);
 		
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Données");
@@ -176,8 +178,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 		
 		
-		add(capture,BorderLayout.CENTER);
-		add(contrainte,BorderLayout.SOUTH);
+		add(capture,BorderLayout.NORTH);
+		add(contrainte,BorderLayout.CENTER);
 		
 	}//cons-1
 	
@@ -274,6 +276,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			pause.setEnabled(true);
 			reprendre.setEnabled(false);
 			vueMeta.setEnabled(false);
+			vueOnglets.getVueStatistiques().setEnabled(false);
 			
 			// Recuperation des informations sur la capture
 			laspirateur.setName(nom.getText());
@@ -300,6 +303,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 					laspirateur.launchProcess(url.getText());
 					capturer.setEnabled(true);
 					vueMeta.setEnabled(true);
+					vueOnglets.setEnabled(true);
 					vueSauvegarde.refresh();
 				}
 				

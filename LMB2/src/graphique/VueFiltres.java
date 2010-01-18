@@ -28,7 +28,9 @@ public class VueFiltres extends JPanel{
 	
 	ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
 	ArrayList<String> listeFiltres = new ArrayList<String>();
-
+	
+	private JButton selectAll;
+	private JButton deselectAll;
 	
 	//Les cases à cocher
 	//Images
@@ -70,7 +72,6 @@ public class VueFiltres extends JPanel{
 		
 		// Ajout des elements dans le conteneur VueFiltres
 		//add(afficheFiltre,BorderLayout.NORTH);
-		add(panneauFiltres,BorderLayout.CENTER);
 		
 		
 		//1er panneau : pour les filtres d'images
@@ -134,6 +135,41 @@ public class VueFiltres extends JPanel{
 			//checkBoxes.get(i).setSelected(true);
 		}
 		
+		selectAll = new JButton("Tout Cocher");
+		selectAll.addActionListener(new ActionCheckAll());
+		deselectAll = new JButton("Tout Décocher");
+		deselectAll.addActionListener(new ActionUncheckAll());
+		
+		Container cont = new Container();
+		GroupLayout layout = new GroupLayout(cont);
+		cont.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup()
+	            .addGroup(layout.createParallelGroup()
+	            	.addGroup(layout.createSequentialGroup()
+	    	            .addGap(10)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+	                    	.addComponent(selectAll)
+	                    )
+	    	            .addGap(10)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+		                    .addComponent(deselectAll)
+		                )
+	                )
+	            )
+	    );
+	    
+	    layout.setVerticalGroup(layout.createSequentialGroup()
+	            .addGroup(layout.createSequentialGroup()
+		            .addGap(10)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(selectAll)
+		                	.addComponent(deselectAll)
+	                )
+	          )
+              .addGap(10)
+	    );
+		add(panneauFiltres,BorderLayout.CENTER);
+		add(cont, BorderLayout.SOUTH);
 		
 		
 		
@@ -164,6 +200,56 @@ public class VueFiltres extends JPanel{
 				}*/
 				
 			}
+	}
+	
+	private class ActionCheckAll implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			check1.setSelected(true);
+			check2.setSelected(true);
+			check3.setSelected(true);
+			check4.setSelected(true);
+			check5.setSelected(true);
+			check6.setSelected(true);
+			check7.setSelected(true);
+			check8.setSelected(true);
+			check9.setSelected(true);
+			check10.setSelected(true);
+			check11.setSelected(true);
+			check12.setSelected(true);
+			check13.setSelected(true);
+			check14.setSelected(true);
+			check15.setSelected(true);
+			check16.setSelected(true);
+			check17.setSelected(true);
+		}
+		
+	}
+	
+	private class ActionUncheckAll implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			check1.setSelected(false);
+			check2.setSelected(false);
+			check3.setSelected(false);
+			check4.setSelected(false);
+			check5.setSelected(false);
+			check6.setSelected(false);
+			check7.setSelected(false);
+			check8.setSelected(false);
+			check9.setSelected(false);
+			check10.setSelected(false);
+			check11.setSelected(false);
+			check12.setSelected(false);
+			check13.setSelected(false);
+			check14.setSelected(false);
+			check15.setSelected(false);
+			check16.setSelected(false);
+			check17.setSelected(false);
+		}
+		
 	}
 	
 	/*
