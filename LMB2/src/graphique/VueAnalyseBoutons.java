@@ -19,7 +19,8 @@ import statistiques.Statistiques;
 import tableur.*;
 
 public class VueAnalyseBoutons extends JPanel {
-
+	private static final long serialVersionUID = 1L;
+	
 	//------------------
 	// Attributs
 	//------------------

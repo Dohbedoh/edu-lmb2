@@ -5,12 +5,8 @@
 package graphique;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -19,7 +15,8 @@ import statistiques.Statistiques;
 
 
 public class VueAnalyse extends JPanel{
-
+	private static final long serialVersionUID = 1L;
+	
 	//------------------
 	// Attributs
 	//------------------

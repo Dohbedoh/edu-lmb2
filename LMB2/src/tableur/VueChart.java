@@ -5,7 +5,6 @@
 package tableur;
 
 import java.awt.BorderLayout;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -20,7 +19,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.SortOrder;
 
 public class VueChart extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	//------------------
 	// Attributs
 	//------------------
@@ -38,7 +37,7 @@ public class VueChart extends JPanel {
 		setBorder(bfact);
 		
 	    DefaultPieDataset pieDataset = new DefaultPieDataset();
-		Enumeration<String> e = dataMotsComplet.keys();
+		Enumeration<String> e = this.dataMotsComplet.keys();
 		String cle = e.nextElement();
 		while (e.hasMoreElements()){
 			pieDataset.setValue(cle.toLowerCase(), dataMotsComplet.get(cle));

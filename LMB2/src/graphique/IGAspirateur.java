@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IGAspirateur extends JFrame{
+	private static final long serialVersionUID = 1L;
 
 	//------------------
 	// Attributs

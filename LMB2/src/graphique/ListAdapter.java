@@ -6,10 +6,7 @@ package graphique;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.AbstractListModel;
-import statistiques.Statistiques;
 
 public class ListAdapter extends AbstractListModel{
 
@@ -18,7 +15,6 @@ public class ListAdapter extends AbstractListModel{
 	//------------------
 	private static final long serialVersionUID = -8345246054788105890L;
 	private ArrayList<File> lesFiles;
-	private int nb;
 	
 	//------------------
 	// Constructeur

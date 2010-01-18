@@ -6,13 +6,14 @@ package graphique;
 
 import javax.swing.*;
 import statistiques.Statistiques;
-
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
+
+
+
 
 public class VueStatistiques extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	//------------------
 	// Attributs
 	//------------------

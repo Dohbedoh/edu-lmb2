@@ -196,16 +196,4 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		}
 	}
 	
-	/*
-	public static void main(String[] args){
-		JFrame fp = new JFrame("VueInfosStatistiques");
-		Statistiques stats = new Statistiques(new File("/Users/renaudmathieu/Desktop/LMB2/TestLMB2/1262958433470"));
-		
-		fp.add(new VueInfosStatistiques(stats));
-		fp.pack();
-		fp.setVisible(true);
-		fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		stats.init();
-	}
-	*/
 }

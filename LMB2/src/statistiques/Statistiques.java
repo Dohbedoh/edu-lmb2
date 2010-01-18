@@ -5,10 +5,8 @@
 package statistiques;
 
 import java.io.*;
-import java.net.URL;
 import java.text.DateFormat;
 import java.util.*;
-	import org.htmlparser.util.sort.*;
 
 public class Statistiques extends Observable {
 
@@ -268,7 +266,7 @@ public class Statistiques extends Observable {
 		dataMotsComplet = new Hashtable<String, Integer>();
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
-			String current = dataHTML.get(i).getName();
+			//String current = dataHTML.get(i).getName();
 			//System.out.println("Traitement dataMots de : "+current);
 				
 			// On récupère les données sur la page current
@@ -287,7 +285,7 @@ public class Statistiques extends Observable {
 		dataLinksComplet = new Hashtable<String, Integer>();
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
-			String current = dataHTML.get(i).getName();
+			//String current = dataHTML.get(i).getName();
 			//System.out.println("Traitement dataLinks de : "+current);
 			
 			// On récupère les données sur la page current

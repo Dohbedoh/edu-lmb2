@@ -8,11 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class VueAideStatistiques extends JPanel{
-
+	private static final long serialVersionUID = 1L;
+	
 	//------------------
 	// Attributs
 	//------------------
 	
+	
+
 	//------------------
 	// Constructeur
 	//------------------
