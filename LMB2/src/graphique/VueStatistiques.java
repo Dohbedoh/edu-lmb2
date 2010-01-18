@@ -30,13 +30,18 @@ public class VueStatistiques extends JPanel{
 		
 		this.setLayout(new BorderLayout());
 		
+		JPanel top = new JPanel(new BorderLayout(5,5));
+		
 		vueAnalyse = new VueAnalyse(stats);
 		vueInfosStatistiques = new VueInfosStatistiques(stats);
 		vueComparaison = new VueComparaisonVersion(stats);
 		
+		top.add(vueInfosStatistiques,BorderLayout.CENTER);
+		top.add(vueComparaison,BorderLayout.EAST);
+		
+		this.add(top,BorderLayout.NORTH);
 		this.add(vueAnalyse, BorderLayout.CENTER);
-		this.add(vueInfosStatistiques, BorderLayout.NORTH);
-		this.add(vueComparaison,BorderLayout.SOUTH);
+		
 		
 	}//cons-1
 	
