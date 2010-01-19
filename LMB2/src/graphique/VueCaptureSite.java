@@ -62,11 +62,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 
 		contraintesProfondeur = new VueContraintes(laspirateur);
+		contraintesProfondeur.setMaximumSize(new Dimension(50,20));
 		contraintesVolume = new JTextField("-1");
+		contraintesVolume.setMaximumSize(new Dimension(50,20));
 		contraintesVolumePage = new JTextField("-1");
+		contraintesVolumePage.setMaximumSize(new Dimension(50,20));
 		contraintesVolumeRessources = new JTextField("-1");
+		contraintesVolumeRessources.setMaximumSize(new Dimension(50,20));
 		vueFiltres = new VueFiltres(laspirateur);
 		vueMeta = new VueMetaDonnees(laspirateur);
+		
+
 		
 		laspirateur.addObserver(this);
 		this.setLayout(new BorderLayout());
@@ -218,8 +224,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheVolume.setToolTipText("-1 : Taille illimitée");
 		afficheVolumePage.setToolTipText("-1 : Taille illimitée");
 		afficheVolumeRessource.setToolTipText("-1 : Taille illimitée");
-		
-
+	    
 		GroupLayout layoutContraintes = new GroupLayout(chaut);
 		chaut.setLayout(layoutContraintes);
 		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -267,19 +272,18 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                )
 	             )
 	    );
-		
+	    
 		Container north = new Container();
 		north.setLayout(new BorderLayout());
 		north.add(capGauche, BorderLayout.CENTER);
 		north.add(vueMeta, BorderLayout.SOUTH);
 		
-		contrainte.add(chaut,BorderLayout.NORTH);
+		contrainte.add(chaut,BorderLayout.EAST);
 		contrainte.add(vueFiltres,BorderLayout.CENTER);
 		capture.add(north, BorderLayout.CENTER);
 		
 		add(capture,BorderLayout.NORTH);
 		add(contrainte,BorderLayout.CENTER);
-		
 	}//cons-1
 	
 	

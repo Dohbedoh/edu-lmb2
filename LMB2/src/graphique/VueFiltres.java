@@ -45,14 +45,18 @@ public class VueFiltres extends JPanel{
     private JCheckBox check8 = new JCheckBox(".mkv");
     private JCheckBox check9 = new JCheckBox(".mp3");
     private JCheckBox check10 = new JCheckBox(".wav");
-    //Autres
+    //Programmation
     private JCheckBox check11 = new JCheckBox(".css");    
-    private JCheckBox check12 = new JCheckBox(".doc");
-    private JCheckBox check13 = new JCheckBox(".exe");
+    private JCheckBox check12 = new JCheckBox(".java");
+    private JCheckBox check13 = new JCheckBox(".xml");
     private JCheckBox check14 = new JCheckBox(".js");
-    private JCheckBox check15 = new JCheckBox(".pdf");
-    private JCheckBox check16 = new JCheckBox(".zip");
-    private JCheckBox check17 = new JCheckBox(".xml");
+    private JCheckBox check15 = new JCheckBox(".c");
+    //Autres
+    private JCheckBox check16 = new JCheckBox(".pdf");
+    private JCheckBox check17 = new JCheckBox(".doc");
+    private JCheckBox check18 = new JCheckBox(".exe");
+    private JCheckBox check19 = new JCheckBox(".zip");
+    private JCheckBox check20 = new JCheckBox(".txt");
 	
 	//------------------
 	// Contructeur
@@ -100,17 +104,27 @@ public class VueFiltres extends JPanel{
 		
 		//3eme panneau : pour les autres filtres
 		JPanel filtres3 = new JPanel();
-		filtres3.setLayout(new GridLayout(8,1));
+		filtres3.setLayout(new GridLayout(6,1));
 		JScrollPane scroll3 = new JScrollPane(filtres3);
-		filtres3.add(new JLabel("Autres", SwingUtilities.CENTER));
+		filtres3.add(new JLabel("Programmation", SwingUtilities.CENTER));
 		filtres3.add(check11); checkBoxes.add(check11);
 		filtres3.add(check12); checkBoxes.add(check12);
 		filtres3.add(check13); checkBoxes.add(check13);
 		filtres3.add(check14); checkBoxes.add(check14);
 		filtres3.add(check15); checkBoxes.add(check15);
-		filtres3.add(check17); checkBoxes.add(check17);
-		filtres3.add(check16); checkBoxes.add(check16);
 		panneauFiltres.add(scroll3);
+
+		//3eme panneau : pour les autres filtres
+		JPanel filtres4 = new JPanel();
+		filtres4.setLayout(new GridLayout(6,1));
+		JScrollPane scroll4 = new JScrollPane(filtres4);
+		filtres4.add(new JLabel("Autres", SwingUtilities.CENTER));
+		filtres4.add(check16); checkBoxes.add(check16);
+		filtres4.add(check17); checkBoxes.add(check17);
+		filtres4.add(check18); checkBoxes.add(check18);
+		filtres4.add(check19); checkBoxes.add(check19);
+		filtres4.add(check20); checkBoxes.add(check20);
+		panneauFiltres.add(scroll4);
 		
 		//-------------------------------
 		// Options
@@ -119,11 +133,13 @@ public class VueFiltres extends JPanel{
 		filtres1.setBackground(new Color(150,200,250));
 		filtres2.setBackground(new Color(150,200,250));
 		filtres3.setBackground(new Color(150,200,250));
+		filtres4.setBackground(new Color(150,200,250));
 		
 		// Taille
 		filtres1.setPreferredSize(new Dimension(100,150));
 		filtres2.setPreferredSize(new Dimension(100,150));
 		filtres3.setPreferredSize(new Dimension(100,150));
+		filtres4.setPreferredSize(new Dimension(100,150));
 		
 		// Divers
 		//afficheFiltre.setFont(new Font("", Font.BOLD,12));
@@ -146,22 +162,30 @@ public class VueFiltres extends JPanel{
 		layout.setHorizontalGroup(layout.createParallelGroup().addGroup(
 				layout.createParallelGroup().addGroup(
 						layout.createSequentialGroup().addGap(50).addGroup(
-								layout.createParallelGroup(
-										GroupLayout.Alignment.CENTER)
-										.addComponent(selection)).addGap(10)
-								.addGroup(
-										layout.createParallelGroup(
-												GroupLayout.Alignment.CENTER)
-												.addComponent(ajouterFiltre)))));
+								layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+									.addComponent(selection)
+								)
+								.addGap(10)
+								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+									.addComponent(ajouterFiltre)
+								)
+						)
+				)
+		);
 
 		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
 				layout.createSequentialGroup().addGap(10).addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE).addComponent(
-								selection).addComponent(ajouterFiltre))).addGap(10));
+						layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(selection)
+								.addComponent(ajouterFiltre)
+						)
+						
+				)
+				.addGap(10)
+		);
 		
-		add(panneauFiltres,BorderLayout.NORTH);
-		add(cont, BorderLayout.CENTER);
+		add(panneauFiltres,BorderLayout.CENTER);
+		add(cont, BorderLayout.SOUTH);
 		
 		
 		

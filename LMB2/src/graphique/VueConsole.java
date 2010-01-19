@@ -44,7 +44,7 @@ public class VueConsole extends JPanel  implements Observer{
 		currentPage.setForeground(new Color(51,204,0));
 		
 		// Creation des elements graphiques
-		laconsole = new JTextArea(10,70);
+		laconsole = new JTextArea();
 		PrintStream out = new PrintStream( new JTextAreaAdapter(laconsole));
 		
 		// Ajout des elements graphiques
