@@ -48,7 +48,6 @@ public class VueOnglets extends JPanel {
 		this.add(onglets, BorderLayout.CENTER);
 		
 		// Options
-		
 	}
 	
 	//------------------

@@ -39,11 +39,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 	
 	// CONTRAINTES
 	public JLabel afficheProfondeur;
-	
 	public JLabel afficheVolume;
+	public JLabel afficheVolumePage;
+	public JLabel afficheVolumeRessource;
 	
 	public VueContraintes contraintesProfondeur;
-	public VueContraintes contraintesVolume;
+	public JTextField contraintesVolume;
+	public JTextField contraintesVolumePage;
+	public JTextField contraintesVolumeRessources;
 	
 	public VueFiltres vueFiltres;
 	public VueMetaDonnees vueMeta;
@@ -56,6 +59,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 		this.laspirateur = laspirateur;
 		this.vueProgressBar = vueProgressBar;
 		this.vueOnglets = vueOnglets;
+		
+
+		contraintesProfondeur = new VueContraintes(laspirateur);
+		contraintesVolume = new JTextField("-1");
+		contraintesVolumePage = new JTextField("-1");
+		contraintesVolumeRessources = new JTextField("-1");
+		vueFiltres = new VueFiltres(laspirateur);
+		vueMeta = new VueMetaDonnees(laspirateur);
 		
 		laspirateur.addObserver(this);
 		this.setLayout(new BorderLayout());
@@ -86,24 +97,21 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 		// Ajout des elements du panneau
 		JPanel capture = new JPanel();
-		Container captureTop = new Container();
-		Container bas = new Container();
-		
-		captureTop.setLayout(new BorderLayout());
+		Container capGauche = new Container();
 		capture.setLayout(new BorderLayout());
 		
-		GroupLayout layout = new GroupLayout(bas);
-		bas.setLayout(layout);
+		GroupLayout layout = new GroupLayout(capGauche);
+		capGauche.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 				.addGroup(layout.createParallelGroup()
 	            	.addGroup(layout.createSequentialGroup()
-	    	            .addGap(10)
+	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(afficheURL)
 	                    	.addComponent(afficheNom)
 	                    	.addComponent(affichePath)
 		                )
-	    	            .addGap(10)
+	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(url)
 	                    	.addComponent(nom)
@@ -111,32 +119,38 @@ public class VueCaptureSite extends JPanel implements Observer{
 		                )
 	                )
 	            	.addGroup(layout.createSequentialGroup()
-		    	            .addGap(10)
+		    	            .addGap(5)
 		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 		                    	.addComponent(capturer)
 		                    )
-		                    .addGap(10)
+		                    .addGap(5)
 		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 			                    .addComponent(stop)
 			                )
-		                    .addGap(10)
+		                    .addGap(5)
 		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 			                    .addComponent(pause)
 			                )
-		                    .addGap(10)
+		                    .addGap(5)
 		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 			                    .addComponent(reprendre)
 			                )
-		                    .addGap(10)
+		                    .addGap(5)
 		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 			                    .addComponent(parcourir)
 			                )
 			        )
+	            	/*.addGroup(layout.createSequentialGroup()
+		    	            .addGap(5)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+		                    	.addComponent(vueMeta)
+		                    )
+			        )*/
 	            )
 	    );
 	    
 	    layout.setVerticalGroup(layout.createSequentialGroup()
-	            .addGap(10)
+	            .addGap(5)
 	            .addGroup(layout.createSequentialGroup()
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(afficheURL)
@@ -160,6 +174,10 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(reprendre)
 	                    	.addComponent(parcourir)
 	                )
+	                /*.addGap(10)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(vueMeta)
+	                )*/
 	          )
 	          .addGap(10)
 	    );
@@ -192,43 +210,75 @@ public class VueCaptureSite extends JPanel implements Observer{
 		Container chaut = new Container();
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
-		afficheVolume = new JLabel("Volume maximum de données à transférer");
+		afficheVolume = new JLabel("Taille maximum du site");
+		afficheVolumePage = new JLabel("Taille maximum des pages");
+		afficheVolumeRessource = new JLabel("Taille maximum des ressources");
 	
 		afficheProfondeur.setToolTipText("-1 : Profondeur illimitée");
-		afficheVolume.setToolTipText("-1 : Volume illimité");
-		
-		contraintesProfondeur = new VueContraintes(laspirateur);
-		contraintesVolume = new VueContraintes(laspirateur);
-		
-		Container cgauche = new Container();
-		cgauche.setLayout(new GridLayout(2,1));
-		cgauche.add(afficheProfondeur);
-		cgauche.add(afficheVolume);
-		
-		((GridLayout)cgauche.getLayout()).setVgap(10);
-		
-		Container cdroit = new Container();
-		cdroit.setLayout(new GridLayout(2,1));
-		cdroit.add(contraintesProfondeur);
-		cdroit.add(contraintesVolume);
-	
-		chaut.add(cgauche);
-		chaut.add(cdroit);
-		
-		vueFiltres = new VueFiltres(laspirateur);
-		vueMeta = new VueMetaDonnees(laspirateur);
-		
-		Container cont = new Container();
-		cont.setLayout(new GridLayout(1,2));
-		cont.add(vueFiltres);
-		cont.add(vueMeta);
+		afficheVolume.setToolTipText("-1 : Taille illimitée");
+		afficheVolumePage.setToolTipText("-1 : Taille illimitée");
+		afficheVolumeRessource.setToolTipText("-1 : Taille illimitée");
 		
 
-		contrainte.add(chaut,BorderLayout.CENTER);
-		contrainte.add(cont,BorderLayout.SOUTH);
-		capture.add(bas, BorderLayout.CENTER);
-		add(capture,BorderLayout.CENTER);
-		add(contrainte,BorderLayout.SOUTH);
+		GroupLayout layoutContraintes = new GroupLayout(chaut);
+		chaut.setLayout(layoutContraintes);
+		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addGroup(layoutContraintes.createParallelGroup()
+	            	.addGroup(layoutContraintes.createSequentialGroup()
+	    	            .addGap(5)
+	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(afficheProfondeur)
+	                    	.addComponent(afficheVolume)	                    	
+	                    	.addComponent(afficheVolumePage)
+	                    	.addComponent(afficheVolumeRessource)
+		                )
+	    	            .addGap(5)
+	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(contraintesProfondeur)
+	                    	.addComponent(contraintesVolume)
+	                    	.addComponent(contraintesVolumePage)
+	                    	.addComponent(contraintesVolumeRessources)
+		                )
+	                )
+	            )
+	    );
+	    
+	    layoutContraintes.setVerticalGroup(layoutContraintes.createSequentialGroup()
+	            .addGap(5)
+	            .addGroup(layoutContraintes.createSequentialGroup()
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheProfondeur)
+	                    	.addComponent(contraintesProfondeur)
+	                )
+	                .addGap(5)
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheVolume)
+	                    	.addComponent(contraintesVolume)
+	                )
+	                .addGap(5)
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheVolumePage)
+	                    	.addComponent(contraintesVolumePage)
+	                )
+	                .addGap(5)
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheVolumeRessource)
+	                    	.addComponent(contraintesVolumeRessources)
+	                )
+	             )
+	    );
+		
+		Container north = new Container();
+		north.setLayout(new BorderLayout());
+		north.add(capGauche, BorderLayout.CENTER);
+		north.add(vueMeta, BorderLayout.SOUTH);
+		
+		contrainte.add(chaut,BorderLayout.NORTH);
+		contrainte.add(vueFiltres,BorderLayout.CENTER);
+		capture.add(north, BorderLayout.CENTER);
+		
+		add(capture,BorderLayout.NORTH);
+		add(contrainte,BorderLayout.CENTER);
 		
 	}//cons-1
 	
@@ -334,10 +384,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 			laspirateur.setMeta(vueMeta.getValeur().getText());
 			
 			int profondeur = contraintesProfondeur.getValue();
-			int volume = contraintesVolume.getValue();
 			
 			laspirateur.setProfondeur(profondeur);
-			laspirateur.setTailleSiteMax(volume);
 			//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
 			
 			// Methode pour faire les filtres

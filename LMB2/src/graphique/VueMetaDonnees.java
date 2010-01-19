@@ -27,16 +27,15 @@ public class VueMetaDonnees extends JPanel {
 		this.laspirateur = laspirateur;
 		
 		setLayout(new BorderLayout());
-		TitledBorder afact = BorderFactory.createTitledBorder("Méta-Données");
-		afact.setTitleJustification(TitledBorder.CENTER);
-		setBorder(afact);
+		//TitledBorder afact = BorderFactory.createTitledBorder("Méta-Données");
+		//afact.setTitleJustification(TitledBorder.CENTER);
+		//setBorder(afact);
 		
 		// Création des éléments graphiques
 		valeur = new JTextArea("<Entrez vos commentaires>");
 		valeur.setLineWrap(true);
 		valeur.setWrapStyleWord(true);
 		valeur.setPreferredSize(new Dimension(50,50));
-		
 		// Ajout des elements
 		add(valeur, BorderLayout.CENTER);
 	}//cons-1

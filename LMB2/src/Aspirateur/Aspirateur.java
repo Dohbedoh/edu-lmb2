@@ -336,6 +336,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setSource(String url) {
 		urlSource = toSource(url);
+		System.err.println(urlSource);
 		meta.setURL(url);
 		pages.add(url);
 
@@ -661,7 +662,7 @@ public class Aspirateur extends Observable {
 			url = url.substring(0, url.length() - 1);
 		}else{
 			if(url.indexOf("/")!=-1){
-				url = url.substring(0, url.lastIndexOf("/"));
+				return url;
 			}else{
 				if(url.indexOf("\\")!=-1){
 					url = url.substring(0, url.lastIndexOf("\\"));
@@ -1013,7 +1014,7 @@ public class Aspirateur extends Observable {
 	 */
 	private void copyHTML(String URL) {
 		File file;
-		if (URL.equals(urlSource + "/")) {
+		if (URL.equals(urlSource + "/") || URL.equals(urlSource)) {
 			file = new File(urlLocal + "/index.html");
 		} else {
 			String link = URL;
