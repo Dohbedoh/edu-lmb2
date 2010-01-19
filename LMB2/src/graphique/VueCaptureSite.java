@@ -425,7 +425,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 				laspirateur.setMeta(vueMeta.getValeur().getText());
 				
 				laspirateur.setProfondeur(profondeur);
-				//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
+				laspirateur.setTailleSiteMax(1024*tailleSite);
+				laspirateur.setTaillePagesMax(1024*taillePage);
+				laspirateur.setTailleRessourcesMax(1024*tailleRessources);
 				
 				// Methode pour faire les filtres
 				

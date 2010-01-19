@@ -54,7 +54,7 @@ public class VueAnalyseBoutons extends JPanel {
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 				.addGroup(layout.createParallelGroup()
 	            	.addGroup(layout.createSequentialGroup()
-	    	            .addGap(10)
+	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(lesMotsBut)
 	                        .addComponent(lesLiensBut)
@@ -65,7 +65,7 @@ public class VueAnalyseBoutons extends JPanel {
 	    );
 	    
 	    layout.setVerticalGroup(layout.createSequentialGroup()
-	            .addGap(10)
+	            .addGap(5)
 	            .addGroup(layout.createSequentialGroup()
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(lesMotsBut)
@@ -79,7 +79,7 @@ public class VueAnalyseBoutons extends JPanel {
 	                        .addComponent(lesBalisesBut)
 	                )
 	          )
-	          .addGap(10)
+	          .addGap(5)
 	    );
 		
 		/*this.add(lesMotsBut,BorderLayout.NORTH);
