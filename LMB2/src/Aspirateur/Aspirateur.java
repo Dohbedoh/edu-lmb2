@@ -614,7 +614,7 @@ public class Aspirateur extends Observable {
 		if(url.contains(".")){
 			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
 			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
-			if(extension.toLowerCase().matches(".[a-z0-9]*") && filtres.contains(extension)){
+			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
 				if(!extensionsFiltred.contains(extension)){
 					extensionsFiltred.add(extension);
 				}
@@ -953,7 +953,7 @@ public class Aspirateur extends Observable {
 					try {
 						while (-1 != (read = in.read(data, 0, data.length)) 
 								&& (taille<tailleRessourcesMax || tailleRessourcesMax==-1)
-								&& (tailleSiteMax>tailleSite || tailleSiteMax==-1))
+								&& (tailleSiteMax>(tailleSite+taille) || tailleSiteMax==-1))
 							out.write(data, 0, read);
 							taille=file.length();
 					} finally {
@@ -992,7 +992,6 @@ public class Aspirateur extends Observable {
 			if(!urlFiltred.contains(URL)){
 				urlFiltred.add(URL);
 			}
-			System.out.println("\tTrop volumineuse! : " + taille + "\n");
 		}else{
 			tailleSite+=taille;
 			ressourcesCopied.add(URL);
@@ -1758,8 +1757,6 @@ public class Aspirateur extends Observable {
 						&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1)){
 					copyPage(urlPage);
 				}else{
-					System.err.println("doh:"+list.toHtml().getBytes().length);
-					System.err.println((tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1));
 					if(!urlFiltred.contains(urlPage)){
 						urlFiltred.add(urlPage);
 					}

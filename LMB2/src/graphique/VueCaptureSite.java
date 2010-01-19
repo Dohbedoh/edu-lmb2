@@ -385,7 +385,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			int tailleRessources = -1;
 			
 			if(contraintesVolume.getText().matches("[0-9]*")){
-				tailleSite = Integer.parseInt(contraintesVolume.getText());
+				tailleSite = Integer.parseInt(contraintesVolume.getText())*1024;
 			}else{
 				if(!contraintesVolume.getText().equals("Infini")){
 					tailleSite = -2;
@@ -393,19 +393,19 @@ public class VueCaptureSite extends JPanel implements Observer{
 			}
 			
 			if(contraintesVolumePage.getText().matches("[0-9]*")){
-				tailleSite = Integer.parseInt(contraintesVolume.getText());
+				taillePage = Integer.parseInt(contraintesVolumePage.getText())*1024;
 			}else{
 				if(!contraintesVolumePage.getText().equals("Infini")){
-					tailleSite = -2;
+					taillePage = -2;
 				}
 			}
 			
 
 			if(contraintesVolumeRessources.getText().matches("[0-9]*")){
-				tailleSite = Integer.parseInt(contraintesVolume.getText());
+				tailleRessources = Integer.parseInt(contraintesVolumeRessources.getText())*1024;
 			}else{
 				if(!contraintesVolumeRessources.getText().equals("Infini")){
-					tailleSite = -2;
+					tailleRessources = -2;
 				}
 			}
 			
@@ -425,9 +425,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 				laspirateur.setMeta(vueMeta.getValeur().getText());
 				
 				laspirateur.setProfondeur(profondeur);
-				laspirateur.setTailleSiteMax(1024*tailleSite);
-				laspirateur.setTaillePagesMax(1024*taillePage);
-				laspirateur.setTailleRessourcesMax(1024*tailleRessources);
+				laspirateur.setTailleSiteMax(tailleSite);
+				laspirateur.setTaillePagesMax(taillePage);
+				laspirateur.setTailleRessourcesMax(tailleRessources);
 				
 				// Methode pour faire les filtres
 				
