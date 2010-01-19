@@ -65,9 +65,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheNom = new JLabel("Nom du site : ", SwingConstants.RIGHT);
 		affichePath = new JLabel("Workspace  : ", SwingConstants.RIGHT);
 		
-		url = new JTextField(20);
-		nom = new JTextField(laspirateur.getName(),20);
-		path = new JTextField(laspirateur.getPath(),20);
+		url = new JTextField();
+		nom = new JTextField(laspirateur.getName());
+		path = new JTextField(laspirateur.getPath());
 		
 		capturer = new JButton("Capturer");
 		stop = new JButton("Stop");
@@ -75,7 +75,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 		reprendre = new JButton("Reprendre");
 		
 		parcourir = new JButton("...");
-		parcourir.setPreferredSize(new Dimension(20,20));
 		parcourir.setToolTipText("Changer de workspace");
 		
 		capturer.setToolTipText("Capturer le site");
@@ -87,38 +86,83 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 		// Ajout des elements du panneau
 		JPanel capture = new JPanel();
-		JPanel captureTop = new JPanel();
-		JPanel gauche = new JPanel();
-		JPanel droit = new JPanel();
-		JPanel bas = new JPanel();
+		Container captureTop = new Container();
+		Container bas = new Container();
 		
 		captureTop.setLayout(new BorderLayout());
-		gauche.setLayout(new GridLayout(3,1));
-		droit.setLayout(new GridLayout(3,1));
+		capture.setLayout(new BorderLayout());
 		
-		((GridLayout)gauche.getLayout()).setVgap(10);
-		((GridLayout)droit.getLayout()).setVgap(5);
-		
-		gauche.add(afficheURL);
-		droit.add(url);
-		
-		gauche.add(afficheNom);
-		droit.add(nom);
-		
-		gauche.add(affichePath);
-		droit.add(path);
-		
-		bas.add(capturer);
-		bas.add(stop);
-		bas.add(pause);
-		bas.add(reprendre);
-		bas.add(parcourir);
-		
-		captureTop.add(gauche, BorderLayout.CENTER);
-		captureTop.add(droit,BorderLayout.EAST);
-		captureTop.add(bas,BorderLayout.SOUTH);
-		capture.add(captureTop, BorderLayout.CENTER);
-		
+		GroupLayout layout = new GroupLayout(bas);
+		bas.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addGroup(layout.createParallelGroup()
+	            	.addGroup(layout.createSequentialGroup()
+	    	            .addGap(10)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(afficheURL)
+	                    	.addComponent(afficheNom)
+	                    	.addComponent(affichePath)
+		                )
+	    	            .addGap(10)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(url)
+	                    	.addComponent(nom)
+	                    	.addComponent(path)
+		                )
+	                )
+	            	.addGroup(layout.createSequentialGroup()
+		    	            .addGap(10)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+		                    	.addComponent(capturer)
+		                    )
+		                    .addGap(10)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			                    .addComponent(stop)
+			                )
+		                    .addGap(10)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			                    .addComponent(pause)
+			                )
+		                    .addGap(10)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			                    .addComponent(reprendre)
+			                )
+		                    .addGap(10)
+		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			                    .addComponent(parcourir)
+			                )
+			        )
+	            )
+	    );
+	    
+	    layout.setVerticalGroup(layout.createSequentialGroup()
+	            .addGap(10)
+	            .addGroup(layout.createSequentialGroup()
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheURL)
+	                    	.addComponent(url)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheNom)
+	                    	.addComponent(nom)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(affichePath)
+	                    	.addComponent(path)
+	                )
+	                .addGap(10)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(capturer)
+	                    	.addComponent(stop)
+	                    	.addComponent(pause)
+	                    	.addComponent(reprendre)
+	                    	.addComponent(parcourir)
+	                )
+	          )
+	          .addGap(10)
+	    );
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Données");
 		afact.setTitleJustification(TitledBorder.CENTER);
@@ -145,7 +189,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contrainte.setBorder(bfact);
 		contrainte.setLayout(new BorderLayout());
 		
-		JPanel chaut = new JPanel();
+		Container chaut = new Container();
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Volume maximum de données à transférer");
@@ -156,13 +200,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesVolume = new VueContraintes(laspirateur);
 		
-		JPanel cgauche = new JPanel(new GridLayout(2,1));
+		Container cgauche = new Container();
+		cgauche.setLayout(new GridLayout(2,1));
 		cgauche.add(afficheProfondeur);
 		cgauche.add(afficheVolume);
 		
 		((GridLayout)cgauche.getLayout()).setVgap(10);
 		
-		JPanel cdroit = new JPanel(new GridLayout(2,1));
+		Container cdroit = new Container();
+		cdroit.setLayout(new GridLayout(2,1));
 		cdroit.add(contraintesProfondeur);
 		cdroit.add(contraintesVolume);
 	
@@ -172,16 +218,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 		vueFiltres = new VueFiltres(laspirateur);
 		vueMeta = new VueMetaDonnees(laspirateur);
 		
-		contrainte.add(chaut,BorderLayout.NORTH);
 		Container cont = new Container();
 		cont.setLayout(new GridLayout(1,2));
 		cont.add(vueFiltres);
 		cont.add(vueMeta);
 		
-		
-		contrainte.add(cont,BorderLayout.CENTER);
-		add(capture,BorderLayout.NORTH);
-		add(contrainte,BorderLayout.CENTER);
+
+		contrainte.add(chaut,BorderLayout.CENTER);
+		contrainte.add(cont,BorderLayout.SOUTH);
+		capture.add(bas, BorderLayout.CENTER);
+		add(capture,BorderLayout.CENTER);
+		add(contrainte,BorderLayout.SOUTH);
 		
 	}//cons-1
 	
@@ -290,6 +337,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			int volume = contraintesVolume.getValue();
 			
 			laspirateur.setProfondeur(profondeur);
+			laspirateur.setTailleSiteMax(volume);
 			//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
 			
 			// Methode pour faire les filtres

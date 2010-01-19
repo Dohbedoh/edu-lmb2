@@ -49,7 +49,6 @@ public class IGAspirateur extends JFrame{
 		
 		gauche.setLayout(new BorderLayout());
 		milieu.setLayout(new BorderLayout());
-		
 		split.setTopComponent(vueOnglets);
 		split.setBottomComponent(vueConsole);
 		milieu.add(split,BorderLayout.CENTER);
