@@ -45,6 +45,7 @@ public class VueConsole extends JPanel  implements Observer{
 		
 		// Creation des elements graphiques
 		laconsole = new JTextArea();
+		laconsole.setRows(6);
 		PrintStream out = new PrintStream( new JTextAreaAdapter(laconsole));
 		
 		// Ajout des elements graphiques

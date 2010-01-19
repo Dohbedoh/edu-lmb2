@@ -63,13 +63,13 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 
 		contraintesProfondeur = new VueContraintes(laspirateur);
-		contraintesProfondeur.setMaximumSize(new Dimension(50,20));
-		contraintesVolume = new JTextField("-1");
-		contraintesVolume.setMaximumSize(new Dimension(50,20));
-		contraintesVolumePage = new JTextField("-1");
-		contraintesVolumePage.setMaximumSize(new Dimension(50,20));
-		contraintesVolumeRessources = new JTextField("-1");
-		contraintesVolumeRessources.setMaximumSize(new Dimension(50,20));
+		contraintesProfondeur.setMaximumSize(new Dimension(80,20));
+		contraintesVolume = new JTextField("Infini");
+		contraintesVolume.setPreferredSize(new Dimension(80,20));
+		contraintesVolumePage = new JTextField("Infini");
+		contraintesVolumePage.setPreferredSize(new Dimension(80,20));
+		contraintesVolumeRessources = new JTextField("Infini");
+		contraintesVolumeRessources.setPreferredSize(new Dimension(80,20));
 		vueFiltres = new VueFiltres(laspirateur);
 		vueMeta = new VueMetaDonnees(laspirateur);
 		
@@ -217,14 +217,18 @@ public class VueCaptureSite extends JPanel implements Observer{
 		Container chaut = new Container();
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
+		afficheVolume = new JLabel("Taille maximum du site (en Ko)");
+		afficheVolumePage = new JLabel("Taille maximum des pages (en Ko)");
+		afficheVolumeRessource = new JLabel("Taille maximum des ressources (en Ko)");
 		afficheVolume = new JLabel("Taille maximale du site");
 		afficheVolumePage = new JLabel("Taille maximale des pages");
 		afficheVolumeRessource = new JLabel("Taille maximale des ressources");
+
 	
-		afficheProfondeur.setToolTipText("-1 : Profondeur illimitée");
-		afficheVolume.setToolTipText("-1 : Taille illimitée");
-		afficheVolumePage.setToolTipText("-1 : Taille illimitée");
-		afficheVolumeRessource.setToolTipText("-1 : Taille illimitée");
+		afficheProfondeur.setToolTipText("No : Profondeur illimitée");
+		afficheVolume.setToolTipText("Infini : Taille illimitée");
+		afficheVolumePage.setToolTipText("Infini : Taille illimitée");
+		afficheVolumeRessource.setToolTipText("Infini : Taille illimitée");
 	    
 		GroupLayout layoutContraintes = new GroupLayout(chaut);
 		chaut.setLayout(layoutContraintes);
@@ -374,45 +378,78 @@ public class VueCaptureSite extends JPanel implements Observer{
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
-
-			capturer.setEnabled(false);
-			stop.setEnabled(true);
-			pause.setEnabled(true);
-			reprendre.setEnabled(false);
-			vueMeta.setEnabled(false);
-			vueOnglets.getVueStatistiques().setEnabled(false);
-			
-			// Recuperation des informations sur la capture
-			laspirateur.setName(nom.getText());
-			laspirateur.setPath(path.getText());
-			laspirateur.makeURLLocal();
-			laspirateur.setMeta(vueMeta.getValeur().getText());
 			
 			int profondeur = contraintesProfondeur.getValue();
+			int tailleSite = -1;
+			int taillePage = -1;
+			int tailleRessources = -1;
 			
-			laspirateur.setProfondeur(profondeur);
-			//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
-			
-			// Methode pour faire les filtres
-			
-			ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
-			laspirateur.setFiltres(lesFiltres);
-			
-			
-			// Nouveau processus pour lancer le process
-			t = new Thread(new Runnable(){
-
-				public void run() {
-					laspirateur.launchProcess(url.getText());
-					capturer.setEnabled(true);
-					vueMeta.setEnabled(true);
-					vueOnglets.setEnabled(true);
-					vueSauvegarde.refresh();
+			if(contraintesVolume.getText().matches("[0-9]*")){
+				tailleSite = Integer.parseInt(contraintesVolume.getText());
+			}else{
+				if(!contraintesVolume.getText().equals("Infini")){
+					tailleSite = -2;
 				}
-				
-			});
+			}
 			
-			t.start();
+			if(contraintesVolumePage.getText().matches("[0-9]*")){
+				tailleSite = Integer.parseInt(contraintesVolume.getText());
+			}else{
+				if(!contraintesVolumePage.getText().equals("Infini")){
+					tailleSite = -2;
+				}
+			}
+			
+
+			if(contraintesVolumeRessources.getText().matches("[0-9]*")){
+				tailleSite = Integer.parseInt(contraintesVolume.getText());
+			}else{
+				if(!contraintesVolumeRessources.getText().equals("Infini")){
+					tailleSite = -2;
+				}
+			}
+			
+			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2){
+
+				capturer.setEnabled(false);
+				stop.setEnabled(true);
+				pause.setEnabled(true);
+				reprendre.setEnabled(false);
+				vueMeta.setEnabled(false);
+				vueOnglets.getVueStatistiques().setEnabled(false);
+				
+				// Recuperation des informations sur la capture
+				laspirateur.setName(nom.getText());
+				laspirateur.setPath(path.getText());
+				laspirateur.makeURLLocal();
+				laspirateur.setMeta(vueMeta.getValeur().getText());
+				
+				laspirateur.setProfondeur(profondeur);
+				//System.err.println("Profondeur : "+profondeur+"- Volume : "+volume);
+				
+				// Methode pour faire les filtres
+				
+				ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
+				laspirateur.setFiltres(lesFiltres);
+				
+				
+				// Nouveau processus pour lancer le process
+				t = new Thread(new Runnable(){
+	
+					public void run() {
+						laspirateur.launchProcess(url.getText());
+						capturer.setEnabled(true);
+						vueMeta.setEnabled(true);
+						vueOnglets.setEnabled(true);
+						vueSauvegarde.refresh();
+					}
+					
+				});
+				
+				t.start();
+			}else{
+				JOptionPane.showMessageDialog(null,"Vous avez saisi des tailes invalides.","Attention",JOptionPane.WARNING_MESSAGE);
+			}
 			
 		}
 	}

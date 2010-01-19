@@ -5,10 +5,8 @@
 package graphique;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -81,7 +79,7 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	            .addGroup(layout.createParallelGroup()
 	            	.addGroup(layout.createSequentialGroup()
 	                    // Le groupe des labels
-	    	            .addGap(10)
+	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(motsDif)
 	                        .addComponent(addrDif)
@@ -89,7 +87,7 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	                        .addComponent(hypersDif)
 	                    )
 	                    //le groupe des nbs
-	    	            .addGap(10)
+	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 		                    .addComponent(nbMotsDif)
 		                    .addComponent(nbAddrDif)
@@ -116,41 +114,41 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	    layout.setVerticalGroup(layout.createSequentialGroup()
 	            // Le groupe pour la saisie des infos
 	            .addGroup(layout.createSequentialGroup()
-		            .addGap(10)
+		            .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                		.addComponent(motsDif)
 	                		.addComponent(nbMotsDif)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(addrDif)
 		                    .addComponent(nbAddrDif)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(imagesDif)
 		                    .addComponent(nbImagesDif)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(hypersDif)
 		                    .addComponent(nbHypersDif)
 	                )
 	          )
 	          .addGroup(layout.createSequentialGroup()
-		            .addGap(10)
+		            .addGap(5)
 	                .addComponent(divers)
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(css)
 		                    .addComponent(nbCSS)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(js)
 		                    .addComponent(nbJS)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(html)
 		                    .addComponent(nbHTML)
