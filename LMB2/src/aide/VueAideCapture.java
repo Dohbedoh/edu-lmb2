@@ -74,7 +74,7 @@ public class VueAideCapture extends JPanel {
         jLabel1.setText("Qu’est-ce que le LMB2 ?");
 
         jLabel2.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
-        jLabel2.setText("Le LMB2 est une aplication qui permet de télécharger le contenu d'un site et de le parcourir en mode local.");
+        jLabel2.setText("Le LMB2 est une application qui permet de télécharger le contenu d'un site et de le parcourir en mode local.");
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(100, 150, 250));
