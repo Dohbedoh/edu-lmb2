@@ -72,12 +72,14 @@ public class VueSauvegarde extends JPanel implements Observer{
 		
 		//Création du menu Popup
 	    menu = new JPopupMenu();
+	   
 		JMenuItem lancerStat = new JMenuItem("Lancer les Statistiques");
 		lancerStat.addActionListener(new ActionLancerStat());
 		
 		JMenuItem delete = new JMenuItem("Supprimer");
 		delete.addActionListener(new ActionDelete());
 		
+		menu.add(infos);
 		menu.add(lancerStat);
 		menu.add(delete);
 		add(menu);
@@ -252,9 +254,24 @@ public class VueSauvegarde extends JPanel implements Observer{
 			str += " - "+heure+":"+minutes+":"+secondes;
 		}
 		
-		infos.setText(str);
+		infos.setText("    "+str);
 	}
 	
+	
+	public boolean deleteDirectory(File path) {
+	    if( path.exists() ) {
+	      File[] files = path.listFiles();
+	      for(int i=0; i<files.length; i++) {
+	         if(files[i].isDirectory()) {
+	           deleteDirectory(files[i]);
+	         }
+	         else {
+	           files[i].delete();
+	         }
+	      }
+	    }
+	    return( path.delete() );
+	}
 	//------------------
 	// Actions
 	//------------------
@@ -333,19 +350,15 @@ public class VueSauvegarde extends JPanel implements Observer{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			// dispatchEvent
-			/**
-			System.out.println(selectedNode);
-			File myFile = new File("selectedNode"); 
-			
-			for(File nom : myFile.listFiles()){
-				if(nom.isFile())
-					System.out.println(nom.getName()+" : "+myFile.delete());
-			}
-			
-			//System.out.println(myFile.delete()); 
+			File supp = new File(selectedNode);
+			deleteDirectory(supp);
+			String message = "Vous avez supprimé le fichier : "+supp.getName();
+			JOptionPane.showMessageDialog(null,
+				    message,
+				    "Attention",
+				    JOptionPane.WARNING_MESSAGE);
+
 			refresh();
-			*/
 		}
 		
 	}
@@ -380,7 +393,5 @@ public class VueSauvegarde extends JPanel implements Observer{
 				}
 			}
 		}
-
 	}
-	
 }

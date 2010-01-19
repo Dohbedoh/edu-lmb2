@@ -6,10 +6,7 @@ package statistiques;
 
 import java.util.*;
 import org.htmlparser.beans.StringBean;
-import org.htmlparser.tags.MetaTag;
 import org.htmlparser.util.ParserException;
-
-import Aspirateur.LinkTag;
 
 public class MyStringExtractor {
 
@@ -62,7 +59,6 @@ public class MyStringExtractor {
 	    sb.setReplaceNonBreakingSpaces (true);
 	    sb.setCollapse (true);
 	    
-	    sb.visitTag(new MyLinkTag());
 	    return (sb.getStrings ());
     }
 
@@ -104,12 +100,4 @@ public class MyStringExtractor {
     	 //System.out.println(dataMots.toString());
     }
 	
-    //------------------
-	//  Interne
-	//------------------
-    private class MyLinkTag extends LinkTag{
-    	public void doSemanticAction(){
-    		System.out.println("*********************************");
-    	}
-    }
 }

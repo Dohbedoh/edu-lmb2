@@ -62,8 +62,6 @@ public class MyTagExtractor {
 	
 
 	public static void main(String[] args){
-		
-		
 		MyTagExtractor le = new MyTagExtractor("/Users/renaudmathieu/Desktop/LMB2/Site01/1263727555587/index.html");
 	}
 }

@@ -6,9 +6,7 @@ package statistiques;
 
 import java.net.URL;
 import java.util.*;
-
 import org.htmlparser.beans.LinkBean;
-import org.htmlparser.util.ParserException;
 
 public class MyLinkExtractor {
 
@@ -78,10 +76,4 @@ public class MyLinkExtractor {
     	}
     }
 
-    /*
-	public static void main(String[] args){
-		MyLinkExtractor le = new MyLinkExtractor("/Users/renaudmathieu/Desktop/LMB2/Site01/1263824938003/Site01/index.html");
-		System.out.println(le.getTableUrl());
-	}
-	*/
 }
