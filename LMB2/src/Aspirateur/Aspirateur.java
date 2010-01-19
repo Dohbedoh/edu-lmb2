@@ -840,15 +840,13 @@ public class Aspirateur extends Observable {
 			}
 		}
 		onCapture = false;
-		System.err.println("\nfini!!!!!! avec "+ tailleSite);
 		time = System.currentTimeMillis()-time;
 		System.out.println("Temps d'éxecution : " + time);
 		meta.setTime(time);
+		currentPage = "";
 		saveMeta();
 		setChanged();
 		notifyObservers();
-		afficherCopied();
-		afficherFiltred();
 		afficherExtentionsFiltred();
 		afficherErrors();
 		reinitialise();
