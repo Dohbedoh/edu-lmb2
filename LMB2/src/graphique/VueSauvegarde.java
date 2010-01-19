@@ -79,6 +79,12 @@ public class VueSauvegarde extends JPanel implements Observer{
 		JMenuItem delete = new JMenuItem("Supprimer");
 		delete.addActionListener(new ActionDelete());
 		
+		/*
+		lancerStat.setIcon(new MyIcon());
+		delete.setIcon(new MyIcon());
+		infos.setIcon(new MyIcon());
+		*/
+		
 		menu.add(infos);
 		menu.add(lancerStat);
 		menu.add(delete);
@@ -394,4 +400,5 @@ public class VueSauvegarde extends JPanel implements Observer{
 			}
 		}
 	}
+	
 }
