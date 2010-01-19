@@ -30,6 +30,7 @@ public class ListFormateur extends JLabel implements ListCellRenderer {
 		setForeground(isSelected ? Color.red : Color.black);
 		setBackground(isSelected ? Color.gray : new Color(150,200,250));
 		setFont(new Font("TimesRoman",Font.PLAIN,12));
+		setIcon(new MyBulletIcon());
 		
 		list.setBackground(new Color(150,200,250));
 		return this;

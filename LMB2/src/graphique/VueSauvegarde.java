@@ -5,6 +5,8 @@
 package graphique;
 
 
+import images.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -79,11 +81,11 @@ public class VueSauvegarde extends JPanel implements Observer{
 		JMenuItem delete = new JMenuItem("Supprimer");
 		delete.addActionListener(new ActionDelete());
 		
-		/*
-		lancerStat.setIcon(new MyIcon());
-		delete.setIcon(new MyIcon());
-		infos.setIcon(new MyIcon());
-		*/
+		
+		lancerStat.setIcon(new MyCrossIcon());
+		delete.setIcon(new MyLessIcon());
+		infos.setIcon(new MyStopIcon());
+		
 		
 		menu.add(infos);
 		menu.add(lancerStat);

@@ -30,6 +30,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private JMenuItem visualiserSelection;
 	private File selected;
 	
+	private JScrollPane scroll;
 	//------------------
 	// Constructeurs
 	//------------------
@@ -42,9 +43,13 @@ public class VueAnalyseList extends JPanel implements Observer{
 		setBorder(afact);
 		
 		jlist = new JList();
+		scroll = new JScrollPane();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlist.setCellRenderer(new ListFormateur());
-		add(new JScrollPane(jlist),BorderLayout.CENTER);
+		
+		scroll.setPreferredSize(new Dimension(100,100));
+		scroll.add(jlist);
+		add(scroll,BorderLayout.CENTER);
 		
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
@@ -132,6 +137,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 		
 		// Par défaut on chargera toutes les pages Enregistrees
 		jlist.setModel(new ListAdapter(stats.getLesFichiersEnregistres()));
+
 	}
 	
 	//------------------

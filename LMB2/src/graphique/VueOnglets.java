@@ -91,9 +91,9 @@ public class VueOnglets extends JPanel {
 	private class DeplacerSplit implements ChangeListener{
 		public void stateChanged(ChangeEvent e) {
 			if(onglets.getSelectedComponent() instanceof VueStatistiques){
-				split.setDividerLocation(split.getMaximumDividerLocation()-10);
+				split.setDividerLocation(split.getMaximumDividerLocation());
 			}else if(onglets.getSelectedComponent() instanceof VueCaptureSite){
-				split.setDividerLocation(split.getMinimumDividerLocation()+25);
+				split.setDividerLocation(split.getMinimumDividerLocation());
 			}
 			
 		}

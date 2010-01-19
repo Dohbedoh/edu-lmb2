@@ -4,6 +4,7 @@
 
 package graphique;
 
+import images.*;
 import Aspirateur.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

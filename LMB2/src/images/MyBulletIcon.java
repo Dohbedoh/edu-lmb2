@@ -10,12 +10,12 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
-class MyIcon implements Icon {
+public class MyBulletIcon implements Icon {
 
 	// ------------------
 	// Constructeurs
 	// ------------------
-	public MyIcon() {
+	public MyBulletIcon() {
 	}
 
 	// ------------------
