@@ -73,83 +73,83 @@ public class VueAideCapture extends JPanel {
         jLabel1.setForeground(new java.awt.Color(100, 150, 250));
         jLabel1.setText("Qu’est-ce que le LMB2 ?");
 
-        jLabel2.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel2.setText("Le LMB2 est une application qui permet de télécharger le contenu d'un site et de le parcourir en mode local.");
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(100, 150, 250));
         jLabel3.setText("Comment aspirer un site ?");
 
-        jLabel4.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel4.setText("Pour aspirer un site, dans l'onget \"Capturer site\", dans le bloc \"Données\", tapez le lien correspondant au");
 
-        jLabel5.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel5.setText("site que vous voulez aspirer dans le champ correspondant, ensuite précisez le nom que vous souhaitez");
 
-        jLabel6.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel6.setText("donner au dossier qui contiendra le site, puis précisez l'emplacement où vous voulez enregistrer le tout.");
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(100, 150, 250));
         jLabel7.setText("Comment bloquer le téléchargement de certains fichiers ?");
 
-        jLabel8.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel8.setText("Il vous suffit de cocher les cases qui correspondent aux extensions que vous voulez bloquer dans le");
 
-        jLabel9.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel9.setText("bloc \"Filtres\" de l'onglet \"Capturer site\".");
 
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(100, 150, 250));
         jLabel10.setText("Comment limiter la quantité de données à télécharger à partir du site ?");
 
-        jLabel11.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel11.setText("Vous pouvez limiter l'aspiration des données en précisant la taille totale limite du téléchargement en Ko");
 
-        jLabel12.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel12.setText("ou bien en indiquant la profondeur maximale à parcourir en nombre de pages dans le bloc \"Contraintes");
 
-        jLabel13.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel13.setText("de capture\" de l'onglet \"Capturer site\".");
 
         jLabel14.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(100, 150, 250));
         jLabel14.setText("Comment retrouver mon site dans la liste à gauche de la fenêtre ?");
 
-        jLabel15.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel15.setText("Il suffit d'appuyer sur le bouton \"Raffraichir\" en bas à gauche de la fenêtre.");
 
         jLabel16.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(100, 150, 250));
         jLabel16.setText("Comment calculer les statistiques correspondant à un site?");
 
-        jLabel17.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel17.setText("Pour cela, il vous suffit de double cliquer sur le nom du dossier contenant votre site dans la liste à gauche");
 
-        jLabel18.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel18.setText("de la fenêtre, puis de cliquer avec le boutont droit de la souris sur le nom de dossier formé seulement par");
 
-        jLabel19.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel19.setText("des chiffres et d'appuyer sur \"Lancer les statistiques\".");
 
         jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(100, 150, 250));
         jLabel20.setText("Comment commenter un site à aspirer ?");
 
-        jLabel21.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel21.setText("Dans le bloc \"Méta-Données\" de l'onglet \"Capturer site\" tapez les commentaires que vous souhaitez lier à");
 
-        jLabel22.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel22.setText("votre capture de site avant de capturer ce dernier. ");
 
         jLabel23.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(100, 150, 250));
         jLabel23.setText("Comment visualiser mon site avec mon navigateur par défaut ?");
 
-        jLabel24.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel24.setText("Pour cela, sélectionnez le nom du dossier formés uniquement de chiffres correspondant à votre site");
 
-        jLabel25.setFont(new java.awt.Font("Helvetica", 0, 10)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel25.setText("appuyez sur \"Visualiser\" en bas à gauche de la fenêtre.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

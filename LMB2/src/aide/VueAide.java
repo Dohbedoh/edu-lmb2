@@ -31,7 +31,7 @@ public class VueAide extends JFrame{
 		setLayout(new BorderLayout());
 		
 		// Création des éléments graphiques
-		onglets = new JTabbedPane(JTabbedPane.BOTTOM);
+		onglets = new JTabbedPane(JTabbedPane.TOP);
 		
 		vueAideCapture = new VueAideCapture();
 		vueAideStatistiques = new VueAideStatistiques();
