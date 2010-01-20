@@ -43,13 +43,9 @@ public class VueAnalyseList extends JPanel implements Observer{
 		setBorder(afact);
 		
 		jlist = new JList();
-		scroll = new JScrollPane();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlist.setCellRenderer(new ListFormateur());
-		
-		scroll.setPreferredSize(new Dimension(100,100));
-		scroll.add(jlist);
-		add(scroll,BorderLayout.CENTER);
+		add(new JScrollPane(jlist),BorderLayout.CENTER);
 		
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);

@@ -157,12 +157,12 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(affichePath)
 	                    	.addComponent(path)
 	                )
-	                .addGap(10)
+	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                		.addComponent(butCont)
 	                )
 	          )
-	          .addGap(10)
+	          .addGap(5)
 	    );
 	    
 		TitledBorder afact = BorderFactory.createTitledBorder("Données");
