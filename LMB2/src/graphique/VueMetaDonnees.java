@@ -20,6 +20,7 @@ public class VueMetaDonnees extends JPanel {
 	public Aspirateur laspirateur;
 
 	public JTextArea valeur;
+	public JScrollPane scroll;
 	//------------------
 	// Constructeur
 	//------------------
@@ -33,11 +34,17 @@ public class VueMetaDonnees extends JPanel {
 		
 		// Création des éléments graphiques
 		valeur = new JTextArea("<Entrez vos commentaires>");
-		valeur.setLineWrap(true);
+		/*valeur.setLineWrap(true);
 		valeur.setWrapStyleWord(true);
-		valeur.setPreferredSize(new Dimension(50,50));
+		valeur.setPreferredSize(new Dimension(50,50));*/
 		// Ajout des elements
 		add(valeur, BorderLayout.CENTER);
+		
+		//Création de la JScrollPane
+		valeur.setRows(3);
+		scroll = new JScrollPane(valeur);
+		this.add(scroll);
+		
 	}//cons-1
 	
 	//------------------
