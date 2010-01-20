@@ -251,9 +251,8 @@ public class VueOptionsAvancées extends JFrame{
 	    
 		pack();
 		setResizable(false);
-		setVisible(true);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	

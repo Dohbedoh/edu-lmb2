@@ -498,6 +498,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			VueOptionsAvancées vueOptionsAvancées = new VueOptionsAvancées(laspirateur);
+			vueOptionsAvancées.setVisible(true);
 		}
 		
 	}
