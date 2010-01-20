@@ -107,6 +107,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 		Container capGauche = new Container();
 		capture.setLayout(new BorderLayout());
 		
+		Container butCont = new Container();
+		butCont.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
+		butCont.add(capturer);
+		butCont.add(stop);
+		butCont.add(reprendre);
+		butCont.add(pause);
+		butCont.add(parcourir);
+		
 		GroupLayout layout = new GroupLayout(capGauche);
 		capGauche.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -126,33 +134,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		                )
 	                )
 	            	.addGroup(layout.createSequentialGroup()
-		    	            .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                    	.addComponent(capturer)
-		                    )
-		                    .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-			                    .addComponent(stop)
-			                )
-		                    .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-			                    .addComponent(pause)
-			                )
-		                    .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-			                    .addComponent(reprendre)
-			                )
-		                    .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-			                    .addComponent(parcourir)
-			                )
+	            			.addGap(5)
+	            			.addComponent(butCont)
 			        )
-	            	/*.addGroup(layout.createSequentialGroup()
-		    	            .addGap(5)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                    	.addComponent(vueMeta)
-		                    )
-			        )*/
 	            )
 	    );
 	    
@@ -175,20 +159,12 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                )
 	                .addGap(10)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    	.addComponent(capturer)
-	                    	.addComponent(stop)
-	                    	.addComponent(pause)
-	                    	.addComponent(reprendre)
-	                    	.addComponent(parcourir)
+	                		.addComponent(butCont)
 	                )
-	                /*.addGap(10)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    	.addComponent(vueMeta)
-	                )*/
 	          )
 	          .addGap(10)
 	    );
-		
+	    
 		TitledBorder afact = BorderFactory.createTitledBorder("Données");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		capture.setBorder(afact);
@@ -214,7 +190,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		contrainte.setBorder(bfact);
 		contrainte.setLayout(new BorderLayout());
 		
-		Container chaut = new Container();
+		JPanel chaut = new JPanel();
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
 		afficheVolume = new JLabel("Taille maximum du site (en Ko)");
@@ -232,7 +208,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	    
 		GroupLayout layoutContraintes = new GroupLayout(chaut);
 		chaut.setLayout(layoutContraintes);
-		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.CENTER)
+		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup()
 				.addGroup(layoutContraintes.createParallelGroup()
 	            	.addGroup(layoutContraintes.createSequentialGroup()
 	    	            .addGap(5)
@@ -242,7 +218,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(afficheVolumePage)
 	                    	.addComponent(afficheVolumeRessource)
 		                )
-	    	            .addGap(5)
+	    	            .addGap(10)
 	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(contraintesProfondeur)
 	                    	.addComponent(contraintesVolume)
@@ -278,13 +254,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 	             )
 	    );
 	    
+		TitledBorder chautB = BorderFactory.createTitledBorder("Tailles");
+		chautB.setTitleJustification(TitledBorder.CENTER);
+		chaut.setBorder(chautB);
+	    
 		Container north = new Container();
 		north.setLayout(new BorderLayout());
 		north.add(capGauche, BorderLayout.CENTER);
 		north.add(vueMeta, BorderLayout.SOUTH);
 		
-		contrainte.add(chaut,BorderLayout.EAST);
-		contrainte.add(vueFiltres,BorderLayout.CENTER);
+		contrainte.add(chaut,BorderLayout.CENTER);
+		contrainte.add(vueFiltres,BorderLayout.WEST);
 		capture.add(north, BorderLayout.CENTER);
 		
 		add(capture,BorderLayout.NORTH);

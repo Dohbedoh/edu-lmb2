@@ -64,9 +64,11 @@ public class VueFiltres extends JPanel{
 	public VueFiltres(Aspirateur laspirateur){
 		this.laspirateur = laspirateur;
 		this.setLayout(new BorderLayout());
+		GridLayout gridL = new GridLayout(1,4);
+		gridL.setHgap(10);
+		gridL.setVgap(10);
 		JPanel panneauFiltres = new JPanel();
 		
-		setLayout(new BorderLayout());
 		TitledBorder afact = BorderFactory.createTitledBorder("Filtres");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
@@ -159,30 +161,30 @@ public class VueFiltres extends JPanel{
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup().addGroup(
-				layout.createParallelGroup().addGroup(
-						layout.createSequentialGroup().addGap(50).addGroup(
-								layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-									.addComponent(selection)
-								)
-								.addGap(10)
-								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-									.addComponent(ajouterFiltre)
-								)
-						)
-				)
-		);
-
-		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
-				layout.createSequentialGroup().addGap(10).addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(selection)
-								.addComponent(ajouterFiltre)
-						)
-						
-				)
-				.addGap(10)
-		);
+		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addGroup(layout.createParallelGroup()
+	            	.addGroup(layout.createSequentialGroup()
+	    	            .addGap(5)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(selection)
+		                )
+	    	            .addGap(5)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(ajouterFiltre)
+		                )
+	                )
+	            )
+	    );
+		
+		layout.setVerticalGroup(layout.createSequentialGroup()
+	            .addGap(5)
+	            .addGroup(layout.createSequentialGroup()
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(selection)
+	                    	.addComponent(ajouterFiltre)
+	                )
+	             )
+	    );
 		
 		add(panneauFiltres,BorderLayout.CENTER);
 		add(cont, BorderLayout.SOUTH);

@@ -42,8 +42,8 @@ public class VueContraintes extends JPanel{
 		incrM = new JButton(new ImageIcon("boutons_moins.png"));
 		
 		compteur = new JLabel("No");
-		incrP.setPreferredSize(new Dimension(10,10));
-		incrM.setPreferredSize(new Dimension(10,10));
+		incrP.setPreferredSize(new Dimension(15,15));
+		incrM.setPreferredSize(new Dimension(15,15));
 		
 		// Ajout des elements dans le conteneur
 		   
