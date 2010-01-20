@@ -77,7 +77,9 @@ public class VueConsole extends JPanel  implements Observer{
 	//------------------
 	public void update(Observable o, Object arg) {
 		JScrollBar jsb = scroll.getVerticalScrollBar() ;
-		jsb.setValue( jsb.getMaximum() );
+		if(jsb!=null){
+			jsb.setValue( jsb.getMaximum() );
+		}
 		currentPage.setText(laspirateur.getCurrentPage());
 	}
 }

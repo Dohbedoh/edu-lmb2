@@ -23,6 +23,7 @@ public class Meta implements Serializable{
 	private ArrayList<String> divTags;
 	private ArrayList<String> headingTags;
 	private ArrayList<String> metaTags;
+	private ArrayList<String> mailTos;
 	private long time;
 	private Hashtable<String, Integer> tags;
 	
@@ -33,6 +34,7 @@ public class Meta implements Serializable{
 		divTags = new ArrayList<String>();
 		headingTags = new ArrayList<String>();
 		metaTags = new ArrayList<String>();
+		mailTos = new ArrayList<String>();
 		time = 0;
 		tags = new Hashtable<String, Integer>();
 	}
@@ -73,6 +75,10 @@ public class Meta implements Serializable{
 		return metaTags;
 	}
 	
+	public ArrayList<String> getMailTosList(){
+		return mailTos;
+	}
+	
 	public ArrayList<String> getHeadingTagsList(){
 		return headingTags;
 	}
@@ -95,6 +101,10 @@ public class Meta implements Serializable{
 	
 	public void addMetaTag(String tag){
 		metaTags.add(tag);
+	}
+	
+	public void addMailTo(String tag){
+		mailTos.add(tag);
 	}
 	
 	public String toString(){

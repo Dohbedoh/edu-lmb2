@@ -24,6 +24,9 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.sound.midi.SysexMessage;
+
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.tags.FrameTag;
@@ -611,15 +614,17 @@ public class Aspirateur extends Observable {
 	 * @return
 	 */
 	private boolean isToBeCaptured(String url){
-		if(url.contains(".")){
-			String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
-			extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
-			if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
-				if(!extensionsFiltred.contains(extension)){
-					extensionsFiltred.add(extension);
+		if(url.startsWith(urlSource)){
+			if(url.contains(".")){
+				String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
+				extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
+				if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
+					if(!extensionsFiltred.contains(extension)){
+						extensionsFiltred.add(extension);
+					}
+				}else{
+					return true;
 				}
-			}else{
-				return true;
 			}
 		}
 		return false;
@@ -1213,6 +1218,10 @@ public class Aspirateur extends Observable {
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Link");
 			String link = getLink();
+			if(link.toLowerCase().matches("mailto:")){
+				meta.addMailTo(link);
+				System.err.println(link);
+			}
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {
 					if(isNotTooDeep(link)){

@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="substance.jar"/>
 	<classpathentry kind="lib" path="jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="jcommon-1.0.16.jar"/>
+	<classpathentry kind="lib" path="daisydiff.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
