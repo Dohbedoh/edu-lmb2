@@ -212,6 +212,7 @@ public class VueFiltres extends JPanel{
 				else
 					listeFiltres.remove(current.getText());
 				
+				System.err.println("check"+ current.getText());
 				// Visualiser le contenu de la liste des Filtres
 				/*for (int i = 0; i < listeFiltres.size(); i++){
 					System.out.println(listeFiltres.get(i));
@@ -226,10 +227,12 @@ public class VueFiltres extends JPanel{
 			if(selection.isSelected()){
 				for(int i=0; i<checkBoxes.size(); i++){
 					checkBoxes.get(i).setSelected(true);
+					listeFiltres.add(checkBoxes.get(i).getText());
 				}
 			}else{
 				for(int i=0; i<checkBoxes.size(); i++){
 					checkBoxes.get(i).setSelected(false);
+					listeFiltres.remove(checkBoxes.get(i).getText());
 				}
 			}
 		}
