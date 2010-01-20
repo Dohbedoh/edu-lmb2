@@ -389,7 +389,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 				}
 			}
 			
-			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2){
+			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2 && url.getText().length() != 0){
 
 				capturer.setEnabled(false);
 				stop.setEnabled(true);
@@ -430,7 +430,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 				
 				t.start();
 			}else{
-				JOptionPane.showMessageDialog(null,"Vous avez saisi des tailes invalides.","Attention",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Vous avez mal rempli un champ !","Attention",JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}
