@@ -8,6 +8,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import java.awt.RenderingHints.Key;
 import java.awt.event.*;
 import java.io.File;
 
@@ -55,7 +56,7 @@ public class VueChoixWorkspace extends JFrame {
 		haut.add(message);
 		
 		JPanel picPan = new JPanel();
-		JLabel picture = new JLabel(new ImageIcon("logo.png"));
+		JLabel picture = new JLabel(new ImageIcon(this.getClass().getClassLoader().getResource("logo.png")));
 		
 		JPanel milieu = new JPanel();
 		milieu.setBackground(new Color(150,200,250));
@@ -133,7 +134,7 @@ public class VueChoixWorkspace extends JFrame {
 	private class ClavierDefinirPath implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == 10){
+			if(e.getKeyCode() == KeyEvent.VK_ENTER){
 				File test = new File(value.getText());
 				
 				if(test.isDirectory()){

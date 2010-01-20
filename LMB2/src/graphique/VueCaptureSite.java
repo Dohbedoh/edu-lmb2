@@ -48,6 +48,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public JTextField contraintesVolume;
 	public JTextField contraintesVolumePage;
 	public JTextField contraintesVolumeRessources;
+	public JButton optionsAvancées;
 	
 	public VueFiltres vueFiltres;
 	public VueMetaDonnees vueMeta;
@@ -61,7 +62,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		this.vueProgressBar = vueProgressBar;
 		this.vueOnglets = vueOnglets;
 		
-
+		optionsAvancées = new JButton("Options Avancées...");
+		optionsAvancées.addActionListener(new ActionOptionsAvancees());
 		contraintesProfondeur = new VueContraintes(laspirateur);
 		contraintesProfondeur.setMaximumSize(new Dimension(80,20));
 		contraintesVolume = new JTextField("Infini");
@@ -206,10 +208,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheVolumePage.setToolTipText("Infini : Taille illimitée");
 		afficheVolumeRessource.setToolTipText("Infini : Taille illimitée");
 	    
+		Container optCont = new Container();
+		optCont.setLayout(new BorderLayout(10,10));
+		
 		GroupLayout layoutContraintes = new GroupLayout(chaut);
 		chaut.setLayout(layoutContraintes);
 		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup()
 				.addGroup(layoutContraintes.createParallelGroup()
+		            /*.addGroup(layoutContraintes.createParallelGroup()
+			    	       .addGap(5)
+			               .addComponent(optionsAvancées)
+			        )*/
 	            	.addGroup(layoutContraintes.createSequentialGroup()
 	    	            .addGap(5)
 	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -230,7 +239,11 @@ public class VueCaptureSite extends JPanel implements Observer{
 	    );
 	    
 	    layoutContraintes.setVerticalGroup(layoutContraintes.createSequentialGroup()
-	            .addGap(5)
+	            /*.addGap(5)
+	            .addGroup(layoutContraintes.createParallelGroup()
+	            		.addComponent(optionsAvancées)
+	            )*/
+	    		.addGap(5)
 	            .addGroup(layoutContraintes.createSequentialGroup()
 	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(afficheProfondeur)
@@ -258,12 +271,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 		chautB.setTitleJustification(TitledBorder.CENTER);
 		chaut.setBorder(chautB);
 	    
+		optCont.add(chaut, BorderLayout.CENTER);
+		optCont.add(optionsAvancées, BorderLayout.NORTH);
+		
 		Container north = new Container();
 		north.setLayout(new BorderLayout());
 		north.add(capGauche, BorderLayout.CENTER);
 		north.add(vueMeta, BorderLayout.SOUTH);
 		
-		contrainte.add(chaut,BorderLayout.CENTER);
+		contrainte.add(optCont,BorderLayout.CENTER);
 		contrainte.add(vueFiltres,BorderLayout.WEST);
 		capture.add(north, BorderLayout.CENTER);
 		
@@ -472,5 +488,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 			pause.setEnabled(true);
 			reprendre.setEnabled(false);
 		}
+	}
+	
+	/**
+	 * Action effectué lorsque l'on appuie sur "Options Avancées..."
+	 */
+	private class ActionOptionsAvancees implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			VueOptionsAvancées vueOptionsAvancées = new VueOptionsAvancées(laspirateur);
+		}
+		
 	}
 }

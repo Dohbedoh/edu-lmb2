@@ -25,8 +25,6 @@ import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.sound.midi.SysexMessage;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.tags.FrameTag;
@@ -96,6 +94,12 @@ public class Aspirateur extends Observable {
 	/** Liste des extension Filtrées */
 	private HashSet<String> extensionsFiltred;
 	
+	/** Liste des liens morts */
+	private HashSet<String> breakLinks;
+	
+	/** Liste des liens non Permis*/
+	private HashSet<String> authLinks;
+	
 	/** Indicateur de profondeur de pages*/
 	private int profondeur;
 
@@ -134,6 +138,8 @@ public class Aspirateur extends Observable {
 		filtres = new ArrayList<String>();
 		urlFiltred = new ArrayList<String>();
 		extensionsFiltred = new HashSet<String>();
+		breakLinks = new HashSet<String>();
+		authLinks = new HashSet<String>();
 		meta = new Meta();
 		profondeur = 0;
 		pagesPool = new ThreadPool(1);
@@ -161,6 +167,8 @@ public class Aspirateur extends Observable {
 		urlErrors.clear();
 		urlFiltred.clear();
 		extensionsFiltred.clear();
+		breakLinks.clear();
+		authLinks.clear();
 		pagesPool = new ThreadPool(1);
 		ressourcesPool = new ThreadPool(2);
 		parser = new Parser();
@@ -259,6 +267,38 @@ public class Aspirateur extends Observable {
 	private void resumeAll(){
 		ressourcesPool.resume();
 		pagesPool.resume();
+	}
+	
+	/**
+	 * Modifier les informations en cas de session sur un Proxy
+	 * @param host
+	 */
+	public void setProxyHost(String host){
+		Parser.getConnectionManager().setProxyHost(host);
+	}
+	
+	public void setProxyPassword(String password){
+		Parser.getConnectionManager().setProxyPassword(password);
+	}
+
+	public void setProxyPort(int port){
+		Parser.getConnectionManager().setProxyPort(port);
+	}
+
+	public void setProxyUser(String user){
+		Parser.getConnectionManager().setProxyUser(user);
+	}
+	
+	/**
+	 * Modifier les informations en cas de session HTTP
+	 * @param host
+	 */
+	public void setUser(String user){
+		Parser.getConnectionManager().setUser(user);
+	}
+	
+	public void setPassword(String password){
+		Parser.getConnectionManager().setPassword(password);
 	}
 	
 	/**
@@ -407,6 +447,39 @@ public class Aspirateur extends Observable {
 	}
 	
 	/**
+	 * Obtenir les informations d'authentification entrées pour le proxy
+	 * @return
+	 */
+	
+	public String getProxyHost(){
+		return parser.getConnectionManager().getProxyHost(); 
+	}
+	
+	public int getProxyPort(){
+		return parser.getConnectionManager().getProxyPort(); 
+	}
+
+	public String getProxyUser(){
+		return parser.getConnectionManager().getProxyUser(); 
+	}
+	
+	public String getProxyPassword(){
+		return parser.getConnectionManager().getProxyPassword(); 
+	}
+	
+	/**
+	 * Obtenir les informations d'authentification entrées pour le HTTP
+	 * @return
+	 */
+	public String getHTTPPassword(){
+		return parser.getConnectionManager().getPassword();
+	}
+	
+	public String getHTTPUser(){
+		return parser.getConnectionManager().getUser();
+	}
+	
+	/**
 	 * Obtenir la page courante (en parsing)
 	 * @return
 	 */
@@ -509,6 +582,14 @@ public class Aspirateur extends Observable {
 
 	public int getNbFichiersACopies() {
 		return getNbRessourcesACopiees() + getNbPagesACopiees();
+	}
+	
+	public int getNbLiensMorts(){
+		return breakLinks.size();
+	}
+	
+	public int getNbLiensAuth(){
+		return authLinks.size();
 	}
 	
 	/**
@@ -846,7 +927,9 @@ public class Aspirateur extends Observable {
 		}
 		onCapture = false;
 		time = System.currentTimeMillis()-time;
-		System.out.println("Temps d'éxecution : " + time);
+		System.out.println("Temps d'éxecution : " + time + "ms");
+		System.out.println("Liens morts : " + breakLinks.size());
+		System.out.println("Liens auth  : " + authLinks.size());
 		meta.setTime(time);
 		currentPage = "";
 		saveMeta();
@@ -890,7 +973,9 @@ public class Aspirateur extends Observable {
 				if(isToBeCaptured(urlPage + temp)){
 					if (!ressources.contains(link)
 							&& !ressourcesCopied.contains(link)
-							&& !urlFiltred.contains(link)) {
+							&& !urlFiltred.contains(link)
+							&& !breakLinks.contains(link)
+							&& !authLinks.contains(link)) {
 
 						ressources.add(link);
 						ressourcesPool.runTask(new RessourceTask());
@@ -968,6 +1053,18 @@ public class Aspirateur extends Observable {
 					fnfe.printStackTrace();
 				} finally {
 					in.close();
+					if((taille>tailleRessourcesMax && tailleRessourcesMax!=-1)
+							|| (tailleSiteMax<tailleSite+taille && tailleSiteMax!=-1)){
+						file.delete();
+						if(!urlFiltred.contains(URL)){
+							urlFiltred.add(URL);
+						}
+					}else{
+						tailleSite+=taille;
+						ressourcesCopied.add(URL);
+						System.out.println("\tcopy RESSOURCES : \""
+								+ file.getAbsolutePath());
+					}
 					if(URL.endsWith(".css")){
 						String page = "";
 						in = new FileInputStream(file);
@@ -985,23 +1082,18 @@ public class Aspirateur extends Observable {
 				urlErrors.add(fnfe);
 				System.err.println("broken link " + fnfe.getMessage()
 						+ " ignored");
+				breakLinks.add(URL);
+			} catch (IOException ioe){
+				if(ioe.getMessage().contains("HTTP response code: 401")){
+					System.err.println("Erreur 401 (permissions non accordée) : " + ioe.getMessage()
+						+ " ignored");
+					authLinks.add(URL);
+				}
 			}
 		} catch (MalformedURLException murle) {
 			murle.printStackTrace();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		}
-		if((taille>tailleRessourcesMax && tailleRessourcesMax!=-1)
-				|| (tailleSiteMax<tailleSite+taille && tailleSiteMax!=-1)){
-			file.delete();
-			if(!urlFiltred.contains(URL)){
-				urlFiltred.add(URL);
-			}
-		}else{
-			tailleSite+=taille;
-			ressourcesCopied.add(URL);
-			System.out.println("\tcopy RESSOURCES : \""
-					+ file.getAbsolutePath());
 		}
 		setChanged();
 		notifyObservers();
@@ -1029,30 +1121,34 @@ public class Aspirateur extends Observable {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+		OutputStreamWriter out;
 		try {
-			OutputStreamWriter out;
+			out = new OutputStreamWriter(new FileOutputStream(file), parser
+					.getEncoding());
 			try {
-				out = new OutputStreamWriter(new FileOutputStream(file), parser
-						.getEncoding());
-				try {
-					PrintWriter pw = new PrintWriter(out);
-					for (int i = 0; i < list.size(); i++) {
-						pw.write(list.elementAt(i).toHtml());
-					}
-					pw.close();
-				} finally {
-					out.close();
-					tailleSite+=list.toHtml().getBytes().length;
-					System.out.println("\tcopy HTML : \"" + file.getAbsolutePath());
+				PrintWriter pw = new PrintWriter(out);
+				for (int i = 0; i < list.size(); i++) {
+					pw.write(list.elementAt(i).toHtml());
 				}
-			} catch (FileNotFoundException fnfe) {
-				System.err.println("broken link " + fnfe.getMessage()
-						+ " ignored");
+				pw.close();
+			} finally {
+				out.close();
+				tailleSite += list.toHtml().getBytes().length;
+				System.out.println("\tcopy HTML : \"" + file.getAbsolutePath());
 			}
+		} catch (FileNotFoundException fnfe) {
+			System.err.println("broken link " + fnfe.getMessage() + " ignored");
+			breakLinks.add(URL);
 		} catch (MalformedURLException murle) {
 			murle.printStackTrace();
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			if (ioe.getMessage().contains("HTTP response code: 401")) {
+				System.err.println("Erreur 401 (permissions non accordée) : "
+						+ ioe.getMessage() + " ignored");
+				authLinks.add(URL);
+			} else {
+				ioe.printStackTrace();
+			}
 		}
 		setChanged();
 		notifyObservers();
@@ -1187,7 +1283,9 @@ public class Aspirateur extends Observable {
 				if(isToBeCaptured(image)){
 					if (!ressources.contains(image) 
 							&& !ressourcesCopied.contains(image)
-							&& !urlFiltred.contains(image)) {
+							&& !urlFiltred.contains(image)
+							&& !breakLinks.contains(image)
+							&& !authLinks.contains(image)) {
 						// System.out.println("\n\t----------new Image----------");
 						// System.out.println("\tImage URL : " + image);
 						ressources.add(image);
@@ -1227,7 +1325,9 @@ public class Aspirateur extends Observable {
 					if(isNotTooDeep(link)){
 						if (!pages.contains(link) 
 								&& !pagesCopied.contains(link)
-								&& !urlFiltred.contains(link)) {
+								&& !urlFiltred.contains(link)
+								&& !breakLinks.contains(link)
+								&& !authLinks.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
@@ -1246,7 +1346,9 @@ public class Aspirateur extends Observable {
 					if(isToBeCaptured(link)){
 						if (!ressources.contains(link) 
 								&& !ressourcesCopied.contains(link)
-								&& !urlFiltred.contains(link)) {
+								&& !urlFiltred.contains(link)
+								&& !breakLinks.contains(link)
+								&& !authLinks.contains(link)) {
 							// System.out.println("\n\t----------new Image----------");
 							// System.out.println("\tImage URL : " + link);
 							ressources.add(link);
@@ -1283,7 +1385,9 @@ public class Aspirateur extends Observable {
 					if(isNotTooDeep(link)){
 						if (!pages.contains(link) 
 								&& !pagesCopied.contains(link)
-								&& !urlFiltred.contains(link)) {
+								&& !urlFiltred.contains(link)
+								&& !breakLinks.contains(link)
+								&& !authLinks.contains(link)) {
 							// System.out.println("\n\t----------new Page----------");
 							// System.out.println("\tLink URL : " + link);
 							
@@ -1301,7 +1405,9 @@ public class Aspirateur extends Observable {
 					if(isToBeCaptured(link)){
 						if (!ressources.contains(link) 
 								&& !ressourcesCopied.contains(link)
-								&& !urlFiltred.contains(link)) {
+								&& !urlFiltred.contains(link)
+								&& !breakLinks.contains(link)
+								&& !authLinks.contains(link)) {
 							// System.out.println("\n\t----------new Image----------");
 							// System.out.println("\tImage URL : " + link);
 							ressources.add(link);
@@ -1355,7 +1461,9 @@ public class Aspirateur extends Observable {
 				if (isToBeCaptured(jsLink)) {
 					if (!ressources.contains(jsLink)
 							&& !ressourcesCopied.contains(jsLink)
-							&& !urlFiltred.contains(jsLink)) {
+							&& !urlFiltred.contains(jsLink)
+							&& !breakLinks.contains(jsLink)
+							&& !authLinks.contains(jsLink)) {
 						ressources.add(jsLink);
 						ressourcesPool.runTask(new RessourceTask());
 					}
@@ -1726,10 +1834,12 @@ public class Aspirateur extends Observable {
 		@Override
 		public void run() {
 			String URL;
-			synchronized (ressources){
-				URL = ressources.remove(0);
+			if(ressources.size()>0){
+				synchronized (ressources){
+						URL = ressources.remove(0);
+				}
+				copyRessources(URL);
 			}
-			copyRessources(URL);
 		}
 	}
 	
@@ -1739,41 +1849,74 @@ public class Aspirateur extends Observable {
 		public void run() {
 			try {
 				String urlPage = "";
+				boolean ok = true;
 				synchronized (pages.get(0)) {
 					currentPage = pages.get(0);
-					parser.setURL(pages.get(0));
-					urlPage = pages.remove(0);
-				}
-				list = new NodeList();
-				parser.reset();
-				try {
-					for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
-						list.add(it.nextNode());
+					try{
+						parser.setURL(currentPage);
+					}catch(ParserException pe){
+						if(pe.getMessage().contains("401")){
+							setUser("burda0011");
+							setPassword("ui3svg4v");
+							try{
+								parser.setURL(currentPage);
+							}catch(ParserException pe2){
+								ok = false;
+								/** Erreur 401 : besoin d'une authentification */
+								if(pe2.getMessage().contains("401")){
+									System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification.");
+									authLinks.add(currentPage);
+								}
+							}
+							//JOptionPane.showMessageDialog(null,"l'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification : remplir les champs des options \"Avancé\"","Attention",JOptionPane.WARNING_MESSAGE);
+						}else{
+							if(pe.getMessage().contains("407")){
+								ok = false;
+								/** Erreur 407 : besoin d'une authentification par proxy*/
+								if(pe.getMessage().contains("401")){
+									System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification par Proxy.");
+									authLinks.add(currentPage);
+								}
+							}
+						}
+					}finally{
+						urlPage = pages.remove(0);
 					}
-				} catch (EncodingChangeException e) {
-					/*
-					 * Si l'encodage n'est pas le bon, il faut faire un reset et
-					 * il est changé automatiquement
-					 */
-					parser.reset();
+				}
+				if(ok){
 					list = new NodeList();
-					for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
-						list.add(it.nextNode());
+					parser.reset();
+					try {
+						for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
+							list.add(it.nextNode());
+						}
+					} catch (EncodingChangeException e) {
+						/*
+						 * Si l'encodage n'est pas le bon, il faut faire un reset et
+						 * il est changé automatiquement
+						 */
+						parser.reset();
+						list = new NodeList();
+						for (NodeIterator it = parser.elements(); it.hasMoreNodes();) {
+							list.add(it.nextNode());
+						}
 					}
-				}
-				if(((taillePagesMax==-1 
-						|| taillePagesMax>list.toHtml().getBytes().length))
-						&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1)){
-					copyPage(urlPage);
-				}else{
-					if(!urlFiltred.contains(urlPage)){
-						urlFiltred.add(urlPage);
+					if(((taillePagesMax==-1 
+							|| taillePagesMax>list.toHtml().getBytes().length))
+							&& (tailleSiteMax>(tailleSite+list.toHtml().getBytes().length) || tailleSiteMax==-1)){
+						copyPage(urlPage);
+					}else{
+						if(!urlFiltred.contains(urlPage)
+								&& !breakLinks.contains(urlPage)
+								&& !authLinks.contains(urlPage)){
+							urlFiltred.add(urlPage);
+						}
 					}
+					/*
+					 * afficherCopied(); afficherImages(); afficherPages();
+					 * afficherCSS(); afficherJS();
+					 */
 				}
-				/*
-				 * afficherCopied(); afficherImages(); afficherPages();
-				 * afficherCSS(); afficherJS();
-				 */
 
 			} catch (ParserException e) {
 				urlErrors.add(e);

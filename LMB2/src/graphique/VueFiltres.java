@@ -212,7 +212,6 @@ public class VueFiltres extends JPanel{
 				else
 					listeFiltres.remove(current.getText());
 				
-				System.err.println("check"+ current.getText());
 				// Visualiser le contenu de la liste des Filtres
 				/*for (int i = 0; i < listeFiltres.size(); i++){
 					System.out.println(listeFiltres.get(i));

@@ -386,13 +386,24 @@ public class VueSauvegarde extends JPanel implements Observer{
 					if (selRow != -1) {
 						arbre.clearSelection();
 						arbre.setSelectionPath(selPath);
-						selectedNode = laspirateur.getPath()
-								+ "/"
-								+ ((DefaultMutableTreeNode) arbre
-										.getLastSelectedPathComponent())
-										.getParent() + "/"
-								+ arbre.getLastSelectedPathComponent();
+						String parent = ((DefaultMutableTreeNode) arbre.getLastSelectedPathComponent()).getParent().toString();
+						if(parent==null){
+							selectedNode = laspirateur.getPath()
+							+ "/"
+							+ arbre.getLastSelectedPathComponent();
+						}else{
+							selectedNode = laspirateur.getPath()
+							+ "/"
+							+ parent 
+							+ "/"
+							+ arbre.getLastSelectedPathComponent();
+						}
+							System.err.println(selectedNode);
 						if (version(selPath)) {
+							menu.getComponent(1).setEnabled(true);
+							menu.show(e.getComponent(), e.getX(), e.getY());
+						}else{
+							menu.getComponent(1).setEnabled(false);
 							menu.show(e.getComponent(), e.getX(), e.getY());
 						}
 					} else {
