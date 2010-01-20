@@ -196,9 +196,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheVolume = new JLabel("Taille maximum du site (en Ko)");
 		afficheVolumePage = new JLabel("Taille maximum des pages (en Ko)");
 		afficheVolumeRessource = new JLabel("Taille maximum des ressources (en Ko)");
-		afficheVolume = new JLabel("Taille maximale du site");
-		afficheVolumePage = new JLabel("Taille maximale des pages");
-		afficheVolumeRessource = new JLabel("Taille maximale des ressources");
+		afficheVolume = new JLabel("Taille maximale du site (en Ko) :");
+		afficheVolumePage = new JLabel("Taille maximale des pages (en Ko) :");
+		afficheVolumeRessource = new JLabel("Taille maximale des ressources (en Ko) :");
 
 	
 		afficheProfondeur.setToolTipText("No : Profondeur illimitée");
