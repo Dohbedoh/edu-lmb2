@@ -243,11 +243,13 @@ public class VueFiltres extends JPanel{
 
 		public void actionPerformed(ActionEvent e) {
 			String value = JOptionPane.showInputDialog("Entrez un filtre (ex : \"zip\")");
-			if(!value.contains(".") || !value.matches("[0-9]")){
-				listeFiltres.add(value);
-				JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
-			}else{
-				JOptionPane.showMessageDialog(null, "Le filtre saisi n'est pas valide");
+			if(value!=null){
+				if(!value.contains(".") || !value.matches("[0-9]")){
+					listeFiltres.add(value);
+					JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
+				}else{
+					JOptionPane.showMessageDialog(null, "Le filtre saisi n'est pas valide");
+				}
 			}
 		}
 		
