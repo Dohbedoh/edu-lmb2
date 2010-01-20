@@ -37,6 +37,8 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	JLabel metadataLab;
 	JLabel timeLab;
 	
+	public JScrollPane scroll;
+	
 	//------------------
 	// Constructeur
 	//------------------
@@ -68,8 +70,8 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		url = new JLabel("N.C");
 		time = new JLabel("N.C");
 		metadata = new JTextArea("N.C");
-		metadata.setLineWrap(true);
-		metadata.setWrapStyleWord(true);
+		/*metadata.setLineWrap(true);
+		metadata.setWrapStyleWord(true);*/
 		metadata.setEditable(false);
 		
 		nomSite.setForeground(new Color(51,204,0));
@@ -92,6 +94,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		metadata.setFont(new Font(null,1,11));
 		time.setFont(new Font(null,1,11));
 		
+		scroll = new JScrollPane(metadata);
 		// Options
 		
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -157,7 +160,12 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	    );
 	    
 	    this.add(cont, BorderLayout.CENTER);
-	    this.add(metadata, BorderLayout.SOUTH);
+	    this.add(scroll, BorderLayout.SOUTH);
+	    
+	  //Création de la JScrollPane
+		metadata.setRows(2);
+		
+	    
 	}//cons-1
 	
 	public void setStatistiques(Statistiques stats){
