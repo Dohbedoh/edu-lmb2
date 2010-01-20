@@ -34,7 +34,7 @@ public class VueConsole extends JPanel  implements Observer{
 		
 		laspirateur.addObserver(this);
 		
-		currentPageLab = new JLabel("Current Page : ");
+		currentPageLab = new JLabel("Page actuelle : ");
 		currentPage = new JLabel("");
 		
 

@@ -36,7 +36,6 @@ public class VueProgressBar extends JPanel implements Observer{
 		
 		// Options des elements graphiques
 		bar.setStringPainted(true);
-		//bar.setOrientation(JProgressBar.VERTICAL);
 		
 		bar.setMaximum(100);
 		bar.setMinimum(0);
@@ -63,15 +62,21 @@ public class VueProgressBar extends JPanel implements Observer{
 		stats.addObserver(this);
 	}
 	
-	@Override
 	public void update(Observable o, Object arg) {
-		double totalCopies = laspirateur.getNbFichiersCopies();
-		double total = totalCopies + laspirateur.getNbFichiersACopies();
-		if(totalCopies!=0 || total!=0){
-			double value = totalCopies/total*100;
-			bar.setValue((int)value);
-		}else{
-			bar.setValue(0);
+		if(o instanceof Aspirateur){
+			double totalCopies = laspirateur.getNbFichiersCopies();
+			double total = totalCopies + laspirateur.getNbFichiersACopies();
+			if(totalCopies!=0 || total!=0){
+				double value = totalCopies/total*100;
+				bar.setValue((int)value);
+			}else{
+				bar.setValue(0);
+			}
+		}else if (o instanceof Statistiques){
+			/**
+			 * CRITERE A DEFINIR
+			 */
+			bar.setValue(100);
 		}
 	}
 	
