@@ -44,14 +44,17 @@ public class VueSauvegarde extends JPanel implements Observer{
 	private Container cont;
 	private JPopupMenu menu;
 	private VueProgressBar vueProgressBar;
+	private VueConsole vueConsole;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueSauvegarde(Aspirateur laspirateur, VueOnglets vueOnglets, VueProgressBar vueProgressBar){
+	public VueSauvegarde(Aspirateur laspirateur, VueOnglets vueOnglets, VueProgressBar vueProgressBar, VueConsole vueConsole){
 		this.laspirateur = laspirateur;
 		this.vueOnglets = vueOnglets;
 		this.vueProgressBar = vueProgressBar;
+		this.vueConsole = vueConsole;
+		
 		setLayout(new BorderLayout());
 		laspirateur.addObserver(this);
 		vueCaptureInfos = new VueCaptureInfos(laspirateur);
@@ -331,6 +334,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 			vueOnglets.getVueStatistiques().setStatistiques(stats);
 			vueProgressBar.setStatistiques(stats);
 			vueOnglets.setOnglet(1);
+			vueConsole.reset();
 			
 			// Ajout des observers
 			stats.addObserver(vueOnglets.getVueStatistiques().getVueInfosStatistiques());

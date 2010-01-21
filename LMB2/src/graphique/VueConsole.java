@@ -71,6 +71,10 @@ public class VueConsole extends JPanel  implements Observer{
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
 	}//cons-1
+	
+	public void reset(){
+		laconsole.setText("");
+	}
 
 	//------------------
 	// Methodes

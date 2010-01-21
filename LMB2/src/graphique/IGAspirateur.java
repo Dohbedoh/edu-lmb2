@@ -41,7 +41,7 @@ public class IGAspirateur extends JFrame{
 		vueProgressBar = new VueProgressBar(laspirateur);
 		vueOnglets = new VueOnglets(laspirateur,vueProgressBar,split);
 		vueConsole = new VueConsole(laspirateur);
-		vueSauvegarde = new VueSauvegarde(laspirateur, vueOnglets,vueProgressBar);
+		vueSauvegarde = new VueSauvegarde(laspirateur, vueOnglets,vueProgressBar,vueConsole);
 		
 		// Ajout des vues
 		JPanel gauche = new JPanel();

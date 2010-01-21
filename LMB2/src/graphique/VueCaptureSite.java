@@ -294,6 +294,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		stop.setEnabled(b);
 		capturer.setEnabled(b);
 		parcourir.setEnabled(b);
+		optionsAvancées.setEnabled(b);
 	}
 	
 	//------------------
@@ -366,7 +367,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
-			laspirateur.reinitialise();
+			//laspirateur.reinitialise();
 			int profondeur = contraintesProfondeur.getValue();
 			int tailleSite = -1;
 			int taillePage = -1;

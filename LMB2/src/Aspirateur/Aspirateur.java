@@ -274,19 +274,19 @@ public class Aspirateur extends Observable {
 	 * @param host
 	 */
 	public void setProxyHost(String host){
-		Parser.getConnectionManager().setProxyHost(host);
+		parser.getConnectionManager().setProxyHost(host);
 	}
 	
 	public void setProxyPassword(String password){
-		Parser.getConnectionManager().setProxyPassword(password);
+		parser.getConnectionManager().setProxyPassword(password);
 	}
 
 	public void setProxyPort(int port){
-		Parser.getConnectionManager().setProxyPort(port);
+		parser.getConnectionManager().setProxyPort(port);
 	}
 
 	public void setProxyUser(String user){
-		Parser.getConnectionManager().setProxyUser(user);
+		parser.getConnectionManager().setProxyUser(user);
 	}
 	
 	/**
@@ -294,11 +294,11 @@ public class Aspirateur extends Observable {
 	 * @param host
 	 */
 	public void setUser(String user){
-		Parser.getConnectionManager().setUser(user);
+		parser.getConnectionManager().setUser(user);
 	}
 	
 	public void setPassword(String password){
-		Parser.getConnectionManager().setPassword(password);
+		parser.getConnectionManager().setPassword(password);
 	}
 	
 	/**
@@ -1205,8 +1205,7 @@ public class Aspirateur extends Observable {
 	public void afficherRessources() {
 		if (ressources.size() != 0) {
 			System.out.println("\n\tRessources a copier!");
-			System.out
-					.println("\t------------------------------------------------");
+			System.out.println("\t------------------------------------------------");
 			Iterator<String> it = ressources.iterator();
 			while (it.hasNext()) {
 				System.out.println("\t" + it.next());
@@ -1856,31 +1855,23 @@ public class Aspirateur extends Observable {
 						parser.setURL(currentPage);
 					}catch(ParserException pe){
 						if(pe.getMessage().contains("401")){
-							setUser("burda0011");
-							setPassword("ui3svg4v");
-							try{
-								parser.setURL(currentPage);
-							}catch(ParserException pe2){
-								ok = false;
-								/** Erreur 401 : besoin d'une authentification */
-								if(pe2.getMessage().contains("401")){
-									System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification.");
-									authLinks.add(currentPage);
-								}
-							}
-							//JOptionPane.showMessageDialog(null,"l'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification : remplir les champs des options \"Avancé\"","Attention",JOptionPane.WARNING_MESSAGE);
+							ok = false;
+							/** Erreur 401 : besoin d'une authentification */
+							System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification.");
+							authLinks.add(currentPage);
 						}else{
 							if(pe.getMessage().contains("407")){
+								System.err.println("doh3");
 								ok = false;
 								/** Erreur 407 : besoin d'une authentification par proxy*/
-								if(pe.getMessage().contains("401")){
-									System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification par Proxy.");
-									authLinks.add(currentPage);
-								}
+								System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification par Proxy.");
+								authLinks.add(currentPage);
 							}
 						}
 					}finally{
-						pages.remove(0);
+						if(pages.size()>0){
+							urlPage = pages.remove(0);
+						}
 					}
 				}
 				if(ok){
