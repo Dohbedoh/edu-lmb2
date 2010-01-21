@@ -398,7 +398,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 							+ "/"
 							+ arbre.getLastSelectedPathComponent();
 						}
-							System.err.println(selectedNode);
 						if (version(selPath)) {
 							menu.getComponent(1).setEnabled(true);
 							menu.show(e.getComponent(), e.getX(), e.getY());

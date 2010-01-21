@@ -302,15 +302,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		nom.setText(laspirateur.getName());
 		path.setText(laspirateur.getPath());
-		//vueProgressBar.getProgressBar().setValue(5);
-		/*double totalCopies = laspirateur.getNbFichiersCopies();
-		double total = totalCopies + laspirateur.getNbFichiersACopies();
-		if(totalCopies!=0 || total!=0){
-			double value = totalCopies/total*100;
-			vueProgressBar.getProgressBar().setValue((int)value);
-		}else{
-			vueProgressBar.getProgressBar().setValue(0);
-		}*/
 	}
 
 	public VueSauvegarde getVueSauvegarde() {
@@ -362,6 +353,7 @@ public class VueCaptureSite extends JPanel implements Observer{
             	path.setText(chooser.getSelectedFile().getAbsolutePath());
             	laspirateur.setPath(chooser.getSelectedFile().getAbsolutePath());
             	System.out.println("Votre workspace : "+path.getText());
+            	vueSauvegarde.refresh();
             }
         	
 			update(null,null);
@@ -374,7 +366,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 	private class ActionCapturerSite implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
-			
+			laspirateur.reinitialise();
 			int profondeur = contraintesProfondeur.getValue();
 			int tailleSite = -1;
 			int taillePage = -1;

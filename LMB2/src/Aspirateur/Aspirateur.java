@@ -1880,7 +1880,9 @@ public class Aspirateur extends Observable {
 							}
 						}
 					}finally{
-						urlPage = pages.remove(0);
+						synchronized(pages){
+							pages.remove(0);
+						}
 					}
 				}
 				if(ok){
