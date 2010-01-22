@@ -6,12 +6,7 @@ package graphique;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import Aspirateur.Meta;
-
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -163,7 +158,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	    this.add(scroll, BorderLayout.SOUTH);
 	    
 	  //Création de la JScrollPane
-		metadata.setRows(2);
+		metadata.setRows(3);
 		
 	    
 	}//cons-1
@@ -183,25 +178,20 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		nomSite.setText(stats.getNomSite());
 		dateVersion.setText(stats.getDate());
 		tailleVersion.setText(stats.getLength()+"bytes");
-		Meta meta = new Meta();
 		System.err.println(stats.getVersion().getAbsolutePath()+"\\meta.dat");
-		try {
-			meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"/meta.dat");
-			url.setText(meta.getURL());
-			long temp = meta.getTime();
-			int nbH = (int)temp/3600000;
-			int nbM = (int)(temp-nbH*3600000)/60000;
-			int nbS = (int)(temp-(nbH*3600000+nbM*60000))/1000;
-			int nbMS = (int)(temp-(nbH*3600000+nbM*60000+nbS*1000));
-			time.setText(nbH+"h "+nbM+"min "+ nbS+"s " + nbMS + "ms");
-			if(!meta.getMetaData().equals("<Entrez vos commentaires>")
-				&& meta.getMetaData().length()!=0){
-				metadata.setText(meta.getMetaData());
-			}else{
-				metadata.setText("N.C");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		url.setText(stats.getMetaData().getURL());
+		long temp = stats.getMetaData().getTime();
+		int nbH = (int) temp / 3600000;
+		int nbM = (int) (temp - nbH * 3600000) / 60000;
+		int nbS = (int) (temp - (nbH * 3600000 + nbM * 60000)) / 1000;
+		int nbMS = (int) (temp - (nbH * 3600000 + nbM * 60000 + nbS * 1000));
+		time.setText(nbH + "h " + nbM + "min " + nbS + "s " + nbMS + "ms");
+		if (!stats.getMetaData().getMetaData().equals(
+				"<Entrez vos commentaires>")
+				&& stats.getMetaData().getMetaData().length() != 0) {
+			metadata.setText(stats.getMetaData().getMetaData());
+		} else {
+			metadata.setText("N.C");
 		}
 	}
 	

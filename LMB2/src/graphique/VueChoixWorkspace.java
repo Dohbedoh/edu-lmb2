@@ -7,8 +7,6 @@ package graphique;
 import java.awt.*;
 
 import javax.swing.*;
-
-import java.awt.RenderingHints.Key;
 import java.awt.event.*;
 import java.io.File;
 
@@ -38,7 +36,7 @@ public class VueChoixWorkspace extends JFrame {
 		message.setHorizontalAlignment(JLabel.CENTER);
 		message.setForeground(Color.blue);
 		
-		value = new JTextField("/users/renaudmathieu/Desktop/LMB2/",25);
+		value = new JTextField("/LMB2/",25);
 		
 		parcourir = new JButton("...");
 		parcourir.setPreferredSize(new Dimension(20,20));

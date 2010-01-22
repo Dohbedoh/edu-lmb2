@@ -4,7 +4,6 @@
 
 package graphique;
 
-import images.*;
 import Aspirateur.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -404,6 +403,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 				stop.setEnabled(true);
 				pause.setEnabled(true);
 				reprendre.setEnabled(false);
+				optionsAvancées.setEnabled(false);
+				vueFiltres.setEnabled(false);
 				vueMeta.setEnabled(false);
 				vueOnglets.getVueStatistiques().setEnabled(false);
 				
@@ -432,6 +433,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 						capturer.setEnabled(true);
 						vueMeta.setEnabled(true);
 						vueOnglets.setEnabled(true);
+						optionsAvancées.setEnabled(true);
+						vueFiltres.setEnabled(true);
 						vueSauvegarde.refresh();
 					}
 					

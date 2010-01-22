@@ -37,7 +37,7 @@ public class IGAspirateur extends JFrame{
 		
 		// Creation des vues
 		split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		vueMenu = new VueMenu(laspirateur);
+		vueMenu = new VueMenu(laspirateur, this);
 		vueProgressBar = new VueProgressBar(laspirateur);
 		vueOnglets = new VueOnglets(laspirateur,vueProgressBar,split);
 		vueConsole = new VueConsole(laspirateur);

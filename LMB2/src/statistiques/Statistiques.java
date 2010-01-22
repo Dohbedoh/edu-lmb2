@@ -8,6 +8,8 @@ import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
 
+import Aspirateur.Meta;
+
 public class Statistiques extends Observable {
 
 	//------------------
@@ -29,6 +31,7 @@ public class Statistiques extends Observable {
 	private ArrayList<File> dataCSS;
 	private ArrayList<File> dataJS;
 	
+	private Meta meta;
 	private Hashtable<String, Integer> dataMotsComplet;
 	private Hashtable<String, Integer> dataLinksComplet;
 	
@@ -103,6 +106,24 @@ public class Statistiques extends Observable {
 		return lesFichiersEnregistres;
 	}
 
+	/**
+	 * retourne les métadonnées
+	 * @return
+	 */
+	public Meta getMetaData(){
+		return meta;
+	}
+	
+	public Meta loadMetaData(){
+		try{
+			this.meta = Meta.deserializer(version.getAbsolutePath()+"/meta.dat");
+			return meta;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	/**
 	 * Cette méthode retourne une ArrayList contenant tous les fichiers HTML inclus dans la version
 	 */
@@ -307,10 +328,11 @@ public class Statistiques extends Observable {
 	public void init(){
 		
 		this.date = getDateVersion(version);
-		
 		// Recuperation de tous les fichiers fils
 		listerFils(version);
-
+		loadMetaData();
+		setChanged();
+		notifyObservers();
 		// Lancement du process de recuperation des statistiques
 			// Tri des fichiers - images
 			processSortFiles();

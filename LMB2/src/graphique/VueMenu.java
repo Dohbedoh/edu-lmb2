@@ -12,6 +12,7 @@ import aide.VueAide;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 public class VueMenu extends JMenuBar {
@@ -35,16 +36,64 @@ public class VueMenu extends JMenuBar {
 	
 	JMenuItem reduireConsole;
 	JMenuItem grandirConsole;
+	JMenu apparence;
+	
+	ArrayList<JMenuItem> lesSkins;
 	
 	JMenuItem apropos;
 	JMenuItem help;
 	
+	JFrame IGA;
+	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueMenu(Aspirateur laspirateur){
+	public VueMenu(Aspirateur laspirateur, JFrame IGA){
 		super();
 		this.laspirateur = laspirateur;
+		this.IGA = IGA;
+		
+		lesSkins = new ArrayList<JMenuItem>();
+		/** Les skins possibles */
+		lesSkins.add(new JMenuItem("Autumn"));
+		lesSkins.add(new JMenuItem("Business"));
+		lesSkins.add(new JMenuItem("Business Black Steel"));
+		lesSkins.add(new JMenuItem("Business Blue Steel"));
+		lesSkins.add(new JMenuItem("Creme"));
+		lesSkins.add(new JMenuItem("Creme Coffee"));
+		lesSkins.add(new JMenuItem("Mist Aqua"));
+		lesSkins.add(new JMenuItem("Mist Silver"));
+		lesSkins.add(new JMenuItem("Moderate"));
+		lesSkins.add(new JMenuItem("Nebula"));
+		lesSkins.add(new JMenuItem("Nebula Brick Wall"));
+		lesSkins.add(new JMenuItem("Office Blue 2007"));
+		lesSkins.add(new JMenuItem("Office Silver 2007"));
+		lesSkins.add(new JMenuItem("Sahara"));
+		lesSkins.get(2).setEnabled(false);
+		lesSkins.get(2).setForeground(Color.BLUE);
+		
+		for(int i=0; i<lesSkins.size(); i++){
+			lesSkins.get(i).addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(((JMenuItem)arg0.getSource()).isEnabled()){
+				        try {
+				        	UIManager.setLookAndFeel("org.jvnet.substance.skin.Substance"+((JMenuItem)arg0.getSource()).getText().replaceAll(" ","")+"LookAndFeel");
+				        	VueMenu.this.IGA.repaint();
+				        	for(int i=0; i<lesSkins.size(); i++){
+				        		lesSkins.get(i).setEnabled(true);
+				        		lesSkins.get(i).setForeground(Color.BLACK);
+				        	}
+				        	((JMenuItem)arg0.getSource()).setEnabled(false);
+				        } catch (Exception e) {
+				        	e.printStackTrace();
+				        	System.out.println("Substance Raven Graphite failed to initialize");
+				        	System.out.println("org.jvnet.substance.skin.Substance"+((JMenuItem)arg0.getSource()).getText().replaceAll(" ","")+"LookAndFeel");
+				        }
+					}
+				}
+			});
+		}
+		
 		
 		// Creation des JMenu
 		fichier = new JMenu("Fichier");
@@ -61,6 +110,7 @@ public class VueMenu extends JMenuBar {
 		
 		reduireConsole = new JMenuItem("Réduire la console");
 		grandirConsole = new JMenuItem("Agrandir la console");
+		apparence = new JMenu("Apparence");
 		
 		apropos = new JMenuItem("A propos");
 		help = new JMenuItem("Aide");
@@ -83,8 +133,13 @@ public class VueMenu extends JMenuBar {
 		capture.add(aspirerPlay);
 		capture.add(aspirerStop);
 		
+		for(int i=0; i<lesSkins.size(); i++){
+			apparence.add(lesSkins.get(i));
+		}
+		
 		affichage.add(reduireConsole);
 		affichage.add(grandirConsole);
+		affichage.add(apparence);
 		
 		about.add(apropos);
 		about.addSeparator();

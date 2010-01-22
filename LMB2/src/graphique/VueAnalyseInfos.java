@@ -170,13 +170,19 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	// Méthodes
 	//------------------
 	public void update(Observable arg0, Object arg1) {
-		nbMotsDif.setText(stats.getDataMotsComplet().size()+"");
-		nbAddrDif.setText("NYI");
-		nbImagesDif.setText(stats.getDataImages().size()+"");
-		nbHypersDif.setText(stats.getDataLinksComplet().size()+"");
-		nbCSS.setText(stats.getDataCSS().size()+"");
-		nbJS.setText(stats.getDataJS().size()+"");
-		nbHTML.setText(stats.getDataHTML().size()+"");
+		if(stats.getDataMotsComplet()!=null 
+				&& stats.getDataCSS()!=null 
+				&& stats.getDataHTML()!=null
+				&& stats.getDataImages()!=null
+				&& stats.getDataLinksComplet()!=null){
+			nbMotsDif.setText(stats.getDataMotsComplet().size()+"");
+			nbAddrDif.setText("NYI");
+			nbImagesDif.setText(stats.getDataImages().size()+"");
+			nbHypersDif.setText(stats.getDataLinksComplet().size()+"");
+			nbCSS.setText(stats.getDataCSS().size()+"");
+			nbJS.setText(stats.getDataJS().size()+"");
+			nbHTML.setText(stats.getDataHTML().size()+"");
+		}
 	}
 	
 }

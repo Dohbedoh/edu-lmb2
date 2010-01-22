@@ -1092,8 +1092,6 @@ public class Aspirateur extends Observable {
 			}
 		} catch (MalformedURLException murle) {
 			murle.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
 		}
 		setChanged();
 		notifyObservers();

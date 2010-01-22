@@ -6,7 +6,11 @@ package graphique;
 
 import javax.swing.*;
 
+import org.jvnet.substance.skin.SubstanceAutumnLookAndFeel;
+import org.jvnet.substance.skin.SubstanceOfficeBlue2007LookAndFeel;
+
 import Aspirateur.Aspirateur;
+import Aspirateur.Meta;
 
 public class Main {
 
@@ -21,8 +25,7 @@ public class Main {
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
 	        try {
-	        	//UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceOfficeSilver2007LookAndFeel");
-	        	UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
+				UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
 	        } catch (Exception e) {
 	          System.out.println("Substance Raven Graphite failed to initialize");
 	        }

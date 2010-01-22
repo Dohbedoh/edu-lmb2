@@ -9,13 +9,10 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import Aspirateur.Meta;
 
 import statistiques.Statistiques;
 import tableur.*;
@@ -119,26 +116,32 @@ public class VueAnalyseBoutons extends JPanel {
 	private class ActionStatsMots implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
+			if(stats.getDataMotsComplet().size()>0){
+				SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
+			}else{
+				JOptionPane.showMessageDialog(null, "Aucun mot!", "Information",JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
 	private class ActionStatsLiens implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
+			if(stats.getDataLinksComplet().size()>0){
+				SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
+			}else{
+				JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
 	private class ActionStatsBalises implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			Meta meta;
-			try {
-				meta = Meta.deserializer(stats.getVersion().getAbsolutePath()+"/meta.dat");
-				SpreadSheet s = new SpreadSheet(meta.getTagsTable());
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(stats.getMetaData().getTagsTable().size()>0){
+				SpreadSheet s = new SpreadSheet(stats.getMetaData().getTagsTable());
+			}else{
+				JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}

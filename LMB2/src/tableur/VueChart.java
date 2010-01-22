@@ -16,9 +16,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.ui.RefineryUtilities;
 import org.jfree.util.Rotation;
-import org.jfree.util.SortOrder;
 
 public class VueChart extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -45,7 +43,7 @@ public class VueChart extends JPanel {
 			pieDataset.setValue(cle.toLowerCase(), dataMotsComplet.get(cle));
 			cle = e.nextElement();
 		}
-		pieDataset.sortByKeys(SortOrder.ASCENDING);
+		//pieDataset.sortByKeys(SortOrder.ASCENDING);
 		
 
 	    JFreeChart pieChart = ChartFactory.createPieChart3D("Diagramme", 

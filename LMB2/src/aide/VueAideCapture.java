@@ -91,10 +91,10 @@ public class VueAideCapture extends JPanel {
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(100, 150, 250));
-        jLabel7.setText("Comment bloquer le téléchargement de certains fichiers ?");
+        jLabel7.setText("Comment contrôler le téléchargement de certaines extensions ?");
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel8.setText("Il vous suffit de cocher les cases qui correspondent aux extensions que vous voulez bloquer dans le");
+        jLabel8.setText("Il vous suffit de cocher les cases qui correspondent aux extensions que vous voulez aspirer dans le");
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel9.setText("bloc \"Filtres\" de l'onglet \"Capturer site\".");

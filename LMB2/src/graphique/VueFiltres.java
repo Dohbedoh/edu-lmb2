@@ -5,10 +5,7 @@
 package graphique;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -198,6 +195,13 @@ public class VueFiltres extends JPanel{
 	//------------------
 	public ArrayList<String> getListeFiltres(){
 		return this.listeFiltres;
+	}
+	
+	public void setEnabled(boolean b){
+		ajouterFiltre.setEnabled(b);
+		for(int i=0; i<checkBoxes.size(); i++){
+			checkBoxes.get(i).setEnabled(b);
+		}
 	}
 	
 	//Action des cases à cocher :
