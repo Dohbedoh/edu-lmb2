@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,73 +25,30 @@ public class VueAnalyseBoutons extends JPanel {
 	// Attributs
 	//------------------
 	private Statistiques stats;
-	private JButton lesMotsBut,lesLiensBut,lesBalisesBut;
 	
+	private String liste[] = {"Détails Statistiques","Fréquence des mots" , "Liens Hypertextes","Balises"};
+	private JComboBox combo;
 	//------------------
 	// Constructeurs
 	//------------------
 	public VueAnalyseBoutons(Statistiques stats){
 		this.stats = stats;
-		GroupLayout layout = new GroupLayout(this);
-		this.setLayout(layout);
 		
-		lesMotsBut = new JButton("Statistiques sur la fréquence des Mots");
-		lesMotsBut.addActionListener(new ActionStatsMots());
+		combo = new JComboBox(liste);
+		add(combo);
+		combo.addActionListener(new ActionStats());
 		
-		lesLiensBut = new JButton("Statistiques sur les liens hypertextes");
-		lesLiensBut.addActionListener(new ActionStatsLiens());
+		if(stats.getLesFichiersEnregistres().size() == 0){
+			combo.setEnabled(false);
+		}
 		
-		lesBalisesBut = new JButton("Statistiques sur les balises (tags)");
-		lesBalisesBut.addActionListener(new ActionStatsBalises());
-		
-		Dimension maxDim = lesMotsBut.getMaximumSize();
-		lesMotsBut.setPreferredSize(maxDim);
-		lesLiensBut.setMinimumSize(maxDim);
-		lesBalisesBut.setMinimumSize(maxDim);
-		
-		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-				.addGroup(layout.createParallelGroup()
-	            	.addGroup(layout.createSequentialGroup()
-	    	            .addGap(5)
-	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    	.addComponent(lesMotsBut)
-	                        .addComponent(lesLiensBut)
-	                        .addComponent(lesBalisesBut)
-		                )
-	                )
-	            )
-	    );
-	    
-	    layout.setVerticalGroup(layout.createSequentialGroup()
-	            .addGap(5)
-	            .addGroup(layout.createSequentialGroup()
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    	.addComponent(lesMotsBut)
-	                )
-	                .addGap(5)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                        .addComponent(lesLiensBut)
-	                )
-	                .addGap(5)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                        .addComponent(lesBalisesBut)
-	                )
-	          )
-	          .addGap(5)
-	    );
-		
-		/*this.add(lesMotsBut,BorderLayout.NORTH);
-		this.add(lesLiensBut,BorderLayout.CENTER);
-		this.add(LesBalisesBut,BorderLayout.SOUTH);*/
 	}//cons-1
 	
 	/**
 	 * Désactive les boutons
 	 */
 	public void setEnabled(boolean b){
-		lesMotsBut.setEnabled(b);
-		lesLiensBut.setEnabled(b);
-		lesBalisesBut.setEnabled(b);
+		combo.setEnabled(b);
 	}
 	
 	public void setStatistiques(Statistiques stats){
@@ -113,40 +71,40 @@ public class VueAnalyseBoutons extends JPanel {
 	//------------------
 	// Actions
 	//------------------
-	private class ActionStatsMots implements ActionListener {
+	private class ActionStats implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			if(stats.getDataMotsComplet().size()>0){
-				SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
-			}else{
-				JOptionPane.showMessageDialog(null, "Aucun mot!", "Information",JOptionPane.INFORMATION_MESSAGE);
+			
+			int index = ((JComboBox)arg0.getSource()).getSelectedIndex();
+			switch (index) {
+			case 1:
+				if(stats.getDataMotsComplet().size()>0){
+					SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
+				}else{
+					JOptionPane.showMessageDialog(null, "Aucun mot!", "Information",JOptionPane.INFORMATION_MESSAGE);
+				}
+				break;
+			case 2:
+				if(stats.getDataLinksComplet().size()>0){
+					SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
+				}else{
+					JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
+				}
+				break;
+			case 3:
+				if(stats.getMetaData().getTagsTable().size()>0){
+					SpreadSheet s = new SpreadSheet(stats.getMetaData().getTagsTable());
+				}else{
+					JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
+				}
+				break;	
+
+			default:
+				break;
 			}
+		
 		}
 	}
-	
-	private class ActionStatsLiens implements ActionListener {
-
-		public void actionPerformed(ActionEvent arg0) {
-			if(stats.getDataLinksComplet().size()>0){
-				SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
-			}else{
-				JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
-			}
-		}
-	}
-	
-	private class ActionStatsBalises implements ActionListener {
-
-		public void actionPerformed(ActionEvent arg0) {
-			if(stats.getMetaData().getTagsTable().size()>0){
-				SpreadSheet s = new SpreadSheet(stats.getMetaData().getTagsTable());
-			}else{
-				JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
-			}
-		}
-	}
-
-	
 	
 	
 }
