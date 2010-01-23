@@ -24,6 +24,7 @@ public class Statistiques extends Observable {
 	InvisibleFileFilter filtre;	
 	ArrayList<File> lesFichiersEnregistres;
 	
+	private int traitement = 0;
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
 	private ArrayList<File> dataHTML;
@@ -168,6 +169,10 @@ public class Statistiques extends Observable {
 		return dataJS;
 	}
 	
+	public int getTraitement(){
+		return this.traitement;
+	}
+	
 	
 	//----------------------------------------------------------------------------------
 	// Procédures de traitement
@@ -259,7 +264,7 @@ public class Statistiques extends Observable {
 	public void processSortFiles(){
 		for(int i = 0 ; i < lesFichiersEnregistres.size();i++){
 			String current = lesFichiersEnregistres.get(i).getName();
-		
+			traitement = i;
 			// HTML
 			if(current.endsWith(".html") || current.endsWith(".htm") || current.contains(".php?=") ){
 				dataHTML.add(lesFichiersEnregistres.get(i));
