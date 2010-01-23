@@ -141,14 +141,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 	//------------------
 	private class ActionLoadImages implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			
-			/*
-			// Methode simple mais c'est pas la classe ;-)
-			jlist.removeAll();
-			jlist.setListData(stats.getDataImages().toArray());
-			*/
-			
-			// Méthode simple mais c'est la classe ;-)
 			jlist.removeAll();
 			jlist.setModel(new ListAdapter(stats.getDataImages()));
 		}
@@ -157,9 +149,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadAdress implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
-			/**
-			 * A FAIRE
-			 */
+			jlist.setListData(stats.getMetaData().getMailTosList().toArray());
 		}
 	}
 	
@@ -176,9 +166,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 			jlist.setModel(new ListAdapter(stats.getDataJS()));
 		}
 	}
-	
-	
-	
 	
 	/**
 	 * Action lancée lorsque l'on clique droit sur le JTree
