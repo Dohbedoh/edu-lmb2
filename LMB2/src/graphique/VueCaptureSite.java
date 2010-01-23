@@ -214,10 +214,6 @@ public class VueCaptureSite extends JPanel implements Observer{
 		chaut.setLayout(layoutContraintes);
 		layoutContraintes.setHorizontalGroup(layoutContraintes.createParallelGroup()
 				.addGroup(layoutContraintes.createParallelGroup()
-		            /*.addGroup(layoutContraintes.createParallelGroup()
-			    	       .addGap(5)
-			               .addComponent(optionsAvancées)
-			        )*/
 	            	.addGroup(layoutContraintes.createSequentialGroup()
 	    	            .addGap(5)
 	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -234,14 +230,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(contraintesVolumeRessources)
 		                )
 	                )
+		            .addGroup(layoutContraintes.createSequentialGroup()
+			    	       .addGap(5)
+			               .addComponent(optionsAvancées)
+			        )
 	            )
 	    );
 	    
 	    layoutContraintes.setVerticalGroup(layoutContraintes.createSequentialGroup()
-	            /*.addGap(5)
-	            .addGroup(layoutContraintes.createParallelGroup()
-	            		.addComponent(optionsAvancées)
-	            )*/
 	    		.addGap(5)
 	            .addGroup(layoutContraintes.createSequentialGroup()
 	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -264,14 +260,17 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(contraintesVolumeRessources)
 	                )
 	             )
+	            .addGap(5)
+	            .addGroup(layoutContraintes.createParallelGroup()
+	            		.addComponent(optionsAvancées)
+	            )
 	    );
 	    
-		TitledBorder chautB = BorderFactory.createTitledBorder("Tailles");
+		TitledBorder chautB = BorderFactory.createTitledBorder("Options");
 		chautB.setTitleJustification(TitledBorder.CENTER);
 		chaut.setBorder(chautB);
 	    
 		optCont.add(chaut, BorderLayout.CENTER);
-		optCont.add(optionsAvancées, BorderLayout.NORTH);
 		
 		Container north = new Container();
 		north.setLayout(new BorderLayout());

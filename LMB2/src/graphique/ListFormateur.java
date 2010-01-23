@@ -26,7 +26,11 @@ public class ListFormateur extends JLabel implements ListCellRenderer {
 	//------------------
 	public Component getListCellRendererComponent(JList list, Object value,int index, boolean isSelected, boolean cellHasFocus) {
 		
-		setText(((File) value).getName()+"  ("+((File) value).length()+"bytes)");
+		if(value instanceof File){
+			setText(((File) value).getName()+"  ("+((File) value).length()+"bytes)");
+		}else{
+			setText(value.toString());
+		}
 		setForeground(isSelected ? Color.red : Color.black);
 		setBackground(isSelected ? Color.gray : new Color(150,200,250));
 		setFont(new Font("TimesRoman",Font.PLAIN,12));

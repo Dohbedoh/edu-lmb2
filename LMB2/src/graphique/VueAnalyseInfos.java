@@ -174,9 +174,10 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 				&& stats.getDataCSS()!=null 
 				&& stats.getDataHTML()!=null
 				&& stats.getDataImages()!=null
-				&& stats.getDataLinksComplet()!=null){
+				&& stats.getDataLinksComplet()!=null
+				&& stats.getMetaData()!=null){
 			nbMotsDif.setText(stats.getDataMotsComplet().size()+"");
-			nbAddrDif.setText("NYI");
+			nbAddrDif.setText(stats.getMetaData().getMailTosList().size()+"");
 			nbImagesDif.setText(stats.getDataImages().size()+"");
 			nbHypersDif.setText(stats.getDataLinksComplet().size()+"");
 			nbCSS.setText(stats.getDataCSS().size()+"");

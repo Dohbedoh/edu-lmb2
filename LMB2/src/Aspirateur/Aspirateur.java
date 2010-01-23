@@ -1135,9 +1135,8 @@ public class Aspirateur extends Observable {
 				System.out.println("\tcopy HTML : \"" + file.getAbsolutePath());
 			}
 		} catch (FileNotFoundException fnfe) {
-			System.err.println("broken link " + fnfe.getMessage() + " ignored");
-			breakLinks.add(URL);
-		} catch (MalformedURLException murle) {
+			
+		}catch (MalformedURLException murle) {
 			murle.printStackTrace();
 		} catch (IOException ioe) {
 			if (ioe.getMessage().contains("HTTP response code: 401")) {
@@ -1313,9 +1312,8 @@ public class Aspirateur extends Observable {
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Link");
 			String link = getLink();
-			if(link.toLowerCase().matches("mailto:")){
+			if(link.toLowerCase().matches("^([a-zA-Z0-9]+(([\\.\\-\\_]?[a-zA-Z0-9]+)+)?)\\@(([a-zA-Z0-9]+[\\.\\-\\_])+[a-zA-Z]{2,4})$")){
 				meta.addMailTo(link);
-				System.err.println(link);
 			}
 			if (isRelativeToTheSource(link)) {
 				if (isPage(link)) {

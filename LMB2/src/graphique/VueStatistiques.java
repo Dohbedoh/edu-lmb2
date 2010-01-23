@@ -43,6 +43,8 @@ public class VueStatistiques extends JPanel{
 		this.add(top,BorderLayout.NORTH);
 		this.add(vueAnalyse, BorderLayout.CENTER);
 		
+		setEnabled(false);
+		
 		
 	}//cons-1
 	

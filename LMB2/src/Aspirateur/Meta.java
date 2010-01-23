@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 public class Meta implements Serializable{
@@ -20,10 +21,10 @@ public class Meta implements Serializable{
 	private static final long serialVersionUID = -8793617748921430510L;
 	private String url;
 	private String meta;
-	private ArrayList<String> divTags;
-	private ArrayList<String> headingTags;
-	private ArrayList<String> metaTags;
-	private ArrayList<String> mailTos;
+	private HashSet<String> divTags;
+	private HashSet<String> headingTags;
+	private HashSet<String> metaTags;
+	private HashSet<String> mailTos;
 	private long time;
 	private Hashtable<String, Integer> tags;
 	
@@ -31,10 +32,10 @@ public class Meta implements Serializable{
 	public Meta(){
 		meta = "";
 		url = "";
-		divTags = new ArrayList<String>();
-		headingTags = new ArrayList<String>();
-		metaTags = new ArrayList<String>();
-		mailTos = new ArrayList<String>();
+		divTags = new HashSet<String>();
+		headingTags = new HashSet<String>();
+		metaTags = new HashSet<String>();
+		mailTos = new HashSet<String>();
 		time = 0;
 		tags = new Hashtable<String, Integer>();
 	}
@@ -67,19 +68,19 @@ public class Meta implements Serializable{
 		return time;
 	}
 	
-	public ArrayList<String> getDivTagsList(){
+	public HashSet<String> getDivTagsList(){
 		return divTags;
 	}
 	
-	public ArrayList<String> getMetaTagsList(){
+	public HashSet<String> getMetaTagsList(){
 		return metaTags;
 	}
 	
-	public ArrayList<String> getMailTosList(){
+	public HashSet<String> getMailTosList(){
 		return mailTos;
 	}
 	
-	public ArrayList<String> getHeadingTagsList(){
+	public HashSet<String> getHeadingTagsList(){
 		return headingTags;
 	}
 	

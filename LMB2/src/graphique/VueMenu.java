@@ -70,7 +70,6 @@ public class VueMenu extends JMenuBar {
 		lesSkins.add(new JMenuItem("Office Silver 2007"));
 		lesSkins.add(new JMenuItem("Sahara"));
 		lesSkins.get(2).setEnabled(false);
-		lesSkins.get(2).setForeground(Color.BLUE);
 		
 		for(int i=0; i<lesSkins.size(); i++){
 			lesSkins.get(i).addActionListener(new ActionListener() {
@@ -81,7 +80,6 @@ public class VueMenu extends JMenuBar {
 				        	VueMenu.this.IGA.repaint();
 				        	for(int i=0; i<lesSkins.size(); i++){
 				        		lesSkins.get(i).setEnabled(true);
-				        		lesSkins.get(i).setForeground(Color.BLACK);
 				        	}
 				        	((JMenuItem)arg0.getSource()).setEnabled(false);
 				        } catch (Exception e) {

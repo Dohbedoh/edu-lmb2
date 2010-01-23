@@ -24,7 +24,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	//------------------
 	private Statistiques stats;
 	private JList jlist;
-	private JButton imagesBut, addrBut, cssBut, jsBut;
+	private JButton imagesBut, addrBut, cssBut, jsBut, tousBut;
 	
 	private JPopupMenu menu;
 	private JMenuItem visualiserSelection;
@@ -50,7 +50,8 @@ public class VueAnalyseList extends JPanel implements Observer{
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);
-		
+
+		tousBut = new JButton("Voir Tout");
 		imagesBut = new JButton("Voir Images");
 		addrBut = new JButton("Voir Adresses");
 		cssBut = new JButton("Voir CSS");
@@ -80,6 +81,10 @@ public class VueAnalyseList extends JPanel implements Observer{
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         		.addComponent(jsBut)
                         )
+        	    	    .addGap(10)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        		.addComponent(tousBut)
+                        )
 	                )
 	            )
 		);
@@ -92,6 +97,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	                		.addComponent(addrBut)
 	                		.addComponent(cssBut)
 	                		.addComponent(jsBut)
+	                		.addComponent(tousBut)
 	                )
 	                .addGap(10)
 	          )
@@ -105,6 +111,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 		addrBut.addActionListener(new ActionLoadAdress());
 		cssBut.addActionListener(new ActionLoadCSS());
 		jsBut.addActionListener(new ActionLoadJS());
+		tousBut.addActionListener(new ActionLoadTout());
 		
 		jlist.addMouseListener(new ActionClickDroit());
 		
@@ -116,6 +123,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 		addrBut.setEnabled(b);
 		cssBut.setEnabled(b);
 		jsBut.setEnabled(b);
+		tousBut.setEnabled(b);
 	}
 	
 	public void setStatistiques(Statistiques stats){
@@ -167,6 +175,13 @@ public class VueAnalyseList extends JPanel implements Observer{
 		}
 	}
 	
+	private class ActionLoadTout implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			jlist.removeAll();
+			jlist.setModel(new ListAdapter(stats.getLesFichiersEnregistres()));
+		}
+	}
+	
 	/**
 	 * Action lancée lorsque l'on clique droit sur le JTree
 	 */
@@ -175,18 +190,22 @@ public class VueAnalyseList extends JPanel implements Observer{
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isRightMouseButton(e)) {
 				if(!jlist.isSelectionEmpty()){
-					selected = (File)jlist.getSelectedValue();
-					visualiserSelection.setText("Visualiser");
-					menu.show(e.getComponent(), e.getX(), e.getY());
+					if(jlist.getSelectedValue() instanceof File){
+						selected = (File)jlist.getSelectedValue();
+						visualiserSelection.setText("Visualiser");
+						menu.show(e.getComponent(), e.getX(), e.getY());
+					}
 				}
 			}
 			if (e.getClickCount() == 2) {
-				selected = (File)jlist.getSelectedValue();
-				URL url;
-				try {
-					url = selected.toURL();
-					BareBonesBrowserLaunch.openURL(url.toString());
-				} catch (MalformedURLException er) {er.printStackTrace();}
+				if(jlist.getSelectedValue() instanceof File){
+					selected = (File)jlist.getSelectedValue();
+					URL url;
+					try {
+						url = selected.toURL();
+						BareBonesBrowserLaunch.openURL(url.toString());
+					} catch (MalformedURLException er) {er.printStackTrace();}
+				}
 				
 			}
 		}
@@ -195,12 +214,14 @@ public class VueAnalyseList extends JPanel implements Observer{
 	
 	private class ActionVisualiserSelection implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			selected = (File)jlist.getSelectedValue();
-			URL url;
-			try {
-				url = selected.toURL();
-				BareBonesBrowserLaunch.openURL(url.toString());
-			} catch (MalformedURLException e) {e.printStackTrace();}
+			if(jlist.getSelectedValue() instanceof File){
+				selected = (File)jlist.getSelectedValue();
+				URL url;
+				try {
+					url = selected.toURL();
+					BareBonesBrowserLaunch.openURL(url.toString());
+				} catch (MalformedURLException e) {e.printStackTrace();}
+			}
 			
 		}
 	}
