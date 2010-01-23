@@ -35,6 +35,7 @@ public class VueProgressBar extends JPanel implements Observer{
 		bar = new JProgressBar();
 		
 		// Options des elements graphiques
+		//bar.setString("Progression");
 		bar.setStringPainted(true);
 		
 		bar.setMaximum(100);

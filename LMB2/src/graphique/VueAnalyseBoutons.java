@@ -78,17 +78,20 @@ public class VueAnalyseBoutons extends JPanel {
 			int index = ((JComboBox)arg0.getSource()).getSelectedIndex();
 			switch (index) {
 			case 1:
+				
 				if(stats.getDataMotsComplet().size()>0){
 					SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
 				}else{
-					JOptionPane.showMessageDialog(null, "Aucun mot!", "Information",JOptionPane.INFORMATION_MESSAGE);
+					stats.processDataMots();
+					SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
 				}
 				break;
 			case 2:
 				if(stats.getDataLinksComplet().size()>0){
 					SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
 				}else{
-					JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
+					stats.processDataLinks();
+					SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
 				}
 				break;
 			case 3:

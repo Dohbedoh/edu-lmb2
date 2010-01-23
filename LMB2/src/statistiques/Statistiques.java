@@ -54,6 +54,8 @@ public class Statistiques extends Observable {
 		dataCSS = new ArrayList<File>();
 		dataJS = new ArrayList<File>();
 		
+		dataMotsComplet = new Hashtable<String, Integer>();
+		dataLinksComplet = new Hashtable<String, Integer>();
 	}//cons-1
 	
 	//------------------
@@ -284,7 +286,7 @@ public class Statistiques extends Observable {
 	 * Cette méthode permet de recuperer dataMotsComplets
 	 */
 	public void processDataMots(){
-		dataMotsComplet = new Hashtable<String, Integer>();
+		
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
 			//String current = dataHTML.get(i).getName();
@@ -303,7 +305,7 @@ public class Statistiques extends Observable {
 	 * Cette méthode permet de recuperer dataLinks
 	 */
 	public void processDataLinks(){
-		dataLinksComplet = new Hashtable<String, Integer>();
+		
 		
 		for(int i = 0 ; i < dataHTML.size();i++){
 			//String current = dataHTML.get(i).getName();
@@ -338,10 +340,10 @@ public class Statistiques extends Observable {
 			processSortFiles();
 		
 			// Recuperation des dataMotsComplet
-			processDataMots();
+			//processDataMots();
 		
 			// Recuperation des dataLinkComplet
-			processDataLinks();
+			//processDataLinks();
 			
 		// Avertir les vues que le modele change
 		setChanged();
