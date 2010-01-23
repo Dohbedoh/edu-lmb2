@@ -34,16 +34,16 @@ public class VueMetaDonnees extends JPanel {
 		
 		// Création des éléments graphiques
 		valeur = new JTextArea("<Entrez vos commentaires>");
-		/*valeur.setLineWrap(true);
+		valeur.setLineWrap(true);
 		valeur.setWrapStyleWord(true);
-		valeur.setPreferredSize(new Dimension(50,50));*/
 		// Ajout des elements
 		add(valeur, BorderLayout.CENTER);
 		
 		//Création de la JScrollPane
-		valeur.setRows(3);
+		//valeur.setRows(3);
 		scroll = new JScrollPane(valeur);
 		this.add(scroll);
+		setPreferredSize(new Dimension(300,100));
 		
 	}//cons-1
 	

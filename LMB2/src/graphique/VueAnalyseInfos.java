@@ -4,12 +4,16 @@
 
 package graphique;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import statistiques.Statistiques;
 
@@ -30,9 +34,10 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	//------------------
 	public VueAnalyseInfos(Statistiques stats){
 		this.stats = stats;
-		
-		GroupLayout layout = new GroupLayout(this);
-		this.setLayout(layout);
+
+	    Container cont = new Container();
+		GroupLayout layout = new GroupLayout(cont);
+		cont.setLayout(layout);
 		motsDif = new JLabel("• Mots différents sur le site : ");
 		addrDif = new JLabel("• Adresses mail : ");
 		imagesDif = new JLabel("• Images : ");
@@ -144,6 +149,7 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	                )
 	          )
 	    );
+	    add(cont, SwingUtilities.CENTER);
 	}
 	
 	

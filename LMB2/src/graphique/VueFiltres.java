@@ -80,50 +80,46 @@ public class VueFiltres extends JPanel{
 		//1er panneau : pour les filtres d'images
 		JPanel filtres1 = new JPanel();
 		filtres1.setLayout(new GridLayout(6,1));
-		JScrollPane scroll1 = new JScrollPane(filtres1);
 		filtres1.add(new JLabel("Images", SwingUtilities.CENTER));
 		filtres1.add(check1); checkBoxes.add(check1);
 		filtres1.add(check2); checkBoxes.add(check2);
 		filtres1.add(check3); checkBoxes.add(check3);
 		filtres1.add(check4); checkBoxes.add(check4);
 		filtres1.add(check5); checkBoxes.add(check5);
-		panneauFiltres.add(scroll1);		
+		panneauFiltres.add(filtres1);		
 		
 		//2er panneau : pour les filtres d'audios / videos
 		JPanel filtres2 = new JPanel();
 		filtres2.setLayout(new GridLayout(6,1));
-		JScrollPane scroll2 = new JScrollPane(filtres2);
 		filtres2.add(new JLabel("Audio / Video", SwingUtilities.CENTER));
 		filtres2.add(check6); checkBoxes.add(check6);
 		filtres2.add(check7); checkBoxes.add(check7);
 		filtres2.add(check8); checkBoxes.add(check8);
 		filtres2.add(check9); checkBoxes.add(check9);
 		filtres2.add(check10); checkBoxes.add(check10);
-		panneauFiltres.add(scroll2);
+		panneauFiltres.add(filtres2);
 		
 		//3eme panneau : pour les autres filtres
 		JPanel filtres3 = new JPanel();
 		filtres3.setLayout(new GridLayout(6,1));
-		JScrollPane scroll3 = new JScrollPane(filtres3);
 		filtres3.add(new JLabel("Programmation", SwingUtilities.CENTER));
 		filtres3.add(check11); checkBoxes.add(check11);
 		filtres3.add(check12); checkBoxes.add(check12);
 		filtres3.add(check13); checkBoxes.add(check13);
 		filtres3.add(check14); checkBoxes.add(check14);
 		filtres3.add(check15); checkBoxes.add(check15);
-		panneauFiltres.add(scroll3);
+		panneauFiltres.add(filtres3);
 
 		//3eme panneau : pour les autres filtres
 		JPanel filtres4 = new JPanel();
 		filtres4.setLayout(new GridLayout(6,1));
-		JScrollPane scroll4 = new JScrollPane(filtres4);
 		filtres4.add(new JLabel("Autres", SwingUtilities.CENTER));
 		filtres4.add(check16); checkBoxes.add(check16);
 		filtres4.add(check17); checkBoxes.add(check17);
 		filtres4.add(check18); checkBoxes.add(check18);
 		filtres4.add(check19); checkBoxes.add(check19);
 		filtres4.add(check20); checkBoxes.add(check20);
-		panneauFiltres.add(scroll4);
+		panneauFiltres.add(filtres4);
 		
 		//-------------------------------
 		// Options

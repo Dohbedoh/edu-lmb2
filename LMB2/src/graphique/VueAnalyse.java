@@ -51,8 +51,6 @@ public class VueAnalyse extends JPanel{
 		vueAnalyseBoutons = new VueAnalyseBoutons(stats);
 		vueAnalyseInfos = new VueAnalyseInfos(stats);
 		vueAnalyseList = new VueAnalyseList(stats);
-
-		GroupLayout gl = new GroupLayout(cont);
 		
 		cont.add(vueAnalyseBoutons, BorderLayout.NORTH);
 		cont.add(vueAnalyseInfos, BorderLayout.CENTER);

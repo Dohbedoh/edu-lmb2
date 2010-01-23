@@ -35,7 +35,8 @@ public class VueAnalyseBoutons extends JPanel {
 		this.stats = stats;
 		
 		combo = new JComboBox(liste);
-		add(combo);
+		this.setLayout(new BorderLayout());
+		add(combo, BorderLayout.CENTER);
 		combo.addActionListener(new ActionStats());
 		
 		if(stats.getLesFichiersEnregistres().size() == 0){
