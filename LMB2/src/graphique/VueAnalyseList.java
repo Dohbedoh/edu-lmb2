@@ -45,7 +45,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 		jlist = new JList();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlist.setCellRenderer(new ListFormateur());
-		add(new JScrollPane(jlist),BorderLayout.CENTER);
 		
 		Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
@@ -102,7 +101,8 @@ public class VueAnalyseList extends JPanel implements Observer{
 	                .addGap(10)
 	          )
 		);
-		
+
+		add(new JScrollPane(jlist),BorderLayout.CENTER);
 		add(cont,BorderLayout.SOUTH);
 		
 		
@@ -112,7 +112,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 		cssBut.addActionListener(new ActionLoadCSS());
 		jsBut.addActionListener(new ActionLoadJS());
 		tousBut.addActionListener(new ActionLoadTout());
-		
 		jlist.addMouseListener(new ActionClickDroit());
 		
 	}

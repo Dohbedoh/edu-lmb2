@@ -273,9 +273,25 @@ public class VueCaptureSite extends JPanel implements Observer{
 		optCont.add(chaut, BorderLayout.CENTER);
 		
 		Container north = new Container();
-		north.setLayout(new BorderLayout());
-		north.add(capGauche, BorderLayout.CENTER);
-		north.add(vueMeta, BorderLayout.SOUTH);
+		GridBagLayout gbl = new GridBagLayout();
+		GridBagConstraints gbc = new GridBagConstraints();
+		north.setLayout(gbl);
+		
+        gbc.gridx = GridBagConstraints.RELATIVE;
+        gbc.gridy = 0;
+        gbc.weightx = 0.7;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(5, 5 , 5, 5);
+        gbc.fill = GridBagConstraints.BOTH;
+        north.add(capGauche, gbc);
+
+        gbc.weightx = 0.3;
+        gbc.weighty = 1.0;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5 , 5, 5);
+        gbc.fill = GridBagConstraints.BOTH;
+        north.add(vueMeta, gbc);
 		
 		contrainte.add(optCont,BorderLayout.CENTER);
 		contrainte.add(vueFiltres,BorderLayout.WEST);
