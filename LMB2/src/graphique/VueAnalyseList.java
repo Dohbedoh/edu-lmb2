@@ -115,7 +115,6 @@ public class VueAnalyseList extends JPanel implements Observer{
 		
 		jlist.addMouseListener(new ActionClickDroit());
 		
-		
 	}
 
 	public void setEnabled(boolean b){

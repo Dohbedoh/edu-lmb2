@@ -85,6 +85,9 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	                        .addComponent(addrDif)
 	                        .addComponent(imagesDif)
 	                        .addComponent(hypersDif)
+	                    	.addComponent(css)
+	                        .addComponent(js)
+	                        .addComponent(html)
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(5)
@@ -98,16 +101,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		                    .addComponent(nbHTML)
 		                )
 	                )
-	            	.addGroup(layout.createSequentialGroup()
-		                    // Le groupe des labels
-		    	            .addGap(10)
-		    	            .addComponent(divers)
-		                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                    	.addComponent(css)
-		                        .addComponent(js)
-		                        .addComponent(html)
-		                    )
-	            	)
 	            )
 	    );
 	    
@@ -134,10 +127,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		                	.addComponent(hypersDif)
 		                    .addComponent(nbHypersDif)
 	                )
-	          )
-	          .addGroup(layout.createSequentialGroup()
-		            .addGap(5)
-	                .addComponent(divers)
 	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(css)

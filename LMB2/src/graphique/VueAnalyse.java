@@ -6,8 +6,11 @@ package graphique;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -32,7 +35,8 @@ public class VueAnalyse extends JPanel{
 		
 		this.stats = stats;
 		//stats.addObserver(this);
-		this.setLayout(new GridLayout(1,2));
+		GridBagLayout gbl = new GridBagLayout();
+		this.setLayout(gbl);
 
 		TitledBorder afact = BorderFactory.createTitledBorder("Analyse du Contenu");
 		afact.setTitleJustification(TitledBorder.CENTER);
@@ -45,13 +49,38 @@ public class VueAnalyse extends JPanel{
 		vueAnalyseBoutons = new VueAnalyseBoutons(stats);
 		vueAnalyseInfos = new VueAnalyseInfos(stats);
 		vueAnalyseList = new VueAnalyseList(stats);
+
+		GroupLayout gl = new GroupLayout(cont);
 		
 		cont.add(vueAnalyseBoutons, BorderLayout.NORTH);
 		cont.add(vueAnalyseInfos, BorderLayout.CENTER);
+		
+		 /*3- Ajout de ces composants en spécifiant les contraintes de type GridBagConstraints. */
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        /* Nous utilisons ici une constante que nous n'avons pas suffisemment utilisé dans nos exemples.
+         * En utilisant la constante GridBagConstraints.RELATIVE pour la propriété gridx, cela permet
+         * d'incrémenter automatiquement cette propriété à chaque nouveau composant ajouté.
+         * Il nous est donc inutile de spécifier à chaque fois un nouveau gridx.
+         * */
+        gbc.gridx = GridBagConstraints.RELATIVE;  // gridx sera initialisé en 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbl.setConstraints(cont, gbc);
+        this.add(cont);
+
+        gbc.weightx = 0.7;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_START; // remettons la valeur par défaut
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbl.setConstraints(vueAnalyseList, gbc);
+        this.add(vueAnalyseList);
 		//this.add(vueAnalyseInfos, BorderLayout.WEST);
 		//this.add(vueAnalyseList,BorderLayout.CENTER);
-		this.add(cont);
-		this.add(vueAnalyseList);
+		//this.add(cont);
+		//this.add(vueAnalyseList);
 		
 	}
 	
