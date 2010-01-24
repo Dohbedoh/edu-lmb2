@@ -321,8 +321,8 @@ public class VueCaptureSite extends JPanel implements Observer{
         gbc.fill = GridBagConstraints.BOTH;
         north.add(vueMeta, gbc);
 		
-		contrainte.add(optCont,BorderLayout.CENTER);
-		contrainte.add(vueFiltres,BorderLayout.WEST);
+		contrainte.add(optCont,BorderLayout.EAST);
+		contrainte.add(vueFiltres,BorderLayout.CENTER);
 		capture.add(north, BorderLayout.CENTER);
 		
 		add(capture,BorderLayout.NORTH);

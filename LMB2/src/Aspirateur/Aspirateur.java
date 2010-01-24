@@ -695,7 +695,7 @@ public class Aspirateur extends Observable {
 	 * @return
 	 */
 	private boolean isToBeCaptured(String url){
-		if(url.startsWith(urlSource)){
+		//if(url.startsWith(urlSource)){
 			if(url.contains(".")){
 				String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
 				extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
@@ -707,7 +707,7 @@ public class Aspirateur extends Observable {
 					return true;
 				}
 			}
-		}
+		//}
 		return false;
 	}
 	

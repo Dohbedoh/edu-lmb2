@@ -54,6 +54,8 @@ public class VueFiltres extends JPanel{
     private JCheckBox check18 = new JCheckBox(".exe");
     private JCheckBox check19 = new JCheckBox(".zip");
     private JCheckBox check20 = new JCheckBox(".txt");
+    
+    private JPanel filtres4;
 	
 	//------------------
 	// Contructeur
@@ -64,7 +66,6 @@ public class VueFiltres extends JPanel{
 		GridLayout gridL = new GridLayout(1,4);
 		gridL.setHgap(10);
 		gridL.setVgap(10);
-		JPanel panneauFiltres = new JPanel();
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Filtres");
 		afact.setTitleJustification(TitledBorder.CENTER);
@@ -79,47 +80,60 @@ public class VueFiltres extends JPanel{
 		
 		//1er panneau : pour les filtres d'images
 		JPanel filtres1 = new JPanel();
-		filtres1.setLayout(new GridLayout(6,1));
-		filtres1.add(new JLabel("Images", SwingUtilities.CENTER));
+		filtres1.setLayout(new GridLayout(5,1));
+		//filtres1.add(new JLabel("Images", SwingUtilities.CENTER));
 		filtres1.add(check1); checkBoxes.add(check1);
 		filtres1.add(check2); checkBoxes.add(check2);
 		filtres1.add(check3); checkBoxes.add(check3);
 		filtres1.add(check4); checkBoxes.add(check4);
 		filtres1.add(check5); checkBoxes.add(check5);
-		panneauFiltres.add(filtres1);		
+		JPanel c1 = new JPanel();
+		c1.setLayout(new BorderLayout(5,5));
+		c1.setBackground(new Color(150,200,250));
+		c1.add(new JLabel("Images", SwingUtilities.CENTER),BorderLayout.NORTH);
+		c1.add(filtres1,BorderLayout.CENTER);
 		
 		//2er panneau : pour les filtres d'audios / videos
 		JPanel filtres2 = new JPanel();
-		filtres2.setLayout(new GridLayout(6,1));
-		filtres2.add(new JLabel("Audio / Video", SwingUtilities.CENTER));
+		filtres2.setLayout(new GridLayout(5,1));
 		filtres2.add(check6); checkBoxes.add(check6);
 		filtres2.add(check7); checkBoxes.add(check7);
 		filtres2.add(check8); checkBoxes.add(check8);
 		filtres2.add(check9); checkBoxes.add(check9);
 		filtres2.add(check10); checkBoxes.add(check10);
-		panneauFiltres.add(filtres2);
+		JPanel c2 = new JPanel();
+		c2.setLayout(new BorderLayout(5,5));
+		c2.setBackground(new Color(150,200,250));
+		c2.add(new JLabel("Audio / Video", SwingUtilities.CENTER),BorderLayout.NORTH);
+		c2.add(filtres2,BorderLayout.CENTER);
 		
 		//3eme panneau : pour les autres filtres
 		JPanel filtres3 = new JPanel();
-		filtres3.setLayout(new GridLayout(6,1));
-		filtres3.add(new JLabel("Programmation", SwingUtilities.CENTER));
+		filtres3.setLayout(new GridLayout(5,1));
 		filtres3.add(check11); checkBoxes.add(check11);
 		filtres3.add(check12); checkBoxes.add(check12);
 		filtres3.add(check13); checkBoxes.add(check13);
 		filtres3.add(check14); checkBoxes.add(check14);
 		filtres3.add(check15); checkBoxes.add(check15);
-		panneauFiltres.add(filtres3);
+		JPanel c3 = new JPanel();
+		c3.setLayout(new BorderLayout(5,5));
+		c3.setBackground(new Color(150,200,250));
+		c3.add(new JLabel("Programmation", SwingUtilities.CENTER),BorderLayout.NORTH);
+		c3.add(filtres3,BorderLayout.CENTER);
 
 		//3eme panneau : pour les autres filtres
-		JPanel filtres4 = new JPanel();
-		filtres4.setLayout(new GridLayout(6,1));
-		filtres4.add(new JLabel("Autres", SwingUtilities.CENTER));
+		filtres4 = new JPanel();
+		filtres4.setLayout(new GridLayout(5,1));
 		filtres4.add(check16); checkBoxes.add(check16);
 		filtres4.add(check17); checkBoxes.add(check17);
 		filtres4.add(check18); checkBoxes.add(check18);
 		filtres4.add(check19); checkBoxes.add(check19);
 		filtres4.add(check20); checkBoxes.add(check20);
-		panneauFiltres.add(filtres4);
+		JPanel c4 = new JPanel();
+		c4.setLayout(new BorderLayout(5,5));
+		c4.setBackground(new Color(150,200,250));
+		c4.add(new JLabel("Autres", SwingUtilities.CENTER),BorderLayout.NORTH);
+		c4.add(filtres4,BorderLayout.CENTER);
 		
 		//-------------------------------
 		// Options
@@ -130,11 +144,6 @@ public class VueFiltres extends JPanel{
 		filtres3.setBackground(new Color(150,200,250));
 		filtres4.setBackground(new Color(150,200,250));
 		
-		// Taille
-		filtres1.setPreferredSize(new Dimension(100,150));
-		filtres2.setPreferredSize(new Dimension(100,150));
-		filtres3.setPreferredSize(new Dimension(100,150));
-		filtres4.setPreferredSize(new Dimension(100,150));
 		
 		// Divers
 		//afficheFiltre.setFont(new Font("", Font.BOLD,12));
@@ -151,19 +160,33 @@ public class VueFiltres extends JPanel{
 		ajouterFiltre = new JButton("Ajouter un filtre");
 		ajouterFiltre.addActionListener(new ActionAjouterFiltre());
 		
-		Container cont = new Container();
-		GroupLayout layout = new GroupLayout(cont);
-		cont.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-				.addGroup(layout.createParallelGroup()
+
+		Container south = new Container();
+		south.setLayout(new FlowLayout());
+		south.add(ajouterFiltre,SwingUtilities.CENTER);
+		south.add(selection,SwingUtilities.CENTER);
+
+		Container center = new Container();
+		GroupLayout layout = new GroupLayout(center);
+		center.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 	            	.addGroup(layout.createSequentialGroup()
 	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    	.addComponent(selection)
+	                    	.addComponent(c1)
 		                )
 	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    	.addComponent(ajouterFiltre)
+	                    	.addComponent(c2)
+		                )
+	    	            .addGap(5)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(c3)
+		                )
+	    	            .addGap(5)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                    	.addComponent(c4)
 		                )
 	                )
 	            )
@@ -173,14 +196,17 @@ public class VueFiltres extends JPanel{
 	            .addGap(5)
 	            .addGroup(layout.createSequentialGroup()
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                    	.addComponent(selection)
-	                    	.addComponent(ajouterFiltre)
+	                    	.addComponent(c1)
+	                    	.addComponent(c2)
+	                    	.addComponent(c3)
+	                    	.addComponent(c4)
 	                )
 	             )
 	    );
 		
-		add(panneauFiltres,BorderLayout.CENTER);
-		add(cont, BorderLayout.SOUTH);
+		
+		add(center,BorderLayout.CENTER);
+		add(south, BorderLayout.SOUTH);
 		
 		
 		
@@ -244,8 +270,15 @@ public class VueFiltres extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			String value = JOptionPane.showInputDialog("Entrez un filtre (ex : \"zip\")");
 			if(value!=null){
-				if(!value.contains(".") || !value.matches("[0-9]")){
+				if(!value.contains(".") && !value.matches("[0-9]") && !listeFiltres.contains(value)){
 					listeFiltres.add(value);
+					JCheckBox newCheck = new JCheckBox(value);
+					checkBoxes.add(newCheck);
+					if((filtres4.getComponentCount()+1)/5>((GridLayout)filtres4.getLayout()).getColumns()*5){
+						((GridLayout)filtres4.getLayout()).setColumns(((GridLayout)filtres4.getLayout()).getColumns()+1);
+						filtres4.revalidate();
+					}
+					filtres4.add(newCheck);
 					JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
 				}else{
 					JOptionPane.showMessageDialog(null, "Le filtre saisi n'est pas valide");

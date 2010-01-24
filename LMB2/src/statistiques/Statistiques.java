@@ -268,7 +268,6 @@ public class Statistiques extends Observable {
 			}else{
 				lesFichiersEnregistres.add(fils);
 				if(fils.getName().compareTo("meta.dat")!=0){
-					System.err.println(fils.getName());
 					length += fils.length();
 				}
 			}
