@@ -215,12 +215,21 @@ public class VueFiltres extends JPanel{
 	//------------------
 	// Methodes
 	//------------------
+	public boolean containsCB(String value){
+		for(int i=0; i<checkBoxes.size(); i++){
+			if(checkBoxes.get(i).getText().equals(value)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public ArrayList<String> getListeFiltres(){
 		return this.listeFiltres;
 	}
 	
 	public void setEnabled(boolean b){
-		selection.setEnabled(false);
+		selection.setEnabled(b);
 		ajouterFiltre.setEnabled(b);
 		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).setEnabled(b);
@@ -270,15 +279,17 @@ public class VueFiltres extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			String value = JOptionPane.showInputDialog("Entrez un filtre (ex : \"zip\")");
 			if(value!=null){
-				if(!value.contains(".") && !value.matches("[0-9]") && !listeFiltres.contains(value)){
-					listeFiltres.add(value);
-					JCheckBox newCheck = new JCheckBox(value);
+				if(!value.contains(".") && !value.matches("[0-9]") && !containsCB("."+value)){
+					JCheckBox newCheck = new JCheckBox("."+value);
 					checkBoxes.add(newCheck);
 					if((filtres4.getComponentCount()+1)/5>((GridLayout)filtres4.getLayout()).getColumns()*5){
 						((GridLayout)filtres4.getLayout()).setColumns(((GridLayout)filtres4.getLayout()).getColumns()+1);
 						filtres4.revalidate();
 					}
 					filtres4.add(newCheck);
+					if(selection.isSelected()){
+						newCheck.setSelected(true);
+					}
 					JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
 				}else{
 					JOptionPane.showMessageDialog(null, "Le filtre saisi n'est pas valide");

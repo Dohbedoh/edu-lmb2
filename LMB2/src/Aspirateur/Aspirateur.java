@@ -25,6 +25,8 @@ import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.sound.midi.SysexMessage;
+
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.tags.FrameTag;
@@ -697,6 +699,7 @@ public class Aspirateur extends Observable {
 	private boolean isToBeCaptured(String url){
 		//if(url.startsWith(urlSource)){
 			if(url.contains(".")){
+				System.err.println(url);
 				String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
 				extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
 				if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
