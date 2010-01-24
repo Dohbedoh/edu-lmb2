@@ -224,7 +224,8 @@ public class VueMenu extends JMenuBar {
 					message,
 					"A propos",
 					JOptionPane.INFORMATION_MESSAGE,
-				    new ImageIcon("logo.png"));
+				    new ImageIcon(this.getClass().getClassLoader().getResource("logo.png"))
+			);
 		}
 	}
 	

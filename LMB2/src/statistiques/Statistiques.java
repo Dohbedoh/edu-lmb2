@@ -25,6 +25,7 @@ public class Statistiques extends Observable {
 	ArrayList<File> lesFichiersEnregistres;
 	
 	private int traitement = 0;
+	private int length;
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
 	private ArrayList<File> dataHTML;
@@ -45,6 +46,8 @@ public class Statistiques extends Observable {
 	//------------------
 	public Statistiques(File version){
 		this.version = version;
+		
+		length = 0;
 		
 		// Creation des elements necessaires
 		filtre = new InvisibleFileFilter();
@@ -99,7 +102,17 @@ public class Statistiques extends Observable {
 	 * Donne le poids de la capture faite dans le répertoire version en bytes.
 	 */
 	public String getLength(){
-		return this.version.length()+"";
+		long temp = length/(1024*1024);
+		if(temp>=1){
+			return temp+" Mo";
+		}else{
+			temp = length/1024;
+		}
+			if(temp>=1){
+				return temp + " Ko";
+			}else{
+				return length + " octets";
+			}
 	}
 	
 	/**
@@ -254,6 +267,10 @@ public class Statistiques extends Observable {
 				listerFils(fils);
 			}else{
 				lesFichiersEnregistres.add(fils);
+				if(fils.getName().compareTo("meta.dat")!=0){
+					System.err.println(fils.getName());
+					length += fils.length();
+				}
 			}
 		}
 	}

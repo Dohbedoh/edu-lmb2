@@ -177,7 +177,7 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 	public void update(Observable o, Object arg) {
 		nomSite.setText(stats.getNomSite());
 		dateVersion.setText(stats.getDate());
-		tailleVersion.setText(stats.getLength()+"bytes");
+		tailleVersion.setText(stats.getLength());
 		System.err.println(stats.getVersion().getAbsolutePath()+"\\meta.dat");
 		url.setText(stats.getMetaData().getURL());
 		long temp = stats.getMetaData().getTime();
