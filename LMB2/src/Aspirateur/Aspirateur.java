@@ -912,21 +912,21 @@ public class Aspirateur extends Observable {
 	 */
 	public void launchProcess(String url) {
 		stop = false;
-		long time = System.currentTimeMillis();
 		setSource(url);
 		System.out.println(urlSource);
 		pagesPool.runTask(new PageTask());
 		onCapture = true;
 		setChanged();
 		notifyObservers();
+		long time = System.currentTimeMillis();
 		while ((pagesPool.isAlive() || ressourcesPool.isAlive() || pause ) 
 				&& !stop){
 			if(tailleSiteMax-tailleSite<2000 && tailleSiteMax!=-1) {
 				stop();
 			}
 		}
-		onCapture = false;
 		time = System.currentTimeMillis()-time;
+		onCapture = false;
 		System.out.println("Temps d'éxecution : " + time + "ms");
 		System.out.println("Liens morts : " + breakLinks.size());
 		System.out.println("Liens auth  : " + authLinks.size());
@@ -1504,7 +1504,6 @@ public class Aspirateur extends Observable {
 
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Div");
-			meta.addMetaTag(toHtml());
 		}
 	}
 	
@@ -1520,7 +1519,6 @@ public class Aspirateur extends Observable {
 
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Heading");
-			meta.addHeadingTag(toHtml());
 		}
 	}
 	
@@ -1536,7 +1534,6 @@ public class Aspirateur extends Observable {
 
 		public void doSemanticAction() throws ParserException {
 			meta.increment("Meta");
-			meta.addMetaTag(toHtml());
 		}
 	}
 	

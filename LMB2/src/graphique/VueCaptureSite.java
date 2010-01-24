@@ -39,11 +39,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 	
 	// CONTRAINTES
 	public JLabel afficheProfondeur;
+	public JLabel afficheThreadP;
+	public JLabel afficheThreadR;
 	public JLabel afficheVolume;
 	public JLabel afficheVolumePage;
 	public JLabel afficheVolumeRessource;
 	
 	public VueContraintes contraintesProfondeur;
+	public VueContraintes contraintesThreadP;
+	public VueContraintes contraintesThreadR;
 	public JTextField contraintesVolume;
 	public JTextField contraintesVolumePage;
 	public JTextField contraintesVolumeRessources;
@@ -63,8 +67,14 @@ public class VueCaptureSite extends JPanel implements Observer{
 		
 		optionsAvancées = new JButton("Options Avancées...");
 		optionsAvancées.addActionListener(new ActionOptionsAvancees());
-		contraintesProfondeur = new VueContraintes(laspirateur);
-		contraintesProfondeur.setMaximumSize(new Dimension(80,20));
+		contraintesProfondeur = new VueContraintes(laspirateur, -1, 15);
+		//contraintesProfondeur.setMinimumSize(new Dimension(80,20));
+		contraintesThreadP = new VueContraintes(laspirateur, 1, 5);
+		contraintesThreadP.setValue(1);
+		//contraintesThreadP.setMinimumSize(new Dimension(80,20));
+		contraintesThreadR = new VueContraintes(laspirateur, 1, 5);
+		//contraintesThreadR.setMinimumSize(new Dimension(80,20));
+		contraintesThreadR.setValue(2);
 		contraintesVolume = new JTextField("Infini");
 		contraintesVolume.setPreferredSize(new Dimension(80,20));
 		contraintesVolumePage = new JTextField("Infini");
@@ -194,6 +204,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 		JPanel chaut = new JPanel();
 		
 		afficheProfondeur = new JLabel("Profondeur à parcourir en nombre de pages");
+		afficheThreadP = new JLabel("Nb de Thread pour les Pages");
+		afficheThreadR = new JLabel("Nb de thread pour les Ressources");
 		afficheVolume = new JLabel("Taille maximum du site (en Ko)");
 		afficheVolumePage = new JLabel("Taille maximum des pages (en Ko)");
 		afficheVolumeRessource = new JLabel("Taille maximum des ressources (en Ko)");
@@ -203,6 +215,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 
 	
 		afficheProfondeur.setToolTipText("No : Profondeur illimitée");
+		afficheThreadP.setToolTipText("Minimum = 0 ; Maximum = 5");
+		afficheThreadR.setToolTipText("Minimum = 0 ; Maximum = 5");
 		afficheVolume.setToolTipText("Infini : Taille illimitée");
 		afficheVolumePage.setToolTipText("Infini : Taille illimitée");
 		afficheVolumeRessource.setToolTipText("Infini : Taille illimitée");
@@ -218,6 +232,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 	    	            .addGap(5)
 	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(afficheProfondeur)
+	                    	.addComponent(afficheThreadP)
+	                    	.addComponent(afficheThreadR)
 	                    	.addComponent(afficheVolume)	                    	
 	                    	.addComponent(afficheVolumePage)
 	                    	.addComponent(afficheVolumeRessource)
@@ -225,13 +241,15 @@ public class VueCaptureSite extends JPanel implements Observer{
 	    	            .addGap(10)
 	                    .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    	.addComponent(contraintesProfondeur)
+	                    	.addComponent(contraintesThreadP)
+	                    	.addComponent(contraintesThreadR)
 	                    	.addComponent(contraintesVolume)
 	                    	.addComponent(contraintesVolumePage)
 	                    	.addComponent(contraintesVolumeRessources)
 		                )
 	                )
 		            .addGroup(layoutContraintes.createSequentialGroup()
-			    	       .addGap(5)
+			    	       .addGap(10)
 			               .addComponent(optionsAvancées)
 			        )
 	            )
@@ -244,23 +262,33 @@ public class VueCaptureSite extends JPanel implements Observer{
 	                    	.addComponent(afficheProfondeur)
 	                    	.addComponent(contraintesProfondeur)
 	                )
-	                .addGap(5)
+	                .addGap(10)
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheThreadP)
+	                    	.addComponent(contraintesThreadP)
+	                )
+	                .addGap(10)
+	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    	.addComponent(afficheThreadR)
+	                    	.addComponent(contraintesThreadR)
+	                )
+	                .addGap(10)
 	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(afficheVolume)
 	                    	.addComponent(contraintesVolume)
 	                )
-	                .addGap(5)
+	                .addGap(10)
 	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(afficheVolumePage)
 	                    	.addComponent(contraintesVolumePage)
 	                )
-	                .addGap(5)
+	                .addGap(10)
 	                .addGroup(layoutContraintes.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                    	.addComponent(afficheVolumeRessource)
 	                    	.addComponent(contraintesVolumeRessources)
 	                )
 	             )
-	            .addGap(5)
+	            .addGap(10)
 	            .addGroup(layoutContraintes.createParallelGroup()
 	            		.addComponent(optionsAvancées)
 	            )
@@ -309,6 +337,12 @@ public class VueCaptureSite extends JPanel implements Observer{
 		capturer.setEnabled(b);
 		parcourir.setEnabled(b);
 		optionsAvancées.setEnabled(b);
+		contraintesProfondeur.setEnabled(b);
+		contraintesThreadP.setEnabled(b);
+		contraintesThreadR.setEnabled(b);
+		contraintesVolume.setEnabled(b);
+		contraintesVolumePage.setEnabled(b);
+		contraintesVolumeRessources.setEnabled(b);
 	}
 	
 	//------------------
@@ -414,11 +448,11 @@ public class VueCaptureSite extends JPanel implements Observer{
 			
 			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2 && url.getText().length() != 0){
 
+				setEnabled(false);
 				capturer.setEnabled(false);
 				stop.setEnabled(true);
 				pause.setEnabled(true);
 				reprendre.setEnabled(false);
-				optionsAvancées.setEnabled(false);
 				vueFiltres.setEnabled(false);
 				vueMeta.setEnabled(false);
 				vueOnglets.getVueStatistiques().setEnabled(false);
@@ -428,7 +462,8 @@ public class VueCaptureSite extends JPanel implements Observer{
 				laspirateur.setPath(path.getText());
 				laspirateur.makeURLLocal();
 				laspirateur.setMeta(vueMeta.getValeur().getText());
-				
+				laspirateur.setNbPagesThread(contraintesThreadP.getValue());
+				laspirateur.setNbRessourcesThread(contraintesThreadR.getValue());
 				laspirateur.setProfondeur(profondeur);
 				laspirateur.setTailleSiteMax(tailleSite);
 				laspirateur.setTaillePagesMax(taillePage);
@@ -445,10 +480,9 @@ public class VueCaptureSite extends JPanel implements Observer{
 	
 					public void run() {
 						laspirateur.launchProcess(url.getText());
-						capturer.setEnabled(true);
+						setEnabled(true);
 						vueMeta.setEnabled(true);
 						vueOnglets.setEnabled(true);
-						optionsAvancées.setEnabled(true);
 						vueFiltres.setEnabled(true);
 						vueSauvegarde.refresh();
 					}

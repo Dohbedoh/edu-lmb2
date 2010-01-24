@@ -21,9 +21,6 @@ public class Meta implements Serializable{
 	private static final long serialVersionUID = -8793617748921430510L;
 	private String url;
 	private String meta;
-	private HashSet<String> divTags;
-	private HashSet<String> headingTags;
-	private HashSet<String> metaTags;
 	private HashSet<String> mailTos;
 	private long time;
 	private Hashtable<String, Integer> tags;
@@ -32,9 +29,6 @@ public class Meta implements Serializable{
 	public Meta(){
 		meta = "";
 		url = "";
-		divTags = new HashSet<String>();
-		headingTags = new HashSet<String>();
-		metaTags = new HashSet<String>();
 		mailTos = new HashSet<String>();
 		time = 0;
 		tags = new Hashtable<String, Integer>();
@@ -68,20 +62,8 @@ public class Meta implements Serializable{
 		return time;
 	}
 	
-	public HashSet<String> getDivTagsList(){
-		return divTags;
-	}
-	
-	public HashSet<String> getMetaTagsList(){
-		return metaTags;
-	}
-	
 	public HashSet<String> getMailTosList(){
 		return mailTos;
-	}
-	
-	public HashSet<String> getHeadingTagsList(){
-		return headingTags;
 	}
 	
 	public String getMetaData(){
@@ -90,18 +72,6 @@ public class Meta implements Serializable{
 	
 	public String getURL(){
 		return url;
-	}
-	
-	public void addDivTag(String tag){
-		divTags.add(tag);
-	}
-	
-	public void addHeadingTag(String tag){
-		headingTags.add(tag);
-	}
-	
-	public void addMetaTag(String tag){
-		metaTags.add(tag);
 	}
 	
 	public void addMailTo(String tag){

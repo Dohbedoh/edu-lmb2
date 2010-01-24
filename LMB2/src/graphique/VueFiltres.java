@@ -194,6 +194,7 @@ public class VueFiltres extends JPanel{
 	}
 	
 	public void setEnabled(boolean b){
+		selection.setEnabled(false);
 		ajouterFiltre.setEnabled(b);
 		for(int i=0; i<checkBoxes.size(); i++){
 			checkBoxes.get(i).setEnabled(b);
