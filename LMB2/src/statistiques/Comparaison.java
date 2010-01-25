@@ -28,7 +28,7 @@ public class Comparaison {
 		this.stats2 = stats2;
 		
 		// On lance les statistiques pour les stats2 (en théorie le init() a déjà été fait pour stats1)
-		stats2.init();
+		//stats2.init();
 		
 		// Création des ArrayList pour la comparaison
 		lesFichiersAjoutes = new ArrayList<File>();
