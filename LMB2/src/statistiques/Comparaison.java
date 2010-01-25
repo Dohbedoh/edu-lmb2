@@ -113,14 +113,26 @@ public class Comparaison {
 					// TOUT VA BIEN
 				}else{
 					// LE FICHIER A ETE MODIFIE
+					lesFichiersModifies.add(stats2.getLesFichiersEnregistres().get(indTmp));
 				}
 				
 			}else{
 			// Sinon le fichier n'est pas contenu dans stats2
 				// LE FICHIER A ETE AJOUTE
-				
+				lesFichiersAjoutes.add(stats1.getLesFichiersEnregistres().get(i));
 			}
 		}
+		
+		// Pour tous les fichiers de stats2
+		for (int i = 0 ; i < stats2.getLesFichiersEnregistres().size() ; i++){
+			
+			// Si le fichier n'est pas contenu dans stats1
+			if(! stats1.getLesFichiersEnregistres().contains(stats2.getLesFichiersEnregistres().get(i))){
+				// LE FICHIER A ETE SUPPRIME
+				lesFichiersSupprimes.add(stats2.getLesFichiersEnregistres().get(i));
+			}
+		}
+		
 	}
 	
 	
