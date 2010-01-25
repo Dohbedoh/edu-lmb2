@@ -6,6 +6,7 @@ package statistiques;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class Comparaison {
 
@@ -88,12 +89,38 @@ public class Comparaison {
 	//------------------
 	
 	/**
-	 * Cette méthode initiliase la comparaison et remplit les ArrayList d'ajouts, de suppression et de modification
+	 * Cette méthode permet de tester si oui ou non deux fichiers sont égaux
+	 */
+	public boolean compareFile(File file1, File file2){
+		return true;
+	}
+	
+	
+	/**
+	 * Cette méthode initialise la comparaison et remplit les ArrayList d'ajouts, de suppression et de modification
 	 */
 	public void init(){
-		/**
-		 * A FAIRE
-		 */
+		
+		// Pour tous les fichiers de stats1
+		for (int i = 0 ; i < stats1.getLesFichiersEnregistres().size() ; i++){
+			
+			// Si le fichier est contenu dans stats2
+			if(stats2.getLesFichiersEnregistres().contains(stats1.getLesFichiersEnregistres().get(i))){
+				
+				// S'il n'a pas été modifié
+				int indTmp = stats2.getLesFichiersEnregistres().indexOf(stats1.getLesFichiersEnregistres().get(i));
+				if(compareFile(stats1.getLesFichiersEnregistres().get(i), stats2.getLesFichiersEnregistres().get(indTmp))){
+					// TOUT VA BIEN
+				}else{
+					// LE FICHIER A ETE MODIFIE
+				}
+				
+			}else{
+			// Sinon le fichier n'est pas contenu dans stats2
+				// LE FICHIER A ETE AJOUTE
+				
+			}
+		}
 	}
 	
 	
