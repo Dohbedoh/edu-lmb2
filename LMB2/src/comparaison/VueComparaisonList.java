@@ -21,7 +21,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class VueComparaison extends JFrame{
+public class VueComparaisonList extends JFrame{
 
 	//------------------
 	// Attributs
@@ -44,7 +44,7 @@ public class VueComparaison extends JFrame{
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueComparaison(String dir1, String dir2){
+	public VueComparaisonList(String dir1, String dir2){
 		super("Aspirateur - LMB2");
 		setLayout(new BorderLayout(10,10));
 		
@@ -160,11 +160,18 @@ public class VueComparaison extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}//cons-1
 	
-
+	public void setEnabled(boolean b){
+		fichiersAjBut.setEnabled(b);
+		fichiersModBut.setEnabled(b);
+		fichiersSupBut.setEnabled(b);
+		jlist.setEnabled(b);
+	}
+	
+	
 	public static void main(String[] args){
 		
 		// TEST
-		VueComparaison vueComparaison = new VueComparaison("doh1", "doh2");
+		VueComparaisonList vueComparaison = new VueComparaisonList("doh1", "doh2");
 	}
 	
 }

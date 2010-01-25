@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
-import comparaison.VueComparaison;
+import comparaison.VueComparaisonList;
 
 import statistiques.*;
 
@@ -52,7 +52,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				VueComparaison vueComparaison= new VueComparaison("doh1","doh2");
+				VueComparaisonList vueComparaison= new VueComparaisonList("doh1","doh2");
 			}
 		});
 		
@@ -81,6 +81,12 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		jlist.removeAll();
 		jlist.setModel(new ListAdapter(stats.getOthersVersion()));
+	}
+	
+	
+	public void setEnabled(boolean b){
+		jlist.setEnabled(b);
+		lancerComp.setEnabled(b);
 	}
 	
 	

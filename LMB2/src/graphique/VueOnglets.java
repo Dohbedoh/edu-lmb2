@@ -9,6 +9,8 @@ import Aspirateur.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import comparaison.VueComparaison;
+
 import statistiques.Statistiques;
 
 import java.awt.*;
@@ -26,6 +28,7 @@ public class VueOnglets extends JPanel {
 	public JSplitPane split;
 	public VueCaptureSite vueCaptureSite;
 	public VueStatistiques vueStatistiques;
+	public VueComparaison vueComparaison;
 	//------------------
 	// Constructeurs
 	//------------------
@@ -39,10 +42,12 @@ public class VueOnglets extends JPanel {
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar, this);
 		vueStatistiques = new VueStatistiques(new Statistiques(null));
+		vueComparaison = new VueComparaison(new Statistiques(null));
 
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);
 		onglets.add("Statistiques",vueStatistiques);
+		onglets.add("Comparaison",vueComparaison);
 		onglets.addChangeListener(new DeplacerSplit());
 		// Ajout onglets
 		this.add(onglets, BorderLayout.CENTER);
