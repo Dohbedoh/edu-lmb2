@@ -8,14 +8,10 @@ import Aspirateur.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
-
 import comparaison.VueComparaison;
-
+import statistiques.Comparaison;
 import statistiques.Statistiques;
-
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
 
 public class VueOnglets extends JPanel {
 
@@ -41,8 +37,8 @@ public class VueOnglets extends JPanel {
 		onglets = new JTabbedPane();
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar, this);
-		vueStatistiques = new VueStatistiques(new Statistiques(null));
-		vueComparaison = new VueComparaison(new Statistiques(null));
+		vueStatistiques = new VueStatistiques(new Statistiques(null),this);
+		vueComparaison = new VueComparaison(new Comparaison(null,null));
 
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);
@@ -65,6 +61,10 @@ public class VueOnglets extends JPanel {
 		return this.vueStatistiques;
 	}
 	
+	public VueComparaison getVueComparaison() {
+		return vueComparaison;
+	}
+
 	public void setOnglet(int i){
 		if(onglets.getComponent(i)!=null){
 			onglets.setSelectedIndex(i);
@@ -74,6 +74,7 @@ public class VueOnglets extends JPanel {
 	public void setEnabled(boolean b){
 		vueCaptureSite.setEnabled(b);
 		vueStatistiques.setEnabled(b);
+		vueComparaison.setEnabled(b);
 	}
 	
 	public JSplitPane getSplit() {

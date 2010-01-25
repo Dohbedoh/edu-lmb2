@@ -10,10 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -22,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
-import comparaison.VueComparaisonList;
+import comparaison.VueComparaison;
 
 import statistiques.*;
 
@@ -35,12 +33,14 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	private Statistiques stats;
 	private JList jlist;
 	private JButton lancerComp;
+	private VueOnglets vueOnglets;
 	
 	//------------------
 	// Constructeur
 	//------------------
-	public VueComparaisonVersion(Statistiques stats){
+	public VueComparaisonVersion(Statistiques stats, VueOnglets vueOnglets){
 		this.stats = stats;
+		this.vueOnglets = vueOnglets;
 		setLayout(new BorderLayout());
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Comparaison des versions");
@@ -48,13 +48,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 		setBorder(afact);
 		
 		lancerComp = new JButton("Lancer la comparaison");
-		lancerComp.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				VueComparaisonList vueComparaison= new VueComparaisonList("doh1","doh2");
-			}
-		});
+		lancerComp.addActionListener(new ActionLancerComparaison());
 		
 		jlist = new JList();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -96,8 +90,11 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	private class ActionClick extends MouseAdapter{
 
 		public void mousePressed(MouseEvent e) {
-			if (e.getClickCount() == 2) {
-				File selected = (File)jlist.getSelectedValue();
+			File selected = (File)jlist.getSelectedValue();
+			if(selected!=null){
+				vueOnglets.getVueComparaison().setEnabled(true);
+				//vueOnglets.getVueComparaison().getComparaison().setStatsCourante(stats);
+				vueOnglets.getVueComparaison().getComparaison().setStats2(new Statistiques(selected));
 				/**
 				 * FAIRE ICI LE TRAITEMENT
 				 */
@@ -107,4 +104,28 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 		}
 		
 	}
+	
+	/**
+	 * Action qui lance la comparaison
+	 */
+	private class ActionLancerComparaison implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			File selected = (File)jlist.getSelectedValue();
+			if(selected!=null){
+				vueOnglets.getVueComparaison().setEnabled(true);
+				//vueOnglets.getVueComparaison().getComparaison().setStatsCourante(stats);
+				vueOnglets.getVueComparaison().getComparaison().setStats2(new Statistiques(selected));
+				/**
+				 * FAIRE ICI LE TRAITEMENT
+				 */
+				
+				System.err.println("******Lancer Comparaison********");
+			}
+		}
+
+		
+	}
+	
 }

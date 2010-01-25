@@ -4,11 +4,9 @@
 
 package comparaison;
 
-import graphique.VueComparaisonVersion;
 import graphique.VueInfosStatistiques;
-
 import javax.swing.*;
-import statistiques.Statistiques;
+import statistiques.Comparaison;
 import java.awt.*;
 
 
@@ -24,21 +22,21 @@ public class VueComparaison extends JPanel{
 	private VueInfosStatistiques vueInfosStatistiques1;
 	private VueInfosStatistiques vueInfosStatistiques2;
 	
-	private Statistiques stats;
+	private Comparaison comparaison;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueComparaison(Statistiques stats){
-		this.stats = stats;
+	public VueComparaison(Comparaison comparaison){
+		this.comparaison = comparaison;
 		
 		this.setLayout(new BorderLayout());
 		
 		JPanel top = new JPanel(new GridLayout(1,2));
 		
-		vueAnalyseComparaison = new VueAnalyseComparaison(stats);
-		vueInfosStatistiques1 = new VueInfosStatistiques(stats);
-		vueInfosStatistiques2 = new VueInfosStatistiques(stats);
+		vueAnalyseComparaison = new VueAnalyseComparaison(comparaison);
+		vueInfosStatistiques1 = new VueInfosStatistiques(comparaison.getStatsCourante());
+		vueInfosStatistiques2 = new VueInfosStatistiques(comparaison.getStats2());
 		
 		top.add(vueInfosStatistiques1);
 		top.add(vueInfosStatistiques2);
@@ -53,18 +51,14 @@ public class VueComparaison extends JPanel{
 		
 	}//cons-1
 	
-	public void setStatistiques1(Statistiques stats){
-		this.stats = stats;
-		this.vueInfosStatistiques1.setStatistiques(stats);
+	public Comparaison getComparaison(){
+		return comparaison;
 	}
 	
-	public void setStatistiques2(Statistiques stats){
-		this.stats = stats;
-		this.vueInfosStatistiques2.setStatistiques(stats);
-	}
-	
-	public Statistiques getStatistiques(){
-		return this.stats;
+	public void setComparaison(Comparaison comparaison){
+		this.comparaison = comparaison;
+		this.vueInfosStatistiques1.setStatistiques(comparaison.getStatsCourante());
+		this.vueInfosStatistiques2.setStatistiques(comparaison.getStats2());
 	}
 	
 	public void setEnabled(boolean b){

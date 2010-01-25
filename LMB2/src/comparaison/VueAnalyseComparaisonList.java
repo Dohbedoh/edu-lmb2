@@ -17,6 +17,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import statistiques.Comparaison;
 import statistiques.Statistiques;
 import visualiser.BareBonesBrowserLaunch;
 
@@ -25,7 +26,7 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 	//------------------
 	// Attributs
 	//------------------
-	private Statistiques stats;
+	private Comparaison comparaison;
 	private JList jlist;
 	private JButton ajBut, modBut, suppBut;
 	
@@ -37,8 +38,8 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueAnalyseComparaisonList(Statistiques stats){
-		this.stats = stats;
+	public VueAnalyseComparaisonList(Comparaison comparaison){
+		this.comparaison = comparaison;
 		this.setLayout(new BorderLayout(5,5));
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Listes de Fichiers");
@@ -111,21 +112,18 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 		suppBut.setEnabled(b);
 	}
 	
-	public void setStatistiques(Statistiques stats){
-		this.stats = stats;
+	public void setComparaison(Comparaison comparaison){
+		this.comparaison = comparaison;
 	}
 	
-	public Statistiques getStatistiques(){
-		return this.stats;
+	public Comparaison getComparaison(){
+		return this.comparaison;
 	}
 	
 	//------------------
 	// Méthodes
 	//------------------
 	public void update(Observable o, Object arg) {
-		
-		// Par défaut on chargera toutes les pages Enregistrees
-		jlist.setModel(new ListAdapter(stats.getLesFichiersEnregistres()));
 
 	}
 	
@@ -135,21 +133,21 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 	private class ActionLoadAj implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
-			jlist.setModel(new ListAdapter(stats.getDataImages()));
+			jlist.setModel(new ListAdapter(comparaison.getLesFichiersAjoutes()));
 		}
 	}
 	
 	private class ActionLoadMod implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
-			jlist.setListData(stats.getMetaData().getMailTosList().toArray());
+			jlist.setModel(new ListAdapter(comparaison.getLesFichiersModifies()));
 		}
 	}
 	
 	private class ActionLoadSupp implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
-			jlist.setModel(new ListAdapter(stats.getDataCSS()));
+			jlist.setModel(new ListAdapter(comparaison.getLesFichiersSupprimes()));
 		}
 	}
 	

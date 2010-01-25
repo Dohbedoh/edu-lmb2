@@ -5,6 +5,9 @@
 package graphique;
 
 import javax.swing.*;
+
+import comparaison.VueComparaison;
+
 import statistiques.Statistiques;
 import java.awt.*;
 
@@ -19,26 +22,27 @@ public class VueStatistiques extends JPanel{
 	//------------------
 	private VueAnalyse vueAnalyse;
 	private VueInfosStatistiques vueInfosStatistiques;
-	private VueComparaisonVersion vueComparaison;
+	private VueComparaisonVersion vueComparaisonVersion;
+	private VueOnglets vueOnglets;
 	
 	private Statistiques stats;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueStatistiques(Statistiques stats){
+	public VueStatistiques(Statistiques stats, VueOnglets vueOnglets){
 		this.stats = stats;
+		this.vueOnglets = vueOnglets;
 		
 		this.setLayout(new BorderLayout());
-		
 		JPanel top = new JPanel(new BorderLayout(5,5));
 		
 		vueAnalyse = new VueAnalyse(stats);
 		vueInfosStatistiques = new VueInfosStatistiques(stats);
-		vueComparaison = new VueComparaisonVersion(stats);
+		vueComparaisonVersion = new VueComparaisonVersion(stats, vueOnglets);
 		
 		top.add(vueInfosStatistiques,BorderLayout.CENTER);
-		top.add(vueComparaison,BorderLayout.EAST);
+		top.add(vueComparaisonVersion,BorderLayout.EAST);
 		
 		this.add(top,BorderLayout.NORTH);
 		this.add(vueAnalyse, BorderLayout.CENTER);
@@ -52,7 +56,7 @@ public class VueStatistiques extends JPanel{
 		this.stats = stats;
 		this.vueInfosStatistiques.setStatistiques(stats);
 		this.vueAnalyse.setStatistiques(stats);
-		this.vueComparaison.setStatistiques(stats);
+		this.vueComparaisonVersion.setStatistiques(stats);
 	}
 	
 	public Statistiques getStatistiques(){
@@ -60,7 +64,7 @@ public class VueStatistiques extends JPanel{
 	}
 	
 	public void setEnabled(boolean b){
-		vueComparaison.setEnabled(b);
+		vueComparaisonVersion.setEnabled(b);
 		vueAnalyse.setEnabled(b);
 	}
 	
@@ -84,11 +88,11 @@ public class VueStatistiques extends JPanel{
 	}
 
 	public VueComparaisonVersion getVueComparaison() {
-		return vueComparaison;
+		return vueComparaisonVersion;
 	}
 
 	public void setVueComparaison(VueComparaisonVersion vueComparaison) {
-		this.vueComparaison = vueComparaison;
+		this.vueComparaisonVersion = vueComparaison;
 	}
 	
 	

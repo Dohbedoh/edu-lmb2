@@ -348,6 +348,7 @@ public class VueSauvegarde extends JPanel implements Observer{
 					stats.init();
 					setEnabled(true);
 					vueOnglets.setEnabled(true);
+					vueOnglets.getVueComparaison().setEnabled(false);
 				}
 			});
 			t.start();

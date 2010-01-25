@@ -45,7 +45,7 @@ public class VueAnalyse extends JPanel{
 		setBorder(afact);
 
 		Container cont = new Container();
-		cont.setLayout(new BorderLayout(5,5));
+		cont.setLayout(new BorderLayout(10,10));
 		
 		/* Construction des vues */
 		vueAnalyseBoutons = new VueAnalyseBoutons(stats);

@@ -5,20 +5,16 @@
 package comparaison;
 
 import graphique.VueAnalyseBoutons;
-import graphique.VueAnalyseInfos;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import statistiques.Comparaison;
 import statistiques.Statistiques;
 
 
@@ -28,17 +24,17 @@ public class VueAnalyseComparaison extends JPanel{
 	//------------------
 	// Attributs
 	//------------------
-	private Statistiques stats;
-	private VueAnalyseBoutons vueAnalyseBoutons;
+	private Comparaison comparaison;
+	private VueAnalyseComparaisonBoutons vueAnalyseComparaisonBoutons;
 	private VueAnalyseComparaisonInfos vueAnalyseComparaisonInfos;
-	private VueAnalyseComparaisonList vueAnalyseList;
+	private VueAnalyseComparaisonList vueAnalyseComparaisonList;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueAnalyseComparaison(Statistiques stats){
+	public VueAnalyseComparaison(Comparaison comparaison){
 		
-		this.stats = stats;
+		this.comparaison = comparaison;
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(gbl);
@@ -51,11 +47,11 @@ public class VueAnalyseComparaison extends JPanel{
 		cont.setLayout(new BorderLayout(5,5));
 		
 		/* Construction des vues */
-		vueAnalyseBoutons = new VueAnalyseBoutons(stats);
-		vueAnalyseComparaisonInfos = new VueAnalyseComparaisonInfos(stats);
-		vueAnalyseList = new VueAnalyseComparaisonList(stats);
+		vueAnalyseComparaisonBoutons = new VueAnalyseComparaisonBoutons(comparaison);
+		vueAnalyseComparaisonInfos = new VueAnalyseComparaisonInfos(comparaison);
+		vueAnalyseComparaisonList = new VueAnalyseComparaisonList(comparaison);
 		
-		cont.add(vueAnalyseBoutons, BorderLayout.NORTH);
+		cont.add(vueAnalyseComparaisonBoutons, BorderLayout.NORTH);
 		cont.add(vueAnalyseComparaisonInfos, BorderLayout.CENTER);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
@@ -70,34 +66,35 @@ public class VueAnalyseComparaison extends JPanel{
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        this.add(vueAnalyseList, gbc);
+        this.add(vueAnalyseComparaisonList, gbc);
 	}
 	
 	public void setEnabled(boolean b){
-		vueAnalyseBoutons.setEnabled(b);
-		vueAnalyseList.setEnabled(b);
+		vueAnalyseComparaisonBoutons.setEnabled(b);
+		vueAnalyseComparaisonList.setEnabled(b);
+		vueAnalyseComparaisonInfos.setEnabled(b);
 	}
 	
-	public void setStatistiques(Statistiques stats){
-		this.stats = stats;
-		vueAnalyseBoutons.setStatistiques(stats);
-		vueAnalyseComparaisonInfos.setStatistiques(stats);
-		vueAnalyseList.setStatistiques(stats);
+	public void setComparaison(Comparaison comparaison){
+		this.comparaison = comparaison;
+		vueAnalyseComparaisonBoutons.setComparaison(comparaison);
+		vueAnalyseComparaisonInfos.setComparaison(comparaison);
+		vueAnalyseComparaisonList.setComparaison(comparaison);
 	}
 	
-	public Statistiques getStatistiques(){
-		return this.stats;
+	public Comparaison getComparaison(){
+		return this.comparaison;
 	}
 	
 	//------------------
 	// Méthodes
 	//------------------
-	public VueAnalyseBoutons getVueAnalyseBoutons() {
-		return vueAnalyseBoutons;
+	public VueAnalyseComparaisonBoutons getVueAnalyseComparaisonBoutons() {
+		return vueAnalyseComparaisonBoutons;
 	}
 
-	public void setVueAnalyseBoutons(VueAnalyseBoutons vueAnalyseBoutons) {
-		this.vueAnalyseBoutons = vueAnalyseBoutons;
+	public void setVueAnalyseComparaisonBoutons(VueAnalyseComparaisonBoutons vueAnalyseComparaisonBoutons) {
+		this.vueAnalyseComparaisonBoutons = vueAnalyseComparaisonBoutons;
 	}
 
 	public VueAnalyseComparaisonInfos getVueAnalyseInfos() {
@@ -109,11 +106,11 @@ public class VueAnalyseComparaison extends JPanel{
 	}
 
 	public VueAnalyseComparaisonList getVueAnalyseList() {
-		return vueAnalyseList;
+		return vueAnalyseComparaisonList;
 	}
 
 	public void setVueAnalyseList(VueAnalyseComparaisonList vueAnalyseList) {
-		this.vueAnalyseList = vueAnalyseList;
+		this.vueAnalyseComparaisonList = vueAnalyseList;
 	}
 	
 }

@@ -12,8 +12,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import statistiques.Statistiques;
+import statistiques.Comparaison;
 
 
 public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
@@ -21,15 +20,15 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 	//------------------
 	// Attributs
 	//------------------
-	private Statistiques stats;
-	private JLabel 	nbFichiersMod, nbFichiersAj, nbFichiersSupp,
-					fichiersMod, fichiersAj, fichiersSupp;
+	private Comparaison comparaison;
+	private JLabel 	nbFichiersMod, nbFichiersAj, nbFichiersSupp,nbAddr,
+					fichiersMod, fichiersAj, fichiersSupp, addr;
 
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueAnalyseComparaisonInfos(Statistiques stats){
-		this.stats = stats;
+	public VueAnalyseComparaisonInfos(Comparaison comparaison){
+		this.comparaison = comparaison;
 
 	    Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
@@ -37,10 +36,12 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 		fichiersMod = new JLabel("• Fichiers Modifiés : ");
 		fichiersAj = new JLabel("• Fichiers Ajoutés : ");
 		fichiersSupp = new JLabel("• Fichiers Supprimés : ");
+		addr = new JLabel("• Adresse e-mail : ");
 		
 		nbFichiersMod = new JLabel(" 0");
 		nbFichiersAj = new JLabel(" 0");
 		nbFichiersSupp = new JLabel(" 0");
+		nbAddr = new JLabel(" 0");
 
 		/*html.setFont(new Font(null,1,11));
 		js.setFont(new Font(null,1,11));
@@ -61,6 +62,7 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 		nbFichiersMod.setForeground(Color.RED);
 		nbFichiersAj.setForeground(Color.RED);
 		nbFichiersSupp.setForeground(Color.RED);
+		nbAddr.setForeground(Color.RED);
 		
 
 	    layout.setHorizontalGroup(layout.createParallelGroup()
@@ -72,6 +74,7 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 	                    	.addComponent(fichiersMod)
 	                        .addComponent(fichiersAj)
 	                        .addComponent(fichiersSupp)
+	                        .addComponent(addr)
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(5)
@@ -79,6 +82,7 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 		                    .addComponent(nbFichiersMod)
 		                    .addComponent(nbFichiersAj)
 		                    .addComponent(nbFichiersSupp)
+	                        .addComponent(nbAddr)
 		                )
 	                )
 	            )
@@ -102,34 +106,32 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 		                	.addComponent(fichiersSupp)
 		                    .addComponent(nbFichiersSupp)
 	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(addr)
+		                    .addComponent(nbAddr)
+	                )
 	          )
 	    );
 	    add(cont, SwingUtilities.CENTER);
 	}
 	
 	
-	public void setStatistiques(Statistiques stats){
-		this.stats = stats;
+	public void setComparaison(Comparaison comparaison){
+		this.comparaison = comparaison;
 	}
 	
-	public Statistiques getStatistiques(){
-		return this.stats;
+	public Comparaison getComparaison(){
+		return this.comparaison;
 	}
 	
 	//------------------
 	// Méthodes
 	//------------------
 	public void update(Observable arg0, Object arg1) {
-		if(stats.getDataMotsComplet()!=null 
-				&& stats.getDataCSS()!=null 
-				&& stats.getDataHTML()!=null
-				&& stats.getDataImages()!=null
-				&& stats.getDataLinksComplet()!=null
-				&& stats.getMetaData()!=null){
-			nbFichiersMod.setText(stats.getDataMotsComplet().size()+"");
-			nbFichiersAj.setText(stats.getMetaData().getMailTosList().size()+"");
-			nbFichiersSupp.setText(stats.getDataImages().size()+"");
-		}
+
+		/** Renaud il va faire des métodes de ouf! */
+		
 	}
 	
 }
