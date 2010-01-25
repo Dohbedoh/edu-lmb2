@@ -30,7 +30,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	//------------------
 	// Attributs
 	//------------------
-	private Statistiques stats;
+	private Comparaison comparaison;
 	private JList jlist;
 	private JButton lancerComp;
 	private VueOnglets vueOnglets;
@@ -38,8 +38,8 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	//------------------
 	// Constructeur
 	//------------------
-	public VueComparaisonVersion(Statistiques stats, VueOnglets vueOnglets){
-		this.stats = stats;
+	public VueComparaisonVersion(Comparaison comparaison, VueOnglets vueOnglets){
+		this.comparaison = comparaison;
 		this.vueOnglets = vueOnglets;
 		setLayout(new BorderLayout());
 		
@@ -61,12 +61,12 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	}//cons-1
 	
 	
-	public void setStatistiques(Statistiques stats){
-		this.stats = stats;
+	public void setComparasion(Comparaison comparaison){
+		this.comparaison = comparaison;
 	}
 	
-	public Statistiques getStatistiques(){
-		return this.stats;
+	public Comparaison getStatistiques(){
+		return this.comparaison;
 	}
 	
 	//------------------
@@ -74,7 +74,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	//------------------
 	public void update(Observable o, Object arg) {
 		jlist.removeAll();
-		jlist.setModel(new ListAdapter(stats.getOthersVersion()));
+		jlist.setModel(new ListAdapter(comparaison.getStatsCourante().getOthersVersion()));
 	}
 	
 	
@@ -90,16 +90,39 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	private class ActionClick extends MouseAdapter{
 
 		public void mousePressed(MouseEvent e) {
-			File selected = (File)jlist.getSelectedValue();
-			if(selected!=null){
-				vueOnglets.getVueComparaison().setEnabled(true);
-				//vueOnglets.getVueComparaison().getComparaison().setStatsCourante(stats);
-				vueOnglets.getVueComparaison().getComparaison().setStats2(new Statistiques(selected));
-				/**
-				 * FAIRE ICI LE TRAITEMENT
-				 */
-				
-				System.err.println("******Lancer Comparaison********");
+			if(e.getClickCount() == 2){
+				File selected = (File)jlist.getSelectedValue();
+				if(selected!=null){
+	
+	
+					setEnabled(false);
+					vueOnglets.setEnabled(false);
+					//vueProgressBar.setStatistiques(stats);
+					vueOnglets.setOnglet(2);
+					//vueConsole.reset();
+					
+					// Ajout des observers
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseInfos());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseList());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
+					
+					comparaison.setStats2(new Statistiques(selected));
+					System.err.println(comparaison.getStatsCourante().getNomSite());
+					System.err.println(comparaison.getStats2().getNomSite());
+					vueOnglets.getVueComparaison().setEnabled(true);
+					vueOnglets.getVueComparaison().setComparaison(comparaison);
+					
+					// Nouveau processus pour lancer le process
+					Thread t = new Thread(new Runnable() {
+						public void run() {
+							comparaison.init();
+							setEnabled(true);
+							vueOnglets.setEnabled(true);
+						}
+					});
+					t.start();
+				}
 			}
 		}
 		
@@ -114,14 +137,32 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			File selected = (File)jlist.getSelectedValue();
 			if(selected!=null){
-				vueOnglets.getVueComparaison().setEnabled(true);
-				//vueOnglets.getVueComparaison().getComparaison().setStatsCourante(stats);
-				vueOnglets.getVueComparaison().getComparaison().setStats2(new Statistiques(selected));
-				/**
-				 * FAIRE ICI LE TRAITEMENT
-				 */
+
+
+				setEnabled(false);
+				vueOnglets.setEnabled(false);
+				//vueProgressBar.setStatistiques(stats);
+				vueOnglets.setOnglet(2);
+				//vueConsole.reset();
 				
-				System.err.println("******Lancer Comparaison********");
+				// Ajout des observers
+				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueInfosStatistiques());
+				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
+				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
+				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueComparaison());
+				
+				comparaison.setStats2(new Statistiques(selected));
+				vueOnglets.getVueComparaison().setEnabled(true);
+				
+				// Nouveau processus pour lancer le process
+				Thread t = new Thread(new Runnable() {
+					public void run() {
+						comparaison.init();
+						setEnabled(true);
+						vueOnglets.setEnabled(true);
+					}
+				});
+				t.start();
 			}
 		}
 

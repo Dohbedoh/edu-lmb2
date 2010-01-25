@@ -108,7 +108,7 @@ public class Comparaison extends Observable {
 	 * Cette méthode initialise la comparaison et remplit les ArrayList d'ajouts, de suppression et de modification
 	 */
 	public void init(){
-		
+		stats2.init();
 		// Pour tous les fichiers de stats1
 		for (int i = 0 ; i < stats1.getLesFichiersEnregistres().size() ; i++){
 			

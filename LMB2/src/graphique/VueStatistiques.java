@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import comparaison.VueComparaison;
 
+import statistiques.Comparaison;
 import statistiques.Statistiques;
 import java.awt.*;
 
@@ -39,7 +40,7 @@ public class VueStatistiques extends JPanel{
 		
 		vueAnalyse = new VueAnalyse(stats);
 		vueInfosStatistiques = new VueInfosStatistiques(stats);
-		vueComparaisonVersion = new VueComparaisonVersion(stats, vueOnglets);
+		vueComparaisonVersion = new VueComparaisonVersion(new Comparaison(stats,new Statistiques(null)), vueOnglets);
 		
 		top.add(vueInfosStatistiques,BorderLayout.CENTER);
 		top.add(vueComparaisonVersion,BorderLayout.EAST);
@@ -56,7 +57,7 @@ public class VueStatistiques extends JPanel{
 		this.stats = stats;
 		this.vueInfosStatistiques.setStatistiques(stats);
 		this.vueAnalyse.setStatistiques(stats);
-		this.vueComparaisonVersion.setStatistiques(stats);
+		this.vueComparaisonVersion.setComparasion(new Comparaison(stats,new Statistiques(null)));
 	}
 	
 	public Statistiques getStatistiques(){

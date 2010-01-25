@@ -39,8 +39,8 @@ public class VueComparaison extends JPanel{
 		JPanel top = new JPanel(new GridLayout(1,2));
 		
 		vueAnalyseComparaison = new VueAnalyseComparaison(comparaison);
-		vueInfosStatistiques1 = new VueInfosStatistiques(comparaison.getStatsCourante());
 		vueInfosStatistiques2 = new VueInfosStatistiques(comparaison.getStats2());
+		vueInfosStatistiques1 = new VueInfosStatistiques(comparaison.getStatsCourante());
 		
 		top.add(vueInfosStatistiques1);
 		top.add(vueInfosStatistiques2);
