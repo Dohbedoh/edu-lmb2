@@ -29,7 +29,7 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 	//------------------
 	public VueAnalyseComparaisonInfos(Comparaison comparaison){
 		this.comparaison = comparaison;
-
+		
 	    Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);

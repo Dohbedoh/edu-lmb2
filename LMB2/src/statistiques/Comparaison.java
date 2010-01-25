@@ -48,6 +48,10 @@ public class Comparaison extends Observable {
 	public Statistiques getStats2() {
 		return stats2;
 	}
+
+	public void setStatsCourante(Statistiques stats1) {
+		this.stats1 = stats1;
+	}
 	
 	public void setStats2(Statistiques stats2) {
 		this.stats2 = stats2;

@@ -5,6 +5,8 @@
 package comparaison;
 
 import graphique.VueInfosStatistiques;
+import graphique.VueOnglets;
+
 import javax.swing.*;
 import statistiques.Comparaison;
 import java.awt.*;
@@ -21,14 +23,16 @@ public class VueComparaison extends JPanel{
 	private VueAnalyseComparaison vueAnalyseComparaison;
 	private VueInfosStatistiques vueInfosStatistiques1;
 	private VueInfosStatistiques vueInfosStatistiques2;
+	private VueOnglets vueOnglets;
 	
 	private Comparaison comparaison;
 	
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueComparaison(Comparaison comparaison){
+	public VueComparaison(Comparaison comparaison, VueOnglets vueOnglets){
 		this.comparaison = comparaison;
+		this.vueOnglets = vueOnglets;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -91,5 +95,23 @@ public class VueComparaison extends JPanel{
 	public void setVueInfosStatistiques2(VueInfosStatistiques vueInfosStatistiques) {
 		this.vueInfosStatistiques1 = vueInfosStatistiques;
 	}
+
+	public VueAnalyseComparaison getVueAnalyseComparaison() {
+		return vueAnalyseComparaison;
+	}
+
+	public void setVueAnalyseComparaison(VueAnalyseComparaison vueAnalyseComparaison) {
+		this.vueAnalyseComparaison = vueAnalyseComparaison;
+	}
+
+	public VueOnglets getVueOnglets() {
+		return vueOnglets;
+	}
+
+	public void setVueOnglets(VueOnglets vueOnglets) {
+		this.vueOnglets = vueOnglets;
+	}
+	
+	
 	
 }

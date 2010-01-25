@@ -48,8 +48,6 @@ public class VueInfosStatistiques extends JPanel implements Observer{
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);
 		
-		stats.addObserver(this);
-		
 		// Création des éléments graphiques
 		
 		nomSiteLab = new JLabel("• Nom de Site : ");
