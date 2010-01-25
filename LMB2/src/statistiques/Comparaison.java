@@ -7,8 +7,9 @@ package statistiques;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Observable;
 
-public class Comparaison {
+public class Comparaison extends Observable {
 
 	//------------------
 	// Attributs
@@ -92,6 +93,9 @@ public class Comparaison {
 	 * Cette méthode permet de tester si oui ou non deux fichiers sont égaux
 	 */
 	public boolean compareFile(File file1, File file2){
+		/**
+		 * Lecture bytes a bytes d'un fichier
+		 */
 		return true;
 	}
 	
@@ -133,6 +137,8 @@ public class Comparaison {
 			}
 		}
 		
+		setChanged();
+		notifyObservers();
 	}
 	
 	
