@@ -37,9 +37,9 @@ public class VueOnglets extends JPanel {
 		onglets = new JTabbedPane();
 		// Creation des onglets
 		vueCaptureSite = new VueCaptureSite(laspirateur,vueProgressBar, this);
-		vueStatistiques = new VueStatistiques(new Statistiques(null),this);
 		vueComparaison = new VueComparaison(new Comparaison(new Statistiques(null),new Statistiques(null)), this);
-
+		vueStatistiques = new VueStatistiques(new Statistiques(null),this);
+		
 		// Ajout des elements qui constituents les onglets
 		onglets.add("Capturer site",vueCaptureSite);
 		onglets.add("Statistiques",vueStatistiques);

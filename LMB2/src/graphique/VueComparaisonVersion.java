@@ -106,19 +106,15 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseInfos());
 					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseList());
 					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
-					
 					comparaison.setStats2(new Statistiques(selected));
-					System.err.println(comparaison.getStatsCourante().getNomSite());
-					System.err.println(comparaison.getStats2().getNomSite());
-					vueOnglets.getVueComparaison().setEnabled(true);
 					vueOnglets.getVueComparaison().setComparaison(comparaison);
 					
 					// Nouveau processus pour lancer le process
 					Thread t = new Thread(new Runnable() {
 						public void run() {
 							comparaison.init();
-							setEnabled(true);
 							vueOnglets.setEnabled(true);
+							setEnabled(true);
 						}
 					});
 					t.start();
@@ -146,20 +142,19 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 				//vueConsole.reset();
 				
 				// Ajout des observers
-				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueInfosStatistiques());
-				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseInfos());
-				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueAnalyse().getVueAnalyseList());
-				comparaison.addObserver(vueOnglets.getVueStatistiques().getVueComparaison());
-				
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseInfos());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseList());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
 				comparaison.setStats2(new Statistiques(selected));
-				vueOnglets.getVueComparaison().setEnabled(true);
+				vueOnglets.getVueComparaison().setComparaison(comparaison);
 				
 				// Nouveau processus pour lancer le process
 				Thread t = new Thread(new Runnable() {
 					public void run() {
 						comparaison.init();
-						setEnabled(true);
 						vueOnglets.setEnabled(true);
+						setEnabled(true);
 					}
 				});
 				t.start();

@@ -89,11 +89,11 @@ public class VueComparaison extends JPanel{
 	}
 
 	public VueInfosStatistiques getVueInfosStatistiques2() {
-		return vueInfosStatistiques1;
+		return vueInfosStatistiques2;
 	}
 
 	public void setVueInfosStatistiques2(VueInfosStatistiques vueInfosStatistiques) {
-		this.vueInfosStatistiques1 = vueInfosStatistiques;
+		this.vueInfosStatistiques2 = vueInfosStatistiques;
 	}
 
 	public VueAnalyseComparaison getVueAnalyseComparaison() {
