@@ -24,14 +24,31 @@ public class Meta implements Serializable{
 	private HashSet<String> mailTos;
 	private long time;
 	private Hashtable<String, Integer> tags;
+	private ArrayList<String> lesFiltres;
+	/*private ArrayList<String> brokenLinks;
+	private ArrayList<String> filtredLinks;*/
+	private int nbThreadPages;
+	private int nbThreadRess;
+	private int profondeur;
+	private long tailleSite;
+	private long tailleRess;
+	private long taillePages;
 	
 	
 	public Meta(){
 		meta = "";
 		url = "";
 		mailTos = new HashSet<String>();
-		time = 0;
 		tags = new Hashtable<String, Integer>();
+		lesFiltres = new ArrayList<String>();
+		nbThreadPages = 0;
+		nbThreadRess = 0;
+		profondeur = -1;
+		tailleSite = -1;
+		tailleRess = -1;
+		taillePages = -1;
+		time = 0;
+		
 	}
 
 	public void increment(String key) {
@@ -44,6 +61,64 @@ public class Meta implements Serializable{
 	
 	public Hashtable<String, Integer> getTagsTable(){
 		return tags;
+	}
+	
+	
+	
+	public ArrayList<String> getLesFiltres() {
+		return lesFiltres;
+	}
+
+	public void setLesFiltres(ArrayList<String> lesFiltres) {
+		this.lesFiltres = lesFiltres;
+	}
+
+	public int getNbThreadPages() {
+		return nbThreadPages;
+	}
+
+	public void setNbThreadPages(int nbThreadPages) {
+		this.nbThreadPages = nbThreadPages;
+	}
+
+	public int getNbThreadRess() {
+		return nbThreadRess;
+	}
+
+	public void setNbThreadRess(int nbThreadRess) {
+		this.nbThreadRess = nbThreadRess;
+	}
+
+	public int getProfondeur() {
+		return profondeur;
+	}
+
+	public void setProfondeur(int profondeur) {
+		this.profondeur = profondeur;
+	}
+
+	public long getTailleSite() {
+		return tailleSite;
+	}
+
+	public void setTailleSite(long tailleSite) {
+		this.tailleSite = tailleSite;
+	}
+
+	public long getTailleRess() {
+		return tailleRess;
+	}
+
+	public void setTailleRess(long tailleRess) {
+		this.tailleRess = tailleRess;
+	}
+
+	public long getTaillePages() {
+		return taillePages;
+	}
+
+	public void setTaillePages(long taillePages) {
+		this.taillePages = taillePages;
 	}
 
 	public void setURL(String url){

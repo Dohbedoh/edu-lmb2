@@ -16,7 +16,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,9 +23,6 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.sound.midi.SysexMessage;
-
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.tags.FrameTag;
@@ -324,6 +320,7 @@ public class Aspirateur extends Observable {
 	public void setFiltres(ArrayList<String> filtres){
 		this.filtres.clear();
 		this.filtres.addAll(filtres);
+		meta.setLesFiltres(filtres);
 	}
 	
 	/**
@@ -331,6 +328,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setNbPagesThread(int nb) {
 		pagesPool = new ThreadPool(nb);
+		meta.setNbThreadPages(nb);
 	}
 
 	/**
@@ -338,6 +336,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setNbRessourcesThread(int nb) {
 		ressourcesPool = new ThreadPool(nb);
+		meta.setNbThreadRess(nb);
 	}
 
 	/**
@@ -370,6 +369,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setProfondeur(int prof){
 		profondeur = prof;
+		meta.setProfondeur(prof);
 	}
 	
 	
@@ -421,6 +421,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setTailleSiteMax(long taille){
 		tailleSiteMax = taille;
+		meta.setTailleSite(taille);
 	}
 	
 	/**
@@ -429,6 +430,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setTailleRessourcesMax(long taille){
 		tailleRessourcesMax = taille;
+		meta.setTailleRess(taille);
 	}
 	
 	/**
@@ -437,6 +439,7 @@ public class Aspirateur extends Observable {
 	 */
 	public void setTaillePagesMax(long taille){
 		taillePagesMax = taille;
+		meta.setTaillePages(taille);
 	}
 	
 	
@@ -640,36 +643,6 @@ public class Aspirateur extends Observable {
     	return true;
 	}
 
-	/**
-	 * 
-	 * @param link
-	 * @return
-	 * @throws ParserException
-	 */
-    private boolean isHtml (String link) throws ParserException{
-	    URL url;
-	    URLConnection connection;
-	    String type;
-	    boolean ret;
-	    ret = false;
-	    
-	    try
-	    {
-	        url = new URL (link);
-	        connection = url.openConnection ();
-	        type = connection.getContentType ();
-	        if (type == null)
-	            ret = false;
-	        else
-	            ret = type.startsWith ("text/html");
-	    }
-	    catch (Exception e)
-	    {
-	        throw new ParserException ("URL " + link + " has a problem", e);
-	    }
-	    return (ret);
-	}
-
     /**
      * Retourne vrai si le lien semble être une page (donc du contenu html)
      * @param url
@@ -697,20 +670,20 @@ public class Aspirateur extends Observable {
 	 * @return
 	 */
 	private boolean isToBeCaptured(String url){
-		//if(url.startsWith(urlSource)){
-			if(url.contains(".")){
-				System.err.println(url);
-				String extension = url.substring(url.indexOf(urlSource)+urlSource.length());
-				extension = url.substring(url.lastIndexOf("."),url.length()).toLowerCase();
-				if(extension.toLowerCase().matches(".[a-z0-9]*") && !filtres.contains(extension)){
-					if(!extensionsFiltred.contains(extension)){
-						extensionsFiltred.add(extension);
-					}
-				}else{
-					return true;
+		if (url.contains(".")) {
+			String extension = url.substring(url.indexOf(urlSource)
+					+ urlSource.length());
+			extension = url.substring(url.lastIndexOf("."), url.length())
+					.toLowerCase();
+			if (extension.toLowerCase().matches(".[a-z0-9]*")
+					&& !filtres.contains(extension)) {
+				if (!extensionsFiltred.contains(extension)) {
+					extensionsFiltred.add(extension);
 				}
+			} else {
+				return true;
 			}
-		//}
+		}
 		return false;
 	}
 	
@@ -1362,6 +1335,52 @@ public class Aspirateur extends Observable {
 				link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
 						parser.getLexer().getPage().getUrl())));
 				setLink(link);
+			}else{
+				if(link.endsWith(".css")){
+						if(isToBeCaptured(link)){
+							if (!ressources.contains(link) 
+									&& !ressourcesCopied.contains(link)
+									&& !urlFiltred.contains(link)
+									&& !breakLinks.contains(link)
+									&& !authLinks.contains(link)) {
+								// System.out.println("\n\t----------new Image----------");
+								// System.out.println("\tImage URL : " + link);
+								ressources.add(link);
+								ressourcesPool.runTask(new RessourceTask());
+							}
+						}else{
+							if(!urlFiltred.contains(link)){
+								urlFiltred.add(link);
+							}
+						}
+			    		link = toLocalPage(link);
+						link = deleteSpecialChar(toRelativeLink(makeLocalLink(link,
+								parser.getLexer().getPage().getUrl())));
+						setLink(link);
+				} else {
+					if (link.endsWith(".js")) {
+						if (isToBeCaptured(link)) {
+							if (!ressources.contains(link)
+									&& !ressourcesCopied.contains(link)
+									&& !urlFiltred.contains(link)
+									&& !breakLinks.contains(link)
+									&& !authLinks.contains(link)) {
+								// System.out.println("\n\t----------new Image----------");
+								// System.out.println("\tImage URL : " + link);
+								ressources.add(link);
+								ressourcesPool.runTask(new RessourceTask());
+							}
+						} else {
+							if (!urlFiltred.contains(link)) {
+								urlFiltred.add(link);
+							}
+						}
+						link = toLocalPage(link);
+						link = deleteSpecialChar(toRelativeLink(makeLocalLink(
+								link, parser.getLexer().getPage().getUrl())));
+						setLink(link);
+					}
+				}
 			}
 		}
 	}

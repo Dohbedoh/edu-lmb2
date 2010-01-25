@@ -5,6 +5,8 @@
 package graphique;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -13,11 +15,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+
+import comparaison.VueComparaison;
 
 import statistiques.*;
 
@@ -29,22 +34,35 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 	//------------------
 	private Statistiques stats;
 	private JList jlist;
+	private JButton lancerComp;
 	
 	//------------------
 	// Constructeur
 	//------------------
 	public VueComparaisonVersion(Statistiques stats){
 		this.stats = stats;
+		setLayout(new BorderLayout());
 		
 		TitledBorder afact = BorderFactory.createTitledBorder("Comparaison des versions");
 		afact.setTitleJustification(TitledBorder.CENTER);
 		setBorder(afact);
 		
+		lancerComp = new JButton("Lancer la comparaison");
+		lancerComp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VueComparaison vueComparaison= new VueComparaison("doh1","doh2");
+			}
+		});
+		
 		jlist = new JList();
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlist.setCellRenderer(new ListFormateur());
-		add(new JScrollPane(jlist),BorderLayout.CENTER);
 		jlist.addMouseListener(new ActionClick());
+		
+		add(new JScrollPane(jlist),BorderLayout.CENTER);
+		add(lancerComp, BorderLayout.SOUTH);
 		
 	}//cons-1
 	
