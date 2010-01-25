@@ -26,6 +26,7 @@ public class Statistiques extends Observable {
 	
 	private int traitement = 0;
 	private int length;
+	
 	//------------------
 	// Attributs relatifs aux calculs des statistiques
 	private ArrayList<File> dataHTML;
