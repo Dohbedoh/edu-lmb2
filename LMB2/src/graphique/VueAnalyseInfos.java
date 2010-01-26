@@ -25,7 +25,7 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	//------------------
 	private Statistiques stats;
 	private JLabel 	nbMotsDif, nbAddrDif, nbImagesDif, nbHypersDif,
-					divers, css, js, html,
+					css, js, html,
 					motsDif, addrDif, imagesDif, hypersDif,
 					nbCSS, nbJS, nbHTML;
 
@@ -42,7 +42,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		addrDif = new JLabel("• Adresses mail : ");
 		imagesDif = new JLabel("• Images : ");
 		hypersDif = new JLabel("• Liens hypertexte : ");
-		divers = new JLabel("• Divers : ");
 		css = new JLabel("• Fichiers CSS : ");
 		js = new JLabel("• Fichiers JS : ");
 		html = new JLabel("• Fichiers HTML : ");

@@ -148,7 +148,7 @@ public class Comparaison extends Observable {
 			if(lesFichiersStats2.contains(lesFichiersStats1.get(i))){
 				
 				// S'il n'a pas été modifié
-				int indTmp = lesFichiersStats2.indexOf(lesFichiersStats1.get(i));
+				int indTmp = lesFichiersStats2.indexOf(lesFichiersStats2.get(i));
 				if(compareFile(stats1.getLesFichiersEnregistres().get(i),stats2.getLesFichiersEnregistres().get(indTmp))){
 					// TOUT VA BIEN
 				}else{
