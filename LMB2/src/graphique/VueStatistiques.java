@@ -5,15 +5,9 @@
 package graphique;
 
 import javax.swing.*;
-
 import comparaison.Comparaison;
-import comparaison.VueComparaison;
-
 import statistiques.Statistiques;
 import java.awt.*;
-
-
-
 
 public class VueStatistiques extends JPanel{
 

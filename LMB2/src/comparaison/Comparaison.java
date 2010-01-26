@@ -6,7 +6,6 @@ package comparaison;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Observable;
 
 import statistiques.Statistiques;
@@ -160,7 +159,6 @@ public class Comparaison extends Observable {
 			// Si le fichier n'est pas contenu dans stats1
 			if(! lesFichiersStats1.contains(lesFichiersStats2.get(i))){
 				// LE FICHIER A ETE SUPPRIME
-				System.err.println(stats2.getVersion().getAbsolutePath()+lesFichiersStats2.get(i));
 				lesFichiersSupprimes.add(new File(stats2.getVersion().getAbsolutePath()+"\\"+lesFichiersStats2.get(i)));
 			}
 		}

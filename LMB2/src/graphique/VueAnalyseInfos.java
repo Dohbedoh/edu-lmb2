@@ -4,10 +4,8 @@
 
 package graphique;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.GroupLayout;
@@ -24,9 +22,9 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	// Attributs
 	//------------------
 	private Statistiques stats;
-	private JLabel 	nbAddrDif, nbImagesDif, nbHypersDif, nbErr, nbFiltred, nbMorts,
+	private JLabel 	nbAddrDif, nbImagesDif, nbHypersDif, nbFiltred, nbMorts,
 					css, js, html,
-					addrDif, imagesDif, hypersDif, err, filtred, morts,
+					addrDif, imagesDif, hypersDif, filtred, morts,
 					nbCSS, nbJS, nbHTML;
 
 	//------------------
@@ -44,7 +42,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		css = new JLabel("• Fichiers CSS : ");
 		js = new JLabel("• Fichiers JS : ");
 		html = new JLabel("• Fichiers HTML : ");
-		err = new JLabel("• Erreur : ");
 		filtred = new JLabel("• Liens Filtrés : ");
 		morts = new JLabel("• Lien Morts : ");
 		nbAddrDif = new JLabel(" 0");
@@ -53,7 +50,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		nbCSS = new JLabel(" 0");
 		nbJS = new JLabel(" 0");
 		nbHTML = new JLabel(" 0");
-		nbErr = new JLabel(" 0");
 		nbFiltred = new JLabel(" 0");
 		nbMorts = new JLabel(" 0");
 
@@ -79,7 +75,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		nbCSS.setForeground(Color.BLUE);
 		nbJS.setForeground(Color.BLUE);
 		nbHTML.setForeground(Color.BLUE);
-		nbErr.setForeground(Color.BLUE);
 		nbFiltred.setForeground(Color.BLUE);
 		nbMorts.setForeground(Color.BLUE);
 		
@@ -99,7 +94,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	                        .addComponent(html)
 	                        .addComponent(filtred)
 	                        .addComponent(morts)
-	                        .addComponent(err)
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(5)
@@ -112,7 +106,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		                    .addComponent(nbHTML)
 		                    .addComponent(nbFiltred)
 		                    .addComponent(nbMorts)
-		                    .addComponent(nbErr)
 		                )
 	                )
 	            )
@@ -163,10 +156,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		                    .addComponent(nbMorts)
 	                )
 	                .addGap(5)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                	.addComponent(err)
-		                    .addComponent(nbErr)
-	                )
 	          )
 	    );
 	    add(cont, SwingUtilities.CENTER);
@@ -197,7 +186,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 			nbCSS.setText(stats.getDataCSS().size()+"");
 			nbJS.setText(stats.getDataJS().size()+"");
 			nbHTML.setText(stats.getDataHTML().size()+"");
-			nbErr.setText(stats.getMetaData().getErrors().size()+"");
 			nbFiltred.setText(stats.getMetaData().getFiltredLinks().size()+"");
 			nbMorts.setText(stats.getMetaData().getBrokenLinks().size()+"");
 		}

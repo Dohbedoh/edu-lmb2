@@ -27,7 +27,6 @@ public class Meta implements Serializable{
 	private ArrayList<String> lesFiltres;
 	private ArrayList<String> brokenLinks;
 	private ArrayList<String> filtredLinks;
-	private ArrayList<String> errors;
 	private int nbThreadPages;
 	private int nbThreadRess;
 	private int profondeur;
@@ -44,7 +43,6 @@ public class Meta implements Serializable{
 		lesFiltres = new ArrayList<String>();
 		brokenLinks = new ArrayList<String>();
 		filtredLinks = new ArrayList<String>();
-		errors = new ArrayList<String>();
 		nbThreadPages = 0;
 		nbThreadRess = 0;
 		profondeur = -1;
@@ -65,14 +63,6 @@ public class Meta implements Serializable{
 	
 	public Hashtable<String, Integer> getTagsTable(){
 		return tags;
-	}
-	
-	public ArrayList<String> getErrors() {
-		return errors;
-	}
-
-	public void setErrors(HashSet<String> errors) {
-		this.errors.addAll(errors);
 	}
 
 	public ArrayList<String> getBrokenLinks() {

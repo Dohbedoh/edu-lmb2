@@ -908,13 +908,9 @@ public class Aspirateur extends Observable {
 		System.out.println("Liens auth  : " + authLinks.size());
 		meta.setTime(time);
 		currentPage = "";
-		meta.setErrors(urlErrors);
 		meta.setBrokenLinks(breakLinks);
 		meta.setFiltredLinks(urlFiltred);
 		saveMeta();
-		/*afficherExtentionsFiltred();
-		afficherFiltred();
-		afficherErrors();*/
 		setChanged();
 		notifyObservers();
 		reinitialise();
