@@ -18,9 +18,6 @@ public class Comparaison extends Observable {
 	//------------------
 	private Statistiques stats1;
 	private Statistiques stats2;
-	
-	private ArrayList<String> lesFichiersStats1;
-	private ArrayList<String> lesFichiersStats2;
 	private ArrayList<File> lesFichiersAjoutes;
 	private ArrayList<File> lesFichiersSupprimes;
 	private ArrayList<File> lesFichiersModifies;
@@ -32,20 +29,7 @@ public class Comparaison extends Observable {
 	public Comparaison(Statistiques stats1, Statistiques stats2){
 		this.stats1 = stats1;
 		this.stats2 = stats2;
-		
-		lesFichiersStats1 = new ArrayList<String>();
-		lesFichiersStats2 = new ArrayList<String>();
-		
-		if(stats1.getLesFichiersEnregistres()!=null){
-			for(int i=0;i<stats1.getLesFichiersEnregistres().size();i++){
-				lesFichiersStats1.add(stats1.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats1.getVersion().getAbsolutePath(), ""));
-			}
-		}
-		if(stats2.getLesFichiersEnregistres()!=null){
-			for(int i=0;i<stats2.getLesFichiersEnregistres().size();i++){
-				lesFichiersStats1.add(stats1.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats1.getVersion().getAbsolutePath(), ""));
-			}
-		}
+
 		// On lance les statistiques pour les stats2 (en théorie le init() a déjà été fait pour stats1)
 		//stats2.init();
 		
@@ -128,6 +112,9 @@ public class Comparaison extends Observable {
 	public void init(){
 		dirPath = stats1.getVersion().getParent();
 		stats2.init();
+		
+		ArrayList<String> lesFichiersStats1 = new ArrayList<String>();
+		ArrayList<String> lesFichiersStats2 = new ArrayList<String>();
 
 		if(stats1.getLesFichiersEnregistres()!=null){
 			for(int i=0;i<stats1.getLesFichiersEnregistres().size();i++){
@@ -140,6 +127,10 @@ public class Comparaison extends Observable {
 				lesFichiersStats2.add(stats2.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats2.getVersion().getAbsolutePath(), ""));
 			}
 		}
+		System.err.println("stats1 : "+lesFichiersStats1.size());
+		System.err.println("stats2 : "+lesFichiersStats2.size());
+		System.err.println("enr1 : "+stats1.getLesFichiersEnregistres().size());
+		System.err.println("enr2 : "+stats2.getLesFichiersEnregistres().size());
 		
 		// Pour tous les fichiers de stats1
 		for (int i = 0 ; i < lesFichiersStats1.size() ; i++){
@@ -148,7 +139,7 @@ public class Comparaison extends Observable {
 			if(lesFichiersStats2.contains(lesFichiersStats1.get(i))){
 				
 				// S'il n'a pas été modifié
-				int indTmp = lesFichiersStats2.indexOf(lesFichiersStats2.get(i));
+				int indTmp = lesFichiersStats2.indexOf(lesFichiersStats1.get(i));
 				if(compareFile(stats1.getLesFichiersEnregistres().get(i),stats2.getLesFichiersEnregistres().get(indTmp))){
 					// TOUT VA BIEN
 				}else{
@@ -173,11 +164,11 @@ public class Comparaison extends Observable {
 				lesFichiersSupprimes.add(new File(stats2.getVersion().getAbsolutePath()+"\\"+lesFichiersStats2.get(i)));
 			}
 		}
-		System.err.println("stats1 : "+lesFichiersStats1.size());
+		/*System.err.println("stats1 : "+lesFichiersStats1.size());
 		System.err.println("stats2 : "+lesFichiersStats2.size());
 		System.err.println("add : "+getLesFichiersAjoutes().size());
 		System.err.println("mod : "+getLesFichiersModifies().size());
-		System.err.println("rem : "+getLesFichiersSupprimes().size());
+		System.err.println("rem : "+getLesFichiersSupprimes().size());*/
 		setChanged();
 		notifyObservers();
 	}

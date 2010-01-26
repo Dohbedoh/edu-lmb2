@@ -370,7 +370,6 @@ public class VueSauvegarde extends JPanel implements Observer{
 				    message,
 				    "Attention",
 				    JOptionPane.WARNING_MESSAGE);
-
 			refresh();
 		}
 		
