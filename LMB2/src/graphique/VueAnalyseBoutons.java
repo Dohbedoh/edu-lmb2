@@ -5,7 +5,6 @@
 package graphique;
 
 import java.awt.BorderLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
@@ -55,15 +54,6 @@ public class VueAnalyseBoutons extends JPanel {
 	
 	public Statistiques getStatistiques(){
 		return this.stats;
-	}
-		
-	//------------------
-	// Méthodes
-	//------------------	
-	public Insets getInsets() {
-		Insets normal = super.getInsets();
-		return new Insets(normal.top + 5, normal.left + 5, 
-				normal.bottom + 5, normal.right + 5);
 	}
 	
 	//------------------

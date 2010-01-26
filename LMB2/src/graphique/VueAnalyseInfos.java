@@ -24,9 +24,9 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	// Attributs
 	//------------------
 	private Statistiques stats;
-	private JLabel 	nbMotsDif, nbAddrDif, nbImagesDif, nbHypersDif,
+	private JLabel 	nbAddrDif, nbImagesDif, nbHypersDif, nbErr, nbFiltred, nbMorts,
 					css, js, html,
-					motsDif, addrDif, imagesDif, hypersDif,
+					addrDif, imagesDif, hypersDif, err, filtred, morts,
 					nbCSS, nbJS, nbHTML;
 
 	//------------------
@@ -38,21 +38,24 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	    Container cont = new Container();
 		GroupLayout layout = new GroupLayout(cont);
 		cont.setLayout(layout);
-		motsDif = new JLabel("• Mots différents sur le site : ");
 		addrDif = new JLabel("• Adresses mail : ");
 		imagesDif = new JLabel("• Images : ");
 		hypersDif = new JLabel("• Liens hypertexte : ");
 		css = new JLabel("• Fichiers CSS : ");
 		js = new JLabel("• Fichiers JS : ");
 		html = new JLabel("• Fichiers HTML : ");
-		
-		nbMotsDif = new JLabel(" 0");
+		err = new JLabel("• Erreur : ");
+		filtred = new JLabel("• Liens Filtrés : ");
+		morts = new JLabel("• Lien Morts : ");
 		nbAddrDif = new JLabel(" 0");
 		nbImagesDif = new JLabel(" 0");
 		nbHypersDif = new JLabel(" 0");
 		nbCSS = new JLabel(" 0");
 		nbJS = new JLabel(" 0");
 		nbHTML = new JLabel(" 0");
+		nbErr = new JLabel(" 0");
+		nbFiltred = new JLabel(" 0");
+		nbMorts = new JLabel(" 0");
 
 		/*html.setFont(new Font(null,1,11));
 		js.setFont(new Font(null,1,11));
@@ -70,13 +73,16 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		nbAddrDif.setFont(new Font(null,1,11));
 		nbMotsDif.setFont(new Font(null,1,11));*/
 		
-		nbMotsDif.setForeground(Color.RED);
 		nbAddrDif.setForeground(Color.RED);
 		nbImagesDif.setForeground(Color.RED);
 		nbHypersDif.setForeground(Color.RED);
 		nbCSS.setForeground(Color.BLUE);
 		nbJS.setForeground(Color.BLUE);
 		nbHTML.setForeground(Color.BLUE);
+		nbErr.setForeground(Color.BLUE);
+		nbFiltred.setForeground(Color.BLUE);
+		nbMorts.setForeground(Color.BLUE);
+		
 		
 
 	    layout.setHorizontalGroup(layout.createParallelGroup()
@@ -85,24 +91,28 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	                    // Le groupe des labels
 	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	                    	.addComponent(motsDif)
 	                        .addComponent(addrDif)
 	                        .addComponent(imagesDif)
 	                        .addComponent(hypersDif)
 	                    	.addComponent(css)
 	                        .addComponent(js)
 	                        .addComponent(html)
+	                        .addComponent(filtred)
+	                        .addComponent(morts)
+	                        .addComponent(err)
 	                    )
 	                    //le groupe des nbs
 	    	            .addGap(5)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-		                    .addComponent(nbMotsDif)
 		                    .addComponent(nbAddrDif)
 		                    .addComponent(nbImagesDif)
 		                    .addComponent(nbHypersDif)
 		                    .addComponent(nbCSS)
 		                    .addComponent(nbJS)
 		                    .addComponent(nbHTML)
+		                    .addComponent(nbFiltred)
+		                    .addComponent(nbMorts)
+		                    .addComponent(nbErr)
 		                )
 	                )
 	            )
@@ -112,10 +122,6 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 	            // Le groupe pour la saisie des infos
 	            .addGroup(layout.createSequentialGroup()
 		            .addGap(5)
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                		.addComponent(motsDif)
-	                		.addComponent(nbMotsDif)
-	                )
 	                .addGap(5)
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                	.addComponent(addrDif)
@@ -146,6 +152,21 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 		                	.addComponent(html)
 		                    .addComponent(nbHTML)
 	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(filtred)
+		                    .addComponent(nbFiltred)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(morts)
+		                    .addComponent(nbMorts)
+	                )
+	                .addGap(5)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                	.addComponent(err)
+		                    .addComponent(nbErr)
+	                )
 	          )
 	    );
 	    add(cont, SwingUtilities.CENTER);
@@ -170,13 +191,15 @@ public class VueAnalyseInfos extends JPanel implements Observer{
 				&& stats.getDataImages()!=null
 				&& stats.getDataLinksComplet()!=null
 				&& stats.getMetaData()!=null){
-			nbMotsDif.setText(stats.getDataMotsComplet().size()+"");
 			nbAddrDif.setText(stats.getMetaData().getMailTosList().size()+"");
 			nbImagesDif.setText(stats.getDataImages().size()+"");
 			nbHypersDif.setText(stats.getDataLinksComplet().size()+"");
 			nbCSS.setText(stats.getDataCSS().size()+"");
 			nbJS.setText(stats.getDataJS().size()+"");
 			nbHTML.setText(stats.getDataHTML().size()+"");
+			nbErr.setText(stats.getMetaData().getErrors().size()+"");
+			nbFiltred.setText(stats.getMetaData().getFiltredLinks().size()+"");
+			nbMorts.setText(stats.getMetaData().getBrokenLinks().size()+"");
 		}
 	}
 	

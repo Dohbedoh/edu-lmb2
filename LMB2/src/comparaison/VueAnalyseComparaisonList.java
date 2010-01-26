@@ -56,6 +56,10 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 		ajBut = new JButton("Voir Ajoutés");
 		modBut = new JButton("Voir Modifiés");
 		suppBut = new JButton("Voir Supprimés");
+
+		suppBut.setMinimumSize(new Dimension(200,20));
+		ajBut.setMinimumSize(new Dimension(200,20));
+		modBut.setMinimumSize(new Dimension(200,20));
 		
 		menu = new JPopupMenu();
 		visualiserSelection = new JMenuItem("Visualiser");

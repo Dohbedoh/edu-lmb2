@@ -25,8 +25,9 @@ public class Meta implements Serializable{
 	private long time;
 	private Hashtable<String, Integer> tags;
 	private ArrayList<String> lesFiltres;
-	/*private ArrayList<String> brokenLinks;
-	private ArrayList<String> filtredLinks;*/
+	private ArrayList<String> brokenLinks;
+	private ArrayList<String> filtredLinks;
+	private ArrayList<String> errors;
 	private int nbThreadPages;
 	private int nbThreadRess;
 	private int profondeur;
@@ -41,6 +42,9 @@ public class Meta implements Serializable{
 		mailTos = new HashSet<String>();
 		tags = new Hashtable<String, Integer>();
 		lesFiltres = new ArrayList<String>();
+		brokenLinks = new ArrayList<String>();
+		filtredLinks = new ArrayList<String>();
+		errors = new ArrayList<String>();
 		nbThreadPages = 0;
 		nbThreadRess = 0;
 		profondeur = -1;
@@ -63,8 +67,30 @@ public class Meta implements Serializable{
 		return tags;
 	}
 	
-	
-	
+	public ArrayList<String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(HashSet<String> errors) {
+		this.errors.addAll(errors);
+	}
+
+	public ArrayList<String> getBrokenLinks() {
+		return brokenLinks;
+	}
+
+	public void setBrokenLinks(HashSet<String> brokenLinks) {
+		this.brokenLinks.addAll(brokenLinks);
+	}
+
+	public ArrayList<String> getFiltredLinks() {
+		return filtredLinks;
+	}
+
+	public void setFiltredLinks(HashSet<String> filtredLinks) {
+		this.filtredLinks.addAll(filtredLinks);
+	}
+
 	public ArrayList<String> getLesFiltres() {
 		return lesFiltres;
 	}

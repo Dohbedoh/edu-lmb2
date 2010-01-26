@@ -8,13 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import statistiques.Statistiques;
 import tableur.*;
 
 public class VueAnalyseComparaisonBoutons extends JPanel {
@@ -34,7 +29,7 @@ public class VueAnalyseComparaisonBoutons extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		balises = new JButton("Comparaison des balises");
-		balises.addActionListener(new ActionStats());
+		balises.addActionListener(new ActionComp());
 		
 		add(balises,BorderLayout.CENTER);
 	}//cons-1
@@ -66,7 +61,7 @@ public class VueAnalyseComparaisonBoutons extends JPanel {
 	//------------------
 	// Actions
 	//------------------
-	private class ActionStats implements ActionListener {
+	private class ActionComp implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
 			SpreadSheetComparaison s = new SpreadSheetComparaison(comparaison);

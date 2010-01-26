@@ -74,7 +74,7 @@ public class Aspirateur extends Observable {
 	private HashSet<String> pagesCopied;
 
 	/** Liste des erreurs */
-	private ArrayList<Exception> urlErrors;
+	private HashSet<String> urlErrors;
 
 	/** Nom du projet */
 	private String name;
@@ -87,7 +87,7 @@ public class Aspirateur extends Observable {
 	private ArrayList<String> filtres;
 	
 	/** Liste des urls Filtrées */
-	private ArrayList<String> urlFiltred;
+	private HashSet<String> urlFiltred;
 	
 	/** Liste des extension Filtrées */
 	private HashSet<String> extensionsFiltred;
@@ -132,9 +132,9 @@ public class Aspirateur extends Observable {
 		pages = new ArrayList<String>();
 		pagesCopied = new HashSet<String>();
 		ressourcesCopied = new HashSet<String>();
-		urlErrors = new ArrayList<Exception>();
+		urlErrors = new HashSet<String>();
 		filtres = new ArrayList<String>();
-		urlFiltred = new ArrayList<String>();
+		urlFiltred = new HashSet<String>();
 		extensionsFiltred = new HashSet<String>();
 		breakLinks = new HashSet<String>();
 		authLinks = new HashSet<String>();
@@ -908,13 +908,16 @@ public class Aspirateur extends Observable {
 		System.out.println("Liens auth  : " + authLinks.size());
 		meta.setTime(time);
 		currentPage = "";
+		meta.setErrors(urlErrors);
+		meta.setBrokenLinks(breakLinks);
+		meta.setFiltredLinks(urlFiltred);
 		saveMeta();
+		/*afficherExtentionsFiltred();
+		afficherFiltred();
+		afficherErrors();*/
 		setChanged();
 		notifyObservers();
-		afficherExtentionsFiltred();
-		afficherErrors();
 		reinitialise();
-
 	}
 
 	/**
@@ -1017,11 +1020,26 @@ public class Aspirateur extends Observable {
 				try {
 					out = new FileOutputStream(file);
 					try {
+						long init = System.currentTimeMillis();
+						long time = System.currentTimeMillis();
+						String cur = currentPage;
 						while (-1 != (read = in.read(data, 0, data.length)) 
 								&& (taille<tailleRessourcesMax || tailleRessourcesMax==-1)
-								&& (tailleSiteMax>(tailleSite+taille) || tailleSiteMax==-1))
+								&& (tailleSiteMax>(tailleSite+taille) || tailleSiteMax==-1)){
 							out.write(data, 0, read);
 							taille=file.length();
+							if((time=(System.currentTimeMillis()-init)) >= 5000){
+								if(currentPage.length() - cur.length()<=5){
+									currentPage+=".";
+								}else{
+									currentPage = cur+".";
+								}
+								init = time;
+								/*setChanged();
+								notifyObservers();*/
+							}
+						}
+						currentPage = cur;
 					} finally {
 						out.close();
 					}
@@ -1055,7 +1073,7 @@ public class Aspirateur extends Observable {
 					}
 				}
 			} catch (FileNotFoundException fnfe) {
-				urlErrors.add(fnfe);
+				urlErrors.add(fnfe.getLocalizedMessage());
 				System.err.println("broken link " + fnfe.getMessage()
 						+ " ignored");
 				breakLinks.add(URL);
@@ -1230,9 +1248,9 @@ public class Aspirateur extends Observable {
 			System.out.println("\n\tURL Errors!");
 			System.out
 					.println("\t------------------------------------------------");
-			Iterator<Exception> it = urlErrors.iterator();
+			Iterator<String> it = urlErrors.iterator();
 			while (it.hasNext()) {
-				System.out.println("\t" + it.next().getLocalizedMessage());
+				System.out.println("\t" + it.next());
 			}
 			System.out
 					.println("\t------------------------------------------------");
@@ -1924,7 +1942,7 @@ public class Aspirateur extends Observable {
 				}
 
 			} catch (ParserException e) {
-				urlErrors.add(e);
+				urlErrors.add(e.getLocalizedMessage());
 				e.printStackTrace();
 				System.out.println("\nError in : " + parser.getURL() + "\n");
 				synchronized(pages){

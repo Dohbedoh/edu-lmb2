@@ -102,7 +102,11 @@ public class Comparaison extends Observable {
 		/**
 		 * Lecture bytes a bytes d'un fichier
 		 */
-		return true;
+		if(file1.length()==file2.length()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	
@@ -127,10 +131,6 @@ public class Comparaison extends Observable {
 				lesFichiersStats2.add(stats2.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats2.getVersion().getAbsolutePath(), ""));
 			}
 		}
-		System.err.println("stats1 : "+lesFichiersStats1.size());
-		System.err.println("stats2 : "+lesFichiersStats2.size());
-		System.err.println("enr1 : "+stats1.getLesFichiersEnregistres().size());
-		System.err.println("enr2 : "+stats2.getLesFichiersEnregistres().size());
 		
 		// Pour tous les fichiers de stats1
 		for (int i = 0 ; i < lesFichiersStats1.size() ; i++){

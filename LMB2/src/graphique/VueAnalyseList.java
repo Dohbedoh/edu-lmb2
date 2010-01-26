@@ -24,7 +24,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	//------------------
 	private Statistiques stats;
 	private JList jlist;
-	private JButton imagesBut, addrBut, cssBut, jsBut, tousBut;
+	private JButton imagesBut, addrBut, cssBut, jsBut, tousBut, errorsBut, filtredBut, mortsBut;
 	
 	private JPopupMenu menu;
 	private JMenuItem visualiserSelection;
@@ -55,6 +55,18 @@ public class VueAnalyseList extends JPanel implements Observer{
 		addrBut = new JButton("Voir Adresses");
 		cssBut = new JButton("Voir CSS");
 		jsBut = new JButton("Voir JS");
+		mortsBut = new JButton("Voir Morts");
+		filtredBut = new JButton("Voir Filtrés");
+		errorsBut = new JButton("Voir Errors");
+		
+		tousBut.setMinimumSize(new Dimension(100,20));
+		imagesBut.setMinimumSize(new Dimension(100,20));
+		addrBut.setMinimumSize(new Dimension(100,20));
+		cssBut.setMinimumSize(new Dimension(100,20));
+		jsBut.setMinimumSize(new Dimension(100,20));
+		mortsBut.setMinimumSize(new Dimension(100,20));
+		filtredBut.setMinimumSize(new Dimension(100,20));
+		errorsBut.setMinimumSize(new Dimension(100,20));
 		
 		menu = new JPopupMenu();
 		visualiserSelection = new JMenuItem("Visualiser");
@@ -67,14 +79,17 @@ public class VueAnalyseList extends JPanel implements Observer{
 	    	            .addGap(10)
 	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                    		.addComponent(imagesBut)
+                        		.addComponent(mortsBut)
 	                    )
 	    	            .addGap(10)
-	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+	                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 		                        .addComponent(addrBut)
+                        		.addComponent(filtredBut)
 		                )
 	    	            .addGap(10)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         		.addComponent(cssBut)
+                        		.addComponent(errorsBut)
                         )
         	    	    .addGap(10)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
@@ -99,6 +114,12 @@ public class VueAnalyseList extends JPanel implements Observer{
 	                		.addComponent(tousBut)
 	                )
 	                .addGap(10)
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                		.addComponent(mortsBut)
+	                		.addComponent(filtredBut)
+	                		.addComponent(errorsBut)
+	                )
+	                .addGap(10)
 	          )
 		);
 
@@ -112,6 +133,9 @@ public class VueAnalyseList extends JPanel implements Observer{
 		cssBut.addActionListener(new ActionLoadCSS());
 		jsBut.addActionListener(new ActionLoadJS());
 		tousBut.addActionListener(new ActionLoadTout());
+		mortsBut.addActionListener(new ActionLoadMorts());
+		filtredBut.addActionListener(new ActionLoadFiltred());
+		errorsBut.addActionListener(new ActionLoadErrors());
 		jlist.addMouseListener(new ActionClickDroit());
 		
 	}
@@ -122,6 +146,9 @@ public class VueAnalyseList extends JPanel implements Observer{
 		cssBut.setEnabled(b);
 		jsBut.setEnabled(b);
 		tousBut.setEnabled(b);
+		mortsBut.setEnabled(b);
+		filtredBut.setEnabled(b);
+		errorsBut.setEnabled(b);
 	}
 	
 	public void setStatistiques(Statistiques stats){
@@ -148,6 +175,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadImages implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
+			jlist.setCellRenderer(new ListFormateur());
 			jlist.setModel(new ListAdapter(stats.getDataImages()));
 		}
 	}
@@ -155,6 +183,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadAdress implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
+			jlist.setCellRenderer(new ListFormateur());
 			jlist.setListData(stats.getMetaData().getMailTosList().toArray());
 		}
 	}
@@ -162,6 +191,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadCSS implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
+			jlist.setCellRenderer(new ListFormateur());
 			jlist.setModel(new ListAdapter(stats.getDataCSS()));
 		}
 	}
@@ -169,6 +199,7 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadJS implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
+			jlist.setCellRenderer(new ListFormateur());
 			jlist.setModel(new ListAdapter(stats.getDataJS()));
 		}
 	}
@@ -176,7 +207,33 @@ public class VueAnalyseList extends JPanel implements Observer{
 	private class ActionLoadTout implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			jlist.removeAll();
+			jlist.setCellRenderer(new ListFormateur());
 			jlist.setModel(new ListAdapter(stats.getLesFichiersEnregistres()));
+		}
+	}
+	
+	
+	private class ActionLoadErrors implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			jlist.removeAll();
+			jlist.setCellRenderer(new LinkListFormateur());
+			jlist.setModel(new LinkListAdapter(stats.getMetaData().getErrors()));
+		}
+	}
+	
+	private class ActionLoadFiltred implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			jlist.removeAll();
+			jlist.setCellRenderer(new LinkListFormateur());
+			jlist.setModel(new LinkListAdapter(stats.getMetaData().getFiltredLinks()));
+		}
+	}
+	
+	private class ActionLoadMorts implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			jlist.removeAll();
+			jlist.setCellRenderer(new LinkListFormateur());
+			jlist.setModel(new LinkListAdapter(stats.getMetaData().getBrokenLinks()));
 		}
 	}
 	
