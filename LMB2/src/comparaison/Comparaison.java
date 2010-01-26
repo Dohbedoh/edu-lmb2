@@ -2,12 +2,14 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package statistiques;
+package comparaison;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Observable;
+
+import statistiques.Statistiques;
 
 public class Comparaison extends Observable {
 
@@ -17,9 +19,12 @@ public class Comparaison extends Observable {
 	private Statistiques stats1;
 	private Statistiques stats2;
 	
+	private ArrayList<String> lesFichiersStats1;
+	private ArrayList<String> lesFichiersStats2;
 	private ArrayList<File> lesFichiersAjoutes;
 	private ArrayList<File> lesFichiersSupprimes;
 	private ArrayList<File> lesFichiersModifies;
+	private String dirPath;
 	
 	//------------------
 	// Constructeur
@@ -28,6 +33,19 @@ public class Comparaison extends Observable {
 		this.stats1 = stats1;
 		this.stats2 = stats2;
 		
+		lesFichiersStats1 = new ArrayList<String>();
+		lesFichiersStats2 = new ArrayList<String>();
+		
+		if(stats1.getLesFichiersEnregistres()!=null){
+			for(int i=0;i<stats1.getLesFichiersEnregistres().size();i++){
+				lesFichiersStats1.add(stats1.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats1.getVersion().getAbsolutePath(), ""));
+			}
+		}
+		if(stats2.getLesFichiersEnregistres()!=null){
+			for(int i=0;i<stats2.getLesFichiersEnregistres().size();i++){
+				lesFichiersStats1.add(stats1.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats1.getVersion().getAbsolutePath(), ""));
+			}
+		}
 		// On lance les statistiques pour les stats2 (en théorie le init() a déjà été fait pour stats1)
 		//stats2.init();
 		
@@ -108,39 +126,58 @@ public class Comparaison extends Observable {
 	 * Cette méthode initialise la comparaison et remplit les ArrayList d'ajouts, de suppression et de modification
 	 */
 	public void init(){
+		dirPath = stats1.getVersion().getParent();
 		stats2.init();
+
+		if(stats1.getLesFichiersEnregistres()!=null){
+			for(int i=0;i<stats1.getLesFichiersEnregistres().size();i++){
+				lesFichiersStats1.add(stats1.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats1.getVersion().getAbsolutePath(), ""));
+			}
+		}
+
+		if(stats2.getLesFichiersEnregistres()!=null){
+			for(int i=0;i<stats2.getLesFichiersEnregistres().size();i++){
+				lesFichiersStats2.add(stats2.getLesFichiersEnregistres().get(i).getAbsolutePath().replace(stats2.getVersion().getAbsolutePath(), ""));
+			}
+		}
+		
 		// Pour tous les fichiers de stats1
-		for (int i = 0 ; i < stats1.getLesFichiersEnregistres().size() ; i++){
+		for (int i = 0 ; i < lesFichiersStats1.size() ; i++){
 			
 			// Si le fichier est contenu dans stats2
-			if(stats2.getLesFichiersEnregistres().contains(stats1.getLesFichiersEnregistres().get(i))){
+			if(lesFichiersStats2.contains(lesFichiersStats1.get(i))){
 				
 				// S'il n'a pas été modifié
-				int indTmp = stats2.getLesFichiersEnregistres().indexOf(stats1.getLesFichiersEnregistres().get(i));
-				if(compareFile(stats1.getLesFichiersEnregistres().get(i), stats2.getLesFichiersEnregistres().get(indTmp))){
+				int indTmp = lesFichiersStats2.indexOf(lesFichiersStats1.get(i));
+				if(compareFile(stats1.getLesFichiersEnregistres().get(i),stats2.getLesFichiersEnregistres().get(indTmp))){
 					// TOUT VA BIEN
 				}else{
 					// LE FICHIER A ETE MODIFIE
-					lesFichiersModifies.add(stats2.getLesFichiersEnregistres().get(indTmp));
+					lesFichiersModifies.add(new File(stats2.getVersion().getAbsolutePath()+lesFichiersStats2.get(indTmp)));
 				}
 				
 			}else{
 			// Sinon le fichier n'est pas contenu dans stats2
 				// LE FICHIER A ETE AJOUTE
-				lesFichiersAjoutes.add(stats1.getLesFichiersEnregistres().get(i));
+				lesFichiersAjoutes.add(new File(stats1.getVersion().getAbsolutePath()+lesFichiersStats1.get(i)));
 			}
 		}
 		
 		// Pour tous les fichiers de stats2
-		for (int i = 0 ; i < stats2.getLesFichiersEnregistres().size() ; i++){
+		for (int i = 0 ; i < lesFichiersStats2.size() ; i++){
 			
 			// Si le fichier n'est pas contenu dans stats1
-			if(! stats1.getLesFichiersEnregistres().contains(stats2.getLesFichiersEnregistres().get(i))){
+			if(! lesFichiersStats1.contains(lesFichiersStats2.get(i))){
 				// LE FICHIER A ETE SUPPRIME
-				lesFichiersSupprimes.add(stats2.getLesFichiersEnregistres().get(i));
+				System.err.println(stats2.getVersion().getAbsolutePath()+lesFichiersStats2.get(i));
+				lesFichiersSupprimes.add(new File(stats2.getVersion().getAbsolutePath()+"\\"+lesFichiersStats2.get(i)));
 			}
 		}
-		
+		System.err.println("stats1 : "+lesFichiersStats1.size());
+		System.err.println("stats2 : "+lesFichiersStats2.size());
+		System.err.println("add : "+getLesFichiersAjoutes().size());
+		System.err.println("mod : "+getLesFichiersModifies().size());
+		System.err.println("rem : "+getLesFichiersSupprimes().size());
 		setChanged();
 		notifyObservers();
 	}

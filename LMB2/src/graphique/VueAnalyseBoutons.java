@@ -78,23 +78,23 @@ public class VueAnalyseBoutons extends JPanel {
 			case 1:
 				
 				if(stats.getDataMotsComplet().size()>0){
-					SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
+					SpreadSheetStatistiques s = new SpreadSheetStatistiques(stats.getDataMotsComplet());
 				}else{
 					stats.processDataMots();
-					SpreadSheet s = new SpreadSheet(stats.getDataMotsComplet());
+					SpreadSheetStatistiques s = new SpreadSheetStatistiques(stats.getDataMotsComplet());
 				}
 				break;
 			case 2:
 				if(stats.getDataLinksComplet().size()>0){
-					SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
+					SpreadSheetStatistiques s = new SpreadSheetStatistiques(stats.getDataLinksComplet());
 				}else{
 					stats.processDataLinks();
-					SpreadSheet s = new SpreadSheet(stats.getDataLinksComplet());
+					SpreadSheetStatistiques s = new SpreadSheetStatistiques(stats.getDataLinksComplet());
 				}
 				break;
 			case 3:
 				if(stats.getMetaData().getTagsTable().size()>0){
-					SpreadSheet s = new SpreadSheet(stats.getMetaData().getTagsTable());
+					SpreadSheetStatistiques s = new SpreadSheetStatistiques(stats.getMetaData().getTagsTable());
 				}else{
 					JOptionPane.showMessageDialog(null, "Aucun lien hypertexte!", "Information",JOptionPane.INFORMATION_MESSAGE);
 				}

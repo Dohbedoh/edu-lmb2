@@ -8,8 +8,9 @@ import Aspirateur.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
+import comparaison.Comparaison;
 import comparaison.VueComparaison;
-import statistiques.Comparaison;
 import statistiques.Statistiques;
 import java.awt.*;
 

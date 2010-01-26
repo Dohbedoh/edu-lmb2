@@ -12,7 +12,6 @@ import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import statistiques.Comparaison;
 
 
 public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
@@ -129,9 +128,10 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 	// Méthodes
 	//------------------
 	public void update(Observable arg0, Object arg1) {
-
-		/** Renaud il va faire des métodes de ouf! */
-		
+		nbFichiersMod.setText(""+comparaison.getLesFichiersModifies().size());
+		nbFichiersAj.setText(""+comparaison.getLesFichiersAjoutes().size());
+		nbFichiersSupp.setText(""+comparaison.getLesFichiersSupprimes().size());
+		System.err.println(comparaison.getStats2().getNomSite());
 	}
 	
 }

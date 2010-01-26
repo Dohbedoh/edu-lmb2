@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 import javax.swing.table.AbstractTableModel;
 
-public class VueTableauModel extends AbstractTableModel {
+public class TableauModelStatistiques extends AbstractTableModel {
 
         //------------------
         // Attributs
@@ -20,7 +20,7 @@ public class VueTableauModel extends AbstractTableModel {
         //------------------
         // Constructeur
         //------------------
-        public VueTableauModel(Hashtable<String, Integer> dataMotsComplet){
+        public TableauModelStatistiques(Hashtable<String, Integer> dataMotsComplet){
                 this.dataMotsComplet = dataMotsComplet;
                 
         }//cons-1

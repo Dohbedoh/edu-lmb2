@@ -1876,7 +1876,6 @@ public class Aspirateur extends Observable {
 							authLinks.add(currentPage);
 						}else{
 							if(pe.getMessage().contains("407")){
-								System.err.println("doh3");
 								ok = false;
 								/** Erreur 407 : besoin d'une authentification par proxy*/
 								System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification par Proxy.");

@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
+import comparaison.Comparaison;
 import comparaison.VueComparaison;
 
 import statistiques.*;
@@ -100,14 +101,14 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 					//vueProgressBar.setStatistiques(stats);
 					vueOnglets.setOnglet(2);
 					//vueConsole.reset();
-					
-					// Ajout des observers
-					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
-					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseInfos());
-					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseList());
-					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
+
 					comparaison.setStats2(new Statistiques(selected));
 					vueOnglets.getVueComparaison().setComparaison(comparaison);
+					// Ajout des observers
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyseComparaison().getVueAnalyseComparaisonInfos());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyseComparaison().getVueAnalyseList());
+					comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
 					
 					// Nouveau processus pour lancer le process
 					Thread t = new Thread(new Runnable() {
@@ -140,14 +141,14 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 				//vueProgressBar.setStatistiques(stats);
 				vueOnglets.setOnglet(2);
 				//vueConsole.reset();
-				
-				// Ajout des observers
-				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
-				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseInfos());
-				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyse().getVueAnalyseList());
-				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
+
 				comparaison.setStats2(new Statistiques(selected));
 				vueOnglets.getVueComparaison().setComparaison(comparaison);
+				// Ajout des observers
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques1());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyseComparaison().getVueAnalyseComparaisonInfos());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueAnalyseComparaison().getVueAnalyseList());
+				comparaison.addObserver(vueOnglets.getVueComparaison().getVueInfosStatistiques2());
 				
 				// Nouveau processus pour lancer le process
 				Thread t = new Thread(new Runnable() {

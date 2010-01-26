@@ -8,7 +8,6 @@ import graphique.VueInfosStatistiques;
 import graphique.VueOnglets;
 
 import javax.swing.*;
-import statistiques.Comparaison;
 import java.awt.*;
 
 
@@ -39,8 +38,8 @@ public class VueComparaison extends JPanel{
 		JPanel top = new JPanel(new GridLayout(1,2));
 		
 		vueAnalyseComparaison = new VueAnalyseComparaison(comparaison);
-		vueInfosStatistiques2 = new VueInfosStatistiques(comparaison.getStats2());
 		vueInfosStatistiques1 = new VueInfosStatistiques(comparaison.getStatsCourante());
+		vueInfosStatistiques2 = new VueInfosStatistiques(comparaison.getStats2());
 		
 		top.add(vueInfosStatistiques1);
 		top.add(vueInfosStatistiques2);
@@ -63,6 +62,9 @@ public class VueComparaison extends JPanel{
 		this.comparaison = comparaison;
 		this.vueInfosStatistiques1.setStatistiques(comparaison.getStatsCourante());
 		this.vueInfosStatistiques2.setStatistiques(comparaison.getStats2());
+		this.getVueAnalyseComparaison().getVueAnalyseComparaisonInfos().setComparaison(comparaison);
+		this.getVueAnalyseComparaison().getVueAnalyseList().setComparaison(comparaison);
+		this.getVueAnalyseComparaison().getVueAnalyseComparaisonBoutons().setComparaison(comparaison);
 	}
 	
 	public void setEnabled(boolean b){
@@ -72,13 +74,6 @@ public class VueComparaison extends JPanel{
 	//------------------
 	// Methodes
 	//------------------
-	public VueAnalyseComparaison getVueAnalyse() {
-		return vueAnalyseComparaison;
-	}
-
-	public void setVueAnalyse(VueAnalyseComparaison vueAnalyse) {
-		this.vueAnalyseComparaison = vueAnalyse;
-	}
 
 	public VueInfosStatistiques getVueInfosStatistiques1() {
 		return vueInfosStatistiques1;

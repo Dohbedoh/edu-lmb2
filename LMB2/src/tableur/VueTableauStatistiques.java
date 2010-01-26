@@ -11,7 +11,7 @@ import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-public class VueTableau extends JPanel {
+public class VueTableauStatistiques extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	//------------------
@@ -20,11 +20,11 @@ public class VueTableau extends JPanel {
 	private Hashtable<String, Integer> dataMotsComplet;
 	
 	private JTable table;
-	private VueTableauModel modele;
+	private TableauModelStatistiques modele;
 	//------------------
 	// Constructeurs
 	//------------------
-	public VueTableau(Hashtable<String, Integer> dataMotsComplet){
+	public VueTableauStatistiques(Hashtable<String, Integer> dataMotsComplet){
 		this.dataMotsComplet = dataMotsComplet;
 
 		setLayout(new BorderLayout());
@@ -33,7 +33,7 @@ public class VueTableau extends JPanel {
 		setBorder(bfact);
 		
 		// Création des éléments graphiques
-		modele = new VueTableauModel(this.dataMotsComplet);
+		modele = new TableauModelStatistiques(this.dataMotsComplet);
 		table = new JTable(modele);
 		table.setAutoCreateRowSorter(true);
 		

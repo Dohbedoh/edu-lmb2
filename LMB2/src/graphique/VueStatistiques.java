@@ -6,9 +6,9 @@ package graphique;
 
 import javax.swing.*;
 
+import comparaison.Comparaison;
 import comparaison.VueComparaison;
 
-import statistiques.Comparaison;
 import statistiques.Statistiques;
 import java.awt.*;
 

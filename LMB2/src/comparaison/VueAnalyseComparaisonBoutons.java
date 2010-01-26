@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import statistiques.Comparaison;
 import statistiques.Statistiques;
 import tableur.*;
 
@@ -70,7 +69,7 @@ public class VueAnalyseComparaisonBoutons extends JPanel {
 	private class ActionStats implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			
+			SpreadSheetComparaison s = new SpreadSheetComparaison(comparaison);
 		}
 	}
 	

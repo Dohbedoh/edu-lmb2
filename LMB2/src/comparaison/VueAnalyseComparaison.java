@@ -14,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import statistiques.Comparaison;
 import statistiques.Statistiques;
 
 
@@ -97,11 +96,11 @@ public class VueAnalyseComparaison extends JPanel{
 		this.vueAnalyseComparaisonBoutons = vueAnalyseComparaisonBoutons;
 	}
 
-	public VueAnalyseComparaisonInfos getVueAnalyseInfos() {
+	public VueAnalyseComparaisonInfos getVueAnalyseComparaisonInfos() {
 		return vueAnalyseComparaisonInfos;
 	}
 
-	public void setVueAnalyseInfos(VueAnalyseComparaisonInfos vueAnalyseComparaisonInfos) {
+	public void setVueAnalyseComparaisonInfos(VueAnalyseComparaisonInfos vueAnalyseComparaisonInfos) {
 		this.vueAnalyseComparaisonInfos = vueAnalyseComparaisonInfos;
 	}
 

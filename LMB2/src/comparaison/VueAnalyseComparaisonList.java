@@ -17,7 +17,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import statistiques.Comparaison;
 import statistiques.Statistiques;
 import visualiser.BareBonesBrowserLaunch;
 
@@ -124,7 +123,7 @@ public class VueAnalyseComparaisonList extends JPanel implements Observer{
 	// Méthodes
 	//------------------
 	public void update(Observable o, Object arg) {
-
+		
 	}
 	
 	//------------------

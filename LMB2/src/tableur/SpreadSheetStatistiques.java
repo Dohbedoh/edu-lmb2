@@ -13,26 +13,26 @@ import javax.swing.JFrame;
 
 import org.jfree.ui.RefineryUtilities;
 
-public class SpreadSheet extends JFrame{
+public class SpreadSheetStatistiques extends JFrame{
 
 	//------------------
 	// Attributs
 	//------------------
 	private Hashtable<String, Integer> dataMotsComplet;
 	
-	private VueTableau vueTableau;
+	private VueTableauStatistiques vueTableau;
 	private VueChart vueChart;
 	//------------------
 	// Constructeurs
 	//------------------
-	public SpreadSheet(Hashtable<String, Integer> dataMotsComplet){
+	public SpreadSheetStatistiques(Hashtable<String, Integer> dataMotsComplet){
 		super("Aspirateur - LMB2");
 		this.dataMotsComplet = dataMotsComplet;
 		setLayout(new BorderLayout());
 		
 		// Création des éléments graphiques
 		vueChart = new VueChart(dataMotsComplet);
-		vueTableau = new VueTableau(dataMotsComplet);
+		vueTableau = new VueTableauStatistiques(dataMotsComplet);
 		// Ajouts des élements graphiques
 		add(vueTableau,BorderLayout.WEST);
 		add(vueChart,BorderLayout.CENTER);
@@ -61,6 +61,6 @@ public class SpreadSheet extends JFrame{
 		tab1.put("c", Integer.valueOf(3));
 		
 		// TEST
-		SpreadSheet s = new SpreadSheet(tab1);
+		SpreadSheetStatistiques s = new SpreadSheetStatistiques(tab1);
 	}
 }
