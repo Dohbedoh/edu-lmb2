@@ -4,10 +4,12 @@
 
 package comparaison;
 
-import graphique.VueInfosStatistiques;
 import graphique.VueOnglets;
 
 import javax.swing.*;
+
+import statistiques.VueInfosStatistiques;
+
 import java.awt.*;
 
 

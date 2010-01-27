@@ -62,6 +62,10 @@ public class VueProgressBar extends JPanel implements Observer{
 		stats.addObserver(this);
 	}
 	
+	public void setValue(int value){
+		bar.setValue(0);
+	}
+	
 	public void update(Observable o, Object arg) {
 		if(o instanceof Aspirateur){
 			

@@ -2,7 +2,7 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package statistiques;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import statistiques.Statistiques;
 
 
 public class VueAnalyse extends JPanel{

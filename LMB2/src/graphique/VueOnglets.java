@@ -9,9 +9,13 @@ import Aspirateur.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import capture.VueCaptureSite;
+
 import comparaison.Comparaison;
 import comparaison.VueComparaison;
 import statistiques.Statistiques;
+import statistiques.VueStatistiques;
+
 import java.awt.*;
 
 public class VueOnglets extends JPanel {

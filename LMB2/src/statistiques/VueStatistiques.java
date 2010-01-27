@@ -2,11 +2,12 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package statistiques;
+
+import graphique.VueOnglets;
 
 import javax.swing.*;
 import comparaison.Comparaison;
-import statistiques.Statistiques;
 import java.awt.*;
 
 public class VueStatistiques extends JPanel{

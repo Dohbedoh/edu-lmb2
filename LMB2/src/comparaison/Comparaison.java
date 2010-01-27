@@ -89,6 +89,11 @@ public class Comparaison extends Observable {
 		}
 	}
 	
+	public void reinitialise(){
+		lesFichiersAjoutes.clear();
+		lesFichiersModifies.clear();
+		lesFichiersSupprimes.clear();
+	}
 	
 	//------------------
 	// Méthodes
@@ -162,11 +167,6 @@ public class Comparaison extends Observable {
 				lesFichiersSupprimes.add(new File(stats2.getVersion().getAbsolutePath()+"\\"+lesFichiersStats2.get(i)));
 			}
 		}
-		/*System.err.println("stats1 : "+lesFichiersStats1.size());
-		System.err.println("stats2 : "+lesFichiersStats2.size());
-		System.err.println("add : "+getLesFichiersAjoutes().size());
-		System.err.println("mod : "+getLesFichiersModifies().size());
-		System.err.println("rem : "+getLesFichiersSupprimes().size());*/
 		setChanged();
 		notifyObservers();
 	}

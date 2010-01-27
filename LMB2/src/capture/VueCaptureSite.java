@@ -2,9 +2,14 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package capture;
 
 import Aspirateur.*;
+import graphique.VueMetaDonnees;
+import graphique.VueOnglets;
+import graphique.VueProgressBar;
+import graphique.VueSauvegarde;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -485,6 +490,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 						vueOnglets.setEnabled(true);
 						vueFiltres.setEnabled(true);
 						vueSauvegarde.refresh();
+						vueProgressBar.setValue(0);
 					}
 					
 				});

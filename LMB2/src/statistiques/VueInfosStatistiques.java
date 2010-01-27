@@ -1,7 +1,7 @@
 /**
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
-package graphique;
+package statistiques;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

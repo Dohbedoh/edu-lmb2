@@ -1,4 +1,4 @@
-package graphique;
+package capture;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

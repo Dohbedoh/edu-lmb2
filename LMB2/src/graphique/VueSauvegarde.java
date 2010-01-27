@@ -10,6 +10,9 @@ import images.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
+
+import capture.VueCaptureInfos;
+
 import java.io.*;
 import java.net.URL;
 import java.text.DateFormat;

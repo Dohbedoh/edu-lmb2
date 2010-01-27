@@ -2,7 +2,7 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package capture;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

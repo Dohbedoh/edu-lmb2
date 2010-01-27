@@ -2,7 +2,11 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package statistiques;
+
+import graphique.ListAdapter;
+import graphique.ListFormateur;
+import graphique.VueOnglets;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -102,6 +106,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 					vueOnglets.setOnglet(2);
 					//vueConsole.reset();
 
+					comparaison.reinitialise();
 					comparaison.setStats2(new Statistiques(selected));
 					vueOnglets.getVueComparaison().setComparaison(comparaison);
 					// Ajout des observers
@@ -142,6 +147,7 @@ public class VueComparaisonVersion extends JPanel implements Observer {
 				vueOnglets.setOnglet(2);
 				//vueConsole.reset();
 
+				comparaison.reinitialise();
 				comparaison.setStats2(new Statistiques(selected));
 				vueOnglets.getVueComparaison().setComparaison(comparaison);
 				// Ajout des observers

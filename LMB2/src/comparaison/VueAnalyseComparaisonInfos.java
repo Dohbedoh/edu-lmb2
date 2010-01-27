@@ -131,7 +131,6 @@ public class VueAnalyseComparaisonInfos extends JPanel implements Observer{
 		nbFichiersMod.setText(""+comparaison.getLesFichiersModifies().size());
 		nbFichiersAj.setText(""+comparaison.getLesFichiersAjoutes().size());
 		nbFichiersSupp.setText(""+comparaison.getLesFichiersSupprimes().size());
-		System.err.println(comparaison.getStats2().getNomSite());
 	}
 	
 }

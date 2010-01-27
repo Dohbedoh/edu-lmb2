@@ -2,8 +2,13 @@
  * @author BESLUAU Gregoire, BURDAJEWICZ Allan, LARAKI Meryem, MATHIEU Renaud
  */
 
-package graphique;
+package statistiques;
 
+
+import graphique.LinkListAdapter;
+import graphique.LinkListFormateur;
+import graphique.ListAdapter;
+import graphique.ListFormateur;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,7 +19,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import statistiques.Statistiques;
 import visualiser.BareBonesBrowserLaunch;
 
 public class VueAnalyseList extends JPanel implements Observer{

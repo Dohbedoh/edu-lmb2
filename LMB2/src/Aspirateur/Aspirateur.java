@@ -1879,21 +1879,22 @@ public class Aspirateur extends Observable {
 				String urlPage = "";
 				boolean ok = true;
 				synchronized (pages.get(0)) {
-					currentPage = pages.get(0);
+					urlPage = pages.get(0);
+					currentPage = urlPage;
 					try{
-						parser.setURL(currentPage);
+						parser.setURL(urlPage);
 					}catch(ParserException pe){
 						if(pe.getMessage().contains("401")){
 							ok = false;
 							/** Erreur 401 : besoin d'une authentification */
 							System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification.");
-							authLinks.add(currentPage);
+							authLinks.add(urlPage);
 						}else{
 							if(pe.getMessage().contains("407")){
 								ok = false;
 								/** Erreur 407 : besoin d'une authentification par proxy*/
 								System.out.println("\tL'URL " + "\"" + pages.get(0) +  "\"" + "demande une authentification par Proxy.");
-								authLinks.add(currentPage);
+								authLinks.add(urlPage);
 							}
 						}
 					}finally{

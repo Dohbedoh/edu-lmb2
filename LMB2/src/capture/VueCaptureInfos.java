@@ -1,4 +1,4 @@
-package graphique;
+package capture;
 
 import java.awt.Color;
 import java.awt.Font;
