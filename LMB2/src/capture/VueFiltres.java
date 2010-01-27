@@ -279,7 +279,7 @@ public class VueFiltres extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			String value = JOptionPane.showInputDialog("Entrez un filtre (ex : \"zip\")");
 			if(value!=null){
-				if(!value.contains(".") && !value.matches("[0-9]") && !containsCB("."+value)){
+				if(!value.contains(".") && !value.matches("[0-9]*") && !containsCB("."+value) && value.matches("[a-z]*[0-9]*[a-z]*")){
 					JCheckBox newCheck = new JCheckBox("."+value);
 					checkBoxes.add(newCheck);
 					if((filtres4.getComponentCount()+1)/5>((GridLayout)filtres4.getLayout()).getColumns()*5){
