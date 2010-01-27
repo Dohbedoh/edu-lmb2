@@ -31,8 +31,6 @@ public class VueMenu extends JMenuBar {
 	JMenuItem quitter;
 	
 	JMenuItem path;
-	JMenuItem aspirerPlay;
-	JMenuItem aspirerStop;
 	
 	JMenuItem reduireConsole;
 	JMenuItem grandirConsole;
@@ -103,8 +101,6 @@ public class VueMenu extends JMenuBar {
 		quitter = new JMenuItem("Quitter");
 		
 		path = new JMenuItem("Changer workspace");
-		aspirerPlay = new JMenuItem("Lancer la capture");
-		aspirerStop = new JMenuItem("Arreter la capture");
 		
 		reduireConsole = new JMenuItem("Réduire la console");
 		grandirConsole = new JMenuItem("Agrandir la console");
@@ -120,16 +116,12 @@ public class VueMenu extends JMenuBar {
 		quitter.setAccelerator(KeyStroke.getKeyStroke('Q',Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(),false));
 		
 		path.setAccelerator(KeyStroke.getKeyStroke('W',Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(),false));
-		aspirerPlay.setAccelerator(KeyStroke.getKeyStroke('P',Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(),false));
-		aspirerStop.setAccelerator(KeyStroke.getKeyStroke('S',Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(),false));
 		
 		// Ajout des JMenuItem
 		fichier.add(quitter);
 		
 		capture.add(path);
 		capture.addSeparator();
-		capture.add(aspirerPlay);
-		capture.add(aspirerStop);
 		
 		for(int i=0; i<lesSkins.size(); i++){
 			apparence.add(lesSkins.get(i));
@@ -169,8 +161,6 @@ public class VueMenu extends JMenuBar {
 		});
 		
 		path.addActionListener(new ActionChangerPath());
-		aspirerPlay.addActionListener(new ActionAspirerPlay());
-		aspirerStop.addActionListener(new ActionAspirerStop());
 		
 		apropos.addActionListener(new ActionAbout());
 		help.addActionListener(new ActionHelp());

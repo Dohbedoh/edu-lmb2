@@ -393,7 +393,6 @@ public class Aspirateur extends Observable {
 	 */
 	public void setSource(String url) {
 		urlSource = toSource(url);
-		System.err.println(urlSource);
 		meta.setURL(url);
 		pages.add(url);
 
@@ -690,17 +689,18 @@ public class Aspirateur extends Observable {
 	 */
 	private boolean isToBeCaptured(String url){
 		if (url.contains(".")) {
-			String extension = url.substring(url.indexOf(urlSource)
-					+ urlSource.length());
-			extension = url.substring(url.lastIndexOf("."), url.length())
-					.toLowerCase();
-			if (extension.toLowerCase().matches(".[a-z0-9]*")
-					&& !filtres.contains(extension)) {
-				if (!extensionsFiltred.contains(extension)) {
-					extensionsFiltred.add(extension);
+			if(url.startsWith(urlSource)){
+				String extension = url.substring(url.indexOf(urlSource)+ urlSource.length());
+				extension = url.substring(url.lastIndexOf("."), url.length())
+						.toLowerCase();
+				if (extension.toLowerCase().matches(".[a-z0-9]*")
+						&& !filtres.contains(extension)) {
+					if (!extensionsFiltred.contains(extension)) {
+						extensionsFiltred.add(extension);
+					}
+				} else {
+					return true;
 				}
-			} else {
-				return true;
 			}
 		}
 		return false;
@@ -1037,20 +1037,20 @@ public class Aspirateur extends Observable {
 					out = new FileOutputStream(file);
 					try {
 						long init = System.currentTimeMillis();
-						long time = System.currentTimeMillis();
+						long time;
 						String cur = currentRess;
 						while (-1 != (read = in.read(data, 0, data.length)) 
 								&& (taille<tailleRessourcesMax || tailleRessourcesMax==-1)
 								&& (tailleSiteMax>(tailleSite+taille) || tailleSiteMax==-1)){
 							out.write(data, 0, read);
 							taille=file.length();
-							if((time=(System.currentTimeMillis()-init)) >= 5000){
+							if((time=(System.currentTimeMillis()-init)) >= 10000){
 								if(currentRess.length() - cur.length()<=5){
 									currentRess+=".";
 								}else{
 									currentRess = cur+".";
 								}
-								init = time;
+								init = System.currentTimeMillis();
 								setChanged();
 								notifyObservers();
 							}
@@ -1884,11 +1884,12 @@ public class Aspirateur extends Observable {
 			String URL;
 			if(ressources.size()>0){
 				synchronized (ressources){
-						URL = ressources.remove(0);
+						URL = ressources.get(0);
 						currentRess = URL;
+						setChanged();
+						notifyObservers();
+						URL = ressources.remove(0);
 				}
-				setChanged();
-				notifyObservers();
 				copyRessources(URL);
 			}
 		}

@@ -71,6 +71,9 @@ public class VueProgressBar extends JPanel implements Observer{
 			
 			double totalCopies = laspirateur.getNbFichiersCopies();
 			double total = totalCopies + laspirateur.getNbFichiersACopies();
+			if(arg instanceof String && arg == "time"){
+				total += 1;
+			}
 			if(totalCopies!=0 || total!=0){
 				double value = totalCopies/total*100;
 				bar.setValue((int)value);

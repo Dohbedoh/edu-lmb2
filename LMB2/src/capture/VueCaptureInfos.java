@@ -133,9 +133,17 @@ public class VueCaptureInfos extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		double totalCopies = laspirateur.getNbFichiersCopies();
 		double total = totalCopies + laspirateur.getNbFichiersACopies();
+		boolean time = false;
+		if(arg instanceof String && arg == "time"){
+			time = true;
+		}
 		if(totalCopies!=0 || total!=0){
 			nbPages.setText(laspirateur.getNbPagesCopiees()+"/"+(laspirateur.getNbPagesACopiees()+laspirateur.getNbPagesCopiees()));
-			nbRessources.setText(laspirateur.getNbRessourcesCopiees()+"/"+(laspirateur.getNbRessourcesACopiees()+laspirateur.getNbRessourcesCopiees()));
+			if(time){
+				nbRessources.setText(laspirateur.getNbRessourcesCopiees()+"/"+(laspirateur.getNbRessourcesACopiees()+laspirateur.getNbRessourcesCopiees()+1));
+			}else{
+				nbRessources.setText(laspirateur.getNbRessourcesCopiees()+"/"+(laspirateur.getNbRessourcesACopiees()+laspirateur.getNbRessourcesCopiees()));
+			}
 			nbFiltrees.setText(laspirateur.getNbFiltredURL()+"");
 			nbMorts.setText(laspirateur.getNbLiensMorts()+"");
 			nbAuth.setText(laspirateur.getNbLiensAuth()+"");
