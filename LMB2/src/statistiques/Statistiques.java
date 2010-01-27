@@ -283,23 +283,23 @@ public class Statistiques extends Observable {
 			String current = lesFichiersEnregistres.get(i).getName();
 			traitement = i;
 			// HTML
-			if(current.endsWith(".html") || current.endsWith(".htm") || current.contains(".php?=") ){
+			if(current.toLowerCase().endsWith(".html") || current.toLowerCase().endsWith(".htm") || current.toLowerCase().contains(".php?=") ){
 				dataHTML.add(lesFichiersEnregistres.get(i));
 			}
 			
 			// Gestion Images
 			for(int j = 0; j < extensionsImages.length ; j++){
-				if(current.endsWith(extensionsImages[j])) {
+				if(current.toLowerCase().endsWith(extensionsImages[j])) {
 					dataImages.add(lesFichiersEnregistres.get(i));
 				}
 			}
 			
 			// CSS
-			if(current.endsWith(".css"))
+			if(current.toLowerCase().endsWith(".css"))
 				dataCSS.add(lesFichiersEnregistres.get(i));
 			
 			// JS
-			if(current.endsWith(".js"))
+			if(current.toLowerCase().endsWith(".js"))
 				dataJS.add(lesFichiersEnregistres.get(i));
 		}
 	}
@@ -375,14 +375,14 @@ public class Statistiques extends Observable {
 	//------------------
 	// Tests
 	//------------------
-	public static void main(String[] args){
+	//public static void main(String[] args){
 		
 		// Fichier de test
-		File test = new File("/Users/renaudmathieu/Desktop/LMB2/Site01/1263824938003/");
+		//File test = new File("/Users/renaudmathieu/Desktop/LMB2/Site01/1263824938003/");
 		
 		// Creation du modele
-		Statistiques stats = new Statistiques(test);
-		stats.init();
+		//Statistiques stats = new Statistiques(test);
+		//stats.init();
 		
 		//stats.getOthersVersion();
 		
@@ -409,5 +409,5 @@ public class Statistiques extends Observable {
 		
 		System.out.println(tab1);
 		*/
-	}
+	//}
 }

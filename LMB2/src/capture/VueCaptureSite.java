@@ -70,7 +70,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		this.vueProgressBar = vueProgressBar;
 		this.vueOnglets = vueOnglets;
 		
-		optionsAvancées = new JButton("Options Avancées...");
+		optionsAvancées = new JButton("Authentification...");
 		optionsAvancées.addActionListener(new ActionOptionsAvancees());
 		contraintesProfondeur = new VueContraintes(laspirateur, -1, 15);
 		//contraintesProfondeur.setMinimumSize(new Dimension(80,20));
@@ -452,50 +452,53 @@ public class VueCaptureSite extends JPanel implements Observer{
 			}
 			
 			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2 && url.getText().length() != 0){
-
-				setEnabled(false);
-				capturer.setEnabled(false);
-				stop.setEnabled(true);
-				pause.setEnabled(true);
-				reprendre.setEnabled(false);
-				vueFiltres.setEnabled(false);
-				vueMeta.setEnabled(false);
-				vueOnglets.getVueStatistiques().setEnabled(false);
-				
-				// Recuperation des informations sur la capture
-				laspirateur.setName(nom.getText());
-				laspirateur.setPath(path.getText());
-				laspirateur.makeURLLocal();
-				laspirateur.setMeta(vueMeta.getValeur().getText());
-				laspirateur.setNbPagesThread(contraintesThreadP.getValue());
-				laspirateur.setNbRessourcesThread(contraintesThreadR.getValue());
-				laspirateur.setProfondeur(profondeur);
-				laspirateur.setTailleSiteMax(tailleSite);
-				laspirateur.setTaillePagesMax(taillePage);
-				laspirateur.setTailleRessourcesMax(tailleRessources);
-				
-				// Methode pour faire les filtres
-				
-				ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
-				laspirateur.setFiltres(lesFiltres);
-				
-				
-				// Nouveau processus pour lancer le process
-				t = new Thread(new Runnable(){
-	
-					public void run() {
-						laspirateur.launchProcess(url.getText());
-						setEnabled(true);
-						vueMeta.setEnabled(true);
-						vueOnglets.setEnabled(true);
-						vueFiltres.setEnabled(true);
-						vueSauvegarde.refresh();
-						vueProgressBar.setValue(0);
-					}
+				if(url.getText().startsWith("http://")){
+					setEnabled(false);
+					capturer.setEnabled(false);
+					stop.setEnabled(true);
+					pause.setEnabled(true);
+					reprendre.setEnabled(false);
+					vueFiltres.setEnabled(false);
+					vueMeta.setEnabled(false);
+					vueOnglets.getVueStatistiques().setEnabled(false);
 					
-				});
-				
-				t.start();
+					// Recuperation des informations sur la capture
+					laspirateur.setName(nom.getText());
+					laspirateur.setPath(path.getText());
+					laspirateur.makeURLLocal();
+					laspirateur.setMeta(vueMeta.getValeur().getText());
+					laspirateur.setNbPagesThread(contraintesThreadP.getValue());
+					laspirateur.setNbRessourcesThread(contraintesThreadR.getValue());
+					laspirateur.setProfondeur(profondeur);
+					laspirateur.setTailleSiteMax(tailleSite);
+					laspirateur.setTaillePagesMax(taillePage);
+					laspirateur.setTailleRessourcesMax(tailleRessources);
+					
+					// Methode pour faire les filtres
+					
+					ArrayList<String> lesFiltres = vueFiltres.getListeFiltres();
+					laspirateur.setFiltres(lesFiltres);
+					
+					
+					// Nouveau processus pour lancer le process
+					t = new Thread(new Runnable(){
+		
+						public void run() {
+							laspirateur.launchProcess(url.getText());
+							setEnabled(true);
+							vueMeta.setEnabled(true);
+							vueOnglets.setEnabled(true);
+							vueFiltres.setEnabled(true);
+							vueSauvegarde.refresh();
+							vueProgressBar.setValue(0);
+						}
+						
+					});
+					
+					t.start();
+				}else{
+					JOptionPane.showMessageDialog(null,"L'url doit commencer par \"http://\" !","Attention",JOptionPane.WARNING_MESSAGE);
+				}
 			}else{
 				JOptionPane.showMessageDialog(null,"Vous avez mal rempli un champ !","Attention",JOptionPane.WARNING_MESSAGE);
 			}

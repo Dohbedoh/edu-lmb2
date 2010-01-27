@@ -153,6 +153,7 @@ public class Aspirateur extends Observable {
 	 * Procédure qui rénitialise notre aspirateur
 	 */
 	public void reinitialise(){
+		meta = new Meta();
 		onCapture = false;
 		currentPage = "";
 		tailleSite = 0;
@@ -903,7 +904,7 @@ public class Aspirateur extends Observable {
 		}
 		time = System.currentTimeMillis()-time;
 		onCapture = false;
-		System.out.println("Temps d'éxecution : " + time + "ms");
+		System.out.println("Temps d'execution : " + time + "ms");
 		System.out.println("Liens morts : " + breakLinks.size());
 		System.out.println("Liens auth  : " + authLinks.size());
 		meta.setTime(time);
