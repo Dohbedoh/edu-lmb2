@@ -689,7 +689,7 @@ public class Aspirateur extends Observable {
 	 */
 	private boolean isToBeCaptured(String url){
 		if (url.contains(".")) {
-			if(url.startsWith(urlSource)){
+			if(url.startsWith(urlSource) || url.endsWith(".css") || url.endsWith(".js")){
 				String extension = url.substring(url.indexOf(urlSource)+ urlSource.length());
 				extension = url.substring(url.lastIndexOf("."), url.length())
 						.toLowerCase();
@@ -1098,6 +1098,7 @@ public class Aspirateur extends Observable {
 					System.err.println("Erreur 401 (permissions non accordée) : " + ioe.getMessage()
 						+ " ignored");
 					authLinks.add(URL);
+					System.out.println("\tL'URL " + "\"" + URL +  "\"" + "demande une authentification.");
 				}
 			}
 		} catch (MalformedURLException murle) {
