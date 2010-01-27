@@ -22,7 +22,7 @@ public class VueAide extends JFrame{
 	
 	private VueAideCapture vueAideCapture;
 	private VueAideStatistiques vueAideStatistiques;
-	
+	private VueAideComparaison vueAideComparaison;
 	//------------------
 	// Constructeur
 	//------------------
@@ -35,10 +35,12 @@ public class VueAide extends JFrame{
 		
 		vueAideCapture = new VueAideCapture();
 		vueAideStatistiques = new VueAideStatistiques();
-	
+		vueAideComparaison = new VueAideComparaison();
+		
 		// Ajouts des élements graphiques
 		onglets.add("Capture",vueAideCapture);
 		onglets.add("Statistiques",vueAideStatistiques);
+		onglets.add("Comparaison", vueAideComparaison);
 		
 		add(onglets);
 

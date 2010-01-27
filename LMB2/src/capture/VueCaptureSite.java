@@ -452,7 +452,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 			}
 			
 			if(tailleSite!=-2 && taillePage!=-2 && tailleRessources!=-2 && url.getText().length() != 0){
-				if(url.getText().startsWith("http://")){
+				if(url.getText().startsWith("http://") || url.getText().startsWith("https://")){
 					setEnabled(false);
 					capturer.setEnabled(false);
 					stop.setEnabled(true);
@@ -497,7 +497,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 					
 					t.start();
 				}else{
-					JOptionPane.showMessageDialog(null,"L'url doit commencer par \"http://\" !","Attention",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"L'url doit commencer par \"http://\" ou \"https://\" !","Attention",JOptionPane.WARNING_MESSAGE);
 				}
 			}else{
 				JOptionPane.showMessageDialog(null,"Vous avez mal rempli un champ !","Attention",JOptionPane.WARNING_MESSAGE);

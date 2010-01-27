@@ -54,6 +54,9 @@ public class Aspirateur extends Observable {
 
 	/** page courante */
 	private String currentPage;
+
+	/** ressource courante */
+	private String currentRess;
 	
 	/** Préfixe de l'URL LOCAL donnée (le dossier où l'on sauvegarde */
 	private String urlLocal;
@@ -156,6 +159,7 @@ public class Aspirateur extends Observable {
 		meta = new Meta();
 		onCapture = false;
 		currentPage = "";
+		currentRess = "";
 		tailleSite = 0;
 		stop = true;
 		pause = false;
@@ -312,6 +316,13 @@ public class Aspirateur extends Observable {
 	 */
 	public void setCurrentPage(String current){
 		this.currentPage = current;
+	}
+	
+	/** 
+	 * Modifier la ressource courante
+	 */
+	public void setCurrentRess(String current){
+		this.currentRess = current;
 	}
 	
 	/**
@@ -493,6 +504,13 @@ public class Aspirateur extends Observable {
 		return currentPage;
 	}
 	
+	/**
+	 * Obtenir la ressource courante (en parsing)
+	 * @return
+	 */
+	public String getCurrentRess(){
+		return currentRess;
+	}
 	
 	/**
 	 * Obtenir la taille totale des fichiers aspirés
@@ -909,6 +927,7 @@ public class Aspirateur extends Observable {
 		System.out.println("Liens auth  : " + authLinks.size());
 		meta.setTime(time);
 		currentPage = "";
+		currentRess = "";
 		meta.setBrokenLinks(breakLinks);
 		meta.setFiltredLinks(urlFiltred);
 		saveMeta();
@@ -1019,24 +1038,24 @@ public class Aspirateur extends Observable {
 					try {
 						long init = System.currentTimeMillis();
 						long time = System.currentTimeMillis();
-						String cur = currentPage;
+						String cur = currentRess;
 						while (-1 != (read = in.read(data, 0, data.length)) 
 								&& (taille<tailleRessourcesMax || tailleRessourcesMax==-1)
 								&& (tailleSiteMax>(tailleSite+taille) || tailleSiteMax==-1)){
 							out.write(data, 0, read);
 							taille=file.length();
 							if((time=(System.currentTimeMillis()-init)) >= 5000){
-								if(currentPage.length() - cur.length()<=5){
-									currentPage+=".";
+								if(currentRess.length() - cur.length()<=5){
+									currentRess+=".";
 								}else{
-									currentPage = cur+".";
+									currentRess = cur+".";
 								}
 								init = time;
-								/*setChanged();
-								notifyObservers();*/
+								setChanged();
+								notifyObservers();
 							}
 						}
-						currentPage = cur;
+						currentRess = cur;
 					} finally {
 						out.close();
 					}
@@ -1866,7 +1885,10 @@ public class Aspirateur extends Observable {
 			if(ressources.size()>0){
 				synchronized (ressources){
 						URL = ressources.remove(0);
+						currentRess = URL;
 				}
+				setChanged();
+				notifyObservers();
 				copyRessources(URL);
 			}
 		}
@@ -1882,6 +1904,8 @@ public class Aspirateur extends Observable {
 				synchronized (pages.get(0)) {
 					urlPage = pages.get(0);
 					currentPage = urlPage;
+					setChanged();
+					notifyObservers();
 					try{
 						parser.setURL(urlPage);
 					}catch(ParserException pe){
@@ -1933,10 +1957,6 @@ public class Aspirateur extends Observable {
 							urlFiltred.add(urlPage);
 						}
 					}
-					/*
-					 * afficherCopied(); afficherImages(); afficherPages();
-					 * afficherCSS(); afficherJS();
-					 */
 				}
 
 			} catch (ParserException e) {
