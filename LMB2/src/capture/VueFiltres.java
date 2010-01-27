@@ -289,6 +289,7 @@ public class VueFiltres extends JPanel{
 					filtres4.add(newCheck);
 					if(selection.isSelected()){
 						newCheck.setSelected(true);
+						listeFiltres.add(newCheck.getText());
 					}
 					JOptionPane.showMessageDialog(null, "Le filtre a été ajouté");
 				}else{
