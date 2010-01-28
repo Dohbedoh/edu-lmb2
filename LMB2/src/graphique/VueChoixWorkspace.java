@@ -36,7 +36,7 @@ public class VueChoixWorkspace extends JFrame {
 		message.setHorizontalAlignment(JLabel.CENTER);
 		message.setForeground(Color.blue);
 		
-		value = new JTextField("/LMB2/",25);
+		value = new JTextField("C:\\Test\\",25);
 		
 		parcourir = new JButton("...");
 		parcourir.setPreferredSize(new Dimension(20,20));

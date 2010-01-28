@@ -99,7 +99,7 @@ public class VueCaptureSite extends JPanel implements Observer{
 		afficheNom = new JLabel("Nom du site : ", SwingConstants.RIGHT);
 		affichePath = new JLabel("Workspace  : ", SwingConstants.RIGHT);
 		
-		url = new JTextField();
+		url = new JTextField("http://www.renaudmathieu.fr/lmb2/Site01/");
 		nom = new JTextField(laspirateur.getName());
 		path = new JTextField(laspirateur.getPath());
 		
