@@ -107,10 +107,10 @@ public class VueAideCapture extends JPanel {
         jLabel11.setText("Vous pouvez limiter l'aspiration des données en précisant la taille totale limite du téléchargement en Ko");
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel12.setText("ou bien en indiquant la profondeur maximale à parcourir en nombre de pages dans le bloc \"Contraintes");
+        jLabel12.setText("ou bien en indiquant la profondeur maximale à parcourir en nombre de pages dans le bloc \"Options\"");
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel13.setText("de capture\" de l'onglet \"Capturer site\".");
+        jLabel13.setText("de l'onglet \"Capturer site\".");
 
         jLabel14.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(100, 150, 250));
@@ -127,27 +127,27 @@ public class VueAideCapture extends JPanel {
         jLabel17.setText("Pour cela, il vous suffit de double cliquer sur le nom du dossier contenant votre site dans la liste à gauche");
 
         jLabel18.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel18.setText("de la fenêtre, puis de cliquer avec le boutont droit de la souris sur le nom de dossier formé seulement par");
+        jLabel18.setText("de la fenêtre, puis de cliquer avec le bouton droit de la souris sur le nom de dossier formé seulement par");
 
         jLabel19.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel19.setText("des chiffres et d'appuyer sur \"Lancer les statistiques\".");
+        jLabel19.setText("des chiffres et d'appuyer sur \"Lancer les Statistiques\".");
 
         jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(100, 150, 250));
         jLabel20.setText("Comment commenter un site à aspirer ?");
 
         jLabel21.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel21.setText("Dans le bloc \"Méta-Données\" de l'onglet \"Capturer site\" tapez les commentaires que vous souhaitez lier à");
+        jLabel21.setText("Dans le champ de texte à droite du bloc \"Données\" de l'onglet \"Capturer site\", entrez les commentaires que ");
 
         jLabel22.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel22.setText("votre capture de site avant de capturer ce dernier. ");
+        jLabel22.setText("vous souhaitez lier à votre capture de site avant de capturer ce dernier. ");
 
         jLabel23.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(100, 150, 250));
         jLabel23.setText("Comment visualiser mon site avec mon navigateur par défaut ?");
 
         jLabel24.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel24.setText("Pour cela, sélectionnez le nom du dossier formés uniquement de chiffres correspondant à votre site");
+        jLabel24.setText("Pour cela, sélectionnez le nom du dossier formé uniquement de chiffres correspondant à votre site, puis");
 
         jLabel25.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel25.setText("appuyez sur \"Visualiser\" en bas à gauche de la fenêtre.");
